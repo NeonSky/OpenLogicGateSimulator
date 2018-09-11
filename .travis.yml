@@ -17,4 +17,9 @@ cache:
     - $HOME/.gradle/wrapper/
 
 notifications:
-  slack: ly2tda367:WUW6ie2BCsRP8y4XVyklmuWJ
+  email: false
+  slack:
+    rooms:
+      - ly2tda367:WUW6ie2BCsRP8y4XVyklmuWJ
+    on_success: never
+    on_failure: always
