@@ -1,6 +1,8 @@
 Open Logic Gate Simulator
 =========================
 
+[![Build Status](https://travis-ci.com/NeonSky/OpenLogicGateSimulator.svg?token=XyHcbxehB8TtpGq4DuFW&branch=master)](https://travis-ci.com/NeonSky/OpenLogicGateSimulator)
+
 ### Setting up IntelliJ
 #### Importing
 
