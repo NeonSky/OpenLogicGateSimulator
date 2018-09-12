@@ -1,0 +1,8 @@
+.list-cell-background {
+    -fx-background-color: transparent;
+}
+
+.cell-container {
+    -fx-background-color: rgba(200,200,200,1);
+    -fx-background-radius: 15px;
+}
