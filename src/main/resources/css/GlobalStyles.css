@@ -1,0 +1,27 @@
+.root {
+    -fx-font-family: "Avenir Next";
+
+    /* Color Scheme Constants */
+    -colorscheme-white: rgba(255, 255, 255, 1);
+    -colorscheme-offWhite: rgba(200, 200, 200, 1);
+}
+
+.body-text {
+    -fx-font-size: 14px;
+}
+
+/*
+Header texts are arranged according to visual weight from heaviest to lightest
+so that header1 > header2, etc.
+ */
+.header1-text {
+
+}
+
+.header2-text {
+
+}
+
+.header3-text {
+
+}

@@ -18,6 +18,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/view/EditorView.fxml"), bundle);
 
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        scene.getStylesheets().add("css/GlobalStyles.css");
+
         stage.setTitle(bundle.getString("application.name"));
         stage.setScene(scene);
         stage.setWidth(WINDOW_WIDTH);
