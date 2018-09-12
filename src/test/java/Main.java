@@ -2,11 +2,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-class MyTests {
+class Main {
 
     @Test
-    void dummyTest() {
-        System.out.println("### This test method should be run ###");
+    void firstTest() {
+        System.out.println("\n### Starting test suite... ###\n");
         assertEquals(1, 1);
     }
 }
