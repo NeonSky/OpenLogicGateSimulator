@@ -3,6 +3,8 @@ package org.cafebabe.controllers.util;
 import javax.xml.parsers.*;
 import org.w3c.dom.Document;
 import java.io.File;
+import java.net.URISyntaxException;
+
 import org.w3c.dom.NodeList;
 
 import org.cafebabe.model.components.Component;
@@ -29,7 +31,12 @@ public class SvgUtil {
 
     /** Returns the component's associated SVG file. */
     private static File getComponentSvg(Component component) {
-        return new File(component.getClass().getResource("/images/gates/" + component.getAnsiName() + ".svg").getFile());
+        try {
+            return new File(component.getClass().getResource("/images/gates/" + component.getAnsiName() + ".svg").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /** Returns the component's associated SVG path. */
