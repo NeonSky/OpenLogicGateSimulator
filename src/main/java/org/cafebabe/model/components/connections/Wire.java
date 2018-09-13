@@ -1,36 +1,34 @@
 package org.cafebabe.model.components.connections;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
+import org.cafebabe.util.Event;
+import java.util.*;
 
 public class Wire {
 
-    private Set<OutputPort> connectedOutputs; // maybe only care about active outputs really and only store them as Object
-    private List<InputPort> connectedInputs;
+    private Event<Wire> onStateChanged;
+    private Set<InputPort> connectedInputs;
+    private Set<OutputPort> connectedOutputs;
+    private Set<OutputPort> powerSources;
 
 
     public Wire() {
-        connectedOutputs = new TreeSet<>();
-        connectedInputs = new ArrayList<>();
+        onStateChanged = new Event<>();
+        connectedInputs = new HashSet<>();
+        connectedOutputs = new HashSet<>();
+        powerSources = new HashSet<>();
     }
 
-
-    /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
-    public void connectOutputPort(OutputPort output) {
-        if(isOutputConnected(output)) {
-            throw new RuntimeException("A power source can only be added once.");
+    /** Updates the wire's logical value based on updated output value */
+    private void onConnectedOutputStateChanged(OutputPort updatedPort) {
+        boolean wasActive = isActive();
+        if(updatedPort.isActive()) {
+            powerSources.add(updatedPort);
+        } else {
+            powerSources.remove(updatedPort);
         }
-        connectedOutputs.add(output);
-    }
-
-    /** Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException */
-    public void disconnectOutputPort(OutputPort output) {
-        if(!isOutputConnected(output)) {
-            throw new RuntimeException("A power source that isn't connected can't be removed.");
+        if(isActive() != wasActive) {
+            onStateChanged.notifyAll(this);
         }
-        connectedOutputs.remove(output);
     }
 
     /** Connects an InputPort if it isn't already connected, otherwise throws a RuntimeException */
@@ -39,6 +37,7 @@ public class Wire {
             throw new RuntimeException("An InputPort can only be added once.");
         }
         connectedInputs.add(input);
+        input.connectWire(this);
     }
 
     /** Disconnects an InputPort if it is connected, otherwise throws a RuntimeException */
@@ -47,20 +46,49 @@ public class Wire {
             throw new RuntimeException("An InputPort that isn't connected can't be removed.");
         }
         connectedInputs.remove(input);
+        input.disconnectWire(this);
     }
 
-    /** Returns true IFF the wire has a logic state of 1. */
-    public boolean isActive() {
-        return !connectedOutputs.isEmpty();
+    /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
+    public void connectOutputPort(OutputPort output) {
+        if(isOutputConnected(output)) {
+            throw new RuntimeException("An OutputPort can only be added once.");
+        }
+        connectedOutputs.add(output);
+        if(output.isActive()) {
+            powerSources.add(output);
+        }
+        output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
     }
+
+    /** Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException */
+    public void disconnectOutputPort(OutputPort output) {
+        if(!isOutputConnected(output)) {
+            throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
+        }
+        connectedOutputs.remove(output);
+        powerSources.remove(output);
+        output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
+    }
+
+    /** Returns true IFF the given InputPort is connected to this wire. */
+    public boolean isInputConnected(InputPort input) {
+        return connectedInputs.contains(input);
+    }
+
 
     /** Returns true IFF the given OutputPort is connected to this wire. */
     public boolean isOutputConnected(OutputPort output) {
         return connectedOutputs.contains(output);
     }
 
-    /** Returns true IFF the given InputPort is connected to this wire. */
-    public boolean isInputConnected(InputPort input) {
-        return connectedInputs.contains(input);
+    /** Returns true IFF the wire has a logic state of 1. */
+    public boolean isActive() {
+        return !powerSources.isEmpty();
+    }
+
+    /** Is notified with the new logical value of the output whenever it is changed */
+    Event<Wire> onStateChangedEvent() {
+        return onStateChanged;
     }
 }
