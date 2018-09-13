@@ -31,7 +31,7 @@ public class EditorViewController implements Initializable {
 
     private void addDummyComponents() {
         List<ComponentListCell> listCells = new ArrayList<>();
-        for(int i = 0; i<100; i++) {
+        for(int i = 0; i < 100; i++) {
             listCells.add(new ComponentListCell());
         }
 
