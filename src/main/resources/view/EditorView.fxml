@@ -9,19 +9,19 @@
 
 <AnchorPane fx:id="ROOT_PANE" cache="true" cacheHint="SPEED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" stylesheets="@../css/EditorView.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cafebabe.controllers.EditorViewController">
    <children>
-      <SplitPane fx:id="PRIMARY_SPLIT_PANE" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="primatrySplitPane" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane fx:id="SIDEBAR_ANCHOR_PANE" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
+          <AnchorPane fx:id="sidebarAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
                <children>
                   <TitledPane animated="false" layoutX="-22.0" layoutY="110.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Components" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane fx:id="COMPONENT_LIST_ANCHOR_PANE" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+                      <AnchorPane fx:id="componentListAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                            <children>
-                              <ScrollPane fx:id="COMPONENT_LIST_SCROLL_PANE" fitToWidth="true" hbarPolicy="NEVER" layoutX="-0.40000000000000036" layoutY="9.6" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="434.0" prefWidth="167.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0">
+                              <ScrollPane fx:id="componentListScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="-0.40000000000000036" layoutY="9.6" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="434.0" prefWidth="167.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0">
                                 <content>
-                                  <AnchorPane fx:id="COMPONENT_FLOW_PANE_WRAPPER" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                  <AnchorPane fx:id="componentFlowPaneWrapper" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <FlowPane fx:id="COMPONENT_FLOW_PANE" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <FlowPane fx:id="componentFlowPane" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <padding>
                                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                                              </padding>

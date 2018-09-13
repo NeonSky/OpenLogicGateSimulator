@@ -18,7 +18,7 @@ public class ComponentListCell extends AnchorPane {
 
     // Constructors
     public ComponentListCell() throws RuntimeException {
-        this.loadFXML("view/ComponentListCell.fxml");
+        this.loadFXML("/view/ComponentListCell.fxml");
         this.bindSizeProperties();
 
     }
