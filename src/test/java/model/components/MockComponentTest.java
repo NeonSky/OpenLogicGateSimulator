@@ -9,7 +9,7 @@ import org.cafebabe.model.components.MockComponent;
 class MockComponentTest {
 
     @Test
-    void metadataTests() {
+    void metadataTest() {
         MockComponent mockComponent = new MockComponent();
         assertEquals("Buffer_ANSI", mockComponent.getAnsiName());
         assertEquals("Super Cool Mock Component", mockComponent.getDisplayName());
@@ -17,7 +17,7 @@ class MockComponentTest {
     }
 
     @Test
-    void updateTests() {
+    void updateTest() {
         MockComponent mockComponent = new MockComponent();
         mockComponent.update();
     }
