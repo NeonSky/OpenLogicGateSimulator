@@ -5,9 +5,6 @@ import org.cafebabe.model.components.connections.Wire;
 public class MockComponent extends Component {
 
     @Override
-    public void update() {}
-
-    @Override
     public void connectToPort(Wire wire, String portTag) {
         throw new RuntimeException("This component has no output ports");
     }

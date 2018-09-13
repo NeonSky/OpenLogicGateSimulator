@@ -17,12 +17,6 @@ class PowerSourceComponentTest {
     }
 
     @Test
-    void updateTest() {
-        PowerSourceComponent comp = new PowerSourceComponent();
-        comp.update();
-    }
-
-    @Test
     void powerTest() {
         Wire wire = new Wire();
         PowerSourceComponent comp = new PowerSourceComponent();

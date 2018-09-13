@@ -9,36 +9,33 @@ public class PowerSourceComponent extends Component {
 
     private OutputPort northOutput;
 
-    private final Map<String, OutputPort> TAG_TO_PORT;
+    private final Map<String, OutputPort> TAG_TO_OUTPUT;
 
 
     public PowerSourceComponent() {
         northOutput = new OutputPort();
-        TAG_TO_PORT = java.util.Map.ofEntries(
+        TAG_TO_OUTPUT = java.util.Map.ofEntries(
             Map.entry("north", northOutput)
         );
 
         northOutput.setActive(true);
     }
 
-    @Override
-    public void update() {}
-
 
     @Override
     public void connectToPort(Wire wire, String portTag) {
-        if(!TAG_TO_PORT.containsKey(portTag)) {
+        if(!TAG_TO_OUTPUT.containsKey(portTag)) {
             throw new RuntimeException("This port doesn't exist on this component");
         }
-        wire.connectOutputPort(TAG_TO_PORT.get(portTag));
+        wire.connectOutputPort(TAG_TO_OUTPUT.get(portTag));
     }
 
     @Override
     public void disconnectFromPort(Wire wire, String portTag) {
-        if(!TAG_TO_PORT.containsKey(portTag)) {
+        if(!TAG_TO_OUTPUT.containsKey(portTag)) {
             throw new RuntimeException("This port doesn't exist on this component");
         }
-        wire.disconnectOutputPort(TAG_TO_PORT.get(portTag));
+        wire.disconnectOutputPort(TAG_TO_OUTPUT.get(portTag));
     }
 
     @Override

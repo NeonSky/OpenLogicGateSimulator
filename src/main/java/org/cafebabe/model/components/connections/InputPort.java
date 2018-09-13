@@ -37,7 +37,7 @@ public class InputPort implements IPort {
     }
 
     /** Is notified with the new logical value of the input whenever it is changed */
-    Event<InputPort> onStateChangedEvent() {
+    public Event<InputPort> onStateChangedEvent() {
         return onStateChanged;
     }
 

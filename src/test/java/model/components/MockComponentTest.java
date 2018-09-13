@@ -16,9 +16,4 @@ class MockComponentTest {
         assertEquals("Delays the signal by one tick", mockComponent.getDescription());
     }
 
-    @Test
-    void updateTest() {
-        MockComponent mockComponent = new MockComponent();
-        mockComponent.update();
-    }
 }
