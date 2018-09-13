@@ -11,9 +11,6 @@
       <AnchorPane fx:id="componentCell" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" snapToPixel="false" styleClass="cell-container" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <ImageView fx:id="componentImage" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
-               <image>
-                  <Image url="@../../../../images/troll.png" />
-               </image>
             </ImageView>
             <Label fx:id="componentNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="58.0" text="TROLL" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                <font>
