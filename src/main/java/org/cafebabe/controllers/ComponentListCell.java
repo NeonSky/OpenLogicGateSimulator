@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import org.cafebabe.controllers.util.FxmlUtil;
 
 import java.io.IOException;
 
@@ -18,26 +19,12 @@ public class ComponentListCell extends AnchorPane {
 
     // Constructors
     public ComponentListCell() throws RuntimeException {
-        this.loadFXML("/view/ComponentListCell.fxml");
+        FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
-
-    }
-
-    // Instance methods
-    private void loadFXML(String fileName) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
-        loader.setController(this);
-        loader.setRoot(this);
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
-     * Binds the size attributes of the component cell and the component image to this' size.
+     * Binds the size attributes of the component cell and the component image to this size.
      */
     private void bindSizeProperties() {
         this.componentCell.prefHeightProperty().bind(this.heightProperty().subtract(20));
