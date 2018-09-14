@@ -10,10 +10,6 @@ public class Circuit {
     private Set<Wire> wires = new HashSet<>();
 
     public void addComponent(Component component) {
-        this.addComponent(component, 0, 0);
-    }
-
-    public void addComponent(Component component, int x, int y) {
         if (this.componentList.contains(component)) {
             throw new RuntimeException("Trying to add same component to workspace several times");
         }
