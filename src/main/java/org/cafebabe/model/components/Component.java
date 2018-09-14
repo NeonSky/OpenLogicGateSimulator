@@ -8,7 +8,4 @@ public abstract class Component {
     public abstract String getAnsiName();
     public abstract String getDisplayName();
     public abstract String getDescription();
-    public static Component createNewInstance(){
-        return null;
-    }
 }

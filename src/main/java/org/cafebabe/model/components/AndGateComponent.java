@@ -6,6 +6,7 @@ import org.cafebabe.model.components.connections.Wire;
 
 import java.util.Map;
 
+
 public class AndGateComponent extends Component {
 
     private InputPort input1, input2;
@@ -14,7 +15,7 @@ public class AndGateComponent extends Component {
     private final Map<String, InputPort> TAG_TO_INPUT;
     private final Map<String, OutputPort> TAG_TO_OUTPUT;
 
-
+    @ComponentConstructor
     public AndGateComponent() {
         input1 = new InputPort();
         input2 = new InputPort();
