@@ -32,7 +32,7 @@ public class SvgUtil {
     /** Returns the component's associated SVG file. */
     private static File getComponentSvg(Component component) {
         try {
-            return new File(component.getClass().getResource("/images/gates/" + component.getAnsiName() + ".svg").toURI());
+            return new File(component.getClass().getResource("/gates/images/" + component.getAnsiName() + ".svg").toURI());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
