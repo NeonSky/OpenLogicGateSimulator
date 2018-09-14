@@ -3,7 +3,7 @@
 }
 
 .cell-container {
-    -fx-background-color: rgba(200,200,200,1);
-    -fx-background-radius: 15px;
-    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);
+    -fx-background-color: -colorscheme-lightestblue;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 6, 0, 0, 0);
 }
