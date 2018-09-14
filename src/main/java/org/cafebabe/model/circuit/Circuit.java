@@ -5,11 +5,9 @@ import org.cafebabe.model.components.connections.Wire;
 
 import java.util.*;
 
-public class Circuit implements Iterable<Component> {
+public class Circuit {
     private Set<Component> componentList = new HashSet<>();
-    private Set<Wire> wireList = new HashSet<>();
-
-    public Circuit() {}
+    private Set<Wire> wires = new HashSet<>();
 
     public void addComponent(Component component) {
         this.addComponent(component, 0, 0);
@@ -31,17 +29,12 @@ public class Circuit implements Iterable<Component> {
         this.componentList.remove(component);
     }
 
-    @Override
-    public Iterator<Component> iterator() {
-        return this.componentList.iterator();
-    }
-
     public void addWire(Wire wire) {
-        this.wireList.add(wire);
+        this.wires.add(wire);
     }
 
     public void removeWire(Wire wire) {
-        this.wireList.remove(wire);
+        this.wires.remove(wire);
     }
 
     public void simulate() {} // TODO
