@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
 import org.cafebabe.controllers.util.FxmlUtil;
 
-public class ComponentListCell extends AnchorPane {
+public class ComponentListCellController extends AnchorPane {
 
     final private int CELL_MARGIN = 20;
 
@@ -16,7 +16,7 @@ public class ComponentListCell extends AnchorPane {
     @FXML private GridPane grid;
     @FXML private Label componentNameLabel;
 
-    public ComponentListCell(String name, String svgContent) throws RuntimeException {
+    public ComponentListCellController(String name, String svgContent) throws RuntimeException {
         FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
         setComponentNameLabel(name);

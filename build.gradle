@@ -22,6 +22,10 @@ dependencies {
         'org.reflections:reflections:0.9.11'
     )
 
+    implementation (
+        'javax.annotation:javax.annotation-api:1.3.2'
+    )
+
     testImplementation (
         'org.junit.jupiter:junit-jupiter-api:5.3.1'
     )

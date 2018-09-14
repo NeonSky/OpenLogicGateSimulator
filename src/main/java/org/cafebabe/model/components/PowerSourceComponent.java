@@ -11,7 +11,7 @@ public class PowerSourceComponent extends Component {
 
     private final Map<String, OutputPort> TAG_TO_OUTPUT;
 
-
+    @ComponentConstructor
     public PowerSourceComponent() {
         northOutput = new OutputPort();
         TAG_TO_OUTPUT = java.util.Map.ofEntries(

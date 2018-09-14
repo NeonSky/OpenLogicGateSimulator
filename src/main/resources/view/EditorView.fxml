@@ -12,29 +12,6 @@
         <SplitPane fx:id="primatrySplitPane" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane fx:id="sidebarAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
-                    <children>
-                        <TitledPane animated="false" layoutX="-22.0" layoutY="110.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Components" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <content>
-                                <AnchorPane fx:id="componentListAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
-                                    <children>
-                                        <ScrollPane fx:id="componentListScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="-0.40000000000000036" layoutY="9.6" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0">
-                                            <content>
-                                                <AnchorPane fx:id="componentFlowPaneWrapper" maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="200.0">
-                                                    <children>
-                                                        <FlowPane fx:id="componentFlowPane" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                            <padding>
-                                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                                            </padding>
-                                                        </FlowPane>
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </ScrollPane>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </TitledPane>
-                    </children>
                 </AnchorPane>
                 <AnchorPane fx:id="WORKSPACES" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false" />
             </items>
