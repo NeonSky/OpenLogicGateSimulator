@@ -41,7 +41,10 @@ public class ComponentListCell extends AnchorPane {
         }
 
         this.svg.setContent(svgContent);
+        this.scaleComponentSVG();
+    }
 
+    private void scaleComponentSVG() {
         double width = this.svg.prefWidth(-1);
         double height = this.svg.prefHeight(width);
         double scaleX = this.grid.getPrefWidth() / width;
