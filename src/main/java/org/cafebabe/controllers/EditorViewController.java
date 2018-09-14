@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.fxml.FXML;
 import java.net.URL;
 import javafx.scene.layout.FlowPane;
+import org.cafebabe.model.components.MockComponent;
 
 import java.util.ResourceBundle;
 
