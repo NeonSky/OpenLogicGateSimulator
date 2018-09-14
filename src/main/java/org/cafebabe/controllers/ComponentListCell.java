@@ -9,6 +9,8 @@ import org.cafebabe.controllers.util.FxmlUtil;
 
 public class ComponentListCell extends AnchorPane {
 
+    final private int CELL_MARGIN = 20;
+
     @FXML private AnchorPane componentCell;
     @FXML private SVGPath svg;
     @FXML private GridPane grid;
@@ -22,8 +24,8 @@ public class ComponentListCell extends AnchorPane {
     }
 
     private void bindSizeProperties() {
-        this.componentCell.prefHeightProperty().bind(this.heightProperty().subtract(20));
-        this.componentCell.prefWidthProperty().bind(this.widthProperty().subtract(20));
+        this.componentCell.prefHeightProperty().bind(this.heightProperty().subtract(CELL_MARGIN));
+        this.componentCell.prefWidthProperty().bind(this.widthProperty().subtract(CELL_MARGIN));
     }
 
     private void setComponentNameLabel(String name) {
@@ -45,6 +47,11 @@ public class ComponentListCell extends AnchorPane {
     }
 
     private void scaleComponentSVG() {
+
+        /*
+        * SVG prefWidth and prefHeight methods calculate their results using a content bias.
+        * To bypass this, we pass in -1 for width and then use the width to calculate the height.
+        */
         double width = this.svg.prefWidth(-1);
         double height = this.svg.prefHeight(width);
         double scaleX = this.grid.getPrefWidth() / width;
