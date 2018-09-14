@@ -29,4 +29,8 @@ public class ComponentController extends AnchorPane {
         this.position = pos;
     }
 
+    public Component getComponent() {
+        return this.component;
+    }
+
 }
