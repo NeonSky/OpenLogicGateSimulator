@@ -4,6 +4,7 @@
     /* Color Scheme Constants */
     -colorscheme-white: rgba(255, 255, 255, 1);
     -colorscheme-gray: rgba(200, 200, 200, 1);
+    -colorscheme-lightestblue: rgba(198, 209, 215, 1);
     -colorscheme-lightblue: rgba(143, 165, 177, 1);
     -colorscheme-midblue: rgba(110, 134, 148, 1);
     -colorscheme-darkblue: rgba(29, 68, 89, 1);
@@ -12,7 +13,8 @@
 }
 
 .body-text {
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
 }
 
 /*
@@ -20,16 +22,16 @@ Header texts are arranged according to visual weight from heaviest to lightest
 so that header1 > header2, etc.
  */
 .header1-text {
-    -fx-font-size: 28px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
 }
 
 .header2-text {
-    -fx-font-size: 24px;
+    -fx-font-size: 20px;
     -fx-font-weight: normal;
 }
 
 .header3-text {
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
