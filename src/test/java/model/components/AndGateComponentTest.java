@@ -5,7 +5,7 @@ import org.cafebabe.model.components.AndGateComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AndGateComponentTest {
 
@@ -32,13 +32,13 @@ class AndGateComponentTest {
 
         // initial state should off
         comp.connectToPort(out, "output");
-        assertEquals(false, out.isActive());
+        assertFalse(out.isActive());
 
         // AND-Gate output should only be 1 when both inputs are on
         comp.connectToPort(in1, "input1");
-        assertEquals(false, out.isActive());
+        assertFalse(out.isActive());
         comp.connectToPort(in2, "input2");
-        assertEquals(true, out.isActive());
+        assertTrue(out.isActive());
 
     }
 }

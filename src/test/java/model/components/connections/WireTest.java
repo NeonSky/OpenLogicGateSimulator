@@ -1,13 +1,12 @@
 package model.components.connections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
-import org.cafebabe.model.components.*;
 import org.cafebabe.model.components.connections.*;
 
-public class WireTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class WireTest {
 
     @Test
     void powerTest() {
@@ -15,28 +14,28 @@ public class WireTest {
         OutputPort output = new OutputPort();
         InputPort input = new InputPort();
 
-        assertEquals(false, output.isActive());
-        assertEquals(false, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertFalse(output.isActive());
+        assertFalse(wire.isActive());
+        assertFalse(input.isActive());
 
         wire.connectOutputPort(output);
         wire.connectInputPort(input);
 
-        assertEquals(false, output.isActive());
-        assertEquals(false, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertFalse(output.isActive());
+        assertFalse(wire.isActive());
+        assertFalse(input.isActive());
 
         output.setActive(true);
 
-        assertEquals(true, output.isActive());
-        assertEquals(true, wire.isActive());
-        assertEquals(true, input.isActive());
+        assertTrue(output.isActive());
+        assertTrue(wire.isActive());
+        assertTrue(input.isActive());
 
         output.setActive(false);
 
-        assertEquals(false, output.isActive());
-        assertEquals(false, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertFalse(output.isActive());
+        assertFalse(wire.isActive());
+        assertFalse(input.isActive());
     }
 
     @Test
@@ -47,26 +46,26 @@ public class WireTest {
         wire.connectOutputPort(output);
         wire.connectInputPort(input);
 
-        assertEquals(false, output.isActive());
-        assertEquals(false, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertFalse(output.isActive());
+        assertFalse(wire.isActive());
+        assertFalse(input.isActive());
 
         output.setActive(true);
 
-        assertEquals(true, output.isActive());
-        assertEquals(true, wire.isActive());
-        assertEquals(true, input.isActive());
+        assertTrue(output.isActive());
+        assertTrue(wire.isActive());
+        assertTrue(input.isActive());
 
         wire.disconnectInputPort(input);
 
-        assertEquals(true, output.isActive());
-        assertEquals(true, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertTrue(output.isActive());
+        assertTrue(wire.isActive());
+        assertFalse(input.isActive());
 
         wire.disconnectOutputPort(output);
 
-        assertEquals(true, output.isActive());
-        assertEquals(false, wire.isActive());
-        assertEquals(false, input.isActive());
+        assertTrue(output.isActive());
+        assertFalse(wire.isActive());
+        assertFalse(input.isActive());
     }
 }
