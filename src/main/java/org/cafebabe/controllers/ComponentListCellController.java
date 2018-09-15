@@ -9,7 +9,7 @@ import org.cafebabe.controllers.util.FxmlUtil;
 
 public class ComponentListCellController extends AnchorPane {
 
-    final private int CELL_MARGIN = 20;
+    final static private int CELL_MARGIN = 20;
 
     @FXML private AnchorPane componentCell;
     @FXML private SVGPath svg;
