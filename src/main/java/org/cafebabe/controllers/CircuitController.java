@@ -22,10 +22,12 @@ class CircuitController extends AnchorPane {
     @FXML private Pane componentPane;
 
     private final Circuit circuit;
+
     private Position dragStartedPosition;
+
     private ComponentController dragNewComponentController;
-    private Set<ComponentController> ccSet = new HashSet<>();
     private Set<WireController> wireSet = new HashSet<>();
+    private Set<ComponentController> circuitComponentSet = new HashSet<>();
 
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
@@ -120,7 +122,7 @@ class CircuitController extends AnchorPane {
 
         ComponentController newCompController = new ComponentController(component, x, y);
         newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
-        this.ccSet.add(newCompController);
+        this.circuitComponentSet.add(newCompController);
 
         refreshComponentPane();
 
@@ -143,14 +145,14 @@ class CircuitController extends AnchorPane {
 
     void removeComponent(ComponentController component) {
         this.circuit.removeComponent(component.getComponent());
-        this.ccSet.remove(component);
+        this.circuitComponentSet.remove(component);
         refreshComponentPane();
     }
 
     private void refreshComponentPane() {
         this.componentPane.getChildren().clear();
 
-        for (ComponentController componentController : this.ccSet) {
+        for (ComponentController componentController : this.circuitComponentSet) {
             this.componentPane.getChildren().add(componentController);
             componentController.setLayoutX(componentController.getPosition().getX());
             componentController.setLayoutY(componentController.getPosition().getY());
