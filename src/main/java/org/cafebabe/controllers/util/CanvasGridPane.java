@@ -17,10 +17,6 @@ public class CanvasGridPane extends Pane {
         getChildren().add(canvas);
     }
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
     @Override
     protected void layoutChildren() {
         super.layoutChildren();

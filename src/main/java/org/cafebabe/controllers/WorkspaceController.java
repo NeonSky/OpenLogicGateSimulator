@@ -6,7 +6,7 @@ import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.workspace.Workspace;
 
-public class WorkspaceController extends AnchorPane {
+class WorkspaceController extends AnchorPane {
 
     @FXML private AnchorPane workspaceRoot;
     @FXML private AnchorPane circuitAnchorPane;
@@ -14,7 +14,7 @@ public class WorkspaceController extends AnchorPane {
     private final Workspace ws;
     private final CircuitController circuitController;
 
-    public WorkspaceController(Workspace ws) {
+    WorkspaceController(Workspace ws) {
         FxmlUtil.attachFXML(this, "/view/WorkspaceView.fxml");
 
         this.ws = ws;
@@ -24,11 +24,11 @@ public class WorkspaceController extends AnchorPane {
         FxmlUtil.scaleWithAnchorPaneParent(workspaceRoot);
     }
 
-    public void addComponent(Component component, int x, int y) {
+    void addComponent(Component component, int x, int y) {
         this.circuitController.addComponent(component, x, y);
     }
 
-    public void removeComponent(ComponentController component) {
+    void removeComponent(ComponentController component) {
         this.circuitController.removeComponent(component);
     }
 
