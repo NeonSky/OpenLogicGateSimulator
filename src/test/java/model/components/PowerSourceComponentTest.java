@@ -1,10 +1,10 @@
 package model.components;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PowerSourceComponentTest {
 
@@ -21,12 +21,12 @@ class PowerSourceComponentTest {
         Wire wire = new Wire();
         PowerSourceComponent comp = new PowerSourceComponent();
 
-        assertEquals(false, wire.isActive());
+        assertFalse(wire.isActive());
         comp.connectToPort(wire, "north");
-        assertEquals(true, wire.isActive());
+        assertTrue(wire.isActive());
         comp.disconnectFromPort(wire, "north");
-        assertEquals(false, wire.isActive());
+        assertFalse(wire.isActive());
         comp.connectToPort(wire, "north");
-        assertEquals(true, wire.isActive());
+        assertTrue(wire.isActive());
     }
 }
