@@ -21,11 +21,18 @@ public class EditorViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        sidebarAnchorPane.getChildren().add(new ComponentListController());
+        initializeSidebar();
+        initializeWorkspace();
+    }
 
+    private void initializeWorkspace() {
         this.workspaceController = new WorkspaceController(new Workspace());
         this.workspacesPane.getChildren().add(this.workspaceController);
 
         workspacesPane.requestLayout();
+    }
+
+    private void initializeSidebar() {
+        this.sidebarAnchorPane.getChildren().add(new ComponentListController());
     }
 }
