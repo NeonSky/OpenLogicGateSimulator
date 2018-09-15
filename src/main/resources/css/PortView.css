@@ -1,0 +1,15 @@
+.inPort {
+    -fx-fill: gray;
+}
+
+.inPort:hover {
+    -fx-fill: red;
+}
+
+.outPort {
+    -fx-fill: yellow;
+}
+
+.outPort:hover {
+    -fx-fill: blue;
+}
