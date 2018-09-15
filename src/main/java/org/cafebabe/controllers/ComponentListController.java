@@ -6,7 +6,7 @@ import javafx.scene.layout.FlowPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.controllers.util.SvgUtil;
 import org.cafebabe.model.components.Component;
-import org.cafebabe.model.components.util.ComponentUtil;
+import org.cafebabe.model.util.ComponentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
