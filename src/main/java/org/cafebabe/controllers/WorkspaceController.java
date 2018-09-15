@@ -26,7 +26,6 @@ public class WorkspaceController extends AnchorPane {
 
     public void addComponent(Component component, int x, int y) {
         this.circuitController.addComponent(component, x, y);
-        System.out.println("Creating " + component.getAnsiName() + " at " + x + y);
     }
 
     public void removeComponent(ComponentController component) {
