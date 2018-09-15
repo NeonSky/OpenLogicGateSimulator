@@ -1,4 +1,4 @@
-package org.cafebabe.model.components.util;
+package org.cafebabe.model.util;
 
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.ComponentConstructor;
