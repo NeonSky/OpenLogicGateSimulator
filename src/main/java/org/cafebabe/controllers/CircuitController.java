@@ -49,7 +49,12 @@ class CircuitController extends AnchorPane {
 
     private void update() {
         this.componentPane.getChildren().clear();
-        this.componentPane.getChildren().addAll(ccSet);
+
+        for (ComponentController cc : this.ccSet) {
+            this.componentPane.getChildren().add(cc);
+            cc.setLayoutX(cc.getPosition().getX());
+            cc.setLayoutY(cc.getPosition().getY());
+        }
     }
 
 }
