@@ -6,23 +6,23 @@ import org.cafebabe.model.components.connections.Wire;
 import java.util.*;
 
 public class Circuit {
-    private Set<Component> componentList = new HashSet<>();
+    private Set<Component> components = new HashSet<>();
     private Set<Wire> wires = new HashSet<>();
 
     public void addComponent(Component component) {
-        if (this.componentList.contains(component)) {
+        if (this.components.contains(component)) {
             throw new RuntimeException("Trying to add same component to workspace several times");
         }
 
-        this.componentList.add(component);
+        this.components.add(component);
     }
 
     public void removeComponent(Component component) {
-        if (!this.componentList.contains(component)) {
+        if (!this.components.contains(component)) {
             throw new RuntimeException("Trying to remove nonexistent component from workspace");
         }
 
-        this.componentList.remove(component);
+        this.components.remove(component);
     }
 
     public void addWire(Wire wire) {
@@ -31,6 +31,14 @@ public class Circuit {
 
     public void removeWire(Wire wire) {
         this.wires.remove(wire);
+    }
+
+    public Set<Component> getComponents() {
+        return components;
+    }
+
+    public Set<Wire> getWires() {
+        return wires;
     }
 
     public void simulate() {} // TODO
