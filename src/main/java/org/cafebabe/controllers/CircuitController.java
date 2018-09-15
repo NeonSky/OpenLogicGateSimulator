@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import org.cafebabe.controllers.util.CanvasPane;
+import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.Component;
@@ -15,7 +15,7 @@ import java.util.Set;
 public class CircuitController extends AnchorPane {
 
     @FXML private Pane backgroundPane;
-    private CanvasPane gridPane;
+    private CanvasGridPane gridPane;
     @FXML private Pane componentPane;
 
     private final Circuit circuit;
@@ -28,17 +28,15 @@ public class CircuitController extends AnchorPane {
         FxmlUtil.attachFXML(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
-        gridPane = new CanvasPane();
-        gridPane.setStyle("-fx-background-color: darkblue;" );
+        gridPane = new CanvasGridPane();
+        //gridPane.setStyle("-fx-background-color: darkblue;" );
         FxmlUtil.scaleWithAnchorPaneParent(gridPane);
         this.getChildren().add(gridPane);
 
         FxmlUtil.scaleWithAnchorPaneParent(componentPane);
-        this.componentPane.setStyle("-fx-background-color: magenta");
+        this.componentPane.setStyle("-fx-background-color: transparent");
         this.componentPane.toFront();
     }
-
-    private void drawGrid() {}
 
     public void addComponent(Component component, int x, int y) {
         this.circuit.addComponent(component);
