@@ -29,7 +29,7 @@ public class ComponentListCellController extends AnchorPane {
     }
 
     private void setComponentNameLabel(String name) {
-        if (name == null) {
+        if (name == null || name.isEmpty()) {
             throw new RuntimeException("Can't set a label that is null or empty");
         }
 
@@ -38,7 +38,7 @@ public class ComponentListCellController extends AnchorPane {
     }
 
     private void setComponentSvgContent(String svgContent) {
-        if (svgContent == null) {
+        if (svgContent == null || svgContent.isEmpty()) {
             throw new RuntimeException("Can't load svgContent that is null or empty");
         }
 
