@@ -17,6 +17,7 @@ public abstract class PortController extends AnchorPane {
 
         this.name = name;
 
+        this.setPickOnBounds(false);
         connectionNodeCircle.setCenterX(x);
         connectionNodeCircle.setCenterY(y);
     }
