@@ -7,9 +7,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
 import org.cafebabe.controllers.util.FxmlUtil;
 
-public class ComponentListCellController extends AnchorPane {
+class ComponentListCellController extends AnchorPane {
 
     final static private int CELL_MARGIN = 20;
+
+    private String displayName;
 
     @FXML private AnchorPane componentCell;
     @FXML private SVGPath svg;
@@ -19,7 +21,9 @@ public class ComponentListCellController extends AnchorPane {
     public ComponentListCellController(String name, String svgContent) throws RuntimeException {
         FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
-        setComponentNameLabel(name);
+        this.displayName = name;
+
+        setComponentNameLabel();
         setComponentSvgContent(svgContent);
     }
 
@@ -28,12 +32,12 @@ public class ComponentListCellController extends AnchorPane {
         this.componentCell.prefWidthProperty().bind(this.widthProperty().subtract(CELL_MARGIN));
     }
 
-    private void setComponentNameLabel(String name) {
-        if (name == null || name.isEmpty()) {
+    private void setComponentNameLabel() {
+        if (displayName == null || displayName.isEmpty()) {
             throw new RuntimeException("Can't set a label that is null or empty");
         }
 
-        String upperCasedName = name.toUpperCase();
+        String upperCasedName = displayName.toUpperCase();
         this.componentNameLabel.setText(upperCasedName);
     }
 
@@ -61,5 +65,9 @@ public class ComponentListCellController extends AnchorPane {
 
         this.svg.setScaleX(finalScaleFactor);
         this.svg.setScaleY(finalScaleFactor);
+    }
+
+    String getComponentName() {
+        return this.displayName;
     }
 }
