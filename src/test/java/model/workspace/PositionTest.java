@@ -37,4 +37,17 @@ class PositionTest {
         assertEquals(p.getY(), 10);
     }
 
+    @Test
+    void positionTranslate() {
+        Position p = new Position();
+        assertEquals(p.getX(), 0);
+        assertEquals(p.getY(), 0);
+
+        for (int i=1; i<=10; i++) {
+            p.translate(10, -10);
+            assertEquals(p.getX(), i*10);
+            assertEquals(p.getY(), -i*10);
+        }
+    }
+
 }

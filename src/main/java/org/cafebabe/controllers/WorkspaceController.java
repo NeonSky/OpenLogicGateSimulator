@@ -1,6 +1,7 @@
 package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.components.Component;
@@ -20,6 +21,11 @@ class WorkspaceController extends AnchorPane {
         this.ws = ws;
         this.circuitController = new CircuitController(this.ws.getCircuit());
         this.circuitAnchorPane.getChildren().add(this.circuitController);
+
+        setOnDragOver(event ->  {
+            event.acceptTransferModes(TransferMode.ANY);
+            System.out.println("workspace controller drag over");
+        });
 
         FxmlUtil.scaleWithAnchorPaneParent(workspaceRoot);
     }
