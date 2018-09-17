@@ -16,11 +16,11 @@ public class ComponentController extends AnchorPane {
     private Component component;
     private Position position;
 
-    public ComponentController(Component component, int x, int y) {
+    ComponentController(Component component, int x, int y) {
         this(component, new Position(x, y));
     }
 
-    public ComponentController(Component component, Position pos) {
+    ComponentController(Component component, Position pos) {
         FxmlUtil.attachFXML(this, "/view/ComponentView.fxml");
 
         this.component = component;
@@ -33,7 +33,7 @@ public class ComponentController extends AnchorPane {
         return this.component;
     }
 
-    public Position getPosition() {
+    Position getPosition() {
         return this.position;
     }
 
