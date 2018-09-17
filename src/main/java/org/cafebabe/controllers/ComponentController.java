@@ -25,6 +25,7 @@ class ComponentController extends AnchorPane {
     private Component component;
     private Position position;
 
+
     private void addPortsFromMetadata(ComponentMetadata componentMetadata) {
         componentMetadata.inPortMetadata.forEach(m->{
             ports.add(new InPortController(m.name, m.x, m.y));
@@ -46,7 +47,7 @@ class ComponentController extends AnchorPane {
         svgGroup.getChildren().addAll(this.ports);
 
         this.component = component;
-        componentSvgPath.setContent(SvgUtil.getComponentSvgPath(component));
+        componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
 
         this.position = pos;
     }

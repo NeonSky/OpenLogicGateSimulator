@@ -5,25 +5,39 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.net.URISyntaxException;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import org.cafebabe.model.components.Component;
 
 public class SvgUtil {
 
-    /** Returns the full SVG path of the given component's associated SVG file. */
-    private static String loadSvgPath(File file) {
-        StringBuilder svgPath = new StringBuilder();
+    private static NodeList getSvgPathNodes(File file) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
             NodeList paths = document.getElementsByTagName("path");
-            for(int i = 0; i < paths.getLength(); i++) {
-                svgPath.append(paths.item(i).getAttributes().getNamedItem("d").getNodeValue());
-            }
+            return paths;
         } catch(Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static boolean isWirePath(Node node) {
+        return node.getAttributes().getNamedItem("iswire").getNodeValue().equals("true");
+    }
+
+    /** Returns the full SVG path of the given component's associated SVG file. */
+    private static String loadSvgPath(File file, boolean loadBarePath) {
+        StringBuilder svgPath = new StringBuilder();
+        NodeList paths = getSvgPathNodes(file);
+        for(int i = 0; i < paths.getLength(); i++) {
+            if(loadBarePath && isWirePath(paths.item(i))) {
+                continue;
+            }
+            svgPath.append(paths.item(i).getAttributes().getNamedItem("d").getNodeValue());
         }
         return svgPath.toString();
     }
@@ -41,6 +55,11 @@ public class SvgUtil {
 
     /** Returns the component's associated SVG path. */
     public static String getComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvg(component));
+        return loadSvgPath(SvgUtil.getComponentSvg(component), false);
+    }
+
+    /** Returns the component's associated SVG path, but excludes any wire visuals. */
+    public static String getBareComponentSvgPath(Component component) {
+        return loadSvgPath(SvgUtil.getComponentSvg(component), true);
     }
 }
