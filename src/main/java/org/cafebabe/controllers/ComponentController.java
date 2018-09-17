@@ -9,7 +9,7 @@ import org.cafebabe.controllers.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.workspace.Position;
 
-public class ComponentController extends AnchorPane {
+class ComponentController extends AnchorPane {
 
     @FXML private SVGPath componentSvgPath;
 
@@ -20,7 +20,7 @@ public class ComponentController extends AnchorPane {
         this(component, new Position(x, y));
     }
 
-    ComponentController(Component component, Position pos) {
+    private ComponentController(Component component, Position pos) {
         FxmlUtil.attachFXML(this, "/view/ComponentView.fxml");
 
         this.component = component;

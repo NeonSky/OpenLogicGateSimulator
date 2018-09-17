@@ -8,6 +8,7 @@ import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
 
 import java.util.HashSet;
@@ -21,6 +22,7 @@ class CircuitController extends AnchorPane {
 
     private final Circuit circuit;
     private Position dragStartedPosition;
+    private ComponentController dragNewComponentController;
     private Set<ComponentController> ccSet = new HashSet<>();
 
     CircuitController(Circuit circuit) {
@@ -37,6 +39,18 @@ class CircuitController extends AnchorPane {
         this.componentPane.setStyle("-fx-background-color: transparent");
         this.componentPane.toFront();
 
+        componentPane.setOnDragEntered(event -> {
+            if (event.getGestureSource() instanceof ComponentListCellController) {
+                ComponentListCellController clcc = (ComponentListCellController)event.getGestureSource();
+
+                Component newComponent = ComponentUtil.componentFactory(clcc.getComponentName());
+
+                dragNewComponentController = addComponent(newComponent, (int)event.getX(), (int)event.getY());
+
+                event.consume();
+            }
+        });
+
         componentPane.setOnDragOver(event -> {
             if (event.getGestureSource() instanceof ComponentController) {
                 /* Accept the event if the dragged item is a component controller instance */
@@ -46,17 +60,29 @@ class CircuitController extends AnchorPane {
                 cc.getPosition().translate((int)event.getX() - cc.getPosition().getX() - dragStartedPosition.getX(),
                                            (int)event.getY() - cc.getPosition().getY() - dragStartedPosition.getY());
                 update();
+            } else if (event.getGestureSource() instanceof ComponentListCellController) {
+                /* Accept the event if the dragged item is a component list cell controller instance */
+                event.acceptTransferModes(TransferMode.ANY);
+
+                ComponentListCellController clcc = (ComponentListCellController)event.getGestureSource();
+
+                double height = dragNewComponentController.getHeight();
+                double width = dragNewComponentController.getWidth();
+
+                assert clcc.getComponentName().equals(dragNewComponentController.getComponent().getDisplayName());
+
+                dragNewComponentController.getPosition().move((int)(event.getX() - (width / 2)), (int)(event.getY() - (height / 2)));
+                update();
             }
 
             event.consume();
         });
     }
 
-    void addComponent(Component component, int x, int y) {
+    ComponentController addComponent(Component component, int x, int y) {
         this.circuit.addComponent(component);
 
         ComponentController cc = new ComponentController(component, x, y);
-
 
         cc.setOnDragDetected(event -> {
             Dragboard db = cc.startDragAndDrop(TransferMode.ANY);
@@ -74,6 +100,8 @@ class CircuitController extends AnchorPane {
 
         this.ccSet.add(cc);
         update();
+
+        return cc;
     }
 
     void removeComponent(ComponentController component) {
