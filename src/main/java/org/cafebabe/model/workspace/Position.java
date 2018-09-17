@@ -25,4 +25,13 @@ public class Position {
         this.x = targetX;
         this.y = targetY;
     }
+
+    public void translate(int deltaX, int deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+    }
+
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }
