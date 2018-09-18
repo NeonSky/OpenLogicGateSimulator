@@ -1,10 +1,14 @@
 package org.cafebabe.controllers.util;
 
 import javax.xml.parsers.*;
+
 import org.w3c.dom.Document;
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.ArrayList;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -12,13 +16,12 @@ import org.cafebabe.model.components.Component;
 
 public class SvgUtil {
 
-    private static NodeList getSvgPathNodes(File file) {
+    private static NodeList getNodesWithTag(File file, String tag) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
-            NodeList paths = document.getElementsByTagName("path");
-            return paths;
+            return document.getElementsByTagName(tag);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -32,7 +35,7 @@ public class SvgUtil {
     /** Returns the full SVG path of the given component's associated SVG file. */
     private static String loadSvgPath(File file, boolean loadBarePath) {
         StringBuilder svgPath = new StringBuilder();
-        NodeList paths = getSvgPathNodes(file);
+        NodeList paths = getNodesWithTag(file, "path");
         for(int i = 0; i < paths.getLength(); i++) {
             if(loadBarePath && isWirePath(paths.item(i))) {
                 continue;
@@ -44,22 +47,46 @@ public class SvgUtil {
 
 
     /** Returns the component's associated SVG file. */
-    private static File getComponentSvg(Component component) {
+    private static File getComponentSvgFile(Component component) {
         try {
-            return new File(component.getClass().getResource("/gates/images/" + component.getAnsiName() + ".svg").toURI());
+            return new File(component.getClass().getResource("/gates/" + component.getAnsiName() + ".svg").toURI());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    private static List<PortData> loadPortData(File file, String type) {
+        NodeList nodes = getNodesWithTag(file, type);
+        List<PortData> ports = new ArrayList<>();
+        for(int i = 0; i < nodes.getLength(); i++) {
+            NamedNodeMap attr = nodes.item(i).getAttributes();
+            String name = attr.getNamedItem("name").getNodeValue();
+            String x = attr.getNamedItem("x").getNodeValue();
+            String y = attr.getNamedItem("y").getNodeValue();
+            ports.add(new PortData(name, x, y));
+        }
+        return ports;
+    }
+
+    private static Metadata loadMetadata(File file) {
+        Metadata metadata = new Metadata();
+        metadata.inPortMetadata = loadPortData(file, "inport");
+        metadata.outPortMetadata = loadPortData(file, "outport");
+        return metadata;
+    }
+
     /** Returns the component's associated SVG path. */
     public static String getComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvg(component), false);
+        return loadSvgPath(SvgUtil.getComponentSvgFile(component), false);
     }
 
     /** Returns the component's associated SVG path, but excludes any wire visuals. */
     public static String getBareComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvg(component), true);
+        return loadSvgPath(SvgUtil.getComponentSvgFile(component), true);
+    }
+
+    public static Metadata getComponentMetadata(Component component) {
+        return loadMetadata(getComponentSvgFile(component));
     }
 }

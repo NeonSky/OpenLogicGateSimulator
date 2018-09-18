@@ -3,12 +3,10 @@ package org.cafebabe.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
 
 import org.cafebabe.controllers.util.FxmlUtil;
-import org.cafebabe.controllers.util.JsonMetadata.ComponentMetadata;
-import org.cafebabe.controllers.util.JsonUtil;
+import org.cafebabe.controllers.util.Metadata;
 import org.cafebabe.controllers.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.workspace.Position;
@@ -26,7 +24,7 @@ class ComponentController extends AnchorPane {
     private Position position;
 
 
-    private void addPortsFromMetadata(ComponentMetadata componentMetadata) {
+    private void addPortsFromData(Metadata componentMetadata) {
         componentMetadata.inPortMetadata.forEach(m->{
             ports.add(new InPortController(m.name, m.x, m.y));
         });
@@ -42,7 +40,7 @@ class ComponentController extends AnchorPane {
 
     private ComponentController(Component component, Position pos) {
         FxmlUtil.attachFXML(this, "/view/ComponentView.fxml");
-        this.addPortsFromMetadata(JsonUtil.getComponentMetadata(component));
+        this.addPortsFromData(SvgUtil.getComponentMetadata(component));
 
         svgGroup.getChildren().addAll(this.ports);
 
