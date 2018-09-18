@@ -12,6 +12,9 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
+
+    // Apply the checkstyle plugin for automatic code style checks
+    id 'checkstyle'
 }
 
 // Define the main class for the application
@@ -43,3 +46,9 @@ repositories {
 test {
     useJUnitPlatform()
 }
+
+// Use checkstyle 8.11 (latest), rather than gradle default ancient 6.19
+checkstyle {
+    toolVersion '8.11'
+}
+

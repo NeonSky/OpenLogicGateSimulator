@@ -6,6 +6,7 @@ jdk:
 
 script:
   - ./gradlew build --console 'plain' -s
+  - ./gradlew check --console 'plain' -s
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
