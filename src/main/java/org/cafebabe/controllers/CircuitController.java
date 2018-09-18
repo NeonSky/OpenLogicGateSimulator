@@ -28,6 +28,10 @@ class CircuitController extends AnchorPane {
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
 
+        setupFXML();
+    }
+
+    private void setupFXML() {
         FxmlUtil.attachFXML(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
@@ -38,85 +42,99 @@ class CircuitController extends AnchorPane {
         FxmlUtil.scaleWithAnchorPaneParent(componentPane);
         this.componentPane.setStyle("-fx-background-color: transparent");
         this.componentPane.toFront();
+    }
 
-        componentPane.setOnDragEntered(event -> {
-            if (event.getGestureSource() instanceof ComponentListCellController) {
-                ComponentListCellController clcc = (ComponentListCellController)event.getGestureSource();
+    @FXML
+    private void onComponentPaneDragEntered(DragEvent event) {
+        if (event.getGestureSource() instanceof ComponentListCellController) {
+            ComponentListCellController componentListCellController = (ComponentListCellController)event.getGestureSource();
 
-                Component newComponent = ComponentUtil.componentFactory(clcc.getComponentName());
+            Component newComponent = ComponentUtil.componentFactory(componentListCellController.getComponentName());
 
-                dragNewComponentController = addComponent(newComponent, (int)event.getX(), (int)event.getY());
-
-                event.consume();
-            }
-        });
-
-        componentPane.setOnDragOver(event -> {
-            if (event.getGestureSource() instanceof ComponentController) {
-                /* Accept the event if the dragged item is a component controller instance */
-                event.acceptTransferModes(TransferMode.ANY);
-
-                ComponentController cc = (ComponentController)event.getGestureSource();
-                cc.getPosition().translate((int)event.getX() - cc.getPosition().getX() - dragStartedPosition.getX(),
-                                           (int)event.getY() - cc.getPosition().getY() - dragStartedPosition.getY());
-                update();
-            } else if (event.getGestureSource() instanceof ComponentListCellController) {
-                /* Accept the event if the dragged item is a component list cell controller instance */
-                event.acceptTransferModes(TransferMode.ANY);
-
-                ComponentListCellController clcc = (ComponentListCellController)event.getGestureSource();
-
-                double height = dragNewComponentController.getHeight();
-                double width = dragNewComponentController.getWidth();
-
-                assert clcc.getComponentName().equals(dragNewComponentController.getComponent().getDisplayName());
-
-                dragNewComponentController.getPosition().move((int)(event.getX() - (width / 2)), (int)(event.getY() - (height / 2)));
-                update();
-            }
+            dragNewComponentController = addComponent(newComponent, (int)event.getX(), (int)event.getY());
 
             event.consume();
-        });
+        }
+    }
+
+    @FXML
+    private void onComponentPaneDragOver(DragEvent event) {
+        if (event.getGestureSource() instanceof ComponentController) {
+            /* Handle the event if the dragged item is a component controller instance */
+            handleComponentDragOver(event);
+        } else if (event.getGestureSource() instanceof ComponentListCellController) {
+            /* Accept the event if the dragged item is a component list cell controller instance */
+            handleComponentListCellDragOver(event);
+        }
+
+        event.consume();
+    }
+
+    private void handleComponentDragOver(DragEvent event) {
+        event.acceptTransferModes(TransferMode.ANY);
+
+        ComponentController componentController = (ComponentController)event.getGestureSource();
+        componentController.getPosition().translate((int)event.getX() - componentController.getPosition().getX() - dragStartedPosition.getX(),
+                                                    (int)event.getY() - componentController.getPosition().getY() - dragStartedPosition.getY());
+
+        refreshComponentPane();
+    }
+
+    private void handleComponentListCellDragOver(DragEvent event) {
+        event.acceptTransferModes(TransferMode.ANY);
+
+        ComponentListCellController componentListCellController = (ComponentListCellController)event.getGestureSource();
+
+        double height = dragNewComponentController.getHeight();
+        double width = dragNewComponentController.getWidth();
+
+        if (!componentListCellController.getComponentName().equals(dragNewComponentController.getComponent().getDisplayName())) {
+            throw new RuntimeException("Dragged component from component list is not equal to currently dragged component");
+        }
+
+        dragNewComponentController.getPosition().move((int)(event.getX() - (width / 2)), (int)(event.getY() - (height / 2)));
+        refreshComponentPane();
     }
 
     ComponentController addComponent(Component component, int x, int y) {
         this.circuit.addComponent(component);
 
-        ComponentController cc = new ComponentController(component, x, y);
+        ComponentController newCompController = new ComponentController(component, x, y);
+        newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
+        this.ccSet.add(newCompController);
 
-        cc.setOnDragDetected(event -> {
-            Dragboard db = cc.startDragAndDrop(TransferMode.ANY);
+        refreshComponentPane();
 
-            /* Need to add something (anything) to Dragboard, otherwise
-             * the drag does not register on the target */
-            ClipboardContent c1 = new ClipboardContent();
-            c1.put(DataFormat.PLAIN_TEXT, "foo");
-            db.setContent(c1);
+        return newCompController;
+    }
 
-            dragStartedPosition = new Position((int)event.getX(), (int)event.getY());
+    private void onComponentDragDetected(ComponentController componentController, MouseEvent event) {
+        Dragboard dragboard = componentController.startDragAndDrop(TransferMode.ANY);
 
-            event.consume();
-        });
+        /* Need to add something (anything) to Dragboard, otherwise
+         * the drag does not register on the target */
+        ClipboardContent dummyContent = new ClipboardContent();
+        dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
+        dragboard.setContent(dummyContent);
 
-        this.ccSet.add(cc);
-        update();
+        dragStartedPosition = new Position((int)event.getX(), (int)event.getY());
 
-        return cc;
+        event.consume();
     }
 
     void removeComponent(ComponentController component) {
         this.circuit.removeComponent(component.getComponent());
         this.ccSet.remove(component);
-        update();
+        refreshComponentPane();
     }
 
-    private void update() {
+    private void refreshComponentPane() {
         this.componentPane.getChildren().clear();
 
-        for (ComponentController cc : this.ccSet) {
-            this.componentPane.getChildren().add(cc);
-            cc.setLayoutX(cc.getPosition().getX());
-            cc.setLayoutY(cc.getPosition().getY());
+        for (ComponentController componentController : this.ccSet) {
+            this.componentPane.getChildren().add(componentController);
+            componentController.setLayoutX(componentController.getPosition().getX());
+            componentController.setLayoutY(componentController.getPosition().getY());
         }
     }
 

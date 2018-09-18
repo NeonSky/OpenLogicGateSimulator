@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PositionTest {
 
     @Test
-    void positionNoParams() {
+    void newPositionNoParamsShouldBeOrigin() {
         Position p = new Position();
         assertEquals(p.getX(), 0);
         assertEquals(p.getY(), 0);
     }
 
     @Test
-    void positionParams() {
+    void newPositionShouldBePositionedByParams() {
         Position p = new Position(1, 1);
         assertEquals(p.getX(), 1);
         assertEquals(p.getY(), 1);
@@ -27,7 +27,7 @@ class PositionTest {
     }
 
     @Test
-    void positionMove() {
+    void positionShouldBeMovable() {
         Position p = new Position();
         assertEquals(p.getX(), 0);
         assertEquals(p.getY(), 0);
@@ -38,7 +38,7 @@ class PositionTest {
     }
 
     @Test
-    void positionTranslate() {
+    void positionShouldBeTranslatable() {
         Position p = new Position();
         assertEquals(p.getX(), 0);
         assertEquals(p.getY(), 0);
