@@ -15,6 +15,9 @@ public class CanvasGridPane extends Pane {
     public CanvasGridPane() {
         canvas = new Canvas(100, 100);
         getChildren().add(canvas);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(GRIDLINE_COLOR);
     }
 
     @Override
@@ -33,16 +36,27 @@ public class CanvasGridPane extends Pane {
     }
 
     private void drawGrid() {
+        clearGrid();
+        drawHorizontalGridLines();
+        drawVerticalGridLines();
+    }
+
+    private void clearGrid() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
-        gc.setStroke(GRIDLINE_COLOR);
+    }
 
-        //horizontal lines
+    private void drawHorizontalGridLines() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         for (int i=0; i < getHeight(); i+=GRIDLINE_SPACING) {
             gc.strokeLine(0, i, getWidth(), i);
         }
+    }
 
-        //vertical lines
+    private void drawVerticalGridLines() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         for (int i=0; i < getWidth(); i+=GRIDLINE_SPACING) {
             gc.strokeLine(i, 0, i, getHeight());
         }

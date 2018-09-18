@@ -2,6 +2,7 @@ package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
@@ -25,6 +26,19 @@ class ComponentListCellController extends AnchorPane {
 
         setComponentNameLabel();
         setComponentSvgContent(svgContent);
+    }
+
+    @FXML
+    private void onDragDetected(MouseEvent event) {
+        Dragboard db = startDragAndDrop(TransferMode.ANY);
+
+        /* Need to add something (anything) to Dragboard, otherwise
+         * the drag does not register on the target */
+        ClipboardContent c1 = new ClipboardContent();
+        c1.put(DataFormat.PLAIN_TEXT, "foo");
+        db.setContent(c1);
+
+        event.consume();
     }
 
     private void bindSizeProperties() {
