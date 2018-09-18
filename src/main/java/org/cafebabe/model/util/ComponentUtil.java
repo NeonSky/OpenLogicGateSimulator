@@ -38,11 +38,11 @@ public class ComponentUtil {
     }
 
     public static Component componentFactory(String displayName) {
-        Map componentMap = getComponentMap();
-
         if (displayName == null || displayName.isEmpty()) {
             throw new RuntimeException("Component display name can not be null or empty");
         }
+
+        Map componentMap = getComponentMap();
 
         if (!componentMap.containsKey(displayName)) {
             throw new RuntimeException("No such component " + displayName);

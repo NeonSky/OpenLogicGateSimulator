@@ -13,21 +13,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class CircuitTest {
 
     @Test
-    void Circuit() {
+    void newCircuitShouldBeEmpty() {
         Circuit c = new Circuit();
         assertTrue(c.getComponents().isEmpty());
         assertTrue(c.getWires().isEmpty());
     }
 
     @Test
-    void addComponent() {
+    void addSingleComponentToCircuit() {
         Circuit c = new Circuit();
         c.addComponent(new AndGateComponent());
         assertEquals(c.getComponents().size(), 1);
     }
 
     @Test
-    void addComponentMultiple() {
+    void addMultipleComponentsToCircuit() {
         Circuit c = new Circuit();
 
         for (int i=0; i < 10; i++) {
@@ -37,7 +37,7 @@ class CircuitTest {
     }
 
     @Test
-    void addSameComponentSeveralTimes() {
+    void addingSameComponentTwiceShouldThrow() {
         Circuit c = new Circuit();
         Component a = new AndGateComponent();
 
@@ -47,7 +47,7 @@ class CircuitTest {
     }
 
     @Test
-    void removeComponent() {
+    void removeSingleComponentFromCircuit() {
         Circuit c = new Circuit();
 
         AndGateComponent a = new AndGateComponent();
@@ -59,7 +59,7 @@ class CircuitTest {
     }
 
     @Test
-    void removeComponentsMultiple() {
+    void removeMultipleComponentsFromCircuit() {
         Circuit c = new Circuit();
 
         List<Component> componentList = new ArrayList<>();
@@ -78,7 +78,7 @@ class CircuitTest {
     }
 
     @Test
-    void removeNonexistentComponent() {
+    void removeNonexistentComponentShouldThrow() {
         Circuit c = new Circuit();
         assertThrows(RuntimeException.class, () -> c.removeComponent(new AndGateComponent()));
     }
