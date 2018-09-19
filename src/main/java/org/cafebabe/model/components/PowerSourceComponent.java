@@ -9,8 +9,6 @@ public class PowerSourceComponent extends Component {
 
     private OutputPort northOutput;
 
-    private final Map<String, OutputPort> TAG_TO_OUTPUT;
-
     @ComponentConstructor
     public PowerSourceComponent() {
         northOutput = new OutputPort();
@@ -21,22 +19,8 @@ public class PowerSourceComponent extends Component {
         northOutput.setActive(true);
     }
 
-
     @Override
-    public void connectToPort(Wire wire, String portTag) {
-        if(!TAG_TO_OUTPUT.containsKey(portTag)) {
-            throw new RuntimeException("This port doesn't exist on this component");
-        }
-        wire.connectOutputPort(TAG_TO_OUTPUT.get(portTag));
-    }
-
-    @Override
-    public void disconnectFromPort(Wire wire, String portTag) {
-        if(!TAG_TO_OUTPUT.containsKey(portTag)) {
-            throw new RuntimeException("This port doesn't exist on this component");
-        }
-        wire.disconnectOutputPort(TAG_TO_OUTPUT.get(portTag));
-    }
+    protected void update() {}
 
     @Override
     public String getAnsiName() {
