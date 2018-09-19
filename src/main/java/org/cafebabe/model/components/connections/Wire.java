@@ -54,6 +54,7 @@ public class Wire {
         if(isOutputConnected(output)) {
             throw new RuntimeException("An OutputPort can only be added once.");
         }
+        output.setConnected(true);
         connectedOutputs.add(output);
         if(output.isActive()) {
             powerSources.add(output);
@@ -66,6 +67,7 @@ public class Wire {
         if(!isOutputConnected(output)) {
             throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
         }
+        output.setConnected(false);
         connectedOutputs.remove(output);
         powerSources.remove(output);
         output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
@@ -76,10 +78,17 @@ public class Wire {
         return connectedInputs.contains(input);
     }
 
+    public boolean isAnyInputConnected() {
+        return !connectedInputs.isEmpty();
+    }
 
     /** Returns true IFF the given OutputPort is connected to this wire. */
     public boolean isOutputConnected(OutputPort output) {
         return connectedOutputs.contains(output);
+    }
+
+    public boolean isAnyOutputConnected() {
+        return !connectedOutputs.isEmpty();
     }
 
     /** Returns true IFF the wire has a logic state of 1. */
@@ -90,5 +99,25 @@ public class Wire {
     /** Is notified with the new logical value of the output whenever it is changed */
     public Event<Wire> onStateChangedEvent() {
         return onStateChanged;
+    }
+
+    public IConnectionState getConnectionState() {
+        Wire wire = this;
+        return new IConnectionState() {
+            @Override
+            public boolean isConnecting() {
+                return this.isInportConnected() || this.isOutportConnected();
+            }
+
+            @Override
+            public boolean isInportConnected() {
+                return wire.isAnyInputConnected();
+            }
+
+            @Override
+            public boolean isOutportConnected() {
+                return wire.isAnyOutputConnected();
+            }
+        };
     }
 }

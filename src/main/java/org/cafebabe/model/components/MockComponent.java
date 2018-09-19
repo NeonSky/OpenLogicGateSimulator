@@ -2,7 +2,8 @@ package org.cafebabe.model.components;
 
 public class MockComponent extends Component {
 
-    @ComponentConstructor
+    // This component should not be loaded
+    // @ComponentConstructor
     public MockComponent(){}
 
     @Override

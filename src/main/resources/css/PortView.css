@@ -1,15 +1,39 @@
 .inPort {
-    -fx-fill: gray;
+    -fx-fill: #FFF;
 }
 
 .inPort:hover {
-    -fx-fill: red;
+    -fx-fill: #888;
+}
+
+.inPort.candidate {
+    -fx-fill: #8F8;
+}
+
+.inPort.candidate:hover {
+    -fx-fill: #8F8;
 }
 
 .outPort {
-    -fx-fill: yellow;
+    -fx-fill: #FFF;
 }
 
 .outPort:hover {
-    -fx-fill: blue;
+    -fx-fill: #888;
+}
+
+.outPort.candidate {
+    -fx-fill: #88F;
+}
+
+.outPort.candidate:hover {
+    -fx-fill: #88F;
+}
+
+.connected {
+    -fx-fill: #FFF !important;
+}
+
+.connected.active {
+    -fx-fill: #F00 !important;
 }

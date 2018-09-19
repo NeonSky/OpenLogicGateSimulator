@@ -6,6 +6,7 @@ public class OutputPort implements IPort {
 
     private Event<OutputPort> onStateChanged;
     private boolean isActive;
+    private boolean connected;
 
 
     public OutputPort() {
@@ -26,8 +27,17 @@ public class OutputPort implements IPort {
         return isActive;
     }
 
+    @Override
+    public boolean isConnected() {
+        return this.connected;
+    }
+
     /** Is notified with the new logical value of the output whenever it is changed */
     Event<OutputPort> onStateChangedEvent() {
         return onStateChanged;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }
