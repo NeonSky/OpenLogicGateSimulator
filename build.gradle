@@ -15,6 +15,9 @@ plugins {
 
     // Apply the checkstyle plugin for automatic code style checks
     id 'checkstyle'
+
+    // Apply the SpotBugs plugin to find common bugs in java code
+    id "com.github.spotbugs" version "1.6.3"
 }
 
 // Define the main class for the application
