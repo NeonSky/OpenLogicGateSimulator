@@ -24,6 +24,7 @@ class CircuitController extends AnchorPane {
     private Position dragStartedPosition;
     private ComponentController dragNewComponentController;
     private Set<ComponentController> ccSet = new HashSet<>();
+    private Set<WireController> wireSet = new HashSet<>();
 
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
@@ -153,6 +154,10 @@ class CircuitController extends AnchorPane {
             componentController.setLayoutX(componentController.getPosition().getX());
             componentController.setLayoutY(componentController.getPosition().getY());
         }
-    }
 
+        for (WireController wireController : this.wireSet) {
+            this.componentPane.getChildren().add(wireController.getWireLine());
+            wireController.getWireLine().toBack();
+        }
+    }
 }
