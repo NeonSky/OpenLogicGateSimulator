@@ -7,7 +7,7 @@
   <path iswire="false" fill="none" stroke="#000" stroke-width="3" d="M79 25a4 4 0 1 1-8 0 4 4 0 1 1 8 0z"/>
 
 
-  <inport name="in1" x="32" y="15" />
-  <inport name="in2" x="32" y="35" />
-  <outport name="out1" x="78.333332" y="25" />
+  <inport name="input1" x="32" y="15" />
+  <inport name="input2" x="32" y="35" />
+  <outport name="output" x="78.333332" y="25" />
 </svg>

@@ -43,11 +43,11 @@ public class InputPort implements IPort {
 
     /** Returns true IFF the input is active */
     public boolean isActive() {
-        if(wire != null) {
-            return wire.isActive();
-        } else {
-            return false;
-        }
+        return this.isConnected() && wire.isActive();
+    }
+
+    public boolean isConnected() {
+        return wire != null;
     }
 
 

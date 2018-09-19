@@ -37,11 +37,13 @@ public class WireController {
     private void moveStartPointTo(Number x, Number y) {
         this.wireLine.setStartX(x.doubleValue());
         this.wireLine.setStartY(y.doubleValue());
+        setWireControlPoints();
     }
 
     private void moveEndPointTo(Number x, Number y) {
         this.wireLine.setEndX(x.doubleValue());
         this.wireLine.setEndY(y.doubleValue());
+        setWireControlPoints();
     }
 
     private Color getWireColor() {
@@ -80,6 +82,13 @@ public class WireController {
     public void moveLineTo(Position startPoint, Position endPoint) {
         this.moveStartPointTo(startPoint.getX(), startPoint.getY());
         this.moveEndPointTo(endPoint.getX(), endPoint.getY());
-        setWireControlPoints();
+    }
+
+    public void moveStartPointTo(Position startPoint) {
+        this.moveStartPointTo(startPoint.getX(), startPoint.getY());
+    }
+
+    public void moveEndPointTo(Position endPoint) {
+        this.moveEndPointTo(endPoint.getX(), endPoint.getY());
     }
 }
