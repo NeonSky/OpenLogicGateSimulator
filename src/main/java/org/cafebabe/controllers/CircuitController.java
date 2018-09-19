@@ -58,6 +58,23 @@ class CircuitController extends AnchorPane {
     }
 
     @FXML
+    private void onComponentPaneDragExited(DragEvent event) {
+        if (event.getGestureSource() instanceof ComponentListCellController && dragNewComponentController != null) {
+            removeComponent(dragNewComponentController);
+            event.consume();
+        }
+    }
+
+    @FXML
+    private void onComponentPaneDragDropped(DragEvent event) {
+        if (event.getGestureSource() instanceof ComponentListCellController) {
+            event.setDropCompleted(true);
+            event.consume();
+            dragNewComponentController = null;
+        }
+    }
+
+    @FXML
     private void onComponentPaneDragOver(DragEvent event) {
         if (event.getGestureSource() instanceof ComponentController) {
             /* Handle the event if the dragged item is a component controller instance */
