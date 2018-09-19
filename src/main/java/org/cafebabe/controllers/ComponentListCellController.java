@@ -47,7 +47,7 @@ class ComponentListCellController extends AnchorPane {
     }
 
     private void setComponentNameLabel() {
-        if (displayName == null || displayName.isEmpty()) {
+        if (this.displayName == null || this.displayName.isEmpty()) {
             throw new RuntimeException("Can't set a label that is null or empty");
         }
 
