@@ -8,14 +8,16 @@ import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.Component;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.components.connections.*;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-class CircuitController extends AnchorPane {
+class CircuitController extends AnchorPane implements IWireConnector {
 
     @FXML private Pane backgroundPane;
     private CanvasGridPane gridPane;
@@ -28,10 +30,13 @@ class CircuitController extends AnchorPane {
     private ComponentController dragNewComponentController;
     private Set<WireController> wireSet = new HashSet<>();
     private Set<ComponentController> circuitComponentSet = new HashSet<>();
+    private WireController wireController;
+    private Wire wire;
+    private List<IConnectionStateListener> connectionStateListeners;
 
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
-
+        this.connectionStateListeners = new ArrayList<>();
         setupFXML();
     }
 
@@ -120,7 +125,7 @@ class CircuitController extends AnchorPane {
     ComponentController addComponent(Component component, int x, int y) {
         this.circuit.addComponent(component);
 
-        ComponentController newCompController = new ComponentController(component, x, y);
+        ComponentController newCompController = new ComponentController(component, x, y, this);
         newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
         this.circuitComponentSet.add(newCompController);
 
@@ -162,5 +167,93 @@ class CircuitController extends AnchorPane {
             this.componentPane.getChildren().add(wireController.getWireLine());
             wireController.getWireLine().toBack();
         }
+    }
+
+    public void tryConnectWire(InPortController inPortController, InputPort inPort) {
+        if(canConnectTo(inPort)) {
+            WireController wireController = this.getCurrentWireController();
+            getCurrentWire().connectInputPort(inPort);
+            wireController.moveEndPointTo(inPortController.getPos());
+            if(!wire.isAnyOutputConnected()) {
+                wireController.moveStartPointTo(inPortController.getPos());
+            }
+
+            if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
+                newCurrentWire();
+            }
+
+            broadcastConnectionState();
+            refreshComponentPane();
+        }
+    }
+
+    public void tryConnectWire(OutPortController outPortController, OutputPort outPort) {
+        if(canConnectTo(outPort)) {
+            WireController wireController = this.getCurrentWireController();
+            getCurrentWire().connectOutputPort(outPort);
+            wireController.moveStartPointTo(outPortController.getPos());
+            if(!wire.isAnyInputConnected()) {
+                wireController.moveEndPointTo(outPortController.getPos());
+            }
+
+            if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
+                newCurrentWire();
+            }
+
+            broadcastConnectionState();
+            refreshComponentPane();
+        }
+    }
+
+
+    private void newCurrentWire() {
+        this.wire = null;
+        this.wireController = null;
+    }
+
+    private void broadcastConnectionState() {
+        IConnectionState connectionState = this.getCurrentWire().getConnectionState();
+        this.connectionStateListeners.forEach(l->l.handle(connectionState));
+    }
+
+    @Override
+    public boolean canConnectTo(InputPort port) {
+        return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
+    }
+
+    @Override
+    public boolean canConnectTo(OutputPort port) {
+        return !getCurrentWire().isAnyOutputConnected() && !port.isConnected();
+    }
+
+    @Override
+    public void addConnectionStateListener(IConnectionStateListener stateListener) {
+        this.connectionStateListeners.add(stateListener);
+    }
+
+    @Override
+    public void removeConnectionStateListener(IConnectionStateListener stateListener) {
+        this.connectionStateListeners.remove(stateListener);
+    }
+
+    @Override
+    public boolean wireHasConnections() {
+        return this.getCurrentWire().isAnyOutputConnected() || this.getCurrentWire().isAnyInputConnected();
+    }
+
+    private Wire getCurrentWire() {
+        if(this.wire == null) {
+            this.wire = new Wire();
+            this.circuit.addWire(wire);
+        }
+        return this.wire;
+    }
+    
+    private WireController getCurrentWireController() {
+        if(this.wireController == null) {
+            this.wireController = new WireController(this.getCurrentWire(), 0,0,0,0);
+            this.wireSet.add(this.wireController);
+        }
+        return this.wireController;
     }
 }
