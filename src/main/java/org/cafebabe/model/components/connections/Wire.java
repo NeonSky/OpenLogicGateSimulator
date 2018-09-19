@@ -88,7 +88,7 @@ public class Wire {
     }
 
     /** Is notified with the new logical value of the output whenever it is changed */
-    Event<Wire> onStateChangedEvent() {
+    public Event<Wire> onStateChangedEvent() {
         return onStateChanged;
     }
 }
