@@ -1,6 +1,7 @@
 package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -142,6 +143,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         ClipboardContent dummyContent = new ClipboardContent();
         dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
         dragboard.setContent(dummyContent);
+        dragboard.setDragView(new WritableImage(1, 1));
 
         dragStartedPosition = new Position((int)event.getX(), (int)event.getY());
 

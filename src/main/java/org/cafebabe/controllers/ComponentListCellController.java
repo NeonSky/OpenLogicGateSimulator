@@ -2,6 +2,8 @@ package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -37,6 +39,8 @@ class ComponentListCellController extends AnchorPane {
         ClipboardContent c1 = new ClipboardContent();
         c1.put(DataFormat.PLAIN_TEXT, "foo");
         db.setContent(c1);
+        db.setDragView(new WritableImage(1, 1));
+
 
         event.consume();
     }
