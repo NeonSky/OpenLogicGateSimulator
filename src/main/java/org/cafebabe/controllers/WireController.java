@@ -32,9 +32,7 @@ public class WireController {
     WireController(Wire wire, Position startPoint, Position endPoint) {
         this.wire = wire;
         this.wireLine = new CubicCurve();
-        moveStartPointTo(startPoint.getX(), startPoint.getY());
-        moveEndPointTo(endPoint.getX(), endPoint.getY());
-        setWireControlPoints();
+        moveLineTo(startPoint, endPoint);
         setWireDrawingOptions();
         this.wire.onStateChangedEvent().addListener(this::updateState);
     }
@@ -49,7 +47,6 @@ public class WireController {
     private void moveEndPointTo(Number x, Number y) {
         this.wireLine.setEndX(x.doubleValue());
         this.wireLine.setEndY(y.doubleValue());
-        setWireControlPoints();
     }
 
     private Color getWireColor(Wire wire) {
