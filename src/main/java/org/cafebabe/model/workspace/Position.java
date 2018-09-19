@@ -8,9 +8,9 @@ public class Position {
         this(0, 0);
     }
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(Number x, Number y) {
+        this.x = x.intValue();
+        this.y = y.intValue();
     }
 
     public int getX() {
