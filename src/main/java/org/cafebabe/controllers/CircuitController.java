@@ -8,6 +8,7 @@ import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
 
