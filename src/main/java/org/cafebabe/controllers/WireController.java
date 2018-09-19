@@ -12,19 +12,15 @@ import org.cafebabe.model.workspace.Position;
 
 public class WireController {
 
-
-    // Class properties
-    private static Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
-    private static Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
-    private static int WIRE_WIDTH = 4;
+    private static final Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
+    private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
+    private static final int WIRE_WIDTH = 4;
 
 
-    // Instance properties
     private Wire wire;
     private CubicCurve wireLine;
 
 
-    // Constructors
     WireController(Wire wire, int startX, int startY, int endX, int endY) {
         this(wire, new Position(startX, startY), new Position(endX, endY));
     }
@@ -38,7 +34,6 @@ public class WireController {
     }
 
 
-    // Private helper methods
     private void moveStartPointTo(Number x, Number y) {
         this.wireLine.setStartX(x.doubleValue());
         this.wireLine.setStartY(y.doubleValue());
@@ -49,12 +44,12 @@ public class WireController {
         this.wireLine.setEndY(y.doubleValue());
     }
 
-    private Color getWireColor(Wire wire) {
-        return (wire.isActive()) ? ACTIVE_COLOR : INACTIVE_COLOR;
+    private Color getWireColor() {
+        return (this.wire.isActive()) ? ACTIVE_COLOR : INACTIVE_COLOR;
     }
 
     private void setWireDrawingOptions() {
-        this.wireLine.setStroke(this.getWireColor(this.wire));
+        this.wireLine.setStroke(this.getWireColor());
         this.wireLine.setFill(Color.TRANSPARENT);
         this.wireLine.setStrokeWidth(WIRE_WIDTH);
         this.wireLine.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -63,7 +58,7 @@ public class WireController {
     }
 
     private void updateState(Wire wire) {
-        this.wireLine.setStroke(getWireColor(wire));
+        this.wireLine.setStroke(getWireColor());
     }
 
     private void setWireControlPoints() {
@@ -77,7 +72,7 @@ public class WireController {
         this.wireLine.setControlY2(endY);
     }
 
-    // Public methods
+
     public Node getWireLine() {
         return this.wireLine;
     }
