@@ -18,6 +18,15 @@ public class Wire {
         powerSources = new HashSet<>();
     }
 
+    public void disconnectAll() {
+        for(InputPort inport: this.connectedInputs) {
+            disconnectInputPort(inport);
+        }
+        for(OutputPort outport: this.connectedOutputs) {
+            disconnectOutputPort(outport);
+        }
+    }
+
     /** Updates the wire's logical value based on updated output value */
     private void onConnectedOutputStateChanged(OutputPort updatedPort) {
         boolean wasActive = isActive();
