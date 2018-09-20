@@ -11,7 +11,7 @@ public class InPortController extends PortController {
 
     public InPortController(String name, double x, double y, InputPort port, IWireConnector wireConnector) {
         super(name, x, y, wireConnector);
-        connectionNodeCircle.getStyleClass().add("inPort");
+        this.connectionNodeCircle.getStyleClass().add("inPort");
         this.port = port;
     }
 
@@ -22,17 +22,7 @@ public class InPortController extends PortController {
 
     @Override
     protected void handleUpdatedConnectionState(IConnectionState connectionState) {
-        List<String> styleClasses = new ArrayList<>();
-        styleClasses.add("inPort");
-        if(this.port.isConnected()){
-            styleClasses.add("connected");
-            if(this.port.isActive()) {
-                styleClasses.add("active");
-            }
-        } else if (wireConnector.canConnectTo(this.port) && wireConnector.wireHasConnections()) {
-            styleClasses.add("candidate");
-        }
-        connectionNodeCircle.getStyleClass().setAll(styleClasses);
+        computeAndSetStyleClasses(this.port, "inPort");
     }
 
     private void connectIfPossible() {
