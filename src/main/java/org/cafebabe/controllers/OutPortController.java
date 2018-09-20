@@ -12,7 +12,7 @@ public class OutPortController extends PortController {
     public OutPortController(String name, double x, double y, OutputPort port, IWireConnector wireConnector) {
         super(name, x, y, wireConnector);
         this.port = port;
-        connectionNodeCircle.getStyleClass().add("outPort");
+        this.connectionNodeCircle.getStyleClass().add("outPort");
     }
 
     @Override
@@ -22,17 +22,7 @@ public class OutPortController extends PortController {
 
     @Override
     protected void handleUpdatedConnectionState(IConnectionState connectionState) {
-        List<String> styleClasses = new ArrayList<>();
-        styleClasses.add("outPort");
-        if(this.port.isConnected()){
-            styleClasses.add("connected");
-            if(this.port.isActive()) {
-                styleClasses.add("active");
-            }
-        } else if (wireConnector.canConnectTo(this.port) && wireConnector.wireHasConnections()) {
-            styleClasses.add("candidate");
-        }
-        connectionNodeCircle.getStyleClass().setAll(styleClasses);
+        computeAndSetStyleClasses(this.port, "outPort");
     }
 
     private void connectIfPossible() {

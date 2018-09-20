@@ -1,19 +1,17 @@
 package org.cafebabe.controllers;
 
 import org.cafebabe.model.components.connections.IConnectionState;
+import org.cafebabe.model.components.connections.IPort;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
+
+import java.util.function.Consumer;
 
 public interface IWireConnector {
     void tryConnectWire(InPortController inPortController, InputPort inPort);
     void tryConnectWire(OutPortController outPortController, OutputPort outPort);
-    boolean canConnectTo(InputPort port);
-    boolean canConnectTo(OutputPort port);
-    void addConnectionStateListener(IConnectionStateListener stateListener);
-    void removeConnectionStateListener(IConnectionStateListener stateListener);
+    void addConnectionStateListener(Consumer<IConnectionState> stateListener);
+    void removeConnectionStateListener(Consumer<IConnectionState> stateListener);
     boolean wireHasConnections();
-}
-
-interface IConnectionStateListener {
-    void handle(IConnectionState state);
+    boolean canConnectTo(IPort port);
 }

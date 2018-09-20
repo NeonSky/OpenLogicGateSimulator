@@ -46,6 +46,7 @@ public class InputPort implements IPort {
         return this.isConnected() && wire.isActive();
     }
 
+    @Override
     public boolean isConnected() {
         return wire != null;
     }

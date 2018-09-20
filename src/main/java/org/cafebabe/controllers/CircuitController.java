@@ -15,9 +15,11 @@ import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.*;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
+import org.cafebabe.util.Event;
 
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 
 class CircuitController extends AnchorPane implements IWireConnector {
 
@@ -32,13 +34,12 @@ class CircuitController extends AnchorPane implements IWireConnector {
     private ComponentController dragNewComponentController;
     private Set<WireController> wireSet = new HashSet<>();
     private Set<ComponentController> circuitComponentSet = new HashSet<>();
+    private Event<IConnectionState> onConnectionStateChanged = new Event<>();
     private WireController wireController;
     private Wire wire;
-    private List<IConnectionStateListener> connectionStateListeners;
 
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
-        this.connectionStateListeners = new ArrayList<>();
         setupFXML();
 
         this.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
@@ -205,14 +206,15 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
     }
 
+    @Override
     public void tryConnectWire(InPortController inPortController, InputPort inPort) {
         if(canConnectTo(inPort)) {
             WireController wireController = this.getCurrentWireController();
             getCurrentWire().connectInputPort(inPort);
-            wireController.bindEndPointTo(inPortController::getPos);
+            wireController.bindEndPointTo(new PositionTracker(inPortController::getPos));
 
             if(!wire.isAnyOutputConnected()) {
-                wireController.bindStartPointTo(inPortController::getPos);
+                wireController.bindStartPointTo(new PositionTracker(inPortController::getPos));
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
@@ -224,13 +226,14 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
     }
 
+    @Override
     public void tryConnectWire(OutPortController outPortController, OutputPort outPort) {
         if(canConnectTo(outPort)) {
             WireController wireController = this.getCurrentWireController();
             getCurrentWire().connectOutputPort(outPort);
-            wireController.bindStartPointTo(outPortController::getPos);
+            wireController.bindStartPointTo(new PositionTracker(outPortController::getPos));
             if(!wire.isAnyInputConnected()) {
-                wireController.bindEndPointTo(outPortController::getPos);
+                wireController.bindEndPointTo(new PositionTracker(outPortController::getPos));
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
@@ -250,27 +253,27 @@ class CircuitController extends AnchorPane implements IWireConnector {
 
     private void broadcastConnectionState() {
         IConnectionState connectionState = this.getCurrentWire().getConnectionState();
-        this.connectionStateListeners.forEach(l->l.handle(connectionState));
+        this.onConnectionStateChanged.notifyAll(connectionState);
     }
 
     @Override
-    public boolean canConnectTo(InputPort port) {
-        return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
+    public boolean canConnectTo(IPort port) {
+        if(port instanceof InputPort) {
+            return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
+        } else if(port instanceof OutputPort){
+            return !getCurrentWire().isAnyOutputConnected() && !port.isConnected();
+        }
+        else throw new RuntimeException("Invalid Port Type!");
     }
 
     @Override
-    public boolean canConnectTo(OutputPort port) {
-        return !getCurrentWire().isAnyOutputConnected() && !port.isConnected();
+    public void addConnectionStateListener(Consumer<IConnectionState> stateListener) {
+        this.onConnectionStateChanged.addListener(stateListener);
     }
 
     @Override
-    public void addConnectionStateListener(IConnectionStateListener stateListener) {
-        this.connectionStateListeners.add(stateListener);
-    }
-
-    @Override
-    public void removeConnectionStateListener(IConnectionStateListener stateListener) {
-        this.connectionStateListeners.remove(stateListener);
+    public void removeConnectionStateListener(Consumer<IConnectionState> stateListener) {
+        this.onConnectionStateChanged.removeListener(stateListener);
     }
 
     @Override
