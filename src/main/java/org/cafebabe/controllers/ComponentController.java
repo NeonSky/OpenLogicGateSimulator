@@ -28,12 +28,6 @@ class ComponentController extends AnchorPane {
     private Component component;
     private Position position;
 
-
-    private void addPortsFromMetadata(Metadata componentMetadata, Component component, IWireConnector wireConnector) {
-        componentMetadata.inPortMetadata.forEach(m -> ports.add(new InPortController(m.name, m.x, m.y, (InputPort) component.getPort(m.name), wireConnector)));
-        componentMetadata.outPortMetadata.forEach(m -> ports.add(new OutPortController(m.name, m.x, m.y, (OutputPort) component.getPort(m.name), wireConnector)));
-    }
-
     ComponentController(Component component, int x, int y, IWireConnector wireConnector) {
         this(component, new Position(x, y), wireConnector);
     }
@@ -49,6 +43,11 @@ class ComponentController extends AnchorPane {
         componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
 
         this.position = pos;
+    }
+
+    private void addPortsFromMetadata(Metadata componentMetadata, Component component, IWireConnector wireConnector) {
+        componentMetadata.inPortMetadata.forEach(m -> ports.add(new InPortController(m.name, m.x, m.y, (InputPort) component.getPort(m.name), wireConnector)));
+        componentMetadata.outPortMetadata.forEach(m -> ports.add(new OutPortController(m.name, m.x, m.y, (OutputPort) component.getPort(m.name), wireConnector)));
     }
 
     public Component getComponent() {
