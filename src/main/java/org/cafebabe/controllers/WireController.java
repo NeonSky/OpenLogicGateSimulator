@@ -19,6 +19,8 @@ public class WireController {
 
     private Wire wire;
     private CubicCurve wireLine;
+    private IPositionGetter startPointPositionGetter = () -> new Position(0, 0);
+    private IPositionGetter endPointPositionGetter = () -> new Position(0, 0);
 
 
     WireController(Wire wire, int startX, int startY, int endX, int endY) {
@@ -90,5 +92,20 @@ public class WireController {
 
     public void moveEndPointTo(Position endPoint) {
         this.moveEndPointTo(endPoint.getX(), endPoint.getY());
+    }
+
+    public void updatePosition() {
+        moveStartPointTo(startPointPositionGetter.getPosition());
+        moveEndPointTo(endPointPositionGetter.getPosition());
+    }
+
+    public void bindStartPointTo(IPositionGetter startPositionGetter) {
+        this.startPointPositionGetter = startPositionGetter;
+        this.updatePosition();
+    }
+
+    public void bindEndPointTo(IPositionGetter endPositionGetter) {
+        this.endPointPositionGetter = endPositionGetter;
+        this.updatePosition();
     }
 }

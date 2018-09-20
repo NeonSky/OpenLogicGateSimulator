@@ -1,10 +1,13 @@
 package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
@@ -13,10 +16,8 @@ import org.cafebabe.model.components.connections.*;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.net.URL;
+import java.util.*;
 
 class CircuitController extends AnchorPane implements IWireConnector {
 
@@ -39,6 +40,38 @@ class CircuitController extends AnchorPane implements IWireConnector {
         this.circuit = circuit;
         this.connectionStateListeners = new ArrayList<>();
         setupFXML();
+
+        this.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+                this.onSceneChanged(newScene);
+            }
+        });
+    }
+
+    private void onSceneChanged(Scene scene) {
+        registerUserInputListeners(scene);
+    }
+
+    private void registerUserInputListeners(Scene scene) {
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, this::handleMouseClick);
+        scene.setOnKeyPressed(this::handleKeyPress);
+    }
+
+    private void handleMouseClick(MouseEvent event) {
+        if(event.getTarget() == this.componentPane) this.abortWireConnection();
+    }
+
+    private void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            abortWireConnection();
+        }
+    }
+
+    private void abortWireConnection() {
+        this.getCurrentWire().disconnectAll();
+        wireSet.remove(this.getCurrentWireController());
+        this.newCurrentWire();
+        this.broadcastConnectionState();
     }
 
     private void setupFXML() {
@@ -166,6 +199,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
 
         for (WireController wireController : this.wireSet) {
+            wireController.updatePosition();
             this.componentPane.getChildren().add(wireController.getWireLine());
             wireController.getWireLine().toBack();
         }
@@ -175,9 +209,10 @@ class CircuitController extends AnchorPane implements IWireConnector {
         if(canConnectTo(inPort)) {
             WireController wireController = this.getCurrentWireController();
             getCurrentWire().connectInputPort(inPort);
-            wireController.moveEndPointTo(inPortController.getPos());
+            wireController.bindEndPointTo(inPortController::getPos);
+
             if(!wire.isAnyOutputConnected()) {
-                wireController.moveStartPointTo(inPortController.getPos());
+                wireController.bindStartPointTo(inPortController::getPos);
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
@@ -193,9 +228,9 @@ class CircuitController extends AnchorPane implements IWireConnector {
         if(canConnectTo(outPort)) {
             WireController wireController = this.getCurrentWireController();
             getCurrentWire().connectOutputPort(outPort);
-            wireController.moveStartPointTo(outPortController.getPos());
+            wireController.bindStartPointTo(outPortController::getPos);
             if(!wire.isAnyInputConnected()) {
-                wireController.moveEndPointTo(outPortController.getPos());
+                wireController.bindEndPointTo(outPortController::getPos);
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
@@ -258,4 +293,5 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
         return this.wireController;
     }
+
 }

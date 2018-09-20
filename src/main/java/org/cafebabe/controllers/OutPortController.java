@@ -3,6 +3,9 @@ package org.cafebabe.controllers;
 import org.cafebabe.model.components.connections.IConnectionState;
 import org.cafebabe.model.components.connections.OutputPort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OutPortController extends PortController {
     private OutputPort port;
 
@@ -19,21 +22,17 @@ public class OutPortController extends PortController {
 
     @Override
     protected void handleUpdatedConnectionState(IConnectionState connectionState) {
-        if(this.port.isConnected()) {
-            connectionNodeCircle.getStyleClass().add("connected");
-            if(port.isActive()) {
-                connectionNodeCircle.getStyleClass().add("active");
-            } else {
-                connectionNodeCircle.getStyleClass().remove("active");
+        List<String> styleClasses = new ArrayList<>();
+        styleClasses.add("outPort");
+        if(this.port.isConnected()){
+            styleClasses.add("connected");
+            if(this.port.isActive()) {
+                styleClasses.add("active");
             }
-            connectionNodeCircle.getStyleClass().remove("candidate");
-        } else {
-            if (wireConnector.canConnectTo(this.port) && wireConnector.wireHasConnections()) {
-                connectionNodeCircle.getStyleClass().add("candidate");
-            } else {
-                connectionNodeCircle.getStyleClass().remove("candidate");
-            }
+        } else if (wireConnector.canConnectTo(this.port) && wireConnector.wireHasConnections()) {
+            styleClasses.add("candidate");
         }
+        connectionNodeCircle.getStyleClass().setAll(styleClasses);
     }
 
     private void connectIfPossible() {
