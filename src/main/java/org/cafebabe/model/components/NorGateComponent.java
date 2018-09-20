@@ -12,9 +12,6 @@ public class NorGateComponent extends Component {
     private InputPort input1, input2;
     private OutputPort output;
 
-    private final Map<String, InputPort> TAG_TO_INPUT;
-    private final Map<String, OutputPort> TAG_TO_OUTPUT;
-
     @ComponentConstructor
     public NorGateComponent() {
         input1 = new InputPort();
