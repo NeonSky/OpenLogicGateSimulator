@@ -25,6 +25,7 @@ public class InputPort implements IPort {
         }
         this.wire = wire;
         wire.onStateChangedEvent().addListener(this::onWireStateChanged);
+        onStateChanged.notifyAll(this);
     }
 
     /** Disconnect wire from this port */
@@ -34,6 +35,7 @@ public class InputPort implements IPort {
         }
         this.wire = null;
         wire.onStateChangedEvent().removeListener(this::onWireStateChanged);
+        onStateChanged.notifyAll(this);
     }
 
     /** Is notified with the new logical value of the input whenever it is changed */

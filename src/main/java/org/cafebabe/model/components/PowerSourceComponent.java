@@ -13,7 +13,7 @@ public class PowerSourceComponent extends Component {
     public PowerSourceComponent() {
         northOutput = new OutputPort();
         TAG_TO_OUTPUT = java.util.Map.ofEntries(
-            Map.entry("north", northOutput)
+            Map.entry("output", northOutput)
         );
 
         northOutput.setActive(true);
@@ -24,7 +24,7 @@ public class PowerSourceComponent extends Component {
 
     @Override
     public String getAnsiName() {
-        return "XOR_ANSI";
+        return "PowerSource";
     }
 
     @Override

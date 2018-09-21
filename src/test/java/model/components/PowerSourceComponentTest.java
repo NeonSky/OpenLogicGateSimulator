@@ -11,7 +11,7 @@ class PowerSourceComponentTest {
     @Test
     void metadataTest() {
         PowerSourceComponent comp = new PowerSourceComponent();
-        assertEquals("XOR_ANSI", comp.getAnsiName());
+        assertEquals("PowerSource", comp.getAnsiName());
         assertEquals("Power Source", comp.getDisplayName());
         assertEquals("Emits an active signal to all connected outputs", comp.getDescription());
     }
@@ -22,11 +22,11 @@ class PowerSourceComponentTest {
         PowerSourceComponent comp = new PowerSourceComponent();
 
         assertFalse(wire.isActive());
-        comp.connectToPort(wire, "north");
+        comp.connectToPort(wire, "output");
         assertTrue(wire.isActive());
-        comp.disconnectFromPort(wire, "north");
+        comp.disconnectFromPort(wire, "output");
         assertFalse(wire.isActive());
-        comp.connectToPort(wire, "north");
+        comp.connectToPort(wire, "output");
         assertTrue(wire.isActive());
     }
 }
