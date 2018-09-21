@@ -18,6 +18,9 @@ plugins {
 
     // Apply the SpotBugs plugin to find common bugs in java code
     id "com.github.spotbugs" version "1.6.3"
+
+    // Apply the PMD plugin
+    id "pmd"
 }
 
 // Define the main class for the application
@@ -55,3 +58,10 @@ checkstyle {
     toolVersion '8.11'
 }
 
+// Configure PMD settings
+pmd {
+    toolVersion '6.7.0'
+    consoleOutput true
+    ignoreFailures true
+    ruleSetFiles files("config/pmd/olgsRuleSet.xml")
+}
