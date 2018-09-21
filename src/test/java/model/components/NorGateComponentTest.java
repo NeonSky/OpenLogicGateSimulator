@@ -34,9 +34,9 @@ class NorGateComponentTest {
 
         // NOR-Gate output should be 0 when either inputs are on
         comp.connectToPort(in1, "input1");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
         comp.connectToPort(in2, "input2");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
 
     }
 

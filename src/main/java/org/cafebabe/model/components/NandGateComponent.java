@@ -2,9 +2,9 @@ package org.cafebabe.model.components;
 
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
 
 import java.util.Map;
+import java.util.Arrays;
 
 
 public class NandGateComponent extends Component {
@@ -32,7 +32,7 @@ public class NandGateComponent extends Component {
 
     @Override
     protected void update() {
-        output.setActive(!(input1.isActive() && input2.isActive()));
+        setOutputState(output, !(input1.isHigh() && input2.isHigh()), Arrays.asList(input1, input2));
     }
 
     @Override

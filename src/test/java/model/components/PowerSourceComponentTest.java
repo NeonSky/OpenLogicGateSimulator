@@ -21,12 +21,12 @@ class PowerSourceComponentTest {
         Wire wire = new Wire();
         PowerSourceComponent comp = new PowerSourceComponent();
 
-        assertFalse(wire.isActive());
+        assertFalse(wire.isHigh());
         comp.connectToPort(wire, "output");
-        assertTrue(wire.isActive());
+        assertTrue(wire.isHigh());
         comp.disconnectFromPort(wire, "output");
-        assertFalse(wire.isActive());
+        assertFalse(wire.isHigh());
         comp.connectToPort(wire, "output");
-        assertTrue(wire.isActive());
+        assertTrue(wire.isHigh());
     }
 }

@@ -1,6 +1,7 @@
 package model.components;
 
 import org.cafebabe.model.components.NandGateComponent;
+import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
@@ -18,29 +19,69 @@ class NandGateComponentTest {
     }
 
     @Test
-    void intendedUseTest() {
-        PowerSourceComponent power1 = new PowerSourceComponent();
-        PowerSourceComponent power2 = new PowerSourceComponent();
-        Wire in1 = new Wire();
-        Wire in2 = new Wire();
-        Wire out = new Wire();
+    void shouldGiveHighOutputWhen1AciveInput() {
+        PowerSourceComponent power = new PowerSourceComponent();
+        Wire on = new Wire();
+        power.connectToPort(on, "output");
+
+        NotGateComponent not = new NotGateComponent();
+        not.connectToPort(on, "input");
+        Wire off = new Wire();
+        not.connectToPort(off, "output");
+
         NandGateComponent comp = new NandGateComponent();
+        Wire res = new Wire();
+        comp.connectToPort(res, "output");
 
-        // Connect wires to power sources
-        power1.connectToPort(in1, "output");
-        power2.connectToPort(in2, "output");
+        comp.connectToPort(on, "input1");
+        comp.connectToPort(off, "input2");
 
-        comp.connectToPort(out, "output");
+        assertTrue(res.isHigh());
+    }
 
-        // NAND-Gate output should only be 0 both inputs are on
-        comp.connectToPort(in1, "input1");
-        assertTrue(out.isActive());
-        comp.connectToPort(in2, "input2");
-        assertFalse(out.isActive());
+    @Test
+    void shouldGiveLowOutputWhenAciveInputs() {
+        PowerSourceComponent power = new PowerSourceComponent();
+        Wire on = new Wire();
+        power.connectToPort(on, "output");
+
+        NandGateComponent comp = new NandGateComponent();
+        Wire res = new Wire();
+        comp.connectToPort(res, "output");
+
+        comp.connectToPort(on, "input1");
+        comp.connectToPort(on, "input2");
+
+        assertTrue(res.isLow());
+    }
+
+    @Test
+    void shouldGiveHighOutputWhenNoAciveInputs() {
+        PowerSourceComponent power = new PowerSourceComponent();
+        Wire on = new Wire();
+        power.connectToPort(on, "output");
+
+        NotGateComponent not = new NotGateComponent();
+        Wire off = new Wire();
+
+        not.connectToPort(on, "input");
+        not.connectToPort(off, "output");
+
+        NandGateComponent comp = new NandGateComponent();
+        Wire res = new Wire();
+        comp.connectToPort(res, "output");
+
+        comp.connectToPort(off, "input1");
+        comp.connectToPort(off, "input2");
+
+        assertTrue(res.isHigh());
     }
 
     @Test
     void noSelfEnergyTest() {
-        // TODO
+        NandGateComponent comp = new NandGateComponent();
+        Wire res = new Wire();
+        comp.connectToPort(res, "output");
+        assertTrue(res.isUndefined());
     }
 }

@@ -48,7 +48,7 @@ public class WireController {
     }
 
     private Color getWireColor() {
-        return (this.wire.isActive()) ? ACTIVE_COLOR : INACTIVE_COLOR;
+        return (this.wire.isHigh()) ? ACTIVE_COLOR : INACTIVE_COLOR;
     }
 
     private void setWireDrawingOptions() {

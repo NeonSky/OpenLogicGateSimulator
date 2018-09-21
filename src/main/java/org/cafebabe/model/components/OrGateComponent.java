@@ -4,6 +4,7 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Wire;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -17,8 +18,8 @@ public class OrGateComponent extends Component {
         input1 = new InputPort();
         input2 = new InputPort();
         TAG_TO_INPUT = Map.ofEntries(
-                Map.entry("input1", input1),
-                Map.entry("input2", input2)
+            Map.entry("input1", input1),
+            Map.entry("input2", input2)
         );
 
         output = new OutputPort();
@@ -32,7 +33,7 @@ public class OrGateComponent extends Component {
 
     @Override
     protected void update() {
-        output.setActive(input1.isActive() || input2.isActive());
+        setOutputState(output, input1.isHigh() || input2.isHigh(), Arrays.asList(input1, input2));
     }
 
     @Override

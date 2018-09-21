@@ -1,13 +1,17 @@
 package model.components;
 
+import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.XorGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class XorGateComponentTest {
+
+    private static Wire on, off;
 
     @Test
     void metadataTest() {
@@ -17,28 +21,68 @@ class XorGateComponentTest {
         assertEquals("Emits an active signal if exactly one input is active", comp.getDescription());
     }
 
+    @BeforeAll
+    static void setup() {
+        PowerSourceComponent power = new PowerSourceComponent();
+        NotGateComponent not = new NotGateComponent();
+        on = new Wire();
+        off = new Wire();
+
+        power.connectToPort(on, "output");
+        not.connectToPort(on, "input");
+        not.connectToPort(off, "output");
+    }
+
     @Test
-    void intendedUseTest() {
-        PowerSourceComponent power1 = new PowerSourceComponent();
-        PowerSourceComponent power2 = new PowerSourceComponent();
-        Wire in1 = new Wire();
-        Wire in2 = new Wire();
-        Wire out = new Wire();
+    void shouldGiveLowOutputWithHighInputs() {
         XorGateComponent comp = new XorGateComponent();
+        Wire res = new Wire();
 
-        // Connect wires to power sources
-        power1.connectToPort(in1, "output");
-        power2.connectToPort(in2, "output");
-
-        // initial state should off
-        comp.connectToPort(out, "output");
-        assertFalse(out.isActive());
+        comp.connectToPort(on, "input1");
+        comp.connectToPort(on, "input2");
+        comp.connectToPort(res, "output");
 
         // XOR-Gate output should only be 1 when only one input is active
-        comp.connectToPort(in1, "input1");
-        assertTrue(out.isActive());
-        comp.connectToPort(in2, "input2");
-        assertFalse(out.isActive());
+        assertTrue(comp.getPort("output").isLow());
+        assertTrue(res.isLow());
+    }
 
+    @Test
+    void shouldGiveLowOutputWithLowInputs() {
+        XorGateComponent comp = new XorGateComponent();
+        Wire res = new Wire();
+
+        comp.connectToPort(off, "input1");
+        comp.connectToPort(off, "input2");
+        comp.connectToPort(res, "output");
+
+        // XOR-Gate output should only be 1 when only one input is active
+        assertTrue(res.isLow());
+    }
+
+    @Test
+    void shouldGiveHighOutputWith1HighInput() {
+        XorGateComponent comp = new XorGateComponent();
+        Wire res = new Wire();
+
+        comp.connectToPort(on, "input1");
+        comp.connectToPort(off, "input2");
+        comp.connectToPort(res, "output");
+
+        // XOR-Gate output should only be 1 when only one input is active
+        assertTrue(res.isHigh());
+    }
+
+    @Test
+    void shouldGiveHighOutputWith1HighInput2() {
+        XorGateComponent comp = new XorGateComponent();
+        Wire res = new Wire();
+
+        comp.connectToPort(off, "input1");
+        comp.connectToPort(on, "input2");
+        comp.connectToPort(res, "output");
+
+        // XOR-Gate output should only be 1 when only one input is active
+        assertTrue(res.isHigh());
     }
 }

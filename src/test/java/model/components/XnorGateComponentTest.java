@@ -34,9 +34,9 @@ class XnorGateComponentTest {
 
         // XNOR-Gate output should only be 1 when amount of active inputs is non-equal to 1
         comp.connectToPort(in1, "input1");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
         comp.connectToPort(in2, "input2");
-        assertTrue(out.isActive());
+        assertTrue(out.isHigh());
     }
 
     @Test
