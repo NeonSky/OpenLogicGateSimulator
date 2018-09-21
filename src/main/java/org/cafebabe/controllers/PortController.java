@@ -6,10 +6,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.components.connections.IConnectionState;
-import org.cafebabe.model.components.connections.IPort;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.Event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,11 +36,11 @@ public abstract class PortController extends AnchorPane {
 
     protected abstract void handleUpdatedConnectionState(IConnectionState connectionState);
 
-    void computeAndSetStyleClasses(IPort port, String... extraClasses) {
+    void computeAndSetStyleClasses(Port port, String... extraClasses) {
         List<String> styleClasses = new ArrayList<>(Arrays.asList(extraClasses));
         if(port.isConnected()){
             styleClasses.add("connected");
-            if(port.isActive()) {
+            if(port.isHigh()) {
                 styleClasses.add("active");
             }
         } else if (wireConnector.canConnectTo(port) && wireConnector.wireHasConnections()) {

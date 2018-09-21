@@ -1,9 +1,11 @@
 package org.cafebabe.model.components;
 
 import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Wire;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -29,8 +31,7 @@ public class NotGateComponent extends Component {
 
     @Override
     protected void update() {
-        System.out.println(!input.isActive());
-        output.setActive(!input.isActive());
+        setOutputState(output, !input.isHigh(), Arrays.asList(input));
     }
 
     @Override

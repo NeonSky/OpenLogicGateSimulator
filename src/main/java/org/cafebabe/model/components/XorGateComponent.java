@@ -4,6 +4,7 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Wire;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -32,7 +33,10 @@ public class XorGateComponent extends Component {
 
     @Override
     protected void update() {
-        output.setActive((input1.isActive() && !input2.isActive()) || (!input1.isActive() && input2.isActive()));
+        setOutputState(
+                output,
+                (input1.isHigh() && input2.isLow()) || (input1.isLow() && input2.isHigh()),
+                Arrays.asList(input1, input2));
     }
 
     @Override

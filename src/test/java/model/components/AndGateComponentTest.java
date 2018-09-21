@@ -32,13 +32,13 @@ class AndGateComponentTest {
 
         // initial state should off
         comp.connectToPort(out, "output");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
 
         // AND-Gate output should only be 1 when both inputs are on
         comp.connectToPort(in1, "input1");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
         comp.connectToPort(in2, "input2");
-        assertTrue(out.isActive());
+        assertTrue(out.isHigh());
 
     }
 }

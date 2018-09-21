@@ -1,30 +1,23 @@
 package org.cafebabe.model.components.connections;
 
-import org.cafebabe.util.Event;
+public class OutputPort extends Port {
 
-public class OutputPort implements IPort {
-
-    private Event<OutputPort> onStateChanged;
-    private boolean isActive;
+    private LogicState state;
     private boolean connected;
 
 
     public OutputPort() {
-        onStateChanged = new Event<>();
-        isActive = false;
+        state = LogicState.UNDEFINED;
     }
 
-    /** Sets the logical value of the output */
-    public void setActive(boolean active) {
-        if(this.isActive != active) {
-            this.isActive = active;
-            onStateChanged.notifyAll(this);
-        }
+    public void setState(LogicState state) {
+        maybeChangeState(() -> {
+            this.state = state;
+        });
     }
 
-    /** Returns true IFF the output is active */
-    public boolean isActive() {
-        return isActive;
+    void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
     @Override
@@ -32,12 +25,8 @@ public class OutputPort implements IPort {
         return this.connected;
     }
 
-    /** Is notified with the new logical value of the output whenever it is changed */
-    Event<OutputPort> onStateChangedEvent() {
-        return onStateChanged;
-    }
-
-    public void setConnected(boolean connected) {
-        this.connected = connected;
+    @Override
+    public LogicState logicState() {
+        return state;
     }
 }

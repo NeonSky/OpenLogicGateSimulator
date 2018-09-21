@@ -29,7 +29,7 @@ class NotGateComponentTest {
         comp.connectToPort(out, "output");
 
         // Connect wires to power sources
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
     }
 
     @Test

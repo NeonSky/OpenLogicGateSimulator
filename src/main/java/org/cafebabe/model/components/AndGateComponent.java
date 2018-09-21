@@ -4,6 +4,7 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 
 import java.util.Map;
+import java.util.Arrays;
 
 
 public class AndGateComponent extends Component {
@@ -31,7 +32,7 @@ public class AndGateComponent extends Component {
 
     @Override
     protected void update() {
-        output.setActive(input1.isActive() && input2.isActive());
+        setOutputState(output, input1.isHigh() && input2.isHigh(), Arrays.asList(input1, input2));
     }
 
     @Override

@@ -32,13 +32,13 @@ class OrGateComponentTest {
 
         // initial state should off
         comp.connectToPort(out, "output");
-        assertFalse(out.isActive());
+        assertFalse(out.isHigh());
 
-        // OR-Gate output should be 1 when either inputs are on
+        // AND-Gate output should only be 1 when both inputs are on
         comp.connectToPort(in1, "input1");
-        assertTrue(out.isActive());
+        assertFalse(out.isHigh());
         comp.connectToPort(in2, "input2");
-        assertTrue(out.isActive());
+        assertTrue(out.isHigh());
 
     }
 }
