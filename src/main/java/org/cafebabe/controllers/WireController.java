@@ -16,23 +16,22 @@ public class WireController {
     private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
     private static final int WIRE_WIDTH = 4;
 
-
     private Wire wire;
     private CubicCurve wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
     private PositionTracker endPointTracker = PositionTracker.trackNothing;
 
 
-    WireController(Wire wire, int startX, int startY, int endX, int endY) {
-        this(wire, new Position(startX, startY), new Position(endX, endY));
-    }
-
     WireController(Wire wire, Position startPoint, Position endPoint) {
         this.wire = wire;
         this.wireLine = new CubicCurve();
         moveLineTo(startPoint, endPoint);
         setWireDrawingOptions();
-        this.wire.onStateChangedEvent().addListener(this::updateState);
+        this.wire.onStateChangedEvent().addListener((w) -> this.updateState());
+    }
+
+    WireController(Wire wire, int startX, int startY, int endX, int endY) {
+        this(wire, new Position(startX, startY), new Position(endX, endY));
     }
 
 
@@ -61,7 +60,7 @@ public class WireController {
         this.wireLine.setEffect(dropShadow);
     }
 
-    private void updateState(Wire wire) {
+    private void updateState() {
         this.wireLine.setStroke(getWireColor());
     }
 
