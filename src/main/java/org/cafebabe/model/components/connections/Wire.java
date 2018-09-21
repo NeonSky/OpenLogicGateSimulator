@@ -60,6 +60,7 @@ public class Wire {
 
     /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
     public void connectOutputPort(OutputPort output) {
+        boolean wasActive = isActive();
         if(isOutputConnected(output)) {
             throw new RuntimeException("An OutputPort can only be added once.");
         }
@@ -69,10 +70,14 @@ public class Wire {
             powerSources.add(output);
         }
         output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
+        if(isActive() != wasActive) {
+            onStateChanged.notifyAll(this);
+        }
     }
 
     /** Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException */
     public void disconnectOutputPort(OutputPort output) {
+        boolean wasActive = isActive();
         if(!isOutputConnected(output)) {
             throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
         }
@@ -80,10 +85,13 @@ public class Wire {
         connectedOutputs.remove(output);
         powerSources.remove(output);
         output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
+        if(isActive() != wasActive) {
+            onStateChanged.notifyAll(this);
+        }
     }
 
     /** Returns true IFF the given InputPort is connected to this wire. */
-    public boolean isInputConnected(InputPort input) {
+    private boolean isInputConnected(InputPort input) {
         return connectedInputs.contains(input);
     }
 
@@ -92,7 +100,7 @@ public class Wire {
     }
 
     /** Returns true IFF the given OutputPort is connected to this wire. */
-    public boolean isOutputConnected(OutputPort output) {
+    private boolean isOutputConnected(OutputPort output) {
         return connectedOutputs.contains(output);
     }
 

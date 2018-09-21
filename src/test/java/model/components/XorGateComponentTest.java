@@ -27,8 +27,8 @@ class XorGateComponentTest {
         XorGateComponent comp = new XorGateComponent();
 
         // Connect wires to power sources
-        power1.connectToPort(in1, "north");
-        power2.connectToPort(in2, "north");
+        power1.connectToPort(in1, "output");
+        power2.connectToPort(in2, "output");
 
         // initial state should off
         comp.connectToPort(out, "output");

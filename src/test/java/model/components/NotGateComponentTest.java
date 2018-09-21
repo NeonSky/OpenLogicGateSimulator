@@ -24,7 +24,7 @@ class NotGateComponentTest {
         Wire out = new Wire();
         NotGateComponent comp = new NotGateComponent();
 
-        power.connectToPort(in, "north");
+        power.connectToPort(in, "output");
         comp.connectToPort(in, "input");
         comp.connectToPort(out, "output");
 
