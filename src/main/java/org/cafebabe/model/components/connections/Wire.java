@@ -1,14 +1,18 @@
 package org.cafebabe.model.components.connections;
 
 import org.cafebabe.util.Event;
+
+import javax.swing.*;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
-public class Wire {
+public class Wire extends LogicStateContainer {
 
-    private Event<Wire> onStateChanged;
     private Set<InputPort> connectedInputs;
     private Set<OutputPort> connectedOutputs;
-    private Set<OutputPort> powerSources;
+    private Set<LogicStateContainer> powerSources;
+    private Set<LogicStateContainer> gndSources;
 
 
     public Wire() {
@@ -16,37 +20,44 @@ public class Wire {
         connectedInputs = new HashSet<>();
         connectedOutputs = new HashSet<>();
         powerSources = new HashSet<>();
+        gndSources = new HashSet<>();
     }
 
     public void disconnectAll() {
-        for(InputPort inport: this.connectedInputs) {
-            disconnectInputPort(inport);
-        }
-        for(OutputPort outport: this.connectedOutputs) {
-            disconnectOutputPort(outport);
-        }
+        maybeChangeState(() -> {
+            for(InputPort inport : this.connectedInputs) {
+                disconnectInputPort(inport);
+            }
+            for(OutputPort outport : this.connectedOutputs) {
+                disconnectOutputPort(outport);
+            }
+        });
     }
 
     /** Updates the wire's logical value based on updated output value */
-    private void onConnectedOutputStateChanged(OutputPort updatedPort) {
-        boolean wasActive = isActive();
-        if(updatedPort.isActive()) {
-            powerSources.add(updatedPort);
-        } else {
-            powerSources.remove(updatedPort);
-        }
-        if(isActive() != wasActive) {
-            onStateChanged.notifyAll(this);
-        }
+    private void onConnectedOutputStateChanged(LogicStateContainer updatedPort) {
+        maybeChangeState(() -> {
+            if (updatedPort.isHigh()) {
+                powerSources.add(updatedPort);
+            } else {
+                powerSources.remove(updatedPort);
+            }
+
+            if (updatedPort.isLow()) {
+                gndSources.add(updatedPort);
+            } else {
+                gndSources.remove(updatedPort);
+            }
+        });
     }
 
     /** Connects an InputPort if it isn't already connected, otherwise throws a RuntimeException */
     public void connectInputPort(InputPort input) {
-        if(isInputConnected(input)) {
+        if (isInputConnected(input)) {
             throw new RuntimeException("An InputPort can only be added once.");
         }
         connectedInputs.add(input);
-        input.connectWire(this);
+        input.setStateSource(this);
     }
 
     /** Disconnects an InputPort if it is connected, otherwise throws a RuntimeException */
@@ -55,39 +66,46 @@ public class Wire {
             throw new RuntimeException("An InputPort that isn't connected can't be removed.");
         }
         connectedInputs.remove(input);
-        input.disconnectWire(this);
+        input.setStateSource(null);
     }
 
     /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
     public void connectOutputPort(OutputPort output) {
-        boolean wasActive = isActive();
-        if(isOutputConnected(output)) {
-            throw new RuntimeException("An OutputPort can only be added once.");
-        }
-        output.setConnected(true);
-        connectedOutputs.add(output);
-        if(output.isActive()) {
-            powerSources.add(output);
-        }
-        output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
-        if(isActive() != wasActive) {
-            onStateChanged.notifyAll(this);
-        }
+        maybeChangeState(() -> {
+            if(isOutputConnected(output)) {
+                throw new RuntimeException("An OutputPort can only be added once.");
+            }
+
+            output.setConnected(true);
+            connectedOutputs.add(output);
+            if(output.isHigh()) powerSources.add(output);
+            if(output.isLow()) gndSources.add(output);
+
+            output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
+        });
     }
 
     /** Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException */
     public void disconnectOutputPort(OutputPort output) {
-        boolean wasActive = isActive();
-        if(!isOutputConnected(output)) {
-            throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
-        }
-        output.setConnected(false);
-        connectedOutputs.remove(output);
-        powerSources.remove(output);
-        output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
-        if(isActive() != wasActive) {
-            onStateChanged.notifyAll(this);
-        }
+        maybeChangeState(() -> {
+            if(!isOutputConnected(output)) {
+                throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
+            }
+
+            output.setConnected(false);
+            connectedOutputs.remove(output);
+            powerSources.remove(output);
+            gndSources.remove(output);
+
+            output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
+        });
+    }
+
+    @Override
+    public LogicState logicState() {
+        if(gndSources.isEmpty() && powerSources.isEmpty()) return LogicState.UNDEFINED;
+        if(powerSources.isEmpty()) return LogicState.LOW;
+        return LogicState.HIGH;
     }
 
     /** Returns true IFF the given InputPort is connected to this wire. */
@@ -106,16 +124,6 @@ public class Wire {
 
     public boolean isAnyOutputConnected() {
         return !connectedOutputs.isEmpty();
-    }
-
-    /** Returns true IFF the wire has a logic state of 1. */
-    public boolean isActive() {
-        return !powerSources.isEmpty();
-    }
-
-    /** Is notified with the new logical value of the output whenever it is changed */
-    public Event<Wire> onStateChangedEvent() {
-        return onStateChanged;
     }
 
     public IConnectionState getConnectionState() {

@@ -257,7 +257,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
     }
 
     @Override
-    public boolean canConnectTo(IPort port) {
+    public boolean canConnectTo(Port port) {
         if(port instanceof InputPort) {
             return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
         } else if(port instanceof OutputPort){

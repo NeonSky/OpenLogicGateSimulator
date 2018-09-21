@@ -14,28 +14,28 @@ class WireTest {
         OutputPort output = new OutputPort();
         InputPort input = new InputPort();
 
-        assertFalse(output.isActive());
-        assertFalse(wire.isActive());
-        assertFalse(input.isActive());
+        assertFalse(output.isHigh());
+        assertFalse(wire.isHigh());
+        assertFalse(input.isHigh());
 
         wire.connectOutputPort(output);
         wire.connectInputPort(input);
 
-        assertFalse(output.isActive());
-        assertFalse(wire.isActive());
-        assertFalse(input.isActive());
+        assertFalse(output.isHigh());
+        assertFalse(wire.isHigh());
+        assertFalse(input.isHigh());
 
-        output.setActive(true);
+        output.setState(LogicState.HIGH);
 
-        assertTrue(output.isActive());
-        assertTrue(wire.isActive());
-        assertTrue(input.isActive());
+        assertTrue(output.isHigh());
+        assertTrue(wire.isHigh());
+        assertTrue(input.isHigh());
 
-        output.setActive(false);
+        output.setState(LogicState.LOW);
 
-        assertFalse(output.isActive());
-        assertFalse(wire.isActive());
-        assertFalse(input.isActive());
+        assertFalse(output.isHigh());
+        assertFalse(wire.isHigh());
+        assertFalse(input.isHigh());
     }
 
     @Test
@@ -46,26 +46,26 @@ class WireTest {
         wire.connectOutputPort(output);
         wire.connectInputPort(input);
 
-        assertFalse(output.isActive());
-        assertFalse(wire.isActive());
-        assertFalse(input.isActive());
+        assertFalse(output.isHigh());
+        assertFalse(wire.isHigh());
+        assertFalse(input.isHigh());
 
-        output.setActive(true);
+        output.setState(LogicState.HIGH);
 
-        assertTrue(output.isActive());
-        assertTrue(wire.isActive());
-        assertTrue(input.isActive());
+        assertTrue(output.isHigh());
+        assertTrue(wire.isHigh());
+        assertTrue(input.isHigh());
 
         wire.disconnectInputPort(input);
 
-        assertTrue(output.isActive());
-        assertTrue(wire.isActive());
-        assertFalse(input.isActive());
+        assertTrue(output.isHigh());
+        assertTrue(wire.isHigh());
+        assertFalse(input.isHigh());
 
         wire.disconnectOutputPort(output);
 
-        assertTrue(output.isActive());
-        assertFalse(wire.isActive());
-        assertFalse(input.isActive());
+        assertTrue(output.isHigh());
+        assertFalse(wire.isHigh());
+        assertFalse(input.isHigh());
     }
 }
