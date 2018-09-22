@@ -5,12 +5,17 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurve;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import java.util.Map;
+import org.cafebabe.util.ColorUtil;
+import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.workspace.Position;
+import org.cafebabe.util.Event;
+import java.util.function.Consumer;
 
 public class WireController implements ISelectable, IDisconnectable {
 
@@ -28,17 +33,20 @@ public class WireController implements ISelectable, IDisconnectable {
 
     private Boolean isSelected = false;
     private Wire wire;
-    private CubicCurve wireLine;
+    private Line wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
     private PositionTracker endPointTracker = PositionTracker.trackNothing;
+    private Event onWireClickedEvent = new Event();
 
 
     WireController(Wire wire, Position startPoint, Position endPoint) {
         this.wire = wire;
-        this.wireLine = new CubicCurve();
+        this.wireLine = new Line();
         moveLineTo(startPoint, endPoint);
         setWireDrawingOptions();
-        this.wire.onStateChangedEvent().addListener((w) -> this.updateState());
+        this.wire.onStateChangedEvent().addListener((w) -> this.updateVisualState());
+        this.wireLine.setPickOnBounds(false);
+        this.wireLine.setOnMouseClicked(x -> this.onWireClickedEvent.notifyAll(this));
     }
 
     WireController(Wire wire, int startX, int startY, int endX, int endY) {
@@ -71,7 +79,7 @@ public class WireController implements ISelectable, IDisconnectable {
         this.wireLine.setEffect(dropShadow);
     }
 
-    private void updateState() {
+    private void updateVisualState() {
         this.wireLine.setStroke(getWireColor());
     }
 
@@ -80,12 +88,15 @@ public class WireController implements ISelectable, IDisconnectable {
         double startY = this.wireLine.getStartY();
         double endX = this.wireLine.getEndX();
         double endY = this.wireLine.getEndY();
-        this.wireLine.setControlX1((endX + startX) / 2);
-        this.wireLine.setControlY1(startY);
-        this.wireLine.setControlX2((endX + startX) / 2);
-        this.wireLine.setControlY2(endY);
     }
 
+    public void addClickListener(Consumer listener) {
+        this.onWireClickedEvent.addListener(listener);
+    }
+
+    public void removeClickListener(Consumer listener) {
+        this.onWireClickedEvent.removeListener(listener);
+    }
 
     public Node getWireLine() {
         return this.wireLine;
@@ -126,18 +137,18 @@ public class WireController implements ISelectable, IDisconnectable {
     @Override
     public void select() {
         setSelected(true);
-        updateState();
+        updateVisualState();
     }
 
     @Override
     public void deselect() {
         setSelected(false);
-        updateState();
+        updateVisualState();
     }
 
     @Override
     public void disconnectFromWorkspace() {
-        this.wire.onStateChangedEvent().removeListener((w) -> this.updateState());
+        this.wire.onStateChangedEvent().removeListener((w) -> this.updateVisualState());
         this.wire.disconnectAll();
         this.startPointTracker = null;
         this.endPointTracker = null;
