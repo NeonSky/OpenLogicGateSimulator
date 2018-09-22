@@ -7,14 +7,24 @@ import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
+import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
+
+import java.util.Map;
 
 public class WireController {
 
     private static final Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
     private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
+    private static final Color UNDEFINED_COLOR = Color.color(0.8, 0.8, 0, 1);
     private static final int WIRE_WIDTH = 4;
+
+    private static final Map<LogicState, Color> STATE_TO_COLOR = Map.ofEntries(
+        Map.entry(LogicState.HIGH, ACTIVE_COLOR),
+        Map.entry(LogicState.LOW, INACTIVE_COLOR),
+        Map.entry(LogicState.UNDEFINED, UNDEFINED_COLOR)
+    );
 
     private Wire wire;
     private CubicCurve wireLine;
@@ -48,7 +58,7 @@ public class WireController {
     }
 
     private Color getWireColor() {
-        return (this.wire.isHigh()) ? ACTIVE_COLOR : INACTIVE_COLOR;
+        return STATE_TO_COLOR.get(this.wire.logicState());
     }
 
     private void setWireDrawingOptions() {

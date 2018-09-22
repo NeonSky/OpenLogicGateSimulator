@@ -11,7 +11,7 @@ public class OutputPort extends Port {
     }
 
     public void setState(LogicState state) {
-        maybeChangeState(() -> {
+        notifyIfStateChanges(() -> {
             this.state = state;
         });
     }

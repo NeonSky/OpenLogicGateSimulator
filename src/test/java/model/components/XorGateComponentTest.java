@@ -34,7 +34,7 @@ class XorGateComponentTest {
     }
 
     @Test
-    void shouldGiveLowOutputWithHighInputs() {
+    void highInputsShouldGiveLowOutput() {
         XorGateComponent comp = new XorGateComponent();
         Wire res = new Wire();
 
@@ -48,7 +48,7 @@ class XorGateComponentTest {
     }
 
     @Test
-    void shouldGiveLowOutputWithLowInputs() {
+    void lowInputsShouldGiveLowOutput() {
         XorGateComponent comp = new XorGateComponent();
         Wire res = new Wire();
 
@@ -61,7 +61,7 @@ class XorGateComponentTest {
     }
 
     @Test
-    void shouldGiveHighOutputWith1HighInput() {
+    void oneHighInputShouldGiveHighOutput() {
         XorGateComponent comp = new XorGateComponent();
         Wire res = new Wire();
 
@@ -74,7 +74,7 @@ class XorGateComponentTest {
     }
 
     @Test
-    void shouldGiveHighOutputWith1HighInput2() {
+    void oneHighInput2ShouldGiveHighOutput() {
         XorGateComponent comp = new XorGateComponent();
         Wire res = new Wire();
 

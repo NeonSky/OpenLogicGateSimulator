@@ -16,7 +16,7 @@ public class PowerSourceComponent extends Component {
             Map.entry("output", northOutput)
         );
 
-        setOutputState(northOutput, true, null);
+        setOutputState(northOutput, true);
     }
 
     @Override

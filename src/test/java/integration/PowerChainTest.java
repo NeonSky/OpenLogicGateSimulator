@@ -31,7 +31,7 @@ public class PowerChainTest {
     }
 
     @Test
-    void shouldChainPowerInSmallChain() {
+    void smallComponentChainShouldFlowPower() {
         AndGateComponent and = new AndGateComponent();
         Wire res = new Wire();
 
@@ -58,7 +58,7 @@ public class PowerChainTest {
 
 
     @Test
-    void shouldChainLongNotChain() {
+    void notGateChainShouldAlternate() {
         Wire prev = on;
 
         boolean flipper = false;
@@ -75,7 +75,7 @@ public class PowerChainTest {
     }
 
     @Test
-    void shouldReverseChainLongNotChain() {
+    void reverseNotGateChainShouldAlternate() {
         PowerSourceComponent p = new PowerSourceComponent();
 
         Stack<Wire> wireStack = new Stack<>();
@@ -109,7 +109,7 @@ public class PowerChainTest {
     }
 
     @Test
-    void shouldChainLongOrChain() {
+    void orGateChainShouldFlowPower() {
         Wire prev = on;
 
         for(int i = 0; i < 17; i++) {
@@ -124,7 +124,7 @@ public class PowerChainTest {
     }
 
     @Test
-    void shouldChainLongReversedOrChain() {
+    void reversedOrGateChainShouldFlowPower() {
         Wire res = new Wire();
 
         Wire prev = res;
