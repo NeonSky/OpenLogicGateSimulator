@@ -35,7 +35,7 @@ public class XnorGateComponent extends Component {
     protected void update() {
         setOutputState(
                 output,
-                !((input1.isHigh() && !input2.isHigh()) || (!input1.isHigh() && input2.isHigh())),
+                (input1.isHigh() && input2.isHigh()) || (input1.isLow() && input2.isLow()),
                 Arrays.asList(input1, input2));
     }
 

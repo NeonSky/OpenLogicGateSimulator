@@ -2,10 +2,7 @@ package org.cafebabe.model.components.connections;
 
 import org.cafebabe.util.Event;
 
-import javax.swing.*;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 
 public class Wire extends LogicStateContainer {
 
@@ -24,7 +21,7 @@ public class Wire extends LogicStateContainer {
     }
 
     public void disconnectAll() {
-        maybeChangeState(() -> {
+        notifyIfStateChanges(() -> {
             for(InputPort inport : this.connectedInputs) {
                 disconnectInputPort(inport);
             }
@@ -36,17 +33,23 @@ public class Wire extends LogicStateContainer {
 
     /** Updates the wire's logical value based on updated output value */
     private void onConnectedOutputStateChanged(LogicStateContainer updatedPort) {
-        maybeChangeState(() -> {
-            if (updatedPort.isHigh()) {
-                powerSources.add(updatedPort);
-            } else {
-                powerSources.remove(updatedPort);
-            }
-
-            if (updatedPort.isLow()) {
-                gndSources.add(updatedPort);
-            } else {
-                gndSources.remove(updatedPort);
+        if(!connectedOutputs.contains(updatedPort)) {
+            throw new RuntimeException("Updated port isn't connected!");
+        }
+        notifyIfStateChanges(() -> {
+            switch(updatedPort.logicState()) {
+                case LOW:
+                    gndSources.add(updatedPort);
+                    powerSources.remove(updatedPort);
+                    break;
+                case HIGH:
+                    gndSources.remove(updatedPort);
+                    powerSources.add(updatedPort);
+                    break;
+                case UNDEFINED:
+                    gndSources.remove(updatedPort);
+                    powerSources.remove(updatedPort);
+                    break;
             }
         });
     }
@@ -71,7 +74,7 @@ public class Wire extends LogicStateContainer {
 
     /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
     public void connectOutputPort(OutputPort output) {
-        maybeChangeState(() -> {
+        notifyIfStateChanges(() -> {
             if(isOutputConnected(output)) {
                 throw new RuntimeException("An OutputPort can only be added once.");
             }
@@ -87,7 +90,7 @@ public class Wire extends LogicStateContainer {
 
     /** Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException */
     public void disconnectOutputPort(OutputPort output) {
-        maybeChangeState(() -> {
+        notifyIfStateChanges(() -> {
             if(!isOutputConnected(output)) {
                 throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
             }
@@ -103,7 +106,7 @@ public class Wire extends LogicStateContainer {
 
     @Override
     public LogicState logicState() {
-        if(gndSources.isEmpty() && powerSources.isEmpty()) return LogicState.UNDEFINED;
+        if(powerSources.isEmpty() && gndSources.isEmpty()) return LogicState.UNDEFINED;
         if(powerSources.isEmpty()) return LogicState.LOW;
         return LogicState.HIGH;
     }

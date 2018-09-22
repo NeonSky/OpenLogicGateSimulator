@@ -1,5 +1,6 @@
 package model.components;
 
+import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.OrGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
@@ -19,26 +20,25 @@ class OrGateComponentTest {
 
     @Test
     void intendedUseTest() {
-        PowerSourceComponent power1 = new PowerSourceComponent();
-        PowerSourceComponent power2 = new PowerSourceComponent();
-        Wire in1 = new Wire();
-        Wire in2 = new Wire();
-        Wire out = new Wire();
+        PowerSourceComponent power = new PowerSourceComponent();
+        NotGateComponent not = new NotGateComponent();
+        Wire on = new Wire();
+        Wire off = new Wire();
+
+        power.connectToPort(on, "output");
+        not.connectToPort(on, "input");
+        not.connectToPort(off, "output");
+
+        // initially undefined
         OrGateComponent comp = new OrGateComponent();
+        Wire res = new Wire();
+        comp.connectToPort(res, "output");
+        assertTrue(res.isUndefined());
 
-        // Connect wires to power sources
-        power1.connectToPort(in1, "output");
-        power2.connectToPort(in2, "output");
-
-        // initial state should off
-        comp.connectToPort(out, "output");
-        assertFalse(out.isHigh());
-
-        // AND-Gate output should only be 1 when both inputs are on
-        comp.connectToPort(in1, "input1");
-        assertFalse(out.isHigh());
-        comp.connectToPort(in2, "input2");
-        assertTrue(out.isHigh());
+        // OR-Gate output should be 1 when either inputs are on
+        comp.connectToPort(off, "input1");
+        comp.connectToPort(on, "input2");
+        assertTrue(res.isHigh());
 
     }
 }

@@ -10,10 +10,10 @@ public abstract class LogicStateContainer {
 
 
     /** Run a function while checking if the state changed */
-    protected void maybeChangeState(Runnable func) {
+    protected void notifyIfStateChanges(Runnable stateMutator) {
         LogicState prevState = logicState();
         try {
-            func.run();
+            stateMutator.run();
         } catch (Exception e) {
             e.printStackTrace();
         }

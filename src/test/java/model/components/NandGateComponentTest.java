@@ -19,7 +19,7 @@ class NandGateComponentTest {
     }
 
     @Test
-    void shouldGiveHighOutputWhen1AciveInput() {
+    void oneHighInputShouldGiveHighOutput() {
         PowerSourceComponent power = new PowerSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
@@ -40,7 +40,7 @@ class NandGateComponentTest {
     }
 
     @Test
-    void shouldGiveLowOutputWhenAciveInputs() {
+    void highInputsShouldGiveLowOutput() {
         PowerSourceComponent power = new PowerSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
@@ -56,7 +56,7 @@ class NandGateComponentTest {
     }
 
     @Test
-    void shouldGiveHighOutputWhenNoAciveInputs() {
+    void noHighInputsShouldGiveHighOutput() {
         PowerSourceComponent power = new PowerSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
