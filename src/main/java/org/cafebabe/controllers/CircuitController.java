@@ -1,14 +1,13 @@
 package org.cafebabe.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.cafebabe.controllers.util.CanvasGridPane;
+import org.cafebabe.controllers.util.ComponentSelector;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.Component;
@@ -16,12 +15,10 @@ import org.cafebabe.model.components.connections.*;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.Event;
-
-import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
 
-class CircuitController extends AnchorPane implements IWireConnector {
+class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorPane implements IWireConnector {
 
     @FXML private Pane backgroundPane;
     private CanvasGridPane gridPane;
@@ -37,6 +34,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
     private Event<IConnectionState> onConnectionStateChanged = new Event<>();
     private WireController wireController;
     private Wire wire;
+    private ComponentSelector componentSelector = new ComponentSelector();
 
     CircuitController(Circuit circuit) {
         this.circuit = circuit;
@@ -59,7 +57,10 @@ class CircuitController extends AnchorPane implements IWireConnector {
     }
 
     private void handleMouseClick(MouseEvent event) {
-        if(event.getTarget() == this.componentPane) this.abortWireConnection();
+        if(event.getTarget() == this.componentPane) {
+            this.abortWireConnection();
+            this.componentSelector.clearSelection();
+        }
     }
 
     private void handleKeyPress(KeyEvent event) {
@@ -162,6 +163,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
 
         ComponentController newCompController = new ComponentController(component, x, y, this);
         newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
+        newCompController.addClickListener(comp -> this.componentSelector.handleSelection((T)comp));
         this.circuitComponentSet.add(newCompController);
 
         refreshComponentPane();
@@ -218,6 +220,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
+                this.
                 newCurrentWire();
             }
 
@@ -293,6 +296,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         if(this.wireController == null) {
             this.wireController = new WireController(this.getCurrentWire(), 0,0,0,0);
             this.wireSet.add(this.wireController);
+            this.wireController.addClickListener(x -> this.componentSelector.handleSelection((T)x));
         }
         return this.wireController;
     }
