@@ -13,17 +13,19 @@ public abstract class Component {
     protected Map<String, OutputPort> TAG_TO_OUTPUT = Collections.unmodifiableMap(new HashMap<>());
 
 
+    protected void setOutputState(OutputPort out, boolean state) {
+        out.setState(state ? LogicState.HIGH : LogicState.LOW);
+    }
+
     protected void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
-        if(relatedInputs != null) {
-            for (InputPort input : relatedInputs) {
-                if (input.logicState() == LogicState.UNDEFINED) {
-                    out.setState(LogicState.UNDEFINED);
-                    return;
-                }
+        for (InputPort input : relatedInputs) {
+            if (input.logicState() == LogicState.UNDEFINED) {
+                out.setState(LogicState.UNDEFINED);
+                return;
             }
         }
 
-        out.setState(state ? LogicState.HIGH : LogicState.LOW);
+        setOutputState(out, state);
     }
 
     public void connectToPort(Wire wire, String portTag) {

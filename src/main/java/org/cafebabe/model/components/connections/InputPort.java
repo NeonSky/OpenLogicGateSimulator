@@ -6,7 +6,7 @@ public class InputPort extends Port {
 
 
     void setStateSource(LogicStateContainer stateSource) {
-        maybeChangeState(() -> {
+        notifyIfStateChanges(() -> {
             if(stateSource instanceof Port) {
                 throw new RuntimeException("Can't directly connect an input port with another port");
             }
