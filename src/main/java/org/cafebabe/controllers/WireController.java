@@ -10,14 +10,14 @@ import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
-
 import java.util.Map;
 
-public class WireController {
+public class WireController implements ISelectable, IDisconnectable {
 
     private static final Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
     private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
     private static final Color UNDEFINED_COLOR = Color.color(0.8, 0.8, 0, 1);
+    private static final Color SELECTED_COLOR = Color.color(198.0/255, 209.0/255, 215.0/255, 1);
     private static final int WIRE_WIDTH = 4;
 
     private static final Map<LogicState, Color> STATE_TO_COLOR = Map.ofEntries(
@@ -26,6 +26,7 @@ public class WireController {
         Map.entry(LogicState.UNDEFINED, UNDEFINED_COLOR)
     );
 
+    private Boolean isSelected = false;
     private Wire wire;
     private CubicCurve wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
@@ -116,5 +117,30 @@ public class WireController {
     public void bindEndPointTo(PositionTracker endPointTracker) {
         this.endPointTracker = endPointTracker;
         this.updatePosition();
+    }
+
+    private void setSelected(Boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    @Override
+    public void select() {
+        setSelected(true);
+        updateState();
+    }
+
+    @Override
+    public void deselect() {
+        setSelected(false);
+        updateState();
+    }
+
+    @Override
+    public void disconnectFromWorkspace() {
+        this.wire.onStateChangedEvent().removeListener((w) -> this.updateState());
+        this.wire.disconnectAll();
+        this.startPointTracker = null;
+        this.endPointTracker = null;
+        this.wire = null;
     }
 }
