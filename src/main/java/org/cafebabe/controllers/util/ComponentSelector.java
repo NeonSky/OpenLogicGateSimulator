@@ -3,22 +3,21 @@ package org.cafebabe.controllers.util;
 import org.cafebabe.controllers.IDisconnectable;
 import org.cafebabe.controllers.ISelectable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class ComponentSelector<T extends ISelectable & IDisconnectable> {
 
-    Set<T> selectedComponents;
+    Set<T> selectedComponents = new HashSet<>();
 
     public void deleteSelectedComponents(Set<T> allComponents) {
         allComponents.removeAll(this.selectedComponents);
-        for (T component : this.selectedComponents) {
-            component.disconnectFromWorkspace();
-        }
+        selectedComponents.forEach(x -> x.disconnectFromWorkspace());
         clearSelection();
     }
 
     public void handleSelection(T component) {
-        if (this.selectedComponents.contains(component)) {
+        if (!this.selectedComponents.contains(component)) {
             this.select(component);
         } else {
             this.deselect(component);
@@ -26,6 +25,7 @@ public class ComponentSelector<T extends ISelectable & IDisconnectable> {
     }
 
     public void clearSelection() {
+        selectedComponents.forEach(x -> x.deselect());
         this.selectedComponents.clear();
     }
 
