@@ -66,6 +66,9 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             abortWireConnection();
+        } else if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
+            this.componentSelector.deleteSelectedComponents(Arrays.asList(this.wireSet, this.circuitComponentSet));
+            this.refreshComponentPane();
         }
     }
 
