@@ -1,7 +1,9 @@
 package org.cafebabe.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
@@ -18,10 +20,9 @@ import org.cafebabe.util.Event;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 
-class ComponentController extends AnchorPane implements ISelectable, IDisconnectable {
+public class ComponentController extends AnchorPane implements ISelectable, IDisconnectable {
 
     @FXML private SVGPath componentSvgPath;
     @FXML private Group svgGroup;
@@ -30,7 +31,6 @@ class ComponentController extends AnchorPane implements ISelectable, IDisconnect
     private Component component;
     private Position position;
     private Boolean isSelected = false;
-    private Event onComponentClickedEvent = new Event();
 
     ComponentController(Component component, int x, int y, IWireConnector wireConnector) {
         this(component, new Position(x, y), wireConnector);
@@ -49,8 +49,6 @@ class ComponentController extends AnchorPane implements ISelectable, IDisconnect
 
         this.position = pos;
         this.updateVisualState();
-
-        this.componentSvgPath.setOnMouseClicked(x -> this.onComponentClickedEvent.notifyAll(this));
     }
 
     private void addPortsFromMetadata(Metadata componentMetadata, Component component, IWireConnector wireConnector) {
@@ -76,12 +74,12 @@ class ComponentController extends AnchorPane implements ISelectable, IDisconnect
         componentSvgPath.setFill(newColor);
     }
 
-    public void addClickListener(Consumer listener) {
-        this.onComponentClickedEvent.addListener(listener);
+    public void addClickListener(EventHandler<MouseEvent> listener) {
+        this.componentSvgPath.addEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
 
-    public void removeClickListener(Consumer listener) {
-        this.onComponentClickedEvent.removeListener(listener);
+    public void removeClickListener(EventHandler<MouseEvent> listener) {
+        this.componentSvgPath.removeEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
 
     @Override
