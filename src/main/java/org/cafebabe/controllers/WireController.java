@@ -1,9 +1,12 @@
 package org.cafebabe.controllers;
 
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
@@ -36,8 +39,6 @@ public class WireController implements ISelectable, IDisconnectable {
     private Line wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
     private PositionTracker endPointTracker = PositionTracker.trackNothing;
-    private Event onWireClickedEvent = new Event();
-
 
     WireController(Wire wire, Position startPoint, Position endPoint) {
         this.wire = wire;
@@ -46,7 +47,6 @@ public class WireController implements ISelectable, IDisconnectable {
         setWireDrawingOptions();
         this.wire.onStateChangedEvent().addListener((w) -> this.updateVisualState());
         this.wireLine.setPickOnBounds(false);
-        this.wireLine.setOnMouseClicked(x -> this.onWireClickedEvent.notifyAll(this));
     }
 
     WireController(Wire wire, int startX, int startY, int endX, int endY) {
@@ -90,12 +90,12 @@ public class WireController implements ISelectable, IDisconnectable {
         double endY = this.wireLine.getEndY();
     }
 
-    public void addClickListener(Consumer listener) {
-        this.onWireClickedEvent.addListener(listener);
+    public void addClickListener(EventHandler<MouseEvent> listener) {
+        this.wireLine.addEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
 
-    public void removeClickListener(Consumer listener) {
-        this.onWireClickedEvent.removeListener(listener);
+    public void removeClickListener(EventHandler<MouseEvent> listener) {
+        this.wireLine.removeEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
 
     public Node getWireLine() {

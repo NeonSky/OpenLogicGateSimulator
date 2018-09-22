@@ -67,8 +67,8 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
         if (event.getCode() == KeyCode.ESCAPE) {
             abortWireConnection();
         } else if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-            this.componentSelector.deleteSelectedComponents(Arrays.asList(this.wireSet, this.circuitComponentSet));
-            this.refreshComponentPane();
+            List<Set<T>> allComponents = Arrays.asList((Set<T>)this.wireSet, (Set<T>)this.circuitComponentSet);
+            this.componentSelector.deleteSelectedComponents(allComponents, this::refreshComponentPane);
         }
     }
 
@@ -166,7 +166,7 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
 
         ComponentController newCompController = new ComponentController(component, x, y, this);
         newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
-        newCompController.addClickListener(comp -> this.componentSelector.handleSelection((T)comp));
+        newCompController.addClickListener(event -> this.componentSelector.handleSelection(newCompController, event));
         this.circuitComponentSet.add(newCompController);
 
         refreshComponentPane();
@@ -297,9 +297,10 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
     
     private WireController getCurrentWireController() {
         if(this.wireController == null) {
-            this.wireController = new WireController(this.getCurrentWire(), 0,0,0,0);
+            WireController newWireController = new WireController(this.getCurrentWire(), 0,0,0,0);
+            this.wireController = newWireController;
             this.wireSet.add(this.wireController);
-            this.wireController.addClickListener(x -> this.componentSelector.handleSelection((T)x));
+            this.wireController.addClickListener(event -> this.componentSelector.handleSelection(newWireController, event));
         }
         return this.wireController;
     }
