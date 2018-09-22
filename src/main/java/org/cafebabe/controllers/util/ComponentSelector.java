@@ -4,16 +4,19 @@ import org.cafebabe.controllers.IDisconnectable;
 import org.cafebabe.controllers.ISelectable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ComponentSelector<T extends ISelectable & IDisconnectable> {
 
     Set<T> selectedComponents = new HashSet<>();
 
-    public void deleteSelectedComponents(Set<T> allComponents) {
-        allComponents.removeAll(this.selectedComponents);
-        selectedComponents.forEach(x -> x.disconnectFromWorkspace());
-        clearSelection();
+    public void deleteSelectedComponents(List<Set<T>> allComponents) {
+        this.selectedComponents.forEach((comp) -> {
+            allComponents.forEach(set -> set.remove(comp));
+            comp.disconnectFromWorkspace();
+        });
+        selectedComponents.clear();
     }
 
     public void handleSelection(T component) {
