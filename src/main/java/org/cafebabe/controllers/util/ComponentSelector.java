@@ -1,36 +1,26 @@
 package org.cafebabe.controllers.util;
 
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.scene.input.MouseEvent;
-import org.cafebabe.controllers.IDisconnectable;
 import org.cafebabe.controllers.ISelectable;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
-public class ComponentSelector<T extends ISelectable & IDisconnectable> {
+public class ComponentSelector {
 
-    Set<T> selectedComponents = new HashSet<>();
+    Set<ISelectable> selectedComponents = new HashSet<>();
 
-    public void deleteSelectedComponents(List<Set<T>> allComponents, Runnable completionHandler) {
+    public void deleteSelectedComponents(Consumer<ISelectable> remove) {
         this.selectedComponents.forEach((comp) -> {
-            allComponents.forEach(set -> set.remove(comp));
             comp.disconnectFromWorkspace();
+            remove.accept(comp);
         });
-
         selectedComponents.clear();
-
-        try {
-            completionHandler.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    public void handleSelection(T component, MouseEvent event) {
+    public void handleSelection(ISelectable component, MouseEvent event) {
         if (event.isShiftDown()) {
             handleShiftClick(component);
         } else {
@@ -38,7 +28,7 @@ public class ComponentSelector<T extends ISelectable & IDisconnectable> {
         }
     }
 
-    private void handleShiftClick(T component) {
+    private void handleShiftClick(ISelectable component) {
         if (!this.selectedComponents.contains(component)) {
             this.select(component);
         } else {
@@ -46,7 +36,7 @@ public class ComponentSelector<T extends ISelectable & IDisconnectable> {
         }
     }
 
-    private void handleNonShiftClick(T component) {
+    private void handleNonShiftClick(ISelectable component) {
         this.clearSelection();
         this.select(component);
     }
@@ -56,12 +46,12 @@ public class ComponentSelector<T extends ISelectable & IDisconnectable> {
         this.selectedComponents.clear();
     }
 
-    private void select(T component) {
+    private void select(ISelectable component) {
         component.select();
         this.selectedComponents.add(component);
     }
 
-    private void deselect(T component) {
+    private void deselect(ISelectable component) {
         component.deselect();
         this.selectedComponents.remove(component);
     }

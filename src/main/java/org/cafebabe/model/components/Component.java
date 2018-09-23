@@ -1,5 +1,6 @@
 package org.cafebabe.model.components;
 
+import org.cafebabe.controllers.IBelongToCircuit;
 import org.cafebabe.model.components.connections.*;
 
 import java.util.Collections;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class Component {
+public abstract class Component implements IBelongToCircuit {
 
     protected Map<String, InputPort> TAG_TO_INPUT = Collections.unmodifiableMap(new HashMap<>());
     protected Map<String, OutputPort> TAG_TO_OUTPUT = Collections.unmodifiableMap(new HashMap<>());
