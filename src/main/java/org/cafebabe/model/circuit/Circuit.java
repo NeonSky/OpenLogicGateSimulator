@@ -1,5 +1,6 @@
 package org.cafebabe.model.circuit;
 
+import org.cafebabe.controllers.IBelongToCircuit;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 
@@ -31,6 +32,15 @@ public class Circuit {
 
     public void removeWire(Wire wire) {
         this.wires.remove(wire);
+    }
+
+    public void safeRemove(IBelongToCircuit component) {
+        if (components.contains(component)) {
+            this.components.remove(component);
+        }
+        if (wires.contains(component)) {
+            this.components.remove(component);
+        }
     }
 
     public Set<Component> getComponents() {

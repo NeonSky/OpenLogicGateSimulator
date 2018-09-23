@@ -16,13 +16,12 @@ import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.Event;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ComponentController extends AnchorPane implements ISelectable, IDisconnectable {
+public class ComponentController extends AnchorPane implements ISelectable {
 
     @FXML private SVGPath componentSvgPath;
     @FXML private Group svgGroup;
@@ -30,7 +29,7 @@ public class ComponentController extends AnchorPane implements ISelectable, IDis
     private List<PortController> ports = new ArrayList<>();
     private Component component;
     private Position position;
-    private Boolean isSelected = false;
+    private boolean isSelected = false;
 
     ComponentController(Component component, int x, int y, IWireConnector wireConnector) {
         this(component, new Position(x, y), wireConnector);
@@ -64,12 +63,12 @@ public class ComponentController extends AnchorPane implements ISelectable, IDis
         return this.position;
     }
 
-    private void setSelected(Boolean isSelected) {
+    private void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
 
     private void updateVisualState() {
-        Color newColor = (this.isSelected) ? ColorUtil.SELECTED_COLOR : ColorUtil.LOW_COLOR;
+        Color newColor = (this.isSelected) ? ColorUtil.SELECTED : Color.BLACK;
         componentSvgPath.setStroke(newColor);
         componentSvgPath.setFill(newColor);
     }
@@ -96,10 +95,14 @@ public class ComponentController extends AnchorPane implements ISelectable, IDis
 
     @Override
     public void disconnectFromWorkspace() {
-        this.component = null;
-        this.ports = null;
+        this.ports.clear();
         this.position = null;
         this.svgGroup = null;
         this.componentSvgPath = null;
+    }
+
+    @Override
+    public IBelongToCircuit getModelObject() {
+        return this.component;
     }
 }

@@ -1,7 +1,6 @@
 package org.cafebabe.controllers;
 
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -20,7 +19,7 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.Event;
 import java.util.function.Consumer;
 
-public class WireController implements ISelectable, IDisconnectable {
+public class WireController implements ISelectable {
 
     private static final Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
     private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
@@ -34,7 +33,7 @@ public class WireController implements ISelectable, IDisconnectable {
         Map.entry(LogicState.UNDEFINED, UNDEFINED_COLOR)
     );
 
-    private Boolean isSelected = false;
+    private boolean isSelected = false;
     private Wire wire;
     private Line wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
@@ -102,6 +101,10 @@ public class WireController implements ISelectable, IDisconnectable {
         return this.wireLine;
     }
 
+    public Wire getWire() {
+        return this.wire;
+    }
+
     public void moveLineTo(Position startPoint, Position endPoint) {
         this.moveStartPointTo(startPoint.getX(), startPoint.getY());
         this.moveEndPointTo(endPoint.getX(), endPoint.getY());
@@ -130,7 +133,7 @@ public class WireController implements ISelectable, IDisconnectable {
         this.updatePosition();
     }
 
-    private void setSelected(Boolean isSelected) {
+    private void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
 
@@ -152,6 +155,10 @@ public class WireController implements ISelectable, IDisconnectable {
         this.wire.disconnectAll();
         this.startPointTracker = null;
         this.endPointTracker = null;
-        this.wire = null;
+    }
+
+    @Override
+    public IBelongToCircuit getModelObject() {
+        return this.wire;
     }
 }

@@ -1,10 +1,10 @@
 package org.cafebabe.model.components.connections;
 
+import org.cafebabe.controllers.IBelongToCircuit;
 import org.cafebabe.util.Event;
-
 import java.util.*;
 
-public class Wire extends LogicStateContainer {
+public class Wire extends LogicStateContainer implements IBelongToCircuit {
 
     private Set<InputPort> connectedInputs;
     private Set<OutputPort> connectedOutputs;

@@ -18,7 +18,7 @@ import org.cafebabe.util.Event;
 import java.util.*;
 import java.util.function.Consumer;
 
-class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorPane implements IWireConnector {
+class CircuitController extends AnchorPane implements IWireConnector {
 
     @FXML private Pane backgroundPane;
     private CanvasGridPane gridPane;
@@ -58,18 +58,25 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
 
     private void handleMouseClick(MouseEvent event) {
         if(event.getTarget() == this.componentPane) {
-            this.abortWireConnection();
-            this.componentSelector.clearSelection();
+            this.abortSelections();
         }
     }
 
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            abortWireConnection();
+            this.abortSelections();
         } else if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-            List<Set<T>> allComponents = Arrays.asList((Set<T>)this.wireSet, (Set<T>)this.circuitComponentSet);
-            this.componentSelector.deleteSelectedComponents(allComponents, this::refreshComponentPane);
+            this.componentSelector.deleteSelectedComponents((comp) -> {
+                this.circuit.safeRemove(comp.getModelObject());
+                this.safeRemove(comp);
+            });
+            refreshComponentPane();
         }
+    }
+
+    private void abortSelections() {
+        abortWireConnection();
+        this.componentSelector.clearSelection();
     }
 
     private void abortWireConnection() {
@@ -195,6 +202,21 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
         refreshComponentPane();
     }
 
+    void removeWire(WireController wire) {
+        this.circuit.removeWire(wire.getWire());
+        this.wireSet.remove(wire);
+        refreshComponentPane();
+    }
+
+    void safeRemove(ISelectable component) {
+        if (this.wireSet.contains(component)) {
+            this.wireSet.remove(component);
+        }
+        if (this.circuitComponentSet.contains(component)) {
+            this.circuitComponentSet.remove(component);
+        }
+    }
+
     private void refreshComponentPane() {
         this.componentPane.getChildren().clear();
 
@@ -223,8 +245,7 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
             }
 
             if(wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
-                this.
-                newCurrentWire();
+                this.newCurrentWire();
             }
 
             broadcastConnectionState();
@@ -297,7 +318,7 @@ class CircuitController<T extends ISelectable & IDisconnectable> extends AnchorP
     
     private WireController getCurrentWireController() {
         if(this.wireController == null) {
-            WireController newWireController = new WireController(this.getCurrentWire(), 0,0,0,0);
+            WireController newWireController = new WireController(this.getCurrentWire(), 0, 0, 0, 0);
             this.wireController = newWireController;
             this.wireSet.add(this.wireController);
             this.wireController.addClickListener(event -> this.componentSelector.handleSelection(newWireController, event));
