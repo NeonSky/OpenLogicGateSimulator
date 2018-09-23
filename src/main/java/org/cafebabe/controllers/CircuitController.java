@@ -70,8 +70,9 @@ class CircuitController extends AnchorPane implements IWireConnector {
                 this.circuit.safeRemove(comp.getModelObject());
                 this.safeRemove(comp);
             });
-            refreshComponentPane();
+            broadcastConnectionState();
         }
+        refreshComponentPane();
     }
 
     private void abortSelections() {
@@ -220,16 +221,15 @@ class CircuitController extends AnchorPane implements IWireConnector {
     private void refreshComponentPane() {
         this.componentPane.getChildren().clear();
 
+        for (WireController wireController : this.wireSet) {
+            wireController.updatePosition();
+            this.componentPane.getChildren().add(wireController.getWireLine());
+        }
+
         for (ComponentController componentController : this.circuitComponentSet) {
             this.componentPane.getChildren().add(componentController);
             componentController.setLayoutX(componentController.getPosition().getX());
             componentController.setLayoutY(componentController.getPosition().getY());
-        }
-
-        for (WireController wireController : this.wireSet) {
-            wireController.updatePosition();
-            this.componentPane.getChildren().add(wireController.getWireLine());
-            wireController.getWireLine().toBack();
         }
     }
 
