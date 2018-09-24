@@ -1,6 +1,5 @@
 package org.cafebabe.model.circuit;
 
-import org.cafebabe.controllers.IBelongToCircuit;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 

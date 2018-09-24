@@ -1,6 +1,6 @@
 package org.cafebabe.model.components;
 
-import org.cafebabe.controllers.IBelongToCircuit;
+import org.cafebabe.model.circuit.IBelongToCircuit;
 import org.cafebabe.model.components.connections.*;
 
 import java.util.Collections;
