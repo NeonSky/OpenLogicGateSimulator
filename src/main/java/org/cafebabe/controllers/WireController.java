@@ -8,7 +8,6 @@ import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.model.circuit.IBelongToCircuit;
 import org.cafebabe.model.components.connections.LogicState;
@@ -16,18 +15,9 @@ import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 
-import java.util.Map;
-
 public class WireController implements ISelectable {
 
     private static final int WIRE_WIDTH = 6;
-
-    private static final Map<LogicState, Color> STATE_TO_COLOR = Map.ofEntries(
-        Map.entry(LogicState.HIGH, ColorUtil.ACTIVE),
-        Map.entry(LogicState.LOW, ColorUtil.INACTIVE),
-        Map.entry(LogicState.UNDEFINED, ColorUtil.UNDEFINED)
-    );
-
     private boolean isSelected = false;
     private Wire wire;
     private CubicCurve wireLine;
@@ -61,7 +51,8 @@ public class WireController implements ISelectable {
     }
 
     private Color getWireColor() {
-        return (this.isSelected) ? ColorUtil.SELECTED : STATE_TO_COLOR.get(this.wire.logicState());
+        LogicState currentState = this.wire.logicState();
+        return (this.isSelected) ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
     }
 
     private void setWireDrawingOptions() {
