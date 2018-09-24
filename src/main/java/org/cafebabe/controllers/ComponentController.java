@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
+import org.cafebabe.model.circuit.IBelongToCircuit;
 import org.cafebabe.util.ColorUtil;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.controllers.util.Metadata;

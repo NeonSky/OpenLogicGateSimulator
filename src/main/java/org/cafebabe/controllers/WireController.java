@@ -7,41 +7,36 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import org.cafebabe.model.circuit.IBelongToCircuit;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
-import java.util.Map;
 import org.cafebabe.util.ColorUtil;
-import org.cafebabe.model.components.connections.Wire;
-import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.Event;
-import java.util.function.Consumer;
+
+import java.util.Map;
 
 public class WireController implements ISelectable {
 
-    private static final Color ACTIVE_COLOR = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
-    private static final Color INACTIVE_COLOR = Color.color(0, 0, 0, 1);
-    private static final Color UNDEFINED_COLOR = Color.color(0.8, 0.8, 0, 1);
-    private static final Color SELECTED_COLOR = Color.color(198.0/255, 209.0/255, 215.0/255, 1);
-    private static final int WIRE_WIDTH = 4;
+    private static final int WIRE_WIDTH = 6;
 
     private static final Map<LogicState, Color> STATE_TO_COLOR = Map.ofEntries(
-        Map.entry(LogicState.HIGH, ACTIVE_COLOR),
-        Map.entry(LogicState.LOW, INACTIVE_COLOR),
-        Map.entry(LogicState.UNDEFINED, UNDEFINED_COLOR)
+        Map.entry(LogicState.HIGH, ColorUtil.ACTIVE),
+        Map.entry(LogicState.LOW, ColorUtil.INACTIVE),
+        Map.entry(LogicState.UNDEFINED, ColorUtil.UNDEFINED)
     );
 
     private boolean isSelected = false;
     private Wire wire;
-    private Line wireLine;
+    private CubicCurve wireLine;
     private PositionTracker startPointTracker = PositionTracker.trackNothing;
     private PositionTracker endPointTracker = PositionTracker.trackNothing;
 
     WireController(Wire wire, Position startPoint, Position endPoint) {
         this.wire = wire;
-        this.wireLine = new Line();
+        this.wireLine = new CubicCurve();
         moveLineTo(startPoint, endPoint);
         setWireDrawingOptions();
         this.wire.onStateChangedEvent().addListener((w) -> this.updateVisualState());
@@ -66,7 +61,7 @@ public class WireController implements ISelectable {
     }
 
     private Color getWireColor() {
-        return STATE_TO_COLOR.get(this.wire.logicState());
+        return (this.isSelected) ? ColorUtil.SELECTED : STATE_TO_COLOR.get(this.wire.logicState());
     }
 
     private void setWireDrawingOptions() {
@@ -87,6 +82,10 @@ public class WireController implements ISelectable {
         double startY = this.wireLine.getStartY();
         double endX = this.wireLine.getEndX();
         double endY = this.wireLine.getEndY();
+        this.wireLine.setControlX1((endX + startX) / 2);
+        this.wireLine.setControlY1(startY);
+        this.wireLine.setControlX2((endX + startX) / 2);
+        this.wireLine.setControlY2(endY);
     }
 
     public void addClickListener(EventHandler<MouseEvent> listener) {
