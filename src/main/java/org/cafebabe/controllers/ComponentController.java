@@ -46,6 +46,8 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
         this.component = component;
         componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
+        componentSvgPath.setStrokeWidth(2);
+        componentSvgPath.setFill(ColorUtil.OFFWHITE);
 
         this.position = pos;
         this.updateVisualState();
@@ -71,7 +73,6 @@ public class ComponentController extends AnchorPane implements ISelectable {
     private void updateVisualState() {
         Color newColor = (this.isSelected) ? ColorUtil.SELECTED : Color.BLACK;
         componentSvgPath.setStroke(newColor);
-        componentSvgPath.setFill(newColor);
     }
 
     public void addClickListener(EventHandler<MouseEvent> listener) {
