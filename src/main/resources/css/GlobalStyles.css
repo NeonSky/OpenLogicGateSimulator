@@ -1,5 +1,5 @@
 .root {
-    -fx-font-family: "Avenir Next";
+    -fx-font-family: "Trebuchet MS";
 
     /* Color Scheme Constants */
     -colorscheme-white: rgba(255, 255, 255, 1);
@@ -13,8 +13,8 @@
 }
 
 .body-text {
-    -fx-font-size: 12px;
-    -fx-font-weight: normal;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
 }
 
 /*

@@ -1,14 +1,16 @@
 package org.cafebabe.controllers;
 
+import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.controllers.util.FxmlUtil;
+import org.cafebabe.util.ColorUtil;
 
 class ComponentListCellController extends AnchorPane {
 
@@ -51,21 +53,25 @@ class ComponentListCellController extends AnchorPane {
     }
 
     private void setComponentNameLabel() {
-        if (this.displayName == null || this.displayName.isEmpty()) {
+        if (Strings.isNullOrEmpty(this.displayName)) {
             throw new RuntimeException("Can't set a label that is null or empty");
         }
 
         String upperCasedName = displayName.toUpperCase();
-        this.componentNameLabel.setText(upperCasedName);
+        this.componentNameLabel.setText(upperCasedName.replaceAll("[- ]", "\n"));
     }
 
     private void setComponentSvgContent(String svgContent) {
-        if (svgContent == null || svgContent.isEmpty()) {
+        if (Strings.isNullOrEmpty(svgContent)) {
             throw new RuntimeException("Can't load svgContent that is null or empty");
         }
 
         this.svg.setContent(svgContent);
         this.scaleComponentSVG();
+        this.svg.setStrokeWidth(2);
+        this.svg.setStrokeLineCap(StrokeLineCap.SQUARE);
+        this.svg.setStroke(ColorUtil.BLACK);
+        this.svg.setFill(ColorUtil.TRANSPARENT);
     }
 
     private void scaleComponentSVG() {
