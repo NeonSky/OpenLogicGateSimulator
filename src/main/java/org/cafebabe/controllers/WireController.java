@@ -10,12 +10,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.model.circuit.IBelongToCircuit;
+import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.LogicState;
+import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
+import org.cafebabe.util.Event;
 
 public class WireController implements ISelectable {
+
+
+    private final Event<WireController> willBeDestroyed = new Event<>();
 
     private static final int WIRE_WIDTH = 6;
     private boolean isSelected = false;
@@ -29,7 +35,8 @@ public class WireController implements ISelectable {
         this.wireLine = new CubicCurve();
         moveLineTo(startPoint, endPoint);
         setWireDrawingOptions();
-        this.wire.onStateChangedEvent().addListener((w) -> this.updateVisualState());
+        this.wire.onStateChangedEvent().addListener(this::updateVisualState);
+        this.wire.onWillBeDestroyed().addListener(this::onDestroy);
         this.wireLine.setPickOnBounds(false);
     }
 
@@ -64,7 +71,7 @@ public class WireController implements ISelectable {
         this.wireLine.setEffect(dropShadow);
     }
 
-    private void updateVisualState() {
+    private void updateVisualState(LogicStateContainer wire) {
         this.wireLine.setStroke(getWireColor());
     }
 
@@ -130,21 +137,30 @@ public class WireController implements ISelectable {
     @Override
     public void select() {
         setSelected(true);
-        updateVisualState();
+        updateVisualState(this.wire);
     }
 
     @Override
     public void deselect() {
         setSelected(false);
-        updateVisualState();
+        updateVisualState(this.wire);
     }
 
     @Override
     public void disconnectFromWorkspace() {
-        this.wire.onStateChangedEvent().removeListener((w) -> this.updateVisualState());
+        this.wire.onStateChangedEvent().removeListener(this::updateVisualState);
         this.wire.disconnectAll();
         this.startPointTracker = null;
         this.endPointTracker = null;
+    }
+
+    private void onDestroy(Wire w) {
+        disconnectFromWorkspace();
+        willBeDestroyed.notifyAll(this);
+    }
+
+    public Event<WireController> onWillBeDestroyed() {
+        return willBeDestroyed;
     }
 
     @Override

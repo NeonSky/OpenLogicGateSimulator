@@ -96,6 +96,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
     @Override
     public void disconnectFromWorkspace() {
+        this.component.destroy();
         this.ports.clear();
         this.position = null;
         this.svgGroup = null;

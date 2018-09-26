@@ -1,7 +1,10 @@
 package org.cafebabe.model.components.connections;
 
+import org.cafebabe.util.Event;
+
 public class OutputPort extends Port {
 
+    private final Event<OutputPort> willBeDestroyed = new Event<>();
     private LogicState state;
     private boolean connected;
 
@@ -14,6 +17,15 @@ public class OutputPort extends Port {
         notifyIfStateChanges(() -> {
             this.state = state;
         });
+    }
+
+
+    public Event<OutputPort> onWillBeDestroyed() {
+        return willBeDestroyed;
+    }
+
+    public void destroy() {
+        willBeDestroyed.notifyAll(this);
     }
 
     void setConnected(boolean connected) {
