@@ -216,6 +216,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         if (this.circuitComponentSet.contains(component)) {
             this.circuitComponentSet.remove(component);
         }
+        refreshComponentPane();
     }
 
     private void refreshComponentPane() {
@@ -238,6 +239,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         if(canConnectTo(inPort)) {
             WireController wireController = this.getCurrentWireController();
             getCurrentWire().connectInputPort(inPort);
+            wireController.onWillBeDestroyed().addListener(this::onWireDestroyed);
             wireController.bindEndPointTo(new PositionTracker(inPortController::getPos));
 
             if(!wire.isAnyOutputConnected()) {
@@ -276,6 +278,11 @@ class CircuitController extends AnchorPane implements IWireConnector {
     private void newCurrentWire() {
         this.wire = null;
         this.wireController = null;
+    }
+
+    private void onWireDestroyed(WireController wire) {
+        this.circuit.safeRemove(wire.getModelObject());
+        this.safeRemove(wire);
     }
 
     private void broadcastConnectionState() {

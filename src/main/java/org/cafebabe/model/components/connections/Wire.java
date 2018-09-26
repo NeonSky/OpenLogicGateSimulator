@@ -6,6 +6,8 @@ import java.util.*;
 
 public class Wire extends LogicStateContainer implements IBelongToCircuit {
 
+    private final Event<Wire> willBeDestroyed = new Event<>();
+
     private Set<InputPort> connectedInputs;
     private Set<OutputPort> connectedOutputs;
     private Set<LogicStateContainer> powerSources;
@@ -59,8 +61,9 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
         if (isInputConnected(input)) {
             throw new RuntimeException("An InputPort can only be added once.");
         }
-        connectedInputs.add(input);
+        input.onWillBeDestroyed().addListener(this::onConnectedInputPortDestroyed);
         input.setStateSource(this);
+        connectedInputs.add(input);
     }
 
     /** Disconnects an InputPort if it is connected, otherwise throws a RuntimeException */
@@ -68,8 +71,9 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
         if(!isInputConnected(input)) {
             throw new RuntimeException("An InputPort that isn't connected can't be removed.");
         }
-        connectedInputs.remove(input);
+        input.onWillBeDestroyed().removeListener(this::onConnectedInputPortDestroyed);
         input.setStateSource(null);
+        connectedInputs.remove(input);
     }
 
     /** Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException */
@@ -84,6 +88,7 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
             if(output.isHigh()) powerSources.add(output);
             if(output.isLow()) gndSources.add(output);
 
+            output.onWillBeDestroyed().addListener(this::onConnectedOutputPortDestroyed);
             output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
         });
     }
@@ -100,8 +105,31 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
             powerSources.remove(output);
             gndSources.remove(output);
 
+            output.onWillBeDestroyed().removeListener(this::onConnectedOutputPortDestroyed);
             output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
         });
+    }
+
+    private void onConnectedInputPortDestroyed(InputPort port) {
+        if(isInputConnected(port)) disconnectInputPort(port);
+        if(connectedPortsCount() < 2) {
+            destroy();
+        }
+    }
+
+    private void onConnectedOutputPortDestroyed(OutputPort port) {
+        if(isOutputConnected(port)) disconnectOutputPort(port);
+        if(connectedPortsCount() < 2) {
+            destroy();
+        }
+    }
+
+    public void destroy() {
+        willBeDestroyed.notifyAll(this);
+    }
+
+    public Event<Wire> onWillBeDestroyed() {
+        return willBeDestroyed;
     }
 
     @Override
@@ -111,7 +139,6 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
         return LogicState.HIGH;
     }
 
-    /** Returns true IFF the given InputPort is connected to this wire. */
     private boolean isInputConnected(InputPort input) {
         return connectedInputs.contains(input);
     }
@@ -120,9 +147,12 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
         return !connectedInputs.isEmpty();
     }
 
-    /** Returns true IFF the given OutputPort is connected to this wire. */
     private boolean isOutputConnected(OutputPort output) {
         return connectedOutputs.contains(output);
+    }
+
+    private int connectedPortsCount() {
+        return connectedInputs.size() + connectedOutputs.size();
     }
 
     public boolean isAnyOutputConnected() {

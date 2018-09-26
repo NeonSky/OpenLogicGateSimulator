@@ -8,7 +8,7 @@ import java.util.Map;
 public class ColorUtil {
     public static final Color ACTIVE = Color.color(234.0/255, 38.0/255, 38.0/255, 1);
     public static final Color INACTIVE = Color.color(0, 0, 0, 1);
-    public static final Color SELECTED = Color.color(110.0/255, 134.0/255, 148.0/255, 1);
+    public static final Color SELECTED = Color.color(80.0/255, 144.0/255, 186.0/255, 1);
     public static final Color UNDEFINED = Color.color(204.0/255, 204.0/255, 0, 1);
 
     public static final Color getStateColor(LogicState state) throws RuntimeException {

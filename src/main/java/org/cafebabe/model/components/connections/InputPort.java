@@ -1,7 +1,10 @@
 package org.cafebabe.model.components.connections;
 
+import org.cafebabe.util.Event;
+
 public class InputPort extends Port {
 
+    private final Event<InputPort> willBeDestroyed = new Event<>();
     private LogicStateContainer stateSource;
 
 
@@ -19,6 +22,14 @@ public class InputPort extends Port {
                 stateSource.onStateChanged.addListener((s) -> onStateChanged.notifyAll(this));
             }
         });
+    }
+
+    public Event<InputPort> onWillBeDestroyed() {
+        return willBeDestroyed;
+    }
+
+    public void destroy() {
+        willBeDestroyed.notifyAll(this);
     }
 
     @Override

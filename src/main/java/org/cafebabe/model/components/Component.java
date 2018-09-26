@@ -49,6 +49,15 @@ public abstract class Component implements IBelongToCircuit {
         throw new RuntimeException("This port doesn't exist on this component");
     }
 
+    public void destroy() {
+        for (Map.Entry<String, InputPort> entry : TAG_TO_INPUT.entrySet()) {
+            entry.getValue().destroy();
+        }
+        for (Map.Entry<String, OutputPort> entry : TAG_TO_OUTPUT.entrySet()) {
+            entry.getValue().destroy();
+        }
+    }
+
     protected abstract void update();
     public abstract String getAnsiName();
     public abstract String getDisplayName();
