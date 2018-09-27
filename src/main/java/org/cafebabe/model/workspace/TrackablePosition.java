@@ -3,12 +3,13 @@ package org.cafebabe.model.workspace;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+import org.cafebabe.model.IDestructible;
 import org.cafebabe.model.IMovable;
 import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
-public class TrackablePosition extends Position implements IMovable {
+public class TrackablePosition extends Position implements IMovable, IDestructible {
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final Event<Position> onPositionChanged = new Event<>();
     private final Set<TrackablePosition> clones = new HashSet<>();
