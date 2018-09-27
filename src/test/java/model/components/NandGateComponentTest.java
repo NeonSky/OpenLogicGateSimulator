@@ -10,13 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NandGateComponentTest {
 
-    @Test
-    void metadataTest() {
-        NandGateComponent comp = new NandGateComponent();
-        assertEquals("NAND_ANSI", comp.getAnsiName());
-        assertEquals("NAND-Gate", comp.getDisplayName());
-        assertEquals("Emits no signal if both inputs are active", comp.getDescription());
-    }
 
     @Test
     void oneHighInputShouldGiveHighOutput() {

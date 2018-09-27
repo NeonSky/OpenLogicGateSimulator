@@ -9,13 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AndGateComponentTest {
 
-    @Test
-    void metadataTest() {
-        AndGateComponent comp = new AndGateComponent();
-        assertEquals("AND_ANSI", comp.getAnsiName());
-        assertEquals("AND-Gate", comp.getDisplayName());
-        assertEquals("Emits an active signal if both inputs are active", comp.getDescription());
-    }
 
     @Test
     void intendedUseTest() {
