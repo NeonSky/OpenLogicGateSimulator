@@ -1,5 +1,7 @@
 package org.cafebabe.controllers;
 
+import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
+import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
 import org.cafebabe.model.components.connections.IConnectionState;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
