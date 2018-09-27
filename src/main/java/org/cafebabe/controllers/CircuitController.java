@@ -287,7 +287,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
 
     private void broadcastConnectionState() {
         IConnectionState connectionState = this.getCurrentWire().getConnectionState();
-        this.onConnectionStateChanged.notifyAll(connectionState);
+        this.onConnectionStateChanged.notifyListeners(connectionState);
     }
 
     @Override
