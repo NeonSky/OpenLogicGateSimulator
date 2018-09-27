@@ -1,7 +1,7 @@
 package org.cafebabe.controllers.util;
 
 import javafx.scene.input.MouseEvent;
-import org.cafebabe.controllers.ISelectable;
+import org.cafebabe.controllers.IBelongToController;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 
 public class ComponentSelector {
 
-    Set<ISelectable> selectedComponents = new HashSet<>();
+    Set<IBelongToController> selectedComponents = new HashSet<>();
 
-    public void deleteSelectedComponents(Consumer<ISelectable> remove) {
+    public void deleteSelectedComponents(Consumer<IBelongToController> remove) {
         this.selectedComponents.forEach((comp) -> {
             comp.disconnectFromWorkspace();
             remove.accept(comp);
@@ -19,7 +19,7 @@ public class ComponentSelector {
         selectedComponents.clear();
     }
 
-    public void handleSelection(ISelectable component, MouseEvent event) {
+    public void handleSelection(IBelongToController component, MouseEvent event) {
         if (event.isShiftDown()) {
             handleShiftClick(component);
         } else {
@@ -27,7 +27,7 @@ public class ComponentSelector {
         }
     }
 
-    private void handleShiftClick(ISelectable component) {
+    private void handleShiftClick(IBelongToController component) {
         if (!this.selectedComponents.contains(component)) {
             this.select(component);
         } else {
@@ -35,7 +35,7 @@ public class ComponentSelector {
         }
     }
 
-    private void handleNonShiftClick(ISelectable component) {
+    private void handleNonShiftClick(IBelongToController component) {
         this.clearSelection();
         this.select(component);
     }
@@ -45,12 +45,12 @@ public class ComponentSelector {
         this.selectedComponents.clear();
     }
 
-    private void select(ISelectable component) {
+    private void select(IBelongToController component) {
         component.select();
         this.selectedComponents.add(component);
     }
 
-    private void deselect(ISelectable component) {
+    private void deselect(IBelongToController component) {
         component.deselect();
         this.selectedComponents.remove(component);
     }

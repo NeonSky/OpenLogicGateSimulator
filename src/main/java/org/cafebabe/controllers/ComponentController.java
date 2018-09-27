@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ComponentController extends AnchorPane implements ISelectable {
+public class ComponentController extends AnchorPane implements IBelongToController {
 
     @FXML private SVGPath componentSvgPath;
     @FXML private Group svgGroup;
