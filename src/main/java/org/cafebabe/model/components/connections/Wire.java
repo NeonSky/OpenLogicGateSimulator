@@ -1,10 +1,10 @@
 package org.cafebabe.model.components.connections;
 
-import org.cafebabe.model.circuit.IBelongToCircuit;
+import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.util.Event;
 import java.util.*;
 
-public class Wire extends LogicStateContainer implements IBelongToCircuit {
+public class Wire extends LogicStateContainer implements IBelongToModel {
 
     private final Event<Wire> willBeDestroyed = new Event<>();
 
