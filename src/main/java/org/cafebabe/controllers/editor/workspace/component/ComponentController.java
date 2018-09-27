@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.PortController;
@@ -28,7 +29,6 @@ import org.cafebabe.viewmodel.ViewModel;
 
 public class ComponentController extends AnchorPane implements ISelectable {
 
-    private final EmptyEvent onDestroy = new EmptyEvent();
     private final List<PortController> ports = new ArrayList<>();
     private final Component component;
 
@@ -51,18 +51,15 @@ public class ComponentController extends AnchorPane implements ISelectable {
         svgGroup.setPickOnBounds(false);
 
         this.component = component;
-        componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
-        componentSvgPath.setStrokeWidth(2);
-        componentSvgPath.setFill(ColorUtil.OFFWHITE);
+        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
+        this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
+        this.componentSvgPath.setStrokeWidth(3);
+        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
 
         this.updateVisualState();
     }
 
     /* Public */
-    public EmptyEvent getOnDestroy() {
-        return onDestroy;
-    }
-
     public Component getComponent() {
         return this.component;
     }
@@ -112,7 +109,6 @@ public class ComponentController extends AnchorPane implements ISelectable {
     private void updateVisualState() {
         Color newColor = (this.isSelected) ? ColorUtil.SELECTED : Color.BLACK;
         componentSvgPath.setStroke(newColor);
-        componentSvgPath.setFill(newColor);
     }
 
     private void updatePosition(Position position) {

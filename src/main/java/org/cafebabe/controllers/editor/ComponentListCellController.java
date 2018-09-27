@@ -14,18 +14,15 @@ import org.cafebabe.util.ColorUtil;
 
 public class ComponentListCellController extends AnchorPane {
 
-    final static private int CELL_MARGIN = 20;
+    private final static int CELL_MARGIN = 20;
 
     private final String displayName;
 
-    @FXML
-    private AnchorPane componentCell;
-    @FXML
-    private SVGPath svg;
-    @FXML
-    private GridPane grid;
-    @FXML
-    private Label componentNameLabel;
+    @FXML private AnchorPane componentCell;
+    @FXML private SVGPath svg;
+    @FXML private GridPane grid;
+    @FXML private Label componentNameLabel;
+
 
     public ComponentListCellController(String name, String svgContent) throws RuntimeException {
         FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
