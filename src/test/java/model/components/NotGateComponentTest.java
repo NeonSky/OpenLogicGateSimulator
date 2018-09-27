@@ -10,14 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class NotGateComponentTest {
 
     @Test
-    void metadataTest() {
-        NotGateComponent comp = new NotGateComponent();
-        assertEquals("NOT_ANSI", comp.getAnsiName());
-        assertEquals("NOT-Gate", comp.getDisplayName());
-        assertEquals("Emits the opposite signal of the input", comp.getDescription());
-    }
-
-    @Test
     void intendedUseTest() {
         PowerSourceComponent power = new PowerSourceComponent();
         Wire in = new Wire();

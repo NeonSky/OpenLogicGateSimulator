@@ -9,13 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XnorGateComponentTest {
 
-    @Test
-    void metadataTest() {
-        XnorGateComponent comp = new XnorGateComponent();
-        assertEquals("XNOR_ANSI", comp.getAnsiName());
-        assertEquals("XNOR-Gate", comp.getDisplayName());
-        assertEquals("Emits no signal if exactly one input is active", comp.getDescription());
-    }
 
     @Test
     void intendedUseTest() {

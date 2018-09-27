@@ -8,13 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PowerSourceComponentTest {
 
-    @Test
-    void metadataTest() {
-        PowerSourceComponent comp = new PowerSourceComponent();
-        assertEquals("PowerSource", comp.getAnsiName());
-        assertEquals("Power Source", comp.getDisplayName());
-        assertEquals("Emits an active signal to all connected outputs", comp.getDescription());
-    }
 
     @Test
     void powerTest() {
