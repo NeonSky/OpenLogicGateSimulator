@@ -14,7 +14,7 @@ import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.viewmodel.ViewModel;
 
-public class CircuitController extends AnchorPane {
+class CircuitController extends AnchorPane {
 
     private final ComponentDragDropHandler componentDragDropHandler;
     private final ViewModel viewModel;
@@ -24,7 +24,7 @@ public class CircuitController extends AnchorPane {
     private Pane componentPane;
     private CanvasGridPane gridPane;
 
-    public CircuitController(ViewModel viewModel) {
+    CircuitController(ViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.onComponentAdded.addListener(this::addComponent);
         viewModel.onWireAdded.addListener(this::addWire);
@@ -52,7 +52,7 @@ public class CircuitController extends AnchorPane {
 
     private void addWire(Wire wire) {
         WireController wireController = new WireController(wire);
-        this.getChildren().add(wireController.getWireLine());
+        this.componentPane.getChildren().add(wireController.getWireLine());
         wireController.getWireLine().toBack();
         wireController.addClickListener(event -> viewModel.handleControllerClick(wireController, event));
         gridPane.toBack();
@@ -60,7 +60,7 @@ public class CircuitController extends AnchorPane {
 
     private void addComponent(Component component) {
         ComponentController newCompController = new ComponentController(component, viewModel);
-        this.getChildren().add(newCompController);
+        this.componentPane.getChildren().add(newCompController);
         newCompController.setOnDragDetected((event) -> componentDragDropHandler.onComponentDragDetected(newCompController, event));
         newCompController.addClickListener(event -> viewModel.handleControllerClick(newCompController, event));
 
