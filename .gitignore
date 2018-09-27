@@ -4,23 +4,6 @@
 # IntelliJ
 out/
 .idea/
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/dictionaries
-.idea/**/shelf
-.idea/**/misc.xml
-.idea/**/checkstyle-idea.xml
-.idea/**/codeStyles
-.idea/**/vcs.xml
-
-# Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
 
 # Java
 *.class
