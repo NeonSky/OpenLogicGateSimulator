@@ -4,6 +4,7 @@ import java.util.Objects;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import org.cafebabe.controllers.editor.ComponentListCellController;
+import org.cafebabe.controllers.editor.workspace.component.ComponentController;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
@@ -22,7 +23,7 @@ class ComponentDragDropHandler {
     }
 
     /* Package-Private */
-    void onComponentDragDetected(org.cafebabe.controllers.editor.workspace.component.ComponentController componentController, MouseEvent event) {
+    void onComponentDragDetected(ComponentController componentController, MouseEvent event) {
         Dragboard dragboard = componentController.startDragAndDrop(TransferMode.ANY);
 
         /* Need to add something (anything) to Dragboard, otherwise
@@ -64,7 +65,7 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragOver(DragEvent event) {
-        if (event.getGestureSource() instanceof org.cafebabe.controllers.editor.workspace.component.ComponentController) {
+        if (event.getGestureSource() instanceof ComponentController) {
             /* Handle the event if the dragged item is a component controller instance */
             handleComponentDragOver(event);
         } else if (event.getGestureSource() instanceof ComponentListCellController) {
