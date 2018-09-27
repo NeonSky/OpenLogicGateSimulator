@@ -14,11 +14,9 @@ import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.*;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.Event;
 import java.util.*;
-import java.util.function.Consumer;
 
-class CircuitController extends AnchorPane implements IWireConnector {
+class CircuitController extends AnchorPane {
 
     @FXML private Pane backgroundPane;
     private CanvasGridPane gridPane;
@@ -31,13 +29,15 @@ class CircuitController extends AnchorPane implements IWireConnector {
     private ComponentController dragNewComponentController;
     private Set<WireController> wireSet = new HashSet<>();
     private Set<ComponentController> circuitComponentSet = new HashSet<>();
-    private Event<IConnectionState> onConnectionStateChanged = new Event<>();
     private WireController wireController;
     private Wire wire;
     private ComponentSelector componentSelector = new ComponentSelector();
+    private IWireConnector wireConnector;
 
     CircuitController(Circuit circuit) {
+
         this.circuit = circuit;
+        wireConnector = new WireConnector(circuit);
         setupFXML();
 
         this.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
@@ -172,7 +172,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
     ComponentController addComponent(Component component, int x, int y) {
         this.circuit.addComponent(component);
 
-        ComponentController newCompController = new ComponentController(component, x, y, this);
+        ComponentController newCompController = new ComponentController(component, x, y, wireConnector);
         newCompController.setOnDragDetected((event) -> onComponentDragDetected(newCompController, event));
         newCompController.addClickListener(event -> this.componentSelector.handleSelection(newCompController, event));
         this.circuitComponentSet.add(newCompController);
@@ -234,7 +234,6 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
     }
 
-    @Override
     public void tryConnectWire(InPortController inPortController, InputPort inPort) {
         if(canConnectTo(inPort)) {
             WireController wireController = this.getCurrentWireController();
@@ -255,7 +254,6 @@ class CircuitController extends AnchorPane implements IWireConnector {
         }
     }
 
-    @Override
     public void tryConnectWire(OutPortController outPortController, OutputPort outPort) {
         if(canConnectTo(outPort)) {
             WireController wireController = this.getCurrentWireController();
@@ -287,10 +285,8 @@ class CircuitController extends AnchorPane implements IWireConnector {
 
     private void broadcastConnectionState() {
         IConnectionState connectionState = this.getCurrentWire().getConnectionState();
-        this.onConnectionStateChanged.notifyListeners(connectionState);
     }
 
-    @Override
     public boolean canConnectTo(Port port) {
         if(port instanceof InputPort) {
             return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
@@ -300,17 +296,6 @@ class CircuitController extends AnchorPane implements IWireConnector {
         else throw new RuntimeException("Invalid Port Type!");
     }
 
-    @Override
-    public void addConnectionStateListener(Consumer<IConnectionState> stateListener) {
-        this.onConnectionStateChanged.addListener(stateListener);
-    }
-
-    @Override
-    public void removeConnectionStateListener(Consumer<IConnectionState> stateListener) {
-        this.onConnectionStateChanged.removeListener(stateListener);
-    }
-
-    @Override
     public boolean wireHasConnections() {
         return this.getCurrentWire().isAnyOutputConnected() || this.getCurrentWire().isAnyInputConnected();
     }

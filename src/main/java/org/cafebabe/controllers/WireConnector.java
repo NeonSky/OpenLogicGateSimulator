@@ -64,16 +64,6 @@ public class WireConnector implements IWireConnector {
     }
 
     @Override
-    public void addConnectionStateListener(Consumer<IConnectionState> stateListener) {
-        //todo
-    }
-
-    @Override
-    public void removeConnectionStateListener(Consumer<IConnectionState> stateListener) {
-        //todo
-    }
-
-    @Override
     public boolean canConnectTo(Port port) {
         if(port instanceof InputPort) {
             return !getCurrentWire().isAnyInputConnected() && !port.isConnected();
@@ -81,6 +71,11 @@ public class WireConnector implements IWireConnector {
             return !getCurrentWire().isAnyOutputConnected() && !port.isConnected();
         }
         else throw new RuntimeException("Invalid Port Type!");
+    }
+
+    @Override
+    public EmptyEvent onConnectionStateChanged() {
+        return onStateChanged;
     }
 
     @Override
