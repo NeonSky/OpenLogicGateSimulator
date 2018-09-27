@@ -41,7 +41,7 @@ public class NotGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "NOT-Gate";
+        return "NOT Gate";
     }
 
     @Override

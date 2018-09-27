@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
 
 <fx:root minHeight="80.0" minWidth="80.0" onDragDetected="#onDragDetected" prefHeight="100.0" prefWidth="100.0" snapToPixel="false" styleClass="list-cell-background" stylesheets="@../css/ComponentListCell.css" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="componentCell" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" snapToPixel="false" styleClass="cell-container" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label fx:id="componentNameLabel" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="23.0" layoutY="58.0" styleClass="body-text" text="Name" textAlignment="CENTER" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
-               <font>
-                  <Font name="Avenir Book" size="15.0" />
-               </font>
-            </Label>
+            <TextArea fx:id="componentNameLabel" editable="false" mouseTransparent="true" pickOnBounds="false" prefHeight="35.0" snapToPixel="false" styleClass="body-text" text="Hej" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
             <GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="40.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />

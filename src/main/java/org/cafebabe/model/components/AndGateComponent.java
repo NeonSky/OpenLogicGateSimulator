@@ -42,7 +42,7 @@ public class AndGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "AND-Gate";
+        return "AND Gate";
     }
 
     @Override

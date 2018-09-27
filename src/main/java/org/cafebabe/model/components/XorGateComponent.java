@@ -46,7 +46,7 @@ public class XorGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "XOR-Gate";
+        return "XOR Gate";
     }
 
     @Override
