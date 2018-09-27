@@ -2,6 +2,8 @@ package org.cafebabe.controllers.editor.workspace.component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -22,10 +24,8 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
-import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ViewModel;
-
 
 public class ComponentController extends AnchorPane implements ISelectable {
 
@@ -42,19 +42,13 @@ public class ComponentController extends AnchorPane implements ISelectable {
     public ComponentController(Component component, ViewModel viewModel) {
         FxmlUtil.attachFXML(this, "/view/ComponentView.fxml");
 
+        this.component = component;
         this.addPortsFromMetadata(SvgUtil.getComponentMetadata(component), component, viewModel);
 
         component.getOnDestroy().addListener(this::destroy);
         component.getTrackablePosition().addPositionListener(this::updatePosition);
 
-        svgGroup.getChildren().addAll(this.ports);
-        svgGroup.setPickOnBounds(false);
-
-        this.component = component;
-        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
-        this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
-        this.componentSvgPath.setStrokeWidth(3);
-        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
+        setupFxml();
 
         this.updateVisualState();
     }
@@ -64,6 +58,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
         return this.component;
     }
 
+    @SuppressFBWarnings(value = "UWF_NULL_FIELD", justification = "SpotBugs believes @FXML fields are always null")
     public void addClickListener(EventHandler<MouseEvent> listener) {
         this.componentSvgPath.addEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
@@ -101,6 +96,17 @@ public class ComponentController extends AnchorPane implements ISelectable {
     }
 
     /* Private */
+    @SuppressFBWarnings(value = "UWF_NULL_FIELD", justification = "SpotBugs believes @FXML fields are always null")
+    private void setupFxml() {
+        svgGroup.getChildren().addAll(this.ports);
+        svgGroup.setPickOnBounds(false);
+
+        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
+        this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
+        this.componentSvgPath.setStrokeWidth(3);
+        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
+    }
+
     private void addPortsFromMetadata(Metadata componentMetadata, Component component, ViewModel viewModel) {
         componentMetadata.inPortMetadata.forEach(m -> ports.add(new InPortController(m.x, m.y, (InputPort) component.getPort(m.name), viewModel)));
         componentMetadata.outPortMetadata.forEach(m -> ports.add(new OutPortController(m.x, m.y, (OutputPort) component.getPort(m.name), viewModel)));
