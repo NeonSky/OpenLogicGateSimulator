@@ -4,11 +4,10 @@ public class MockComponent extends Component {
 
     // This component should not be loaded
     // @ComponentConstructor
-    public MockComponent(){}
+    public MockComponent() {
+    }
 
-    @Override
-    protected void update() {}
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "Buffer_ANSI";
@@ -22,5 +21,9 @@ public class MockComponent extends Component {
     @Override
     public String getDescription() {
         return "Delays the signal by one tick";
+    }
+
+    @Override
+    protected void update() {
     }
 }

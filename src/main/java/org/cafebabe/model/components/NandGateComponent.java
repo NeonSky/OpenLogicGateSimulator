@@ -1,16 +1,16 @@
 package org.cafebabe.model.components;
 
+import java.util.Arrays;
+import java.util.Map;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
-
-import java.util.Map;
-import java.util.Arrays;
 
 
 public class NandGateComponent extends Component {
 
-    private InputPort input1, input2;
-    private OutputPort output;
+    private final InputPort input1;
+    private final InputPort input2;
+    private final OutputPort output;
 
     @ComponentConstructor
     public NandGateComponent() {
@@ -30,11 +30,7 @@ public class NandGateComponent extends Component {
         input2.onStateChangedEvent().addListener(p -> update());
     }
 
-    @Override
-    protected void update() {
-        setOutputState(output, !(input1.isHigh() && input2.isHigh()), Arrays.asList(input1, input2));
-    }
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "NAND_ANSI";
@@ -48,6 +44,11 @@ public class NandGateComponent extends Component {
     @Override
     public String getDescription() {
         return "Emits no signal if both inputs are active";
+    }
+
+    @Override
+    protected void update() {
+        setOutputState(output, !(input1.isHigh() && input2.isHigh()), Arrays.asList(input1, input2));
     }
 
 }

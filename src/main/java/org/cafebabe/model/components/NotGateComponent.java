@@ -1,18 +1,15 @@
 package org.cafebabe.model.components;
 
-import org.cafebabe.model.components.connections.InputPort;
-import org.cafebabe.model.components.connections.LogicState;
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
-
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
+import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.OutputPort;
 
 
 public class NotGateComponent extends Component {
 
-    private InputPort input;
-    private OutputPort output;
+    private final InputPort input;
+    private final OutputPort output;
 
     @ComponentConstructor
     public NotGateComponent() {
@@ -29,11 +26,7 @@ public class NotGateComponent extends Component {
         input.onStateChangedEvent().addListener(p -> update());
     }
 
-    @Override
-    protected void update() {
-        setOutputState(output, !input.isHigh(), Arrays.asList(input));
-    }
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "NOT_ANSI";
@@ -47,6 +40,11 @@ public class NotGateComponent extends Component {
     @Override
     public String getDescription() {
         return "Emits the opposite signal of the input";
+    }
+
+    @Override
+    protected void update() {
+        setOutputState(output, !input.isHigh(), Collections.singletonList(input));
     }
 
 }
