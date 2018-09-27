@@ -20,7 +20,7 @@ public class ColorUtil {
         if (STATE_TO_COLOR.containsKey(state)) {
             return STATE_TO_COLOR.get(state);
         } else {
-            throw new RuntimeException("Attempting to get color with unmapped LogicState.");
+            throw new RuntimeException("No color mapped to state: " + state.toString());
         }
     }
 

@@ -30,7 +30,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
     private List<PortController> ports = new ArrayList<>();
     private Component component;
     private Position position;
-    private boolean isSelected = false;
+    private boolean isSelected;
 
     ComponentController(Component component, int x, int y, IWireConnector wireConnector) {
         this(component, new Position(x, y), wireConnector);

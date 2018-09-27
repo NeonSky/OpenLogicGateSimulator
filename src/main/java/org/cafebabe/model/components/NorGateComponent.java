@@ -42,7 +42,7 @@ public class NorGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "NOR-Gate";
+        return "NOR Gate";
     }
 
     @Override
