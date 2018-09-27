@@ -1,27 +1,21 @@
 package org.cafebabe.model.components;
 
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
-
 import java.util.Map;
+import org.cafebabe.model.components.connections.OutputPort;
 
 public class PowerSourceComponent extends Component {
 
-    private OutputPort northOutput;
-
     @ComponentConstructor
     public PowerSourceComponent() {
-        northOutput = new OutputPort();
+        OutputPort northOutput = new OutputPort();
         TAG_TO_OUTPUT = java.util.Map.ofEntries(
-            Map.entry("output", northOutput)
+                Map.entry("output", northOutput)
         );
 
         setOutputState(northOutput, true);
     }
 
-    @Override
-    protected void update() {}
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "PowerSource";
@@ -35,6 +29,10 @@ public class PowerSourceComponent extends Component {
     @Override
     public String getDescription() {
         return "Emits an active signal to all connected outputs";
+    }
+
+    @Override
+    protected void update() {
     }
 
 }
