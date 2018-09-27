@@ -1,4 +1,4 @@
-####  Agenda for meetings:
+####  Group meeting 27/09:
 
 1. News affecting the team
 
