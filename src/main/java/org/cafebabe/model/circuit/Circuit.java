@@ -1,14 +1,15 @@
 package org.cafebabe.model.circuit;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 
-import java.util.*;
-
 public class Circuit {
-    private Set<Component> components = new HashSet<>();
-    private Set<Wire> wires = new HashSet<>();
+    private final Set<Component> components = new HashSet<>();
+    private final Set<Wire> wires = new HashSet<>();
 
+    /* Public */
     public void addComponent(Component component) {
         if (this.components.contains(component)) {
             throw new RuntimeException("Trying to add same component to workspace several times");
@@ -50,5 +51,4 @@ public class Circuit {
         return wires;
     }
 
-    public void simulate() {} // TODO
 }
