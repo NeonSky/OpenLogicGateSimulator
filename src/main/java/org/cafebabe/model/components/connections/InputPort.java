@@ -19,7 +19,7 @@ public class InputPort extends Port {
             this.stateSource = stateSource;
 
             if(this.stateSource != null) {
-                stateSource.onStateChanged.addListener((s) -> onStateChanged.notifyAll(this));
+                stateSource.onStateChanged.addListener((s) -> onStateChanged.notifyListeners(this));
             }
         });
     }
@@ -29,7 +29,7 @@ public class InputPort extends Port {
     }
 
     public void destroy() {
-        willBeDestroyed.notifyAll(this);
+        willBeDestroyed.notifyListeners(this);
     }
 
     @Override

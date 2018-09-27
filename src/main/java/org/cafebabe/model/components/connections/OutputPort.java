@@ -25,7 +25,7 @@ public class OutputPort extends Port {
     }
 
     public void destroy() {
-        willBeDestroyed.notifyAll(this);
+        willBeDestroyed.notifyListeners(this);
     }
 
     void setConnected(boolean connected) {
