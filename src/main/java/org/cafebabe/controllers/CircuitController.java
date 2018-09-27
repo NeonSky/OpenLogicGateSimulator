@@ -209,7 +209,7 @@ class CircuitController extends AnchorPane implements IWireConnector {
         refreshComponentPane();
     }
 
-    void safeRemove(ISelectable component) {
+    void safeRemove(IBelongToController component) {
         if (this.wireSet.contains(component)) {
             this.wireSet.remove(component);
         }
