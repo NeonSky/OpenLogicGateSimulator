@@ -14,7 +14,7 @@ import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.util.ColorUtil;
 
-class ComponentListCellController extends AnchorPane {
+public class ComponentListCellController extends AnchorPane {
 
     final static private int CELL_MARGIN = 20;
 
@@ -93,7 +93,7 @@ class ComponentListCellController extends AnchorPane {
         this.svg.setScaleY(finalScaleFactor);
     }
 
-    String getComponentName() {
+    public String getComponentName() {
         return this.displayName;
     }
 }

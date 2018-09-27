@@ -1,5 +1,8 @@
 package org.cafebabe.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
@@ -7,19 +10,15 @@ import javafx.scene.shape.Circle;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.workspace.Position;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.cafebabe.viewmodel.ViewModel;
 
 public abstract class PortController extends AnchorPane {
 
-    final IWireConnector wireConnector;
-    @FXML protected Circle connectionNodeCircle;
-    private final String name;
+    final ViewModel viewModel;
+    @FXML
+    Circle connectionNodeCircle;
 
-    public PortController(String name, double x, double y, IWireConnector wireConnector) {
-        this.name = name;
+    PortController(double x, double y, ViewModel viewModel) {
         FxmlUtil.attachFXML(this, "/view/PortView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
@@ -27,27 +26,11 @@ public abstract class PortController extends AnchorPane {
         connectionNodeCircle.setCenterX(x);
         connectionNodeCircle.setCenterY(y);
         connectionNodeCircle.onMouseClickedProperty().setValue(e -> this.onClick());
-        wireConnector.onConnectionStateChanged().addListener(this::handleUpdatedConnectionState);
-        this.wireConnector = wireConnector;
+        viewModel.onConnectionStateChanged().addListener(this::handleUpdatedConnectionState);
+        this.viewModel = viewModel;
     }
 
-    protected abstract void onClick();
-
-    protected abstract void handleUpdatedConnectionState();
-
-    void computeAndSetStyleClasses(Port port, String... extraClasses) {
-        List<String> styleClasses = new ArrayList<>(Arrays.asList(extraClasses));
-        if(port.isConnected()){
-            styleClasses.add("connected");
-            if(port.isHigh()) {
-                styleClasses.add("active");
-            }
-        } else if (wireConnector.canConnectTo(port) && wireConnector.wireHasConnections()) {
-            styleClasses.add("candidate");
-        }
-        this.connectionNodeCircle.getStyleClass().setAll(styleClasses);
-    }
-
+    /* Public */
     public Position getPos() {
         Point2D pos = connectionNodeCircle.localToParent(new Point2D(
                 connectionNodeCircle.getCenterX(),
@@ -59,4 +42,23 @@ public abstract class PortController extends AnchorPane {
         pos = this.getParent().getParent().localToParent(pos);
         return new Position((int) pos.getX(), (int) pos.getY());
     }
+
+    /* Package-Private */
+    void computeAndSetStyleClasses(Port port, String... extraClasses) {
+        List<String> styleClasses = new ArrayList<>(Arrays.asList(extraClasses));
+        if (port.isConnected()) {
+            styleClasses.add("connected");
+            if (port.isHigh()) {
+                styleClasses.add("active");
+            }
+        } else if (viewModel.canConnectTo(port) && viewModel.wireHasConnections()) {
+            styleClasses.add("candidate");
+        }
+        this.connectionNodeCircle.getStyleClass().setAll(styleClasses);
+    }
+
+    /* Private */
+    protected abstract void onClick();
+
+    protected abstract void handleUpdatedConnectionState();
 }
