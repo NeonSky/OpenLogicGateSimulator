@@ -8,10 +8,8 @@ import org.cafebabe.viewmodel.ViewModel;
 
 public class WorkspaceController extends AnchorPane {
 
-    @FXML
-    private AnchorPane workspaceRoot;
-    @FXML
-    private AnchorPane circuitAnchorPane;
+    @FXML private AnchorPane workspaceRoot;
+    @FXML private AnchorPane circuitAnchorPane;
 
     public WorkspaceController(Workspace workspace) {
         FxmlUtil.attachFXML(this, "/view/WorkspaceView.fxml");
@@ -19,6 +17,10 @@ public class WorkspaceController extends AnchorPane {
         Workspace workspace1 = workspace;
         ViewModel viewModel = new ViewModel(workspace1);
         CircuitController circuitController = new CircuitController(viewModel);
+        setupFxml(circuitController);
+    }
+
+    private void setupFxml(CircuitController circuitController) {
         this.circuitAnchorPane.getChildren().add(circuitController);
 
         FxmlUtil.scaleWithAnchorPaneParent(workspaceRoot);
