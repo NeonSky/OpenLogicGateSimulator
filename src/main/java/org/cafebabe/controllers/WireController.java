@@ -17,7 +17,7 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 import org.cafebabe.util.Event;
 
-public class WireController implements ISelectable {
+public class WireController implements IBelongToController {
 
 
     private final Event<WireController> willBeDestroyed = new Event<>();
