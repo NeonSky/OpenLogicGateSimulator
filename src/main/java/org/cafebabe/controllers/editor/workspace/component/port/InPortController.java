@@ -1,4 +1,4 @@
-package org.cafebabe.controllers;
+package org.cafebabe.controllers.editor.workspace.component.port;
 
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.viewmodel.ViewModel;

@@ -2,9 +2,8 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
-
-<fx:root type="AnchorPane"  stylesheets="@../css/PortView.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Circle fx:id="connectionNodeCircle" fill="#da0000" radius="6.0" strokeWidth="2" stroke="BLACK" strokeType="INSIDE" />
-   </children>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="AnchorPane" stylesheets="@../css/PortView.css"
+         xmlns="http://javafx.com/javafx/9.0.1">
+    <Circle fx:id="connectionNodeCircle" fill="#da0000" radius="6.0" strokeWidth="2" stroke="BLACK"
+            strokeType="INSIDE"/>
 </fx:root>
