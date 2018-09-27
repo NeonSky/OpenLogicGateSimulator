@@ -24,8 +24,4 @@ class NotGateComponentTest {
         assertFalse(out.isHigh());
     }
 
-    @Test
-    void noSelfEnergyTest() {
-        // TODO
-    }
 }

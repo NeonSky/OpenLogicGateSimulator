@@ -32,8 +32,4 @@ class XnorGateComponentTest {
         assertTrue(out.isHigh());
     }
 
-    @Test
-    void noSelfEnergyTest() {
-        // TODO
-    }
 }
