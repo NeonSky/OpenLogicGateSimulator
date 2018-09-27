@@ -1,5 +1,9 @@
 package org.cafebabe.viewmodel;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
@@ -13,6 +17,8 @@ import org.cafebabe.util.Event;
 public class ViewModel {
     public final Event<Component> onComponentAdded = new Event<>();
     public final Event<Wire> onWireAdded = new Event<>();
+    public final Event<Node> onDragSelectionDetected = new Event<>();
+    public final Event<Node> onDragSelectionReleased = new Event<>();
     private final Workspace workspace;
     private final ControllerSelector controllerSelector = new ControllerSelector();
     private final ConnectionManager connectionManager;
@@ -67,5 +73,19 @@ public class ViewModel {
 
     public void clearSelection() {
         this.controllerSelector.clearSelection();
+    }
+
+    public void handleMouseDragged(MouseEvent event) {
+        controllerSelector.handleMouseDragged(event);
+        if (event.isDragDetect()) {
+            Node selectionRect = controllerSelector.getSelectionBox();
+            this.onDragSelectionDetected.notifyListeners(selectionRect);
+        }
+    }
+
+    public void handleMouseDragReleased(MouseEvent event) {
+        Node selectionRect = controllerSelector.getSelectionBox();
+        this.onDragSelectionReleased.notifyListeners(selectionRect);
+        controllerSelector.handleMouseDragReleased(event);
     }
 }
