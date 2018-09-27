@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class PowerChainTest {
+class PowerChainTest {
 
     private static Wire on, off;
 

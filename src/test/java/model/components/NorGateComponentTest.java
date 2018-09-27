@@ -33,8 +33,4 @@ class NorGateComponentTest {
 
     }
 
-    @Test
-    void noSelfEnergyTest() {
-        // TODO
-    }
 }
