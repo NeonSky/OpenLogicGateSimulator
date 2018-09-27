@@ -1,6 +1,7 @@
 package org.cafebabe.controllers.editor.workspace;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +27,8 @@ class CircuitController extends AnchorPane {
         this.viewModel = viewModel;
         viewModel.onComponentAdded.addListener(this::addComponent);
         viewModel.onWireAdded.addListener(this::addWire);
+        viewModel.onDragSelectionDetected.addListener(this::addSelectionBox);
+        viewModel.onDragSelectionReleased.addListener(this::removeSelectionBox);
         setupFxml();
         this.componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
     }
@@ -46,6 +49,8 @@ class CircuitController extends AnchorPane {
 
         FxmlUtil.onSceneClick(this, this::handleMouseClick);
         FxmlUtil.onSceneKeyPress(this, this::handleKeyPress);
+        FxmlUtil.onMouseDragged(this.componentPane, viewModel::handleMouseDragged);
+        FxmlUtil.onMouseDragReleased(this.componentPane, viewModel::handleMouseDragReleased);
     }
 
     private void addWire(Wire wire) {
@@ -67,7 +72,14 @@ class CircuitController extends AnchorPane {
         newCompController.addClickListener(event ->
                 this.viewModel.handleControllerClick(newCompController, event)
         );
+    }
 
+    private void addSelectionBox(Node rectangle) {
+        this.componentPane.getChildren().add(rectangle);
+    }
+
+    private void removeSelectionBox(Node rectangle) {
+        this.componentPane.getChildren().remove(rectangle);
     }
 
     private void handleMouseClick(MouseEvent event) {
