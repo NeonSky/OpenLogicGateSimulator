@@ -1,43 +1,50 @@
 package org.cafebabe.controllers.util;
 
-import javax.xml.parsers.*;
-
-import org.w3c.dom.Document;
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Objects;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.cafebabe.model.components.Component;
+import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.cafebabe.model.components.Component;
-
 public class SvgUtil {
 
-    private static NodeList getNodesWithTag(File file, String tag) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(file);
-            return document.getElementsByTagName(tag);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    /* Public */
+
+    /**
+     * Returns the component's associated SVG path.
+     */
+    public static String getComponentSvgPath(Component component) {
+        return loadSvgPath(SvgUtil.getComponentSvgFile(component), false);
     }
 
-    private static boolean isWirePath(Node node) {
-        return node.getAttributes().getNamedItem("iswire").getNodeValue().equals("true");
+    /**
+     * Returns the component's associated SVG path, but excludes any wire visuals.
+     */
+    public static String getBareComponentSvgPath(Component component) {
+        return loadSvgPath(SvgUtil.getComponentSvgFile(component), true);
     }
 
-    /** Returns the full SVG path of the given component's associated SVG file. */
+    public static Metadata getComponentMetadata(Component component) {
+        return loadMetadata(getComponentSvgFile(component));
+    }
+
+    /* Private */
+
+    /**
+     * Returns the full SVG path of the given component's associated SVG file.
+     */
     private static String loadSvgPath(File file, boolean loadBarePath) {
         StringBuilder svgPath = new StringBuilder();
         NodeList paths = getNodesWithTag(file, "path");
-        for(int i = 0; i < paths.getLength(); i++) {
-            if(loadBarePath && isWirePath(paths.item(i))) {
+        for (int i = 0; i < Objects.requireNonNull(paths).getLength(); i++) {
+            if (loadBarePath && isWirePath(paths.item(i))) {
                 continue;
             }
             svgPath.append(paths.item(i).getAttributes().getNamedItem("d").getNodeValue());
@@ -45,8 +52,9 @@ public class SvgUtil {
         return svgPath.toString();
     }
 
-
-    /** Returns the component's associated SVG file. */
+    /**
+     * Returns the component's associated SVG file.
+     */
     private static File getComponentSvgFile(Component component) {
         try {
             return new File(component.getClass().getResource("/gates/" + component.getAnsiName() + ".svg").toURI());
@@ -56,17 +64,20 @@ public class SvgUtil {
         return null;
     }
 
-    private static List<PortData> loadPortData(File file, String type) {
-        NodeList nodes = getNodesWithTag(file, type);
-        List<PortData> ports = new ArrayList<>();
-        for(int i = 0; i < nodes.getLength(); i++) {
-            NamedNodeMap attr = nodes.item(i).getAttributes();
-            String name = attr.getNamedItem("name").getNodeValue();
-            String x = attr.getNamedItem("x").getNodeValue();
-            String y = attr.getNamedItem("y").getNodeValue();
-            ports.add(new PortData(name, x, y));
+    private static NodeList getNodesWithTag(File file, String tag) {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
+            return document.getElementsByTagName(tag);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return ports;
+        return null;
+    }
+
+    private static boolean isWirePath(Node node) {
+        return node.getAttributes().getNamedItem("iswire").getNodeValue().equals("true");
     }
 
     private static Metadata loadMetadata(File file) {
@@ -76,17 +87,16 @@ public class SvgUtil {
         return metadata;
     }
 
-    /** Returns the component's associated SVG path. */
-    public static String getComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvgFile(component), false);
-    }
-
-    /** Returns the component's associated SVG path, but excludes any wire visuals. */
-    public static String getBareComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvgFile(component), true);
-    }
-
-    public static Metadata getComponentMetadata(Component component) {
-        return loadMetadata(getComponentSvgFile(component));
+    private static List<PortData> loadPortData(File file, String type) {
+        NodeList nodes = getNodesWithTag(file, type);
+        List<PortData> ports = new ArrayList<>();
+        for (int i = 0; i < Objects.requireNonNull(nodes).getLength(); i++) {
+            NamedNodeMap attr = nodes.item(i).getAttributes();
+            String name = attr.getNamedItem("name").getNodeValue();
+            String x = attr.getNamedItem("x").getNodeValue();
+            String y = attr.getNamedItem("y").getNodeValue();
+            ports.add(new PortData(name, x, y));
+        }
+        return ports;
     }
 }

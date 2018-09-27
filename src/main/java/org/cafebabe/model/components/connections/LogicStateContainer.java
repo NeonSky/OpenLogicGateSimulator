@@ -2,28 +2,11 @@ package org.cafebabe.model.components.connections;
 
 import org.cafebabe.util.Event;
 
-import java.util.List;
-
 public abstract class LogicStateContainer {
 
-    protected Event<LogicStateContainer> onStateChanged = new Event<>();
+    Event<LogicStateContainer> onStateChanged = new Event<>();
 
-
-    /** Run a function while checking if the state changed */
-    protected void notifyIfStateChanges(Runnable stateMutator) {
-        LogicState prevState = logicState();
-        try {
-            stateMutator.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(logicState() != prevState) {
-            onStateChanged.notifyListeners(this);
-        }
-    }
-
-    public abstract LogicState logicState();
-
+    /* Public */
     public final boolean isUndefined() {
         return logicState() == LogicState.UNDEFINED;
     }
@@ -39,4 +22,24 @@ public abstract class LogicStateContainer {
     public final Event<LogicStateContainer> onStateChangedEvent() {
         return onStateChanged;
     }
+
+    /* Package-Private */
+
+    /**
+     * Run a function while checking if the state changed
+     */
+    void notifyIfStateChanges(Runnable stateMutator) {
+        LogicState prevState = logicState();
+        try {
+            stateMutator.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (logicState() != prevState) {
+            onStateChanged.notifyListeners(this);
+        }
+    }
+
+    /* Private */
+    protected abstract LogicState logicState();
 }
