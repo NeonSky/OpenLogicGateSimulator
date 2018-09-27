@@ -10,14 +10,42 @@ public class CanvasGridPane extends Pane {
     private final Canvas canvas;
 
     private final int GRIDLINE_SPACING = 20;
-    private final Color GRIDLINE_COLOR = Color.LIGHTGRAY;
 
     public CanvasGridPane() {
         canvas = new Canvas(100, 100);
         getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        Color GRIDLINE_COLOR = Color.LIGHTGRAY;
         gc.setStroke(GRIDLINE_COLOR);
+    }
+
+    /* Private */
+    private void drawGrid() {
+        clearGrid();
+        drawHorizontalGridLines();
+        drawVerticalGridLines();
+    }
+
+    private void clearGrid() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, getWidth(), getHeight());
+    }
+
+    private void drawHorizontalGridLines() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        for (int i = 0; i < getHeight(); i += GRIDLINE_SPACING) {
+            gc.strokeLine(0, i, getWidth(), i);
+        }
+    }
+
+    private void drawVerticalGridLines() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        for (int i = 0; i < getWidth(); i += GRIDLINE_SPACING) {
+            gc.strokeLine(i, 0, i, getHeight());
+        }
     }
 
     @Override
@@ -33,32 +61,5 @@ public class CanvasGridPane extends Pane {
         canvas.setHeight(h);
 
         drawGrid();
-    }
-
-    private void drawGrid() {
-        clearGrid();
-        drawHorizontalGridLines();
-        drawVerticalGridLines();
-    }
-
-    private void clearGrid() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, getWidth(), getHeight());
-    }
-
-    private void drawHorizontalGridLines() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        for (int i=0; i < getHeight(); i+=GRIDLINE_SPACING) {
-            gc.strokeLine(0, i, getWidth(), i);
-        }
-    }
-
-    private void drawVerticalGridLines() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        for (int i=0; i < getWidth(); i+=GRIDLINE_SPACING) {
-            gc.strokeLine(i, 0, i, getHeight());
-        }
     }
 }
