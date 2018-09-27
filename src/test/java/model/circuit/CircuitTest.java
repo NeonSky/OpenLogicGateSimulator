@@ -83,11 +83,4 @@ class CircuitTest {
         assertThrows(RuntimeException.class, () -> c.removeComponent(new AndGateComponent()));
     }
 
-    @Test
-    void addWire() { // TODO
-    }
-
-    @Test
-    void removeWire() { // TODO
-    }
 }
