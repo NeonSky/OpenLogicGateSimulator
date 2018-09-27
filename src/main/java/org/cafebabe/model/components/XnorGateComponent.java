@@ -46,7 +46,7 @@ public class XnorGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "XNOR-Gate";
+        return "XNOR Gate";
     }
 
     @Override

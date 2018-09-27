@@ -3,6 +3,8 @@ package org.cafebabe.controllers;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +23,7 @@ class ComponentListCellController extends AnchorPane {
     @FXML private AnchorPane componentCell;
     @FXML private SVGPath svg;
     @FXML private GridPane grid;
-    @FXML private Label componentNameLabel;
+    @FXML private TextArea componentNameLabel;
 
     public ComponentListCellController(String name, String svgContent) throws RuntimeException {
         FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
@@ -43,7 +45,6 @@ class ComponentListCellController extends AnchorPane {
         db.setContent(c1);
         db.setDragView(new WritableImage(1, 1));
 
-
         event.consume();
     }
 
@@ -58,7 +59,8 @@ class ComponentListCellController extends AnchorPane {
         }
 
         String upperCasedName = displayName.toUpperCase();
-        this.componentNameLabel.setText(upperCasedName.replaceAll("[- ]", "\n"));
+        this.componentNameLabel.setText(upperCasedName);
+        this.componentNameLabel.setWrapText(true);
     }
 
     private void setComponentSvgContent(String svgContent) {

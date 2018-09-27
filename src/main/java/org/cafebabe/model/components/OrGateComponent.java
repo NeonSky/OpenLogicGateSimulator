@@ -43,7 +43,7 @@ public class OrGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "OR-Gate";
+        return "OR Gate";
     }
 
     @Override

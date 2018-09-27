@@ -42,7 +42,7 @@ public class NandGateComponent extends Component {
 
     @Override
     public String getDisplayName() {
-        return "NAND-Gate";
+        return "NAND Gate";
     }
 
     @Override
