@@ -10,6 +10,7 @@ public class Workspace {
         this.circuit = new Circuit();
     }
 
+    /* Public */
     public Circuit getCircuit() {
         return this.circuit;
     }
