@@ -13,13 +13,6 @@ class XorGateComponentTest {
 
     private static Wire on, off;
 
-    @Test
-    void metadataTest() {
-        XorGateComponent comp = new XorGateComponent();
-        assertEquals("XOR_ANSI", comp.getAnsiName());
-        assertEquals("XOR-Gate", comp.getDisplayName());
-        assertEquals("Emits an active signal if exactly one input is active", comp.getDescription());
-    }
 
     @BeforeAll
     static void setup() {

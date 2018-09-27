@@ -10,13 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrGateComponentTest {
 
-    @Test
-    void metadataTest() {
-        OrGateComponent comp = new OrGateComponent();
-        assertEquals("OR_ANSI", comp.getAnsiName());
-        assertEquals("OR-Gate", comp.getDisplayName());
-        assertEquals("Emits an active signal if either inputs are active", comp.getDescription());
-    }
 
     @Test
     void intendedUseTest() {

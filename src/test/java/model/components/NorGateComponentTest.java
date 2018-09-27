@@ -9,13 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NorGateComponentTest {
 
-    @Test
-    void metadataTest() {
-        NorGateComponent comp = new NorGateComponent();
-        assertEquals("NOR_ANSI", comp.getAnsiName());
-        assertEquals("NOR-Gate", comp.getDisplayName());
-        assertEquals("Emits no signal if any inputs are active", comp.getDescription());
-    }
 
     @Test
     void intendedUseTest() {
