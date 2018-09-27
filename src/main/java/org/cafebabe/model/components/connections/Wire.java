@@ -125,7 +125,7 @@ public class Wire extends LogicStateContainer implements IBelongToCircuit {
     }
 
     public void destroy() {
-        willBeDestroyed.notifyAll(this);
+        willBeDestroyed.notifyListeners(this);
     }
 
     public Event<Wire> onWillBeDestroyed() {

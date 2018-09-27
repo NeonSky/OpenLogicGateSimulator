@@ -156,7 +156,7 @@ public class WireController implements ISelectable {
 
     private void onDestroy(Wire w) {
         disconnectFromWorkspace();
-        willBeDestroyed.notifyAll(this);
+        willBeDestroyed.notifyListeners(this);
     }
 
     public Event<WireController> onWillBeDestroyed() {

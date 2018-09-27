@@ -18,7 +18,7 @@ public abstract class LogicStateContainer {
             e.printStackTrace();
         }
         if(logicState() != prevState) {
-            onStateChanged.notifyAll(this);
+            onStateChanged.notifyListeners(this);
         }
     }
 
