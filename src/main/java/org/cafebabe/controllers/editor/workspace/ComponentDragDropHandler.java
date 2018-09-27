@@ -3,7 +3,7 @@ package org.cafebabe.controllers.editor.workspace;
 import java.util.Objects;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
-import org.cafebabe.controllers.ComponentListCellController;
+import org.cafebabe.controllers.editor.ComponentListCellController;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;

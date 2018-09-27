@@ -1,8 +1,7 @@
-package org.cafebabe.controllers;
+package org.cafebabe.controllers.editor.workspace;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import org.cafebabe.controllers.editor.workspace.CircuitController;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.viewmodel.ViewModel;

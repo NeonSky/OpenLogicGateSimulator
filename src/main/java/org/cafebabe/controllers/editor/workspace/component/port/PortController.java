@@ -1,4 +1,4 @@
-package org.cafebabe.controllers;
+package org.cafebabe.controllers.editor.workspace.component.port;
 
 import java.util.ArrayList;
 import java.util.Arrays;
