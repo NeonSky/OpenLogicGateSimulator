@@ -1,8 +1,8 @@
 package org.cafebabe.model.workspace;
 
 public class Position {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Position() {
         this(0, 0);
@@ -13,22 +13,13 @@ public class Position {
         this.y = y;
     }
 
+    /* Public */
     public int getX() {
         return this.x;
     }
 
     public int getY() {
         return this.y;
-    }
-
-    public void move(int targetX, int targetY) {
-        this.x = targetX;
-        this.y = targetY;
-    }
-
-    public void translate(int deltaX, int deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
     }
 
     public String toString() {
