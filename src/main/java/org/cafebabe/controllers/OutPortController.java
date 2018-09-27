@@ -1,17 +1,21 @@
 package org.cafebabe.controllers;
 
+import org.cafebabe.controllers.PortController;
 import org.cafebabe.model.components.connections.OutputPort;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.cafebabe.viewmodel.ViewModel;
 
 public class OutPortController extends PortController {
-    private OutputPort port;
+    private final OutputPort port;
 
-    public OutPortController(String name, double x, double y, OutputPort port, IWireConnector wireConnector) {
-        super(name, x, y, wireConnector);
+    public OutPortController(double x, double y, OutputPort port, ViewModel connectionManager) {
+        super(x, y, connectionManager);
         this.port = port;
         this.connectionNodeCircle.getStyleClass().add("outPort");
+    }
+
+    /* Private */
+    private void connectIfPossible() {
+        this.viewModel.tryConnectWire(this.port);
     }
 
     @Override
@@ -22,9 +26,5 @@ public class OutPortController extends PortController {
     @Override
     protected void handleUpdatedConnectionState() {
         computeAndSetStyleClasses(this.port, "outPort");
-    }
-
-    private void connectIfPossible() {
-        this.wireConnector.tryConnectWire(this, this.port);
     }
 }
