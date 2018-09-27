@@ -21,7 +21,7 @@ public class InPortController extends PortController {
     }
 
     @Override
-    protected void handleUpdatedConnectionState(IConnectionState connectionState) {
+    protected void handleUpdatedConnectionState() {
         computeAndSetStyleClasses(this.port, "inPort");
     }
 

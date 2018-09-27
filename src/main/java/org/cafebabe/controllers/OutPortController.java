@@ -1,6 +1,5 @@
 package org.cafebabe.controllers;
 
-import org.cafebabe.model.components.connections.IConnectionState;
 import org.cafebabe.model.components.connections.OutputPort;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class OutPortController extends PortController {
     }
 
     @Override
-    protected void handleUpdatedConnectionState(IConnectionState connectionState) {
+    protected void handleUpdatedConnectionState() {
         computeAndSetStyleClasses(this.port, "outPort");
     }
 
