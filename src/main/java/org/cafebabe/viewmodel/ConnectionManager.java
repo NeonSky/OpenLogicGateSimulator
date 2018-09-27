@@ -16,7 +16,6 @@ class ConnectionManager {
 
 
     ConnectionManager(Workspace model, ViewModel viewModel) {
-        Workspace model1 = model;
         this.viewModel = viewModel;
     }
 

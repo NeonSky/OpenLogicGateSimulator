@@ -10,7 +10,7 @@ public class CanvasGridPane extends Pane {
 
     private final Canvas canvas;
 
-    private final int GRIDLINE_SPACING = 20;
+    private static final int GRIDLINE_SPACING = 20;
 
     public CanvasGridPane() {
         canvas = new Canvas(100, 100);
