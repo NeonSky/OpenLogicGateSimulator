@@ -1,7 +1,5 @@
 package org.cafebabe.viewmodel;
 
-import java.util.HashSet;
-import java.util.Set;
 import javafx.scene.input.MouseEvent;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
@@ -17,9 +15,7 @@ public class ViewModel {
     public final Event<Wire> onWireAdded = new Event<>();
     private final Workspace workspace;
     private final ControllerSelector controllerSelector = new ControllerSelector();
-    private final Set<ISelectable> selectableSet = new HashSet<>();
     private final ConnectionManager connectionManager;
-    Event<ISelectable> onSelectableSelected = new Event<>();
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
@@ -47,10 +43,6 @@ public class ViewModel {
         return connectionManager.wireHasConnections();
     }
 
-    public void broadcastConnectionState() {
-        connectionManager.broadcastConnectionState();
-    }
-
     public void abortSelections() {
         connectionManager.abortSelections();
     }
@@ -63,23 +55,6 @@ public class ViewModel {
     public void addComponent(Component component) {
         workspace.getCircuit().addComponent(component);
         onComponentAdded.notifyListeners(component);
-    }
-
-    public void selectComponent(ISelectable selectable) {
-        selectableSet.add(selectable);
-        selectable.select();
-    }
-
-    public void deselectComponent(ISelectable selectable) {
-        selectableSet.remove(selectable);
-        selectable.deselect();
-    }
-
-    public void deleteSelectedComponents() {
-        for (ISelectable selectable : selectableSet) {
-            selectable.destroy();
-        }
-        selectableSet.clear();
     }
 
     public void deleteSelectedControllers() {
