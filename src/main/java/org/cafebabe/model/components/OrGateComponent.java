@@ -1,25 +1,24 @@
 package org.cafebabe.model.components;
 
-import org.cafebabe.model.components.connections.InputPort;
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
-
 import java.util.Arrays;
 import java.util.Map;
+import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.OutputPort;
 
 
 public class OrGateComponent extends Component {
 
-    private InputPort input1, input2;
-    private OutputPort output;
+    private final InputPort input1;
+    private final InputPort input2;
+    private final OutputPort output;
 
     @ComponentConstructor
     public OrGateComponent() {
         input1 = new InputPort();
         input2 = new InputPort();
         TAG_TO_INPUT = Map.ofEntries(
-            Map.entry("input1", input1),
-            Map.entry("input2", input2)
+                Map.entry("input1", input1),
+                Map.entry("input2", input2)
         );
 
         output = new OutputPort();
@@ -31,11 +30,7 @@ public class OrGateComponent extends Component {
         input2.onStateChangedEvent().addListener(p -> update());
     }
 
-    @Override
-    protected void update() {
-        setOutputState(output, input1.isHigh() || input2.isHigh(), Arrays.asList(input1, input2));
-    }
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "OR_ANSI";
@@ -49,6 +44,11 @@ public class OrGateComponent extends Component {
     @Override
     public String getDescription() {
         return "Emits an active signal if either inputs are active";
+    }
+
+    @Override
+    protected void update() {
+        setOutputState(output, input1.isHigh() || input2.isHigh(), Arrays.asList(input1, input2));
     }
 
 }

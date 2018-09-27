@@ -1,17 +1,16 @@
 package org.cafebabe.model.components;
 
-import org.cafebabe.model.components.connections.InputPort;
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
-
 import java.util.Arrays;
 import java.util.Map;
+import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.OutputPort;
 
 
 public class XnorGateComponent extends Component {
 
-    private InputPort input1, input2;
-    private OutputPort output;
+    private final InputPort input1;
+    private final InputPort input2;
+    private final OutputPort output;
 
     @ComponentConstructor
     public XnorGateComponent() {
@@ -31,14 +30,7 @@ public class XnorGateComponent extends Component {
         input2.onStateChangedEvent().addListener(p -> update());
     }
 
-    @Override
-    protected void update() {
-        setOutputState(
-                output,
-                (input1.isHigh() && input2.isHigh()) || (input1.isLow() && input2.isLow()),
-                Arrays.asList(input1, input2));
-    }
-
+    /* Public */
     @Override
     public String getAnsiName() {
         return "XNOR_ANSI";
@@ -52,6 +44,14 @@ public class XnorGateComponent extends Component {
     @Override
     public String getDescription() {
         return "Emits no signal if exactly one input is active";
+    }
+
+    @Override
+    protected void update() {
+        setOutputState(
+                output,
+                (input1.isHigh() && input2.isHigh()) || (input1.isLow() && input2.isLow()),
+                Arrays.asList(input1, input2));
     }
 
 }
