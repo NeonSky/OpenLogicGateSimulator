@@ -5,7 +5,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import org.cafebabe.controllers.util.FxmlUtil;
-import org.cafebabe.model.components.connections.IConnectionState;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.workspace.Position;
 
@@ -28,13 +27,13 @@ public abstract class PortController extends AnchorPane {
         connectionNodeCircle.setCenterX(x);
         connectionNodeCircle.setCenterY(y);
         connectionNodeCircle.onMouseClickedProperty().setValue(e -> this.onClick());
-        wireConnector.addConnectionStateListener(this::handleUpdatedConnectionState);
+        wireConnector.onConnectionStateChanged().addListener(this::handleUpdatedConnectionState);
         this.wireConnector = wireConnector;
     }
 
     protected abstract void onClick();
 
-    protected abstract void handleUpdatedConnectionState(IConnectionState connectionState);
+    protected abstract void handleUpdatedConnectionState();
 
     void computeAndSetStyleClasses(Port port, String... extraClasses) {
         List<String> styleClasses = new ArrayList<>(Arrays.asList(extraClasses));
