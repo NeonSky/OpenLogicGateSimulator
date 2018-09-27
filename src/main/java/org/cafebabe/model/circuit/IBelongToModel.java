@@ -1,5 +1,5 @@
 package org.cafebabe.model.circuit;
 
-public interface IBelongToCircuit {
+public interface IBelongToModel {
     void destroy();
 }

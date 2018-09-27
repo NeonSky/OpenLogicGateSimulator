@@ -33,7 +33,7 @@ public class Circuit {
         this.wires.remove(wire);
     }
 
-    public void safeRemove(IBelongToCircuit component) {
+    public void safeRemove(IBelongToModel component) {
         if (components.contains(component)) {
             this.components.remove(component);
         }

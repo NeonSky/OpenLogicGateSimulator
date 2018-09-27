@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
-import org.cafebabe.model.circuit.IBelongToCircuit;
+import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
@@ -164,7 +164,7 @@ public class WireController implements ISelectable {
     }
 
     @Override
-    public IBelongToCircuit getModelObject() {
+    public IBelongToModel getModelObject() {
         return this.wire;
     }
 }
