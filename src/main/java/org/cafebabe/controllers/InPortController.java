@@ -1,18 +1,20 @@
 package org.cafebabe.controllers;
 
-import org.cafebabe.model.components.connections.IConnectionState;
 import org.cafebabe.model.components.connections.InputPort;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.cafebabe.viewmodel.ViewModel;
 
 public class InPortController extends PortController {
-    private InputPort port;
+    private final InputPort port;
 
-    public InPortController(String name, double x, double y, InputPort port, IWireConnector wireConnector) {
-        super(name, x, y, wireConnector);
+    public InPortController(double x, double y, InputPort port, ViewModel viewModel) {
+        super(x, y, viewModel);
         this.connectionNodeCircle.getStyleClass().add("inPort");
         this.port = port;
+    }
+
+    /* Private */
+    private void connectIfPossible() {
+        viewModel.tryConnectWire(this.port);
     }
 
     @Override
@@ -23,9 +25,5 @@ public class InPortController extends PortController {
     @Override
     protected void handleUpdatedConnectionState() {
         computeAndSetStyleClasses(this.port, "inPort");
-    }
-
-    private void connectIfPossible() {
-        wireConnector.tryConnectWire(this, this.port);
     }
 }
