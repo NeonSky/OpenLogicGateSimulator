@@ -1,6 +1,7 @@
 package org.cafebabe.viewmodel;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javafx.scene.Node;
@@ -63,6 +64,22 @@ public class ViewModel {
         this.onComponentAdded.notifyListeners(component);
     }
 
+    public void selectComponent(ISelectable selectable) {
+        controllerSelector.select(selectable);
+    }
+
+    public void selectComponents(List<ISelectable> selectables) {
+        controllerSelector.select(selectables);
+    }
+
+    public void deselectComponent(ISelectable selectable) {
+        controllerSelector.deselect(selectable);
+    }
+
+    public void deselectComponents(List<ISelectable> selectables) {
+        controllerSelector.deselect(selectables);
+    }
+
     public void deleteSelectedControllers() {
         this.controllerSelector.deleteSelectedControllers();
     }
@@ -77,14 +94,17 @@ public class ViewModel {
 
     public void handleMouseDragged(MouseEvent event) {
         controllerSelector.handleMouseDragged(event);
+        Node selectionBox = controllerSelector.getSelectionBox();
         if (event.isDragDetect()) {
-            Node selectionRect = controllerSelector.getSelectionBox();
-            this.onDragSelectionDetected.notifyListeners(selectionRect);
+            this.onDragSelectionDetected.notifyListeners(selectionBox);
         }
     }
 
     public void handleMouseDragReleased(MouseEvent event) {
         Node selectionRect = controllerSelector.getSelectionBox();
+        if (selectionRect == null) {
+            return;
+        }
         this.onDragSelectionReleased.notifyListeners(selectionRect);
         controllerSelector.handleMouseDragReleased(event);
     }
