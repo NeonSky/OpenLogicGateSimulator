@@ -58,6 +58,7 @@ class PowerChainTest {
 
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void notGateChainShouldAlternate() {
         Wire prev = on;
 
@@ -78,6 +79,7 @@ class PowerChainTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void reverseNotGateChainShouldAlternate() {
         final PowerSourceComponent p = new PowerSourceComponent();
 
@@ -114,6 +116,7 @@ class PowerChainTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void orGateChainShouldFlowPower() {
         Wire prev = on;
 
@@ -129,6 +132,7 @@ class PowerChainTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void reversedOrGateChainShouldFlowPower() {
         Wire res = new Wire();
 

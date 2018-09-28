@@ -28,6 +28,7 @@ class CircuitTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void addMultipleComponentsToCircuit() {
         Circuit c = new Circuit();
 
@@ -60,6 +61,7 @@ class CircuitTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void removeMultipleComponentsFromCircuit() {
         Circuit c = new Circuit();
 
