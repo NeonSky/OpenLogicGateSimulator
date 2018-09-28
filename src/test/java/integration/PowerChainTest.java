@@ -19,7 +19,7 @@ class PowerChainTest {
     private static Wire on, off;
 
     @BeforeAll
-    static void setup() {
+    static void setUp() {
         final PowerSourceComponent power = new PowerSourceComponent();
         final NotGateComponent not = new NotGateComponent();
         on = new Wire();
