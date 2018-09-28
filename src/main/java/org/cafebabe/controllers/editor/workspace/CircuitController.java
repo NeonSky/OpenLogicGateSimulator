@@ -1,6 +1,7 @@
 package org.cafebabe.controllers.editor.workspace;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
@@ -13,7 +14,11 @@ import org.cafebabe.controllers.util.CanvasGridPane;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class CircuitController extends AnchorPane {
 
@@ -28,7 +33,7 @@ class CircuitController extends AnchorPane {
         viewModel.onComponentAdded.addListener(this::addComponent);
         viewModel.onWireAdded.addListener(this::addWire);
         viewModel.onDragSelectionDetected.addListener(this::addSelectionBox);
-        viewModel.onDragSelectionReleased.addListener(this::removeSelectionBox);
+        viewModel.onDragSelectionReleased.addListener(this::makeDragSelection);
         setupFxml();
         this.componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
     }
@@ -47,9 +52,13 @@ class CircuitController extends AnchorPane {
         this.componentPane.setStyle("-fx-background-color: transparent");
         this.componentPane.toFront();
 
-        FxmlUtil.onSceneClick(this, this::handleMouseClick);
+        FxmlUtil.onSceneClick(this.componentPane, this::handleMouseClick);
         FxmlUtil.onSceneKeyPress(this, this::handleKeyPress);
-        FxmlUtil.onMouseDragged(this.componentPane, viewModel::handleMouseDragged);
+        FxmlUtil.onMouseDragged(this.componentPane, event -> {
+            if (event.getTarget() == this.componentPane) {
+                viewModel.handleMouseDragged(event);
+            }
+        });
         FxmlUtil.onMouseDragReleased(this.componentPane, viewModel::handleMouseDragReleased);
     }
 
@@ -78,8 +87,24 @@ class CircuitController extends AnchorPane {
         this.componentPane.getChildren().add(rectangle);
     }
 
-    private void removeSelectionBox(Node rectangle) {
-        this.componentPane.getChildren().remove(rectangle);
+    private void makeDragSelection(Node selectionBox) {
+        Bounds selectionBounds = selectionBox.getBoundsInParent();
+        this.componentPane.getChildren().remove(selectionBox);
+        List<ISelectable> selectedComponents = getComponentsInBounds(selectionBounds);
+        viewModel.selectComponents(selectedComponents);
+    }
+
+    private List<ISelectable> getComponentsInBounds(Bounds bounds) {
+        List<ISelectable> selectedComponents = new ArrayList<>();
+
+        this.componentPane.getChildren().forEach(component -> {
+            Bounds compBounds = component.getBoundsInParent();
+            if (bounds.intersects(compBounds) && component instanceof ComponentController) {
+                selectedComponents.add((ISelectable)component);
+            }
+        });
+
+        return selectedComponents;
     }
 
     private void handleMouseClick(MouseEvent event) {
