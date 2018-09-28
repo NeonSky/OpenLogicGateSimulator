@@ -72,4 +72,12 @@ PMD Ruleset for Open Logic Gate Simulator (OLGS).
         </properties>
     </rule>
 
+    <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+        <properties>
+            <property name="skipAnnotations" value="true" />
+            <!-- Ignore these strings for unit tests -->
+            <property name="exceptionList" value="output,input1,input2" />
+        </properties>
+    </rule>
+
 </ruleset>

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 class WireTest {
 
     @Test
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     void powerTest() {
         Wire wire = new Wire();
         OutputPort output = new OutputPort();
@@ -42,6 +43,7 @@ class WireTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     void plugInPlugOutTest() {
         Wire wire = new Wire();
         OutputPort output = new OutputPort();
