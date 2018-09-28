@@ -1,13 +1,16 @@
 package model.util;
 
+import static org.cafebabe.model.util.ComponentUtil.componentFactory;
+import static org.cafebabe.model.util.ComponentUtil.getAllComponents;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.cafebabe.model.components.AndGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.util.ComponentUtil;
 import org.junit.jupiter.api.Test;
 
-import static org.cafebabe.model.util.ComponentUtil.componentFactory;
-import static org.cafebabe.model.util.ComponentUtil.getAllComponents;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ComponentUtilTest {
 
@@ -28,7 +31,7 @@ class ComponentUtilTest {
     void componentFactoryShouldThrowOnBadInput() {
         assertThrows(RuntimeException.class, () -> componentFactory(""));
         assertThrows(RuntimeException.class, () -> componentFactory(null));
-        assertThrows(RuntimeException.class, () -> componentFactory("foobarfoobarfoobarfoobarfoobar"));
+        assertThrows(RuntimeException.class, () -> componentFactory("foobarfoobarfoobarfoobar"));
     }
 
 }
