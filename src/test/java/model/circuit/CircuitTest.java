@@ -1,14 +1,15 @@
 package model.circuit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.AndGateComponent;
 import org.cafebabe.model.components.Component;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CircuitTest {
 
@@ -30,9 +31,9 @@ class CircuitTest {
     void addMultipleComponentsToCircuit() {
         Circuit c = new Circuit();
 
-        for (int i=0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             c.addComponent(new AndGateComponent());
-            assertEquals(c.getComponents().size(), i+1);
+            assertEquals(c.getComponents().size(), i + 1);
         }
     }
 
@@ -64,7 +65,7 @@ class CircuitTest {
 
         List<Component> componentList = new ArrayList<>();
 
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             AndGateComponent a = new AndGateComponent();
             c.addComponent(a);
             componentList.add(a);

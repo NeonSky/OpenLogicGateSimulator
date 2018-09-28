@@ -1,11 +1,13 @@
 package model.components;
 
-import org.cafebabe.model.components.PowerSourceComponent;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.cafebabe.model.components.AndGateComponent;
+import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class AndGateComponentTest {
 

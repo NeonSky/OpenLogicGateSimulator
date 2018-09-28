@@ -1,10 +1,10 @@
 package model.workspace;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TrackablePositionTest {
     @Test
@@ -43,10 +43,10 @@ class TrackablePositionTest {
         assertEquals(p.getX(), 0);
         assertEquals(p.getY(), 0);
 
-        for (int i=1; i<=10; i++) {
+        for (int i = 1; i <= 10; i++) {
             p.translate(10, -10);
-            assertEquals(p.getX(), i*10);
-            assertEquals(p.getY(), -i*10);
+            assertEquals(p.getX(), i * 10);
+            assertEquals(p.getY(), -i * 10);
         }
     }
 }

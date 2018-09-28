@@ -1,10 +1,13 @@
 package model.components.connections;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.LogicState;
+import org.cafebabe.model.components.connections.OutputPort;
+import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
-
-import org.cafebabe.model.components.connections.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WireTest {
 

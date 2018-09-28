@@ -1,23 +1,22 @@
 package model.components;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.XorGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
+import org.cafebabe.model.components.XorGateComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class XorGateComponentTest {
 
     private static Wire on, off;
 
-
     @BeforeAll
     static void setup() {
-        PowerSourceComponent power = new PowerSourceComponent();
-        NotGateComponent not = new NotGateComponent();
+        final PowerSourceComponent power = new PowerSourceComponent();
+        final NotGateComponent not = new NotGateComponent();
         on = new Wire();
         off = new Wire();
 
