@@ -16,13 +16,13 @@ public class NorGateComponent extends Component {
     public NorGateComponent() {
         input1 = new InputPort();
         input2 = new InputPort();
-        TAG_TO_INPUT = Map.ofEntries(
+        tagToInput = Map.ofEntries(
                 Map.entry("input1", input1),
                 Map.entry("input2", input2)
         );
 
         output = new OutputPort();
-        TAG_TO_OUTPUT = Map.ofEntries(
+        tagToOutput = Map.ofEntries(
                 Map.entry("output", output)
         );
 
@@ -48,7 +48,8 @@ public class NorGateComponent extends Component {
 
     @Override
     protected void update() {
-        setOutputState(output, !(input1.isHigh() || input2.isHigh()), Arrays.asList(input1, input2));
+        setOutputState(output, !(input1.isHigh() || input2.isHigh()),
+                Arrays.asList(input1, input2));
     }
 
 }

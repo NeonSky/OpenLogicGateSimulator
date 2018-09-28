@@ -15,11 +15,10 @@ import org.cafebabe.viewmodel.ViewModel;
 public abstract class PortController extends AnchorPane {
 
     final ViewModel viewModel;
-    @FXML
-    Circle connectionNodeCircle;
+    @FXML Circle connectionNodeCircle;
 
     PortController(double x, double y, ViewModel viewModel) {
-        FxmlUtil.attachFXML(this, "/view/PortView.fxml");
+        FxmlUtil.attachFxml(this, "/view/PortView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
         this.setPickOnBounds(false);

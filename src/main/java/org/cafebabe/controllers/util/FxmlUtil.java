@@ -18,9 +18,9 @@ public class FxmlUtil {
     /* Public */
 
     /**
-     * Attaches the given FXML to the given controller
+     * Attaches the given FXML to the given controller.
      */
-    public static void attachFXML(Object controller, String fxmlFilePath) {
+    public static void attachFxml(Object controller, String fxmlFilePath) {
         FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getResource(fxmlFilePath));
         fxmlLoader.setRoot(controller);
         fxmlLoader.setController(controller);
@@ -51,7 +51,9 @@ public class FxmlUtil {
     }
 
     public static void onSceneClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
-        onSceneAvailable(controller, scene -> scene.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick));
+        onSceneAvailable(controller, scene ->
+                scene.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick)
+        );
     }
 
     public static void onClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
@@ -73,11 +75,12 @@ public class FxmlUtil {
             return;
         }
 
-        final ChangeListener<Scene> SCENE_CHANGE_LISTENER = (observableScene, oldScene, newScene) -> {
-            if (newScene != null) {
-                callback.accept(newScene);
-            }
-        };
+        final ChangeListener<Scene> SCENE_CHANGE_LISTENER =
+                (observableScene, oldScene, newScene) -> {
+                    if (newScene != null) {
+                        callback.accept(newScene);
+                    }
+                };
 
         node.sceneProperty().addListener(SCENE_CHANGE_LISTENER);
     }

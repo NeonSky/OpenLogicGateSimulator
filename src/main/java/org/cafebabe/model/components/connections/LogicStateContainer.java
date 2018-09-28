@@ -26,7 +26,7 @@ public abstract class LogicStateContainer {
     /* Package-Private */
 
     /**
-     * Run a function while checking if the state changed
+     * Run a function while checking if the state changed.
      */
     void notifyIfStateChanges(Runnable stateMutator) {
         LogicState prevState = logicState();

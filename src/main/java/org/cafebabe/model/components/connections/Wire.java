@@ -33,7 +33,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     /* Public */
 
     /**
-     * Connects an InputPort if it isn't already connected, otherwise throws a RuntimeException
+     * Connects an InputPort if it isn't already connected, otherwise throws a RuntimeException.
      */
     public void connectInputPort(InputPort input) {
         if (isInputConnected(input)) {
@@ -46,7 +46,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException
+     * Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException.
      */
     public void connectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
@@ -56,8 +56,12 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
 
             output.setConnected(true);
             connectedOutputs.add(output);
-            if (output.isHigh()) powerSources.add(output);
-            if (output.isLow()) gndSources.add(output);
+            if (output.isHigh()) {
+                powerSources.add(output);
+            }
+            if (output.isLow()) {
+                gndSources.add(output);
+            }
 
             output.onWillBeDestroyed().addListener(this::onConnectedOutputPortDestroyed);
             output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
@@ -66,7 +70,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Disconnects an InputPort if it is connected, otherwise throws a RuntimeException
+     * Disconnects an InputPort if it is connected, otherwise throws a RuntimeException.
      */
     public void disconnectInputPort(InputPort input) {
         if (!isInputConnected(input)) {
@@ -79,7 +83,9 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     public void destroy() {
-        if (destructionPending) return;
+        if (destructionPending) {
+            return;
+        }
         destructionPending = true;
         disconnectAll();
         willBeDestroyed.notifyListeners();
@@ -97,7 +103,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException
+     * Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException.
      */
     public void disconnectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
@@ -119,8 +125,12 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
 
     @Override
     public LogicState logicState() {
-        if (powerSources.isEmpty() && gndSources.isEmpty()) return LogicState.UNDEFINED;
-        if (powerSources.isEmpty()) return LogicState.LOW;
+        if (powerSources.isEmpty() && gndSources.isEmpty()) {
+            return LogicState.UNDEFINED;
+        }
+        if (powerSources.isEmpty()) {
+            return LogicState.LOW;
+        }
         return LogicState.HIGH;
     }
 
@@ -135,7 +145,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     /* Private */
 
     /**
-     * Updates the wire's logical value based on updated output value
+     * Updates the wire's logical value based on updated output value.
      */
     private void onConnectedOutputStateChanged(LogicStateContainer updatedPort) {
         if (!connectedOutputs.contains(updatedPort)) {
@@ -155,6 +165,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
                     gndSources.remove(updatedPort);
                     powerSources.remove(updatedPort);
                     break;
+                default:
             }
         });
     }
@@ -182,11 +193,15 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
         }
         this.trackableStartPos = trackableStartPos;
         this.trackableStartPos.addPositionListener(this.onStartPosMoved::notifyListeners);
-        onStartPosMoved.notifyListeners(new Position(trackableStartPos.getX(), trackableStartPos.getY()));
+        onStartPosMoved.notifyListeners(
+                new Position(trackableStartPos.getX(), trackableStartPos.getY())
+        );
     }
 
     private void onConnectedInputPortDestroyed(InputPort port) {
-        if (isInputConnected(port)) disconnectInputPort(port);
+        if (isInputConnected(port)) {
+            disconnectInputPort(port);
+        }
         if (connectedPortsCount() < 2) {
             destroy();
         }
@@ -197,7 +212,9 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     private void onConnectedOutputPortDestroyed(OutputPort port) {
-        if (isOutputConnected(port)) disconnectOutputPort(port);
+        if (isOutputConnected(port)) {
+            disconnectOutputPort(port);
+        }
         if (connectedPortsCount() < 2) {
             destroy();
         }

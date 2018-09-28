@@ -18,24 +18,22 @@ class CircuitController extends AnchorPane {
 
     private final ComponentDragDropHandler componentDragDropHandler;
     private final ViewModel viewModel;
-    @FXML
-    private Pane backgroundPane;
-    @FXML
-    private Pane componentPane;
+    @FXML private Pane backgroundPane;
+    @FXML private Pane componentPane;
     private CanvasGridPane gridPane;
 
     CircuitController(ViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.onComponentAdded.addListener(this::addComponent);
         viewModel.onWireAdded.addListener(this::addWire);
-        setupFXML();
+        setupFxml();
         componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
     }
 
     /* Package-Private */
     /* Private */
-    private void setupFXML() {
-        FxmlUtil.attachFXML(this, "/view/CircuitView.fxml");
+    private void setupFxml() {
+        FxmlUtil.attachFxml(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
         gridPane = new CanvasGridPane();
@@ -54,15 +52,21 @@ class CircuitController extends AnchorPane {
         WireController wireController = new WireController(wire);
         this.componentPane.getChildren().add(wireController.getWireLine());
         wireController.getWireLine().toBack();
-        wireController.addClickListener(event -> viewModel.handleControllerClick(wireController, event));
+        wireController.addClickListener(event ->
+                viewModel.handleControllerClick(wireController, event)
+        );
         gridPane.toBack();
     }
 
     private void addComponent(Component component) {
         ComponentController newCompController = new ComponentController(component, viewModel);
         this.componentPane.getChildren().add(newCompController);
-        newCompController.setOnDragDetected((event) -> componentDragDropHandler.onComponentDragDetected(newCompController, event));
-        newCompController.addClickListener(event -> viewModel.handleControllerClick(newCompController, event));
+        newCompController.setOnDragDetected(event ->
+                componentDragDropHandler.onComponentDragDetected(newCompController, event)
+        );
+        newCompController.addClickListener(event ->
+                viewModel.handleControllerClick(newCompController, event)
+        );
 
     }
 
@@ -80,7 +84,8 @@ class CircuitController extends AnchorPane {
         }
     }
 
-    private void onComponentDragDetected(ComponentController componentController, MouseEvent event) {
+    private void onComponentDragDetected(ComponentController componentController,
+                                         MouseEvent event) {
 
         /* Need to add something (anything) to Dragboard, otherwise
          * the drag does not register on the target */

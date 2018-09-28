@@ -2,7 +2,12 @@ package org.cafebabe.controllers.editor.workspace;
 
 import java.util.Objects;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import org.cafebabe.controllers.editor.ComponentListCellController;
 import org.cafebabe.controllers.editor.workspace.component.ComponentController;
 import org.cafebabe.model.components.Component;
@@ -40,8 +45,11 @@ class ComponentDragDropHandler {
 
     void onComponentPaneDragEntered(DragEvent event) {
         if (event.getGestureSource() instanceof ComponentListCellController) {
-            ComponentListCellController componentListCellController = (ComponentListCellController) event.getGestureSource();
-            dragNewComponent = ComponentUtil.componentFactory(componentListCellController.getComponentName());
+            ComponentListCellController componentListCellController =
+                    (ComponentListCellController) event.getGestureSource();
+            dragNewComponent = ComponentUtil.componentFactory(
+                    componentListCellController.getComponentName()
+            );
             dragMousePosition = Objects.requireNonNull(dragNewComponent).getTrackablePosition();
             viewModel.addComponent(dragNewComponent);
             event.consume();
@@ -49,7 +57,8 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragExited(DragEvent event) {
-        if (event.getGestureSource() instanceof ComponentListCellController && dragNewComponent != null) {
+        if (event.getGestureSource() instanceof ComponentListCellController
+                && dragNewComponent != null) {
             dragNewComponent.destroy();
             dragNewComponent = null;
             event.consume();
@@ -81,18 +90,22 @@ class ComponentDragDropHandler {
         event.acceptTransferModes(TransferMode.ANY);
 
         dragMousePosition.move(
-                (int) event.getX() - dragStartedPosition.getX()
-                , (int) event.getY() - dragStartedPosition.getY());
+                (int) event.getX() - dragStartedPosition.getX(),
+                (int) event.getY() - dragStartedPosition.getY());
     }
 
     private void handleComponentListCellDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
-        ComponentListCellController componentListCellController = (ComponentListCellController) event.getGestureSource();
-        if (!componentListCellController.getComponentName().equals(dragNewComponent.getDisplayName())) {
-            throw new RuntimeException("Dragged component from component list is not equal to currently dragged component");
+        ComponentListCellController componentListCellController =
+                (ComponentListCellController) event.getGestureSource();
+        if (!componentListCellController.getComponentName().equals(
+                dragNewComponent.getDisplayName())) {
+            throw new RuntimeException("Dragged component from component list is "
+                    + "not equal to currently dragged component");
         }
         double height = componentListCellController.getHeight();
         double width = componentListCellController.getWidth();
-        dragMousePosition.move((int) (event.getX() - (width / 2)), (int) (event.getY() - (height / 2)));
+        dragMousePosition.move((int) (event.getX() - (width / 2)),
+                (int) (event.getY() - (height / 2)));
     }
 }

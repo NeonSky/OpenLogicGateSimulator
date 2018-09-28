@@ -102,7 +102,8 @@ public class WireController implements ISelectable {
         this.wireLine.setStartX(x.doubleValue());
         this.wireLine.setStartY(y.doubleValue());
         setWireControlPoints();
-        this.wireLine.setVisible(this.wire.isAnyOutputConnected() && this.wire.isAnyInputConnected());
+        this.wireLine.setVisible(this.wire.isAnyOutputConnected()
+                && this.wire.isAnyInputConnected());
     }
 
     private void setWireControlPoints() {
@@ -124,7 +125,8 @@ public class WireController implements ISelectable {
         this.wireLine.setEndX(x.doubleValue());
         this.wireLine.setEndY(y.doubleValue());
         setWireControlPoints();
-        this.wireLine.setVisible(this.wire.isAnyOutputConnected() && this.wire.isAnyInputConnected());
+        this.wireLine.setVisible(this.wire.isAnyOutputConnected()
+                && this.wire.isAnyInputConnected());
     }
 
     private void setSelected(boolean isSelected) {
@@ -133,7 +135,8 @@ public class WireController implements ISelectable {
 
     private void updateVisualState() {
         this.wireLine.setStroke(getWireColor());
-        this.wireLine.setVisible(this.wire.isAnyOutputConnected() && this.wire.isAnyInputConnected());
+        this.wireLine.setVisible(this.wire.isAnyOutputConnected()
+                && this.wire.isAnyInputConnected());
     }
 
     private void onDestroy() {

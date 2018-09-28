@@ -14,12 +14,12 @@ public class NotGateComponent extends Component {
     @ComponentConstructor
     public NotGateComponent() {
         input = new InputPort();
-        TAG_TO_INPUT = Map.ofEntries(
+        tagToInput = Map.ofEntries(
                 Map.entry("input", input)
         );
 
         output = new OutputPort();
-        TAG_TO_OUTPUT = Map.ofEntries(
+        tagToOutput = Map.ofEntries(
                 Map.entry("output", output)
         );
 
