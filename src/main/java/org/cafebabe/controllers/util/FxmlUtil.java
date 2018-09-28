@@ -13,7 +13,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class FxmlUtil {
+public final class FxmlUtil {
+
+    private FxmlUtil() {}
 
     /* Public */
 
@@ -75,13 +77,13 @@ public class FxmlUtil {
             return;
         }
 
-        final ChangeListener<Scene> SCENE_CHANGE_LISTENER =
+        final ChangeListener<Scene> sceneChangeListener =
                 (observableScene, oldScene, newScene) -> {
                     if (newScene != null) {
                         callback.accept(newScene);
                     }
                 };
 
-        node.sceneProperty().addListener(SCENE_CHANGE_LISTENER);
+        node.sceneProperty().addListener(sceneChangeListener);
     }
 }

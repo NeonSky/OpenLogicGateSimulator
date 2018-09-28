@@ -4,11 +4,12 @@ import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
 public class OutputPort extends Port {
-    private final Event<OutputPort> willBeDestroyed = new Event<>();
+    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+    private final Event<OutputPort> onWillBeDestroyed = new Event<>();
     private final EmptyEvent onDestroy = new EmptyEvent();
     private LogicState state;
     private boolean connected;
-    private boolean destructionPending = false;
+    private boolean destructionPending;
 
 
     public OutputPort() {
@@ -22,13 +23,14 @@ public class OutputPort extends Port {
         });
     }
 
+    @Override
     public void destroy() {
         if (destructionPending) {
             return;
         }
         destructionPending = true;
         this.onStateChanged.removeListeners();
-        willBeDestroyed.notifyListeners(this);
+        onWillBeDestroyed.notifyListeners(this);
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
     }
@@ -53,6 +55,6 @@ public class OutputPort extends Port {
     }
 
     public Event<OutputPort> onWillBeDestroyed() {
-        return willBeDestroyed;
+        return onWillBeDestroyed;
     }
 }

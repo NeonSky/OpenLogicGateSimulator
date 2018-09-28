@@ -78,7 +78,7 @@ class ComponentDragDropHandler {
             /* Handle the event if the dragged item is a component controller instance */
             handleComponentDragOver(event);
         } else if (event.getGestureSource() instanceof ComponentListCellController) {
-            /* Accept the event if the dragged item is a component list cell controller instance */
+            /* Accept the event if the dragged item is a ComponentListCellController */
             handleComponentListCellDragOver(event);
         }
 

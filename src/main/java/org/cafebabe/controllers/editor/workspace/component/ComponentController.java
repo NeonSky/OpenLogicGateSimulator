@@ -35,7 +35,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
     @FXML private Group svgGroup;
 
     private boolean isSelected;
-    private boolean destructionPending = false;
+    private boolean destructionPending;
 
 
     public ComponentController(Component component, ViewModel viewModel) {
@@ -123,7 +123,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
     }
 
     private void updateVisualState() {
-        Color newColor = (this.isSelected) ? ColorUtil.SELECTED : Color.BLACK;
+        Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
         componentSvgPath.setStroke(newColor);
     }
 

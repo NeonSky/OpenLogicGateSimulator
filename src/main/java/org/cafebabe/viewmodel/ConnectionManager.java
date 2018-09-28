@@ -4,7 +4,6 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.components.connections.Wire;
-import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.util.EmptyEvent;
 
 
@@ -15,7 +14,7 @@ class ConnectionManager {
     private Wire wire;
 
 
-    ConnectionManager(Workspace model, ViewModel viewModel) {
+    ConnectionManager(ViewModel viewModel) {
         this.viewModel = viewModel;
     }
 

@@ -26,6 +26,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
     Map<String, OutputPort> tagToOutput = Collections.unmodifiableMap(new HashMap<>());
 
     /* Public */
+    @Override
     public EmptyEvent getOnDestroy() {
         return onDestroy;
     }
@@ -52,6 +53,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
         update();
     }
 
+    @Override
     public void destroy() {
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();

@@ -47,6 +47,7 @@ public class XorGateComponent extends Component {
     }
 
     @Override
+    @SuppressWarnings("PMD.UselessParentheses")
     protected void update() {
         setOutputState(
                 output,

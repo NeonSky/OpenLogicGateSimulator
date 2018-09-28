@@ -25,6 +25,7 @@ class ComponentListController extends AnchorPane {
     }
 
     /* Private */
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private List<ComponentListCellController> componentsToListCells(List<Component> components) {
         List<ComponentListCellController> listCells = new ArrayList<>();
 

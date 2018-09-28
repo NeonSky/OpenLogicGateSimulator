@@ -21,8 +21,8 @@ public class WireController implements ISelectable {
 
     private static final int WIRE_WIDTH = 6;
 
-    private CubicCurve wireLine;
-    private Wire wire;
+    private final CubicCurve wireLine;
+    private final Wire wire;
     private boolean isSelected;
 
 
@@ -91,7 +91,7 @@ public class WireController implements ISelectable {
 
     private Color getWireColor() {
         LogicState currentState = this.wire.logicState();
-        return (this.isSelected) ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
+        return this.isSelected ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
     }
 
     private void moveStartPointTo(Position startPoint) {
@@ -137,9 +137,5 @@ public class WireController implements ISelectable {
         this.wireLine.setStroke(getWireColor());
         this.wireLine.setVisible(this.wire.isAnyOutputConnected()
                 && this.wire.isAnyInputConnected());
-    }
-
-    private void onDestroy() {
-        disconnectFromWorkspace();
     }
 }

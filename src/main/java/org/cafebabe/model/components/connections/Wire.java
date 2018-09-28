@@ -10,14 +10,18 @@ import org.cafebabe.util.Event;
 
 public class Wire extends LogicStateContainer implements IBelongToModel {
 
+    private static final int MINIMUM_WIRE_CONNECTIONS = 2;
+
     public final Event<Position> onStartPosMoved = new Event<>();
     public final Event<Position> onEndPosMoved = new Event<>();
-    private final EmptyEvent willBeDestroyed = new EmptyEvent();
+
+    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+    private final EmptyEvent onWillBeDestroyed = new EmptyEvent();
     private final Set<InputPort> connectedInputs;
     private final Set<OutputPort> connectedOutputs;
     private final Set<LogicStateContainer> powerSources;
     private final Set<LogicStateContainer> gndSources;
-    private boolean destructionPending = false;
+    private boolean destructionPending;
     private IReadOnlyMovable trackableStartPos;
     private IReadOnlyMovable trackableEndPos;
 
@@ -33,7 +37,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     /* Public */
 
     /**
-     * Connects an InputPort if it isn't already connected, otherwise throws a RuntimeException.
+     * Connects an InputPort if it isn't already connected,
+     * otherwise throws a RuntimeException.
      */
     public void connectInputPort(InputPort input) {
         if (isInputConnected(input)) {
@@ -46,7 +51,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Connects an OutputPort if it isn't already connected, otherwise throws a RuntimeException.
+     * Connects an OutputPort if it isn't already connected,
+     * otherwise throws a RuntimeException.
      */
     public void connectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
@@ -70,7 +76,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Disconnects an InputPort if it is connected, otherwise throws a RuntimeException.
+     * Disconnects an InputPort if it is connected,
+     * otherwise throws a RuntimeException.
      */
     public void disconnectInputPort(InputPort input) {
         if (!isInputConnected(input)) {
@@ -82,13 +89,14 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
         connectedInputs.remove(input);
     }
 
+    @Override
     public void destroy() {
         if (destructionPending) {
             return;
         }
         destructionPending = true;
         disconnectAll();
-        willBeDestroyed.notifyListeners();
+        onWillBeDestroyed.notifyListeners();
     }
 
     public void disconnectAll() {
@@ -103,7 +111,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     /**
-     * Disconnects an OutputPort if it is connected, otherwise throws a RuntimeException.
+     * Disconnects an OutputPort if it is connected,
+     * otherwise throws a RuntimeException.
      */
     public void disconnectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
@@ -120,7 +129,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     public EmptyEvent onWillBeDestroyed() {
-        return willBeDestroyed;
+        return onWillBeDestroyed;
     }
 
     @Override
@@ -202,7 +211,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
         if (isInputConnected(port)) {
             disconnectInputPort(port);
         }
-        if (connectedPortsCount() < 2) {
+        if (connectedPortsCount() < MINIMUM_WIRE_CONNECTIONS) {
             destroy();
         }
     }
@@ -215,7 +224,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
         if (isOutputConnected(port)) {
             disconnectOutputPort(port);
         }
-        if (connectedPortsCount() < 2) {
+        if (connectedPortsCount() < MINIMUM_WIRE_CONNECTIONS) {
             destroy();
         }
     }

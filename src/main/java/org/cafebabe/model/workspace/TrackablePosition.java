@@ -15,8 +15,8 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
     private final Set<TrackablePosition> clones = new HashSet<>();
     private int x;
     private int y;
-    private int xOffset = 0;
-    private int yOffset = 0;
+    private int xOffset;
+    private int yOffset;
 
     public TrackablePosition(Position pos) {
         this.x = pos.getX();
@@ -52,6 +52,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
         onPositionChanged.removeListener(listener);
     }
 
+    @Override
     public void destroy() {
         this.clones.forEach(TrackablePosition::destroy);
         this.onPositionChanged.removeListeners();
@@ -59,6 +60,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
         this.onDestroy.removeListeners();
     }
 
+    @Override
     public EmptyEvent getOnDestroy() {
         return onDestroy;
     }
