@@ -13,7 +13,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SvgUtil {
+public final class SvgUtil {
+
+    private SvgUtil() {}
 
     /* Public */
 
@@ -89,6 +91,7 @@ public class SvgUtil {
         return metadata;
     }
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private static List<PortData> loadPortData(File file, String type) {
         NodeList nodes = getNodesWithTag(file, type);
         List<PortData> ports = new ArrayList<>();

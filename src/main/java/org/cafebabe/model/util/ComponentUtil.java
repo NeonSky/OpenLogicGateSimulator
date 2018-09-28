@@ -13,7 +13,10 @@ import org.cafebabe.model.components.ComponentConstructor;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
-public class ComponentUtil {
+public final class ComponentUtil {
+
+    private ComponentUtil() {}
+
     /* Public */
     public static Component componentFactory(String displayName) {
         if (displayName == null || displayName.isEmpty()) {

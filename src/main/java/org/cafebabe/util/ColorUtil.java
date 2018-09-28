@@ -4,7 +4,7 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 import org.cafebabe.model.components.connections.LogicState;
 
-public class ColorUtil {
+public final class ColorUtil {
 
     public static final Color SELECTED = Color.color(80.0 / 255, 144.0 / 255, 186.0 / 255, 1);
     public static final Color GRID_LINE = Color.LIGHTGRAY;
@@ -16,12 +16,13 @@ public class ColorUtil {
     private static final Color INACTIVE = Color.color(0, 0, 0, 1);
     private static final Color UNDEFINED = Color.color(204.0 / 255, 204.0 / 255, 0, 1);
 
-
     private static final Map<LogicState, Color> STATE_TO_COLOR = Map.ofEntries(
             Map.entry(LogicState.HIGH, ColorUtil.ACTIVE),
             Map.entry(LogicState.LOW, ColorUtil.INACTIVE),
             Map.entry(LogicState.UNDEFINED, ColorUtil.UNDEFINED)
     );
+
+    private ColorUtil() {}
 
     /* Public */
     public static Color getStateColor(LogicState state) throws RuntimeException {

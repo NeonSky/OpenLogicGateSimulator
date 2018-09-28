@@ -19,7 +19,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ResourceBundle bundle = java.util.ResourceBundle.getBundle("OLGS");
+        ResourceBundle bundle = ResourceBundle.getBundle("OLGS");
         Parent root = FXMLLoader.load(getClass().getResource("/view/EditorView.fxml"), bundle);
 
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);

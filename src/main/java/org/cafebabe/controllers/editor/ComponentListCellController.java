@@ -74,8 +74,9 @@ public class ComponentListCellController extends AnchorPane {
     private void scaleComponentSvg() {
 
         /*
-         * SVG prefWidth and prefHeight methods calculate their results using a content bias.
-         * To bypass this, we pass in -1 for width and then use the width to calculate the height.
+         * SVG prefWidth and prefHeight methods calculate their results
+         * using a content bias. To bypass this, we pass in -1 for width
+         * and then use the width to calculate the height.
          */
         double width = this.svg.prefWidth(-1);
         double height = this.svg.prefHeight(width);
