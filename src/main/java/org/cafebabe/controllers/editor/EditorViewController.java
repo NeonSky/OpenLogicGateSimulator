@@ -12,14 +12,10 @@ import org.cafebabe.model.workspace.Workspace;
 
 public class EditorViewController implements Initializable {
 
-    @FXML
-    private Pane ROOT_PANE;
-    @FXML
-    private FlowPane componentFlowPane;
-    @FXML
-    private AnchorPane sidebarAnchorPane;
-    @FXML
-    private AnchorPane workspacesPane;
+    @FXML private Pane rootPane;
+    @FXML private FlowPane componentFlowPane;
+    @FXML private AnchorPane sidebarAnchorPane;
+    @FXML private AnchorPane workspacesPane;
 
     /* Public */
     @Override

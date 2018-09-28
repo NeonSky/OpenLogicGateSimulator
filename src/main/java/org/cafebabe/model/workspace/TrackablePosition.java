@@ -23,6 +23,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
         this.y = pos.getY();
     }
 
+    @SuppressWarnings("checkstyle:parametername")
     private TrackablePosition(TrackablePosition pos, int xOffset, int yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
@@ -34,6 +35,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
     }
 
     /* Public */
+    @SuppressWarnings("checkstyle:parametername")
     public IReadOnlyMovable offsetClone(int xOffset, int yOffset) {
         TrackablePosition pos = new TrackablePosition(this, xOffset, yOffset);
         clones.add(pos);

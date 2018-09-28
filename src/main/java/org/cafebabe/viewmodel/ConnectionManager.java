@@ -21,6 +21,20 @@ class ConnectionManager {
 
     /* Public */
     /* Package-Private */
+    boolean canConnectTo(Port port) {
+        if (port instanceof InputPort) {
+            return !createWireIfNeeded().isAnyInputConnected() && !port.isConnected();
+        } else if (port instanceof OutputPort) {
+            return !createWireIfNeeded().isAnyOutputConnected() && !port.isConnected();
+        } else {
+            throw new RuntimeException("Invalid Port Type!");
+        }
+    }
+
+    void broadcastConnectionState() {
+        onStateChanged.notifyListeners();
+    }
+
     void tryConnectWire(InputPort inPort) {
         if (canConnectTo(inPort)) {
             Wire wire = createWireIfNeeded();
@@ -33,18 +47,6 @@ class ConnectionManager {
             broadcastConnectionState();
             onStateChanged.notifyListeners();
         }
-    }
-
-    boolean canConnectTo(Port port) {
-        if (port instanceof InputPort) {
-            return !createWireIfNeeded().isAnyInputConnected() && !port.isConnected();
-        } else if (port instanceof OutputPort) {
-            return !createWireIfNeeded().isAnyOutputConnected() && !port.isConnected();
-        } else throw new RuntimeException("Invalid Port Type!");
-    }
-
-    void broadcastConnectionState() {
-        onStateChanged.notifyListeners();
     }
 
     void tryConnectWire(OutputPort outPort) {
@@ -66,7 +68,8 @@ class ConnectionManager {
     }
 
     boolean wireHasConnections() {
-        return this.createWireIfNeeded().isAnyOutputConnected() || this.createWireIfNeeded().isAnyInputConnected();
+        return this.createWireIfNeeded().isAnyOutputConnected()
+                || this.createWireIfNeeded().isAnyInputConnected();
     }
 
     void abortSelections() {

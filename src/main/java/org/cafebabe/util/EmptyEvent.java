@@ -10,14 +10,14 @@ public class EmptyEvent {
     /* Public */
 
     /**
-     * Adds listener to this event
+     * Adds listener to this event.
      */
     public void addListener(Runnable listener) {
         listeners.add(listener);
     }
 
     /**
-     * Removes listener from this event
+     * Removes listener from this event.
      */
     public void removeListener(Runnable listener) {
         listeners.remove(listener);
@@ -28,7 +28,7 @@ public class EmptyEvent {
     }
 
     /**
-     * Calls all listener and provides the given argument
+     * Calls all listener and provides the given argument.
      */
     public void notifyListeners() {
         listeners.forEach(Runnable::run);

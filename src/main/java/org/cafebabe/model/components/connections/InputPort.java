@@ -11,7 +11,9 @@ public class InputPort extends Port {
 
     /* Public */
     public void destroy() {
-        if (destructionPending) return;
+        if (destructionPending) {
+            return;
+        }
         destructionPending = true;
         onStateChanged.removeListeners();
         willBeDestroyed.notifyListeners(this);
@@ -26,7 +28,9 @@ public class InputPort extends Port {
 
     @Override
     public LogicState logicState() {
-        if (stateSource == null) return LogicState.UNDEFINED;
+        if (stateSource == null) {
+            return LogicState.UNDEFINED;
+        }
         return stateSource.logicState();
     }
 
@@ -43,7 +47,8 @@ public class InputPort extends Port {
     void setStateSource(LogicStateContainer stateSource) {
         notifyIfStateChanges(() -> {
             if (stateSource instanceof Port) {
-                throw new RuntimeException("Can't directly connect an input port with another port");
+                throw new RuntimeException("Can't directly connect an "
+                        + "input port with another port");
             }
             if (this.stateSource != null) {
                 throw new RuntimeException("Can't connect multiple wires to an input");

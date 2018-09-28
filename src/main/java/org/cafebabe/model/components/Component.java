@@ -7,18 +7,23 @@ import java.util.Map;
 import org.cafebabe.controllers.util.Metadata;
 import org.cafebabe.model.IDestructible;
 import org.cafebabe.model.circuit.IBelongToModel;
-import org.cafebabe.model.components.connections.*;
+import org.cafebabe.model.components.connections.InputPort;
+import org.cafebabe.model.components.connections.LogicState;
+import org.cafebabe.model.components.connections.OutputPort;
+import org.cafebabe.model.components.connections.Port;
+import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.cafebabe.util.EmptyEvent;
 
 public abstract class Component implements IBelongToModel, IDestructible {
 
-    private static final int VERTICAL_PORT_OFFSET = 28; //TODO: Find out why this is offset is needed
+    //TODO: Find out why this is offset is needed
+    private static final int VERTICAL_PORT_OFFSET = 28;
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
-    Map<String, InputPort> TAG_TO_INPUT = Collections.unmodifiableMap(new HashMap<>());
-    Map<String, OutputPort> TAG_TO_OUTPUT = Collections.unmodifiableMap(new HashMap<>());
+    Map<String, InputPort> tagToInput = Collections.unmodifiableMap(new HashMap<>());
+    Map<String, OutputPort> tagToOutput = Collections.unmodifiableMap(new HashMap<>());
 
     /* Public */
     public EmptyEvent getOnDestroy() {
@@ -26,26 +31,34 @@ public abstract class Component implements IBelongToModel, IDestructible {
     }
 
     public void connectToPort(Wire wire, String portTag) {
-        if (TAG_TO_INPUT.containsKey(portTag)) wire.connectInputPort(TAG_TO_INPUT.get(portTag));
-        else if (TAG_TO_OUTPUT.containsKey(portTag)) wire.connectOutputPort(TAG_TO_OUTPUT.get(portTag));
-        else throw new RuntimeException("This port doesn't exist on this component");
+        if (tagToInput.containsKey(portTag)) {
+            wire.connectInputPort(tagToInput.get(portTag));
+        } else if (tagToOutput.containsKey(portTag)) {
+            wire.connectOutputPort(tagToOutput.get(portTag));
+        } else {
+            throw new RuntimeException("This port doesn't exist on this component");
+        }
         update();
     }
 
     public void disconnectFromPort(Wire wire, String portTag) {
-        if (TAG_TO_INPUT.containsKey(portTag)) wire.disconnectInputPort(TAG_TO_INPUT.get(portTag));
-        else if (TAG_TO_OUTPUT.containsKey(portTag)) wire.disconnectOutputPort(TAG_TO_OUTPUT.get(portTag));
-        else throw new RuntimeException("This port doesn't exist on this component");
+        if (tagToInput.containsKey(portTag)) {
+            wire.disconnectInputPort(tagToInput.get(portTag));
+        } else if (tagToOutput.containsKey(portTag)) {
+            wire.disconnectOutputPort(tagToOutput.get(portTag));
+        } else {
+            throw new RuntimeException("This port doesn't exist on this component");
+        }
         update();
     }
 
     public void destroy() {
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
-        for (Map.Entry<String, InputPort> entry : TAG_TO_INPUT.entrySet()) {
+        for (Map.Entry<String, InputPort> entry : tagToInput.entrySet()) {
             entry.getValue().destroy();
         }
-        for (Map.Entry<String, OutputPort> entry : TAG_TO_OUTPUT.entrySet()) {
+        for (Map.Entry<String, OutputPort> entry : tagToOutput.entrySet()) {
             entry.getValue().destroy();
         }
     }
@@ -62,16 +75,25 @@ public abstract class Component implements IBelongToModel, IDestructible {
 
     public void initPorts(Metadata componentMetadata) {
         componentMetadata.inPortMetadata.forEach(p ->
-                this.getPort(p.name).setPositionTracker(this.trackablePosition.offsetClone((int) p.x, (int) p.y + VERTICAL_PORT_OFFSET))
+                this.getPort(p.name).setPositionTracker(
+                        this.trackablePosition.offsetClone((int) p.x,
+                                (int) p.y + VERTICAL_PORT_OFFSET)
+                )
         );
         componentMetadata.outPortMetadata.forEach(p ->
-                this.getPort(p.name).setPositionTracker(this.trackablePosition.offsetClone((int) p.x, (int) p.y + VERTICAL_PORT_OFFSET))
+                this.getPort(p.name).setPositionTracker(
+                        this.trackablePosition.offsetClone((int) p.x,
+                                (int) p.y + VERTICAL_PORT_OFFSET)
+                )
         );
     }
 
     public Port getPort(String portTag) {
-        if (TAG_TO_OUTPUT.containsKey(portTag)) return TAG_TO_OUTPUT.get(portTag);
-        else if (TAG_TO_INPUT.containsKey(portTag)) return TAG_TO_INPUT.get(portTag);
+        if (tagToOutput.containsKey(portTag)) {
+            return tagToOutput.get(portTag);
+        } else if (tagToInput.containsKey(portTag)) {
+            return tagToInput.get(portTag);
+        }
         throw new RuntimeException("This port doesn't exist on this component");
     }
 
