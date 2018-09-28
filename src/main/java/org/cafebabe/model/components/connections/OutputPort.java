@@ -23,7 +23,9 @@ public class OutputPort extends Port {
     }
 
     public void destroy() {
-        if (destructionPending) return;
+        if (destructionPending) {
+            return;
+        }
         destructionPending = true;
         this.onStateChanged.removeListeners();
         willBeDestroyed.notifyListeners(this);

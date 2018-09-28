@@ -4,7 +4,11 @@ import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
@@ -14,7 +18,7 @@ import org.cafebabe.util.ColorUtil;
 
 public class ComponentListCellController extends AnchorPane {
 
-    private final static int CELL_MARGIN = 20;
+    private static final int CELL_MARGIN = 20;
 
     private final String displayName;
 
@@ -25,7 +29,7 @@ public class ComponentListCellController extends AnchorPane {
 
 
     public ComponentListCellController(String name, String svgContent) throws RuntimeException {
-        FxmlUtil.attachFXML(this, "/view/ComponentListCell.fxml");
+        FxmlUtil.attachFxml(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
         this.displayName = name;
 
@@ -60,14 +64,14 @@ public class ComponentListCellController extends AnchorPane {
         }
 
         this.svg.setContent(svgContent);
-        this.scaleComponentSVG();
+        this.scaleComponentSvg();
         this.svg.setStrokeWidth(2);
         this.svg.setStrokeLineCap(StrokeLineCap.SQUARE);
         this.svg.setStroke(ColorUtil.BLACK);
         this.svg.setFill(ColorUtil.TRANSPARENT);
     }
 
-    private void scaleComponentSVG() {
+    private void scaleComponentSvg() {
 
         /*
          * SVG prefWidth and prefHeight methods calculate their results using a content bias.

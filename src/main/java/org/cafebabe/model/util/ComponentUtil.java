@@ -2,7 +2,11 @@ package org.cafebabe.model.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.cafebabe.controllers.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.ComponentConstructor;
@@ -29,7 +33,8 @@ public class ComponentUtil {
             Component instance = (Component) ctor.newInstance();
             instance.initPorts(SvgUtil.getComponentMetadata(instance));
             return instance;
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InstantiationException
+                | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
@@ -37,7 +42,8 @@ public class ComponentUtil {
     }
 
     public static List<Component> getAllComponents() {
-        Set<Constructor> constructors = new Reflections("org.cafebabe.model.components", new MethodAnnotationsScanner())
+        Set<Constructor> constructors =
+                new Reflections("org.cafebabe.model.components", new MethodAnnotationsScanner())
                 .getConstructorsAnnotatedWith(ComponentConstructor.class);
 
         List<Component> components = new ArrayList<>();
@@ -46,7 +52,8 @@ public class ComponentUtil {
                 if (Component.class.isAssignableFrom(constructor.getDeclaringClass())) {
                     components.add((Component) constructor.newInstance());
                 }
-            } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            } catch (IllegalAccessException | InstantiationException
+                    | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

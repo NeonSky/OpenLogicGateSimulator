@@ -12,14 +12,11 @@ import org.cafebabe.model.util.ComponentUtil;
 
 
 class ComponentListController extends AnchorPane {
-    @FXML
-    private FlowPane componentFlowPane;
-
-    @FXML
-    private AnchorPane componentListRoot;
+    @FXML private FlowPane componentFlowPane;
+    @FXML private AnchorPane componentListRoot;
 
     public ComponentListController() {
-        FxmlUtil.attachFXML(this, "/view/ComponentList.fxml");
+        FxmlUtil.attachFxml(this, "/view/ComponentList.fxml");
         List<Component> components = ComponentUtil.getAllComponents();
         List<ComponentListCellController> listCells = componentsToListCells(components);
 
@@ -32,7 +29,9 @@ class ComponentListController extends AnchorPane {
         List<ComponentListCellController> listCells = new ArrayList<>();
 
         for (Component component : components) {
-            ComponentListCellController clcc = new ComponentListCellController(component.getDisplayName(), SvgUtil.getComponentSvgPath(component));
+            ComponentListCellController clcc = new ComponentListCellController(
+                    component.getDisplayName(), SvgUtil.getComponentSvgPath(component)
+            );
             listCells.add(clcc);
         }
 

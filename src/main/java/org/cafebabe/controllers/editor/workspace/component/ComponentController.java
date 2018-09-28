@@ -1,9 +1,8 @@
 package org.cafebabe.controllers.editor.workspace.component;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -40,7 +39,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
 
     public ComponentController(Component component, ViewModel viewModel) {
-        FxmlUtil.attachFXML(this, "/view/ComponentView.fxml");
+        FxmlUtil.attachFxml(this, "/view/ComponentView.fxml");
 
         this.component = component;
         this.addPortsFromMetadata(SvgUtil.getComponentMetadata(component), component, viewModel);
@@ -58,7 +57,8 @@ public class ComponentController extends AnchorPane implements ISelectable {
         return this.component;
     }
 
-    @SuppressFBWarnings(value = "UWF_NULL_FIELD", justification = "SpotBugs believes @FXML fields are always null")
+    @SuppressFBWarnings(value = "UWF_NULL_FIELD",
+            justification = "SpotBugs believes @FXML fields are always null")
     public void addClickListener(EventHandler<MouseEvent> listener) {
         this.componentSvgPath.addEventFilter(MouseEvent.MOUSE_CLICKED, listener);
     }
@@ -85,7 +85,9 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
     @Override
     public void destroy() {
-        if (destructionPending) return;
+        if (destructionPending) {
+            return;
+        }
         destructionPending = true;
         FxmlUtil.destroy(this);
     }
@@ -96,7 +98,8 @@ public class ComponentController extends AnchorPane implements ISelectable {
     }
 
     /* Private */
-    @SuppressFBWarnings(value = "UWF_NULL_FIELD", justification = "SpotBugs believes @FXML fields are always null")
+    @SuppressFBWarnings(value = "UWF_NULL_FIELD",
+            justification = "SpotBugs believes @FXML fields are always null")
     private void setupFxml() {
         svgGroup.getChildren().addAll(this.ports);
         svgGroup.setPickOnBounds(false);
@@ -107,9 +110,16 @@ public class ComponentController extends AnchorPane implements ISelectable {
         this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
     }
 
-    private void addPortsFromMetadata(Metadata componentMetadata, Component component, ViewModel viewModel) {
-        componentMetadata.inPortMetadata.forEach(m -> ports.add(new InPortController(m.x, m.y, (InputPort) component.getPort(m.name), viewModel)));
-        componentMetadata.outPortMetadata.forEach(m -> ports.add(new OutPortController(m.x, m.y, (OutputPort) component.getPort(m.name), viewModel)));
+    private void addPortsFromMetadata(Metadata componentMetadata,
+                                      Component component, ViewModel viewModel) {
+        componentMetadata.inPortMetadata.forEach(m ->
+                ports.add(new InPortController(m.x, m.y,
+                        (InputPort) component.getPort(m.name), viewModel))
+        );
+        componentMetadata.outPortMetadata.forEach(m ->
+                ports.add(new OutPortController(m.x, m.y,
+                        (OutputPort) component.getPort(m.name), viewModel))
+        );
     }
 
     private void updateVisualState() {

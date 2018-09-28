@@ -12,7 +12,7 @@ public class WorkspaceController extends AnchorPane {
     @FXML private AnchorPane circuitAnchorPane;
 
     public WorkspaceController(Workspace workspace) {
-        FxmlUtil.attachFXML(this, "/view/WorkspaceView.fxml");
+        FxmlUtil.attachFxml(this, "/view/WorkspaceView.fxml");
 
         Workspace workspace1 = workspace;
         ViewModel viewModel = new ViewModel(workspace1);
