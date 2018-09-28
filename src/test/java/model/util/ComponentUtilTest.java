@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class ComponentUtilTest {
 
     @Test
-    void getAllComponentsShouldReturnAllComponents() {
+    void gettingAllComponentsShouldReturnAllComponents() {
         assertDoesNotThrow(ComponentUtil::getAllComponents);
 
         assertTrue(getAllComponents().size() > 0);
