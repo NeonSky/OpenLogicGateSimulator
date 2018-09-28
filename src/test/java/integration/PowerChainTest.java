@@ -1,18 +1,18 @@
 package integration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.OrGateComponent;
-import org.cafebabe.model.components.AndGateComponent;
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.connections.Wire;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import org.cafebabe.model.components.AndGateComponent;
+import org.cafebabe.model.components.NotGateComponent;
+import org.cafebabe.model.components.OrGateComponent;
+import org.cafebabe.model.components.PowerSourceComponent;
+import org.cafebabe.model.components.connections.Wire;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class PowerChainTest {
 
@@ -20,8 +20,8 @@ class PowerChainTest {
 
     @BeforeAll
     static void setup() {
-        PowerSourceComponent power = new PowerSourceComponent();
-        NotGateComponent not = new NotGateComponent();
+        final PowerSourceComponent power = new PowerSourceComponent();
+        final NotGateComponent not = new NotGateComponent();
         on = new Wire();
         off = new Wire();
 
@@ -62,25 +62,28 @@ class PowerChainTest {
         Wire prev = on;
 
         boolean flipper = false;
-        for(int i = 0; i < 17; i++) {
+        for (int i = 0; i < 17; i++) {
             NotGateComponent or = new NotGateComponent();
             or.connectToPort(prev, "input");
 
             prev = new Wire();
             or.connectToPort(prev, "output");
-            if(flipper) assertTrue(prev.isHigh());
-            else assertTrue(prev.isLow());
+            if (flipper) {
+                assertTrue(prev.isHigh());
+            } else {
+                assertTrue(prev.isLow());
+            }
             flipper = !flipper;
         }
     }
 
     @Test
     void reverseNotGateChainShouldAlternate() {
-        PowerSourceComponent p = new PowerSourceComponent();
+        final PowerSourceComponent p = new PowerSourceComponent();
 
         Stack<Wire> wireStack = new Stack<>();
         Wire prev = new Wire();
-        for(int i = 0; i < 17; i++) {
+        for (int i = 0; i < 17; i++) {
             NotGateComponent right = new NotGateComponent();
             right.connectToPort(prev, "output");
 
@@ -98,10 +101,12 @@ class PowerChainTest {
         assertTrue(prev.isHigh());
 
         boolean flipper = true;
-        int counter = 0;
-        while(!wireStack.empty()) {
-            if(flipper) assertTrue(wireStack.peek().isHigh());
-            else assertTrue(wireStack.peek().isLow());
+        while (!wireStack.empty()) {
+            if (flipper) {
+                assertTrue(wireStack.peek().isHigh());
+            } else {
+                assertTrue(wireStack.peek().isLow());
+            }
             wireStack.pop();
             flipper = !flipper;
         }
@@ -112,7 +117,7 @@ class PowerChainTest {
     void orGateChainShouldFlowPower() {
         Wire prev = on;
 
-        for(int i = 0; i < 17; i++) {
+        for (int i = 0; i < 17; i++) {
             OrGateComponent or = new OrGateComponent();
             or.connectToPort(prev, "input1");
             or.connectToPort(off, "input2");
@@ -129,7 +134,7 @@ class PowerChainTest {
 
         Wire prev = res;
         List<Wire> wires = new ArrayList<>();
-        for(int i = 0; i < 17; i++) {
+        for (int i = 0; i < 17; i++) {
             OrGateComponent or = new OrGateComponent();
             or.connectToPort(prev, "output");
             or.connectToPort(off, "input2");
@@ -145,7 +150,7 @@ class PowerChainTest {
         p.connectToPort(prev, "output");
         assertTrue(res.isHigh());
 
-        for(Wire w : wires) {
+        for (Wire w : wires) {
             assertTrue(w.isHigh());
         }
     }

@@ -1,11 +1,11 @@
 package model.components;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.cafebabe.model.components.NorGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NorGateComponentTest {
 
