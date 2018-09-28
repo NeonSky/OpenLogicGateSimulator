@@ -24,8 +24,4 @@ public class Event<T> {
     public void notifyListeners(T arg) {
         listeners.forEach(x -> x.accept(arg));
     }
-
-    public Set<Consumer<T>> listeners() {
-        return listeners;
-    }
 }

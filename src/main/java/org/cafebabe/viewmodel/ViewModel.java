@@ -19,7 +19,7 @@ public class ViewModel {
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
-        connectionManager = new ConnectionManager(this.workspace, this);
+        connectionManager = new ConnectionManager(this);
     }
 
     /* Public */

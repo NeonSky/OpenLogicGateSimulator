@@ -22,6 +22,7 @@ public class Position {
         return this.y;
     }
 
+    @Override
     public String toString() {
         return "(" + x + "," + y + ")";
     }

@@ -8,7 +8,7 @@ public class PowerSourceComponent extends Component {
     @ComponentConstructor
     public PowerSourceComponent() {
         OutputPort northOutput = new OutputPort();
-        tagToOutput = java.util.Map.ofEntries(
+        tagToOutput = Map.ofEntries(
                 Map.entry("output", northOutput)
         );
 

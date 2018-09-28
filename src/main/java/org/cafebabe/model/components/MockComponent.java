@@ -4,8 +4,7 @@ public class MockComponent extends Component {
 
     // This component should not be loaded
     // @ComponentConstructor
-    public MockComponent() {
-    }
+    // public MockComponent() {}
 
     /* Public */
     @Override
