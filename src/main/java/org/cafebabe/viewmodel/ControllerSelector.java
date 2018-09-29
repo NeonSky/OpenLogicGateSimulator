@@ -3,6 +3,7 @@ package org.cafebabe.viewmodel;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.scene.input.MouseEvent;
+import org.cafebabe.model.circuit.Circuit;
 
 class ControllerSelector {
 
@@ -10,8 +11,9 @@ class ControllerSelector {
 
 
     /* Public */
-    public void deleteSelectedControllers() {
+    public void deleteSelectedControllers(Circuit circuit) {
         for (ISelectable comp : this.selectedComponents) {
+            circuit.safeRemove(comp.getModelObject());
             comp.getModelObject().destroy();
         }
         this.selectedComponents.clear();
