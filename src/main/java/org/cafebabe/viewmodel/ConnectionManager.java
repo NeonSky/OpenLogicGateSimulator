@@ -36,29 +36,27 @@ class ConnectionManager {
 
     void tryConnectWire(InputPort inPort) {
         if (canConnectTo(inPort)) {
-            Wire wire = createWireIfNeeded();
-            wire.connectInputPort(inPort);
-
-            if (wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
-                stopEditingWire();
-            }
+            createWireIfNeeded();
+            this.wire.connectInputPort(inPort);
 
             broadcastConnectionState();
-            this.onStateChanged.notifyListeners();
+
+            if (this.wire.isAnyInputConnected() && this.wire.isAnyOutputConnected()) {
+                finishEditingWire();
+            }
         }
     }
 
     void tryConnectWire(OutputPort outPort) {
         if (canConnectTo(outPort)) {
-            Wire wire = this.createWireIfNeeded();
-            wire.connectOutputPort(outPort);
-
-            if (wire.isAnyInputConnected() && wire.isAnyOutputConnected()) {
-                stopEditingWire();
-            }
+            createWireIfNeeded();
+            this.wire.connectOutputPort(outPort);
 
             broadcastConnectionState();
-            this.onStateChanged.notifyListeners();
+
+            if (this.wire.isAnyInputConnected() && this.wire.isAnyOutputConnected()) {
+                finishEditingWire();
+            }
         }
     }
 
@@ -71,31 +69,30 @@ class ConnectionManager {
                 || this.createWireIfNeeded().isAnyInputConnected();
     }
 
-    void abortSelections() {
-        abortWireConnection();
-        this.viewModel.clearSelection();
+    void abortWireConnection() {
+        if (this.wire != null) {
+            createWireIfNeeded().disconnectAll();
+            createWireIfNeeded().destroy();
+            stopEditingWire();
+        }
+        this.broadcastConnectionState();
     }
 
     /* Private */
     private Wire createWireIfNeeded() {
         if (this.wire == null) {
             this.wire = new Wire();
-            this.viewModel.addWire(this.wire);
         }
         return this.wire;
     }
 
-    private void stopEditingWire() {
-        this.wire = null;
+    private void finishEditingWire() {
+        this.viewModel.addWire(this.wire);
+        stopEditingWire();
     }
 
-    private void abortWireConnection() {
-        if (this.wire != null) {
-            this.createWireIfNeeded().disconnectAll();
-            this.createWireIfNeeded().destroy();
-        }
-        this.stopEditingWire();
-        this.broadcastConnectionState();
+    private void stopEditingWire() {
+        this.wire = null;
     }
 
 }

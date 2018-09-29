@@ -89,6 +89,11 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
         return this.y + this.yOffset;
     }
 
+    @Override
+    public String toString() {
+        return "(" + this.x + "," + this.y + ")";
+    }
+
     /* Private */
     private void notifyPositionChanged() {
         int x = this.getX();

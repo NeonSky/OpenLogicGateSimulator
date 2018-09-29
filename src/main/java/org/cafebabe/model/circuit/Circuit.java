@@ -27,19 +27,27 @@ public class Circuit {
     }
 
     public void addWire(Wire wire) {
+        if (this.wires.contains(wire)) {
+            throw new RuntimeException("Trying to add same wire to workspace several times");
+        }
+
         this.wires.add(wire);
     }
 
     public void removeWire(Wire wire) {
+        if (!this.wires.contains(wire)) {
+            throw new RuntimeException("Trying to remove nonexistent wire from workspace");
+        }
+
         this.wires.remove(wire);
     }
 
-    public void safeRemove(IBelongToModel component) {
-        if (this.components.contains(component)) {
-            this.components.remove(component);
+    public void removeItem(IBelongToModel item) {
+        if (item instanceof Component) {
+            removeComponent((Component) item);
         }
-        if (this.wires.contains(component)) {
-            this.components.remove(component);
+        if (item instanceof Wire) {
+            removeWire((Wire) item);
         }
     }
 
