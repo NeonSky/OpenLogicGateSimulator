@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.controllers.util.FxmlUtil;
+import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
@@ -35,6 +36,11 @@ public class WireController implements ISelectable {
         this.wireLine = new CubicCurve();
         setWireDrawingOptions();
         this.wireLine.setPickOnBounds(false);
+
+        IReadOnlyMovable startPos = this.wire.getStartPos();
+        moveStartPointTo(startPos.getX(), startPos.getY());
+        IReadOnlyMovable endPos = this.wire.getEndPos();
+        moveEndPointTo(endPos.getX(), endPos.getY());
     }
 
     /* Public */
