@@ -108,6 +108,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
             for (OutputPort outport : this.connectedOutputs) {
                 disconnectOutputPort(outport);
             }
+            onStateChanged.notifyListeners(this);
         });
     }
 
@@ -150,6 +151,14 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
 
     public boolean isAnyOutputConnected() {
         return !this.connectedOutputs.isEmpty();
+    }
+
+    public IReadOnlyMovable getStartPos() {
+        return this.trackableStartPos;
+    }
+
+    public IReadOnlyMovable getEndPos() {
+        return this.trackableEndPos;
     }
 
     /* Private */

@@ -50,7 +50,8 @@ public class ViewModel {
     }
 
     public void abortSelections() {
-        this.connectionManager.abortSelections();
+        this.controllerSelector.clearSelection();
+        this.connectionManager.abortWireConnection();
     }
 
     public void addWire(Wire wire) {
@@ -80,7 +81,11 @@ public class ViewModel {
     }
 
     public void deleteSelectedControllers() {
-        this.controllerSelector.deleteSelectedControllers(this.workspace.getCircuit());
+        for (ISelectable component : this.controllerSelector.getSelectedComponents()) {
+            this.workspace.getCircuit().removeItem(component.getModelObject());
+            component.getModelObject().destroy();
+        }
+        this.connectionManager.broadcastConnectionState();
     }
 
     public void handleControllerClick(ISelectable component, MouseEvent event) {
