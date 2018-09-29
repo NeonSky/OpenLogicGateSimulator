@@ -7,10 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import org.cafebabe.model.circuit.Circuit;
+import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.AndGateComponent;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("PMD.TooManyMethods")
 class CircuitTest {
 
     @Test
@@ -24,7 +27,7 @@ class CircuitTest {
     void addSingleComponentToCircuit() {
         Circuit c = new Circuit();
         c.addComponent(new AndGateComponent());
-        assertEquals(c.getComponents().size(), 1);
+        assertEquals(1, c.getComponents().size());
     }
 
     @Test
@@ -34,7 +37,7 @@ class CircuitTest {
 
         for (int i = 0; i < 10; i++) {
             c.addComponent(new AndGateComponent());
-            assertEquals(c.getComponents().size(), i + 1);
+            assertEquals(i + 1, c.getComponents().size());
         }
     }
 
@@ -44,7 +47,7 @@ class CircuitTest {
         Component a = new AndGateComponent();
 
         c.addComponent(a);
-        assertEquals(c.getComponents().size(), 1);  // adding once is fine
+        assertEquals(1, c.getComponents().size());  // adding once is fine
         assertThrows(RuntimeException.class, () -> c.addComponent(a));  // adding again is error
     }
 
@@ -55,7 +58,7 @@ class CircuitTest {
         AndGateComponent a = new AndGateComponent();
 
         c.addComponent(a);
-        assertEquals(c.getComponents().size(), 1);
+        assertEquals(1, c.getComponents().size());
         c.removeComponent(a);
         assertTrue(c.getComponents().isEmpty());
     }
@@ -84,6 +87,93 @@ class CircuitTest {
     void removeNonexistentComponentShouldThrow() {
         Circuit c = new Circuit();
         assertThrows(RuntimeException.class, () -> c.removeComponent(new AndGateComponent()));
+    }
+
+    @Test
+    void addSingleWireToCircuit() {
+        Circuit c = new Circuit();
+        c.addWire(new Wire());
+        assertEquals(1, c.getWires().size());
+    }
+
+    @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    void addMultipleWireToCircuit() {
+        Circuit c = new Circuit();
+
+        for (int i = 0; i < 10; i++) {
+            c.addWire(new Wire());
+            assertEquals(i + 1, c.getWires().size());
+        }
+    }
+
+    @Test
+    void addSameWireShouldThrow() {
+        Circuit c = new Circuit();
+        Wire w = new Wire();
+
+        c.addWire(w);
+        assertEquals(1, c.getWires().size());  // adding once is fine
+        assertThrows(RuntimeException.class, () -> c.addWire(w));  // adding again is error
+    }
+
+    @Test
+    void removeSingleWireFromCircuit() {
+        Circuit c = new Circuit();
+        Wire w = new Wire();
+
+        c.addWire(w);
+        assertEquals(1, c.getWires().size());
+        c.removeWire(w);
+        assertTrue(c.getWires().isEmpty());
+    }
+
+    @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    void removeMultipleWiresFromCircuit() {
+        Circuit c = new Circuit();
+
+        List<Wire> wireList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Wire w = new Wire();
+            c.addWire(w);
+            wireList.add(w);
+        }
+
+        for (Wire w : wireList) {
+            c.removeWire(w);
+        }
+
+        assertTrue(c.getComponents().isEmpty());
+    }
+
+    @Test
+    void removeNonexistentWireShouldThrow() {
+        Circuit c = new Circuit();
+        assertThrows(RuntimeException.class, () -> c.removeWire(new Wire()));
+    }
+
+    @Test
+    void removeItemShouldRemoveComponent() {
+        Circuit c = new Circuit();
+        Component component = new AndGateComponent();
+        c.addComponent(component);
+        assertEquals(1, c.getComponents().size());
+
+        c.removeItem((IBelongToModel) component);
+        assertEquals(0, c.getComponents().size());
+    }
+
+    @Test
+    void removeItemShouldRemoveWire() {
+        Circuit c = new Circuit();
+        Wire wire = new Wire();
+        c.addWire(wire);
+        assertEquals(1, c.getWires().size());
+
+        c.removeItem((IBelongToModel) wire);
+        assertEquals(0, c.getWires().size());
     }
 
 }
