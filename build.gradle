@@ -64,12 +64,14 @@ test {
 // Use checkstyle 8.11 (latest), rather than gradle default ancient 6.19
 checkstyle {
     toolVersion '8.11'
+    ignoreFailures false
+    maxWarnings 0
 }
 
 // Configure PMD settings
 pmd {
     toolVersion '6.7.0'
     consoleOutput true
-    ignoreFailures true
+    ignoreFailures false
     ruleSetFiles files("config/pmd/olgsRuleSet.xml")
 }
