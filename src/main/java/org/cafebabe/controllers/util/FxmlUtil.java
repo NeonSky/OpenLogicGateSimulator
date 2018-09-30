@@ -51,7 +51,7 @@ public class FxmlUtil {
     }
 
     public static void onSceneClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
-        onSceneAvailible(controller, scene -> scene.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick));
+        onSceneAvailable(controller, scene -> scene.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick));
     }
 
     public static void onClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
@@ -59,7 +59,7 @@ public class FxmlUtil {
     }
 
     public static void onSceneKeyPress(Node controller, EventHandler<KeyEvent> handleKeyPress) {
-        onSceneAvailible(controller, scene -> scene.setOnKeyPressed(handleKeyPress));
+        onSceneAvailable(controller, scene -> scene.setOnKeyPressed(handleKeyPress));
     }
 
     public static void onKeyPress(Node controller, EventHandler<KeyEvent> handleKeyPress) {
@@ -67,7 +67,7 @@ public class FxmlUtil {
     }
 
     /* Private */
-    private static void onSceneAvailible(Node node, Consumer<Scene> callback) {
+    private static void onSceneAvailable(Node node, Consumer<Scene> callback) {
         if (node.getScene() != null) {
             callback.accept(node.getScene());
             return;

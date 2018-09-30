@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import org.cafebabe.util.ColorUtil;
 
 public class CanvasGridPane extends Pane {
 
@@ -16,8 +17,7 @@ public class CanvasGridPane extends Pane {
         getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        Color GRIDLINE_COLOR = Color.LIGHTGRAY;
-        gc.setStroke(GRIDLINE_COLOR);
+        gc.setStroke(ColorUtil.GRID_LINE);
     }
 
     /* Private */
