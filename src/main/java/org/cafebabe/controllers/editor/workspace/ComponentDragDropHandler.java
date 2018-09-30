@@ -37,8 +37,8 @@ class ComponentDragDropHandler {
         dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
         dragboard.setContent(dummyContent);
         dragboard.setDragView(new WritableImage(1, 1));
-        dragStartedPosition = new Position((int) event.getX(), (int) event.getY());
-        dragMousePosition = componentController.getComponent().getTrackablePosition();
+        this.dragStartedPosition = new Position((int) event.getX(), (int) event.getY());
+        this.dragMousePosition = componentController.getComponent().getTrackablePosition();
 
         event.consume();
     }
@@ -47,20 +47,21 @@ class ComponentDragDropHandler {
         if (event.getGestureSource() instanceof ComponentListCellController) {
             ComponentListCellController componentListCellController =
                     (ComponentListCellController) event.getGestureSource();
-            dragNewComponent = ComponentUtil.componentFactory(
+            this.dragNewComponent = ComponentUtil.componentFactory(
                     componentListCellController.getComponentName()
             );
-            dragMousePosition = Objects.requireNonNull(dragNewComponent).getTrackablePosition();
-            viewModel.addComponent(dragNewComponent);
+            this.dragMousePosition = Objects.requireNonNull(this.dragNewComponent)
+                    .getTrackablePosition();
+            this.viewModel.addComponent(this.dragNewComponent);
             event.consume();
         }
     }
 
     void onComponentPaneDragExited(DragEvent event) {
         if (event.getGestureSource() instanceof ComponentListCellController
-                && dragNewComponent != null) {
-            dragNewComponent.destroy();
-            dragNewComponent = null;
+                && this.dragNewComponent != null) {
+            this.dragNewComponent.destroy();
+            this.dragNewComponent = null;
             event.consume();
         }
     }
@@ -69,7 +70,7 @@ class ComponentDragDropHandler {
         if (event.getGestureSource() instanceof ComponentListCellController) {
             event.setDropCompleted(true);
             event.consume();
-            dragNewComponent = null;
+            this.dragNewComponent = null;
         }
     }
 
@@ -89,9 +90,9 @@ class ComponentDragDropHandler {
     private void handleComponentDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
 
-        dragMousePosition.move(
-                (int) event.getX() - dragStartedPosition.getX(),
-                (int) event.getY() - dragStartedPosition.getY());
+        this.dragMousePosition.move(
+                (int) event.getX() - this.dragStartedPosition.getX(),
+                (int) event.getY() - this.dragStartedPosition.getY());
     }
 
     private void handleComponentListCellDragOver(DragEvent event) {
@@ -99,13 +100,13 @@ class ComponentDragDropHandler {
         ComponentListCellController componentListCellController =
                 (ComponentListCellController) event.getGestureSource();
         if (!componentListCellController.getComponentName().equals(
-                dragNewComponent.getDisplayName())) {
+                this.dragNewComponent.getDisplayName())) {
             throw new RuntimeException("Dragged component from component list is "
                     + "not equal to currently dragged component");
         }
         double height = componentListCellController.getHeight();
         double width = componentListCellController.getWidth();
-        dragMousePosition.move((int) (event.getX() - (width / 2)),
+        this.dragMousePosition.move((int) (event.getX() - (width / 2)),
                 (int) (event.getY() - (height / 2)));
     }
 }

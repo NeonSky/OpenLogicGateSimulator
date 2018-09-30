@@ -10,18 +10,18 @@ public class Event<T> {
 
     /* Public */
     public void addListener(Consumer<T> listener) {
-        listeners.add(listener);
+        this.listeners.add(listener);
     }
 
     public void removeListener(Consumer<T> listener) {
-        listeners.remove(listener);
+        this.listeners.remove(listener);
     }
 
     public void removeListeners() {
-        listeners.clear();
+        this.listeners.clear();
     }
 
     public void notifyListeners(T arg) {
-        listeners.forEach(x -> x.accept(arg));
+        this.listeners.forEach(x -> x.accept(arg));
     }
 }

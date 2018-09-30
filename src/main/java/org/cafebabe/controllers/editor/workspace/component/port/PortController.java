@@ -22,18 +22,18 @@ public abstract class PortController extends AnchorPane {
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
         this.setPickOnBounds(false);
-        connectionNodeCircle.setCenterX(x);
-        connectionNodeCircle.setCenterY(y);
-        connectionNodeCircle.onMouseClickedProperty().setValue(e -> this.onClick());
+        this.connectionNodeCircle.setCenterX(x);
+        this.connectionNodeCircle.setCenterY(y);
+        this.connectionNodeCircle.onMouseClickedProperty().setValue(e -> this.onClick());
         viewModel.onConnectionStateChanged().addListener(this::handleUpdatedConnectionState);
         this.viewModel = viewModel;
     }
 
     /* Public */
     public Position getPos() {
-        Point2D pos = connectionNodeCircle.localToParent(new Point2D(
-                connectionNodeCircle.getCenterX(),
-                connectionNodeCircle.getCenterY()
+        Point2D pos = this.connectionNodeCircle.localToParent(new Point2D(
+                this.connectionNodeCircle.getCenterX(),
+                this.connectionNodeCircle.getCenterY()
         ));
 
         pos = this.localToParent(pos);
@@ -50,7 +50,7 @@ public abstract class PortController extends AnchorPane {
             if (port.isHigh()) {
                 styleClasses.add("active");
             }
-        } else if (viewModel.canConnectTo(port) && viewModel.wireHasConnections()) {
+        } else if (this.viewModel.canConnectTo(port) && this.viewModel.wireHasConnections()) {
             styleClasses.add("candidate");
         }
         this.connectionNodeCircle.getStyleClass().setAll(styleClasses);

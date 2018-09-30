@@ -14,20 +14,20 @@ public class XorGateComponent extends Component {
 
     @ComponentConstructor
     public XorGateComponent() {
-        input1 = new InputPort();
-        input2 = new InputPort();
+        this.input1 = new InputPort();
+        this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
-                Map.entry("input1", input1),
-                Map.entry("input2", input2)
+                Map.entry("input1", this.input1),
+                Map.entry("input2", this.input2)
         );
 
-        output = new OutputPort();
+        this.output = new OutputPort();
         tagToOutput = Map.ofEntries(
-                Map.entry("output", output)
+                Map.entry("output", this.output)
         );
 
-        input1.onStateChangedEvent().addListener(p -> update());
-        input2.onStateChangedEvent().addListener(p -> update());
+        this.input1.onStateChangedEvent().addListener(p -> update());
+        this.input2.onStateChangedEvent().addListener(p -> update());
     }
 
     /* Public */
@@ -49,10 +49,10 @@ public class XorGateComponent extends Component {
     @Override
     @SuppressWarnings("PMD.UselessParentheses")
     protected void update() {
-        setOutputState(
-                output,
-                (input1.isHigh() && input2.isLow()) || (input1.isLow() && input2.isHigh()),
-                Arrays.asList(input1, input2));
+        setOutputState(this.output,
+                (this.input1.isHigh() && this.input2.isLow())
+                || (this.input1.isLow() && this.input2.isHigh()),
+                Arrays.asList(this.input1, this.input2));
     }
 
 }

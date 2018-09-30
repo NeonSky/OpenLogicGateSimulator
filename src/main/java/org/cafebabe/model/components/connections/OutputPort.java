@@ -13,7 +13,7 @@ public class OutputPort extends Port {
 
 
     public OutputPort() {
-        state = LogicState.UNDEFINED;
+        this.state = LogicState.UNDEFINED;
     }
 
     /* Public */
@@ -25,19 +25,19 @@ public class OutputPort extends Port {
 
     @Override
     public void destroy() {
-        if (destructionPending) {
+        if (this.destructionPending) {
             return;
         }
-        destructionPending = true;
+        this.destructionPending = true;
         this.onStateChanged.removeListeners();
-        onWillBeDestroyed.notifyListeners(this);
+        this.onWillBeDestroyed.notifyListeners(this);
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
     }
 
     @Override
     public EmptyEvent getOnDestroy() {
-        return onDestroy;
+        return this.onDestroy;
     }
 
     @Override
@@ -51,10 +51,10 @@ public class OutputPort extends Port {
 
     @Override
     public LogicState logicState() {
-        return state;
+        return this.state;
     }
 
     public Event<OutputPort> onWillBeDestroyed() {
-        return onWillBeDestroyed;
+        return this.onWillBeDestroyed;
     }
 }

@@ -32,6 +32,6 @@ public class EditorViewController implements Initializable {
     private void initializeWorkspace() {
         this.workspacesPane.getChildren().add(new WorkspaceController(new Workspace()));
 
-        workspacesPane.requestLayout();
+        this.workspacesPane.requestLayout();
     }
 }

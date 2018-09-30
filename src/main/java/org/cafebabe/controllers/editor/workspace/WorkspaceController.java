@@ -23,6 +23,6 @@ public class WorkspaceController extends AnchorPane {
     private void setupFxml(CircuitController circuitController) {
         this.circuitAnchorPane.getChildren().add(circuitController);
 
-        FxmlUtil.scaleWithAnchorPaneParent(workspaceRoot);
+        FxmlUtil.scaleWithAnchorPaneParent(this.workspaceRoot);
     }
 }

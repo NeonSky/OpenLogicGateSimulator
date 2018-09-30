@@ -13,17 +13,17 @@ public class NotGateComponent extends Component {
 
     @ComponentConstructor
     public NotGateComponent() {
-        input = new InputPort();
+        this.input = new InputPort();
         tagToInput = Map.ofEntries(
-                Map.entry("input", input)
+                Map.entry("input", this.input)
         );
 
-        output = new OutputPort();
+        this.output = new OutputPort();
         tagToOutput = Map.ofEntries(
-                Map.entry("output", output)
+                Map.entry("output", this.output)
         );
 
-        input.onStateChangedEvent().addListener(p -> update());
+        this.input.onStateChangedEvent().addListener(p -> update());
     }
 
     /* Public */
@@ -44,7 +44,7 @@ public class NotGateComponent extends Component {
 
     @Override
     protected void update() {
-        setOutputState(output, !input.isHigh(), Collections.singletonList(input));
+        setOutputState(this.output, !this.input.isHigh(), Collections.singletonList(this.input));
     }
 
 }
