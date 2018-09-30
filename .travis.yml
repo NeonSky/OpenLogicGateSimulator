@@ -2,7 +2,6 @@ language: java
 
 jdk:
   - oraclejdk10
-  - oraclejdk9
 
 script:
   - ./gradlew build --console 'plain' -s
