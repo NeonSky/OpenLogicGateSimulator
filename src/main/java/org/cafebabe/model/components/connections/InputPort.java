@@ -13,36 +13,36 @@ public class InputPort extends Port {
     /* Public */
     @Override
     public void destroy() {
-        if (destructionPending) {
+        if (this.destructionPending) {
             return;
         }
-        destructionPending = true;
-        onStateChanged.removeListeners();
-        onWillBeDestroyed.notifyListeners(this);
+        this.destructionPending = true;
+        this.onStateChanged.removeListeners();
+        this.onWillBeDestroyed.notifyListeners(this);
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
     }
 
     @Override
     public EmptyEvent getOnDestroy() {
-        return onDestroy;
+        return this.onDestroy;
     }
 
     @Override
     public LogicState logicState() {
-        if (stateSource == null) {
+        if (this.stateSource == null) {
             return LogicState.UNDEFINED;
         }
-        return stateSource.logicState();
+        return this.stateSource.logicState();
     }
 
     @Override
     public boolean isConnected() {
-        return stateSource != null;
+        return this.stateSource != null;
     }
 
     public Event<InputPort> onWillBeDestroyed() {
-        return onWillBeDestroyed;
+        return this.onWillBeDestroyed;
     }
 
     /* Package-Private */

@@ -13,8 +13,8 @@ public class CanvasGridPane extends Pane {
     private static final int GRIDLINE_SPACING = 20;
 
     public CanvasGridPane() {
-        canvas = new Canvas(100, 100);
-        getChildren().add(canvas);
+        this.canvas = new Canvas(100, 100);
+        getChildren().add(this.canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(ColorUtil.GRID_LINE);
@@ -28,12 +28,12 @@ public class CanvasGridPane extends Pane {
     }
 
     private void clearGrid() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
     }
 
     private void drawHorizontalGridLines() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         for (int i = 0; i < getHeight(); i += GRIDLINE_SPACING) {
             gc.strokeLine(0, i, getWidth(), i);
@@ -41,7 +41,7 @@ public class CanvasGridPane extends Pane {
     }
 
     private void drawVerticalGridLines() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         for (int i = 0; i < getWidth(); i += GRIDLINE_SPACING) {
             gc.strokeLine(i, 0, i, getHeight());
@@ -55,10 +55,10 @@ public class CanvasGridPane extends Pane {
         final double y = snappedTopInset();
         final double w = snapSizeX(getWidth()) - x - snappedRightInset();
         final double h = snapSizeY(getHeight()) - y - snappedBottomInset();
-        canvas.setLayoutX(x);
-        canvas.setLayoutY(y);
-        canvas.setWidth(w);
-        canvas.setHeight(h);
+        this.canvas.setLayoutX(x);
+        this.canvas.setLayoutY(y);
+        this.canvas.setWidth(w);
+        this.canvas.setHeight(h);
 
         drawGrid();
     }

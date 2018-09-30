@@ -20,7 +20,7 @@ public abstract class LogicStateContainer {
     }
 
     public final Event<LogicStateContainer> onStateChangedEvent() {
-        return onStateChanged;
+        return this.onStateChanged;
     }
 
     /* Package-Private */
@@ -36,7 +36,7 @@ public abstract class LogicStateContainer {
             e.printStackTrace();
         }
         if (logicState() != prevState) {
-            onStateChanged.notifyListeners(this);
+            this.onStateChanged.notifyListeners(this);
         }
     }
 

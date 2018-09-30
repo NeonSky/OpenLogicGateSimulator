@@ -20,8 +20,8 @@ class ComponentListController extends AnchorPane {
         List<Component> components = ComponentUtil.getAllComponents();
         List<ComponentListCellController> listCells = componentsToListCells(components);
 
-        componentFlowPane.getChildren().addAll(listCells);
-        FxmlUtil.scaleWithAnchorPaneParent(componentListRoot);
+        this.componentFlowPane.getChildren().addAll(listCells);
+        FxmlUtil.scaleWithAnchorPaneParent(this.componentListRoot);
     }
 
     /* Private */

@@ -35,20 +35,20 @@ public class Circuit {
     }
 
     public void safeRemove(IBelongToModel component) {
-        if (components.contains(component)) {
+        if (this.components.contains(component)) {
             this.components.remove(component);
         }
-        if (wires.contains(component)) {
+        if (this.wires.contains(component)) {
             this.components.remove(component);
         }
     }
 
     public Set<Component> getComponents() {
-        return components;
+        return this.components;
     }
 
     public Set<Wire> getWires() {
-        return wires;
+        return this.wires;
     }
 
 }

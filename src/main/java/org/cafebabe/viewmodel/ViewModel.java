@@ -19,53 +19,53 @@ public class ViewModel {
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
-        connectionManager = new ConnectionManager(this);
+        this.connectionManager = new ConnectionManager(this);
     }
 
     /* Public */
     public void tryConnectWire(InputPort inPort) {
-        connectionManager.tryConnectWire(inPort);
+        this.connectionManager.tryConnectWire(inPort);
     }
 
     public void tryConnectWire(OutputPort outPort) {
-        connectionManager.tryConnectWire(outPort);
+        this.connectionManager.tryConnectWire(outPort);
     }
 
     public boolean canConnectTo(Port port) {
-        return connectionManager.canConnectTo(port);
+        return this.connectionManager.canConnectTo(port);
     }
 
     public EmptyEvent onConnectionStateChanged() {
-        return connectionManager.onConnectionStateChanged();
+        return this.connectionManager.onConnectionStateChanged();
     }
 
     public boolean wireHasConnections() {
-        return connectionManager.wireHasConnections();
+        return this.connectionManager.wireHasConnections();
     }
 
     public void abortSelections() {
-        connectionManager.abortSelections();
+        this.connectionManager.abortSelections();
     }
 
     public void addWire(Wire wire) {
-        workspace.getCircuit().addWire(wire);
-        onWireAdded.notifyListeners(wire);
+        this.workspace.getCircuit().addWire(wire);
+        this.onWireAdded.notifyListeners(wire);
     }
 
     public void addComponent(Component component) {
-        workspace.getCircuit().addComponent(component);
-        onComponentAdded.notifyListeners(component);
+        this.workspace.getCircuit().addComponent(component);
+        this.onComponentAdded.notifyListeners(component);
     }
 
     public void deleteSelectedControllers() {
-        controllerSelector.deleteSelectedControllers();
+        this.controllerSelector.deleteSelectedControllers();
     }
 
     public void handleControllerClick(ISelectable component, MouseEvent event) {
-        controllerSelector.handleControllerClick(component, event);
+        this.controllerSelector.handleControllerClick(component, event);
     }
 
     public void clearSelection() {
-        controllerSelector.clearSelection();
+        this.controllerSelector.clearSelection();
     }
 }

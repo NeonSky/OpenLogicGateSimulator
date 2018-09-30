@@ -53,7 +53,7 @@ public class ComponentListCellController extends AnchorPane {
             throw new RuntimeException("Can't set a label that is null or empty");
         }
 
-        String upperCasedName = displayName.toUpperCase();
+        String upperCasedName = this.displayName.toUpperCase();
         this.componentNameLabel.setText(upperCasedName);
         this.componentNameLabel.setWrapText(true);
     }

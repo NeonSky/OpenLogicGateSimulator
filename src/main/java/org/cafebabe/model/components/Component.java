@@ -28,14 +28,14 @@ public abstract class Component implements IBelongToModel, IDestructible {
     /* Public */
     @Override
     public EmptyEvent getOnDestroy() {
-        return onDestroy;
+        return this.onDestroy;
     }
 
     public void connectToPort(Wire wire, String portTag) {
-        if (tagToInput.containsKey(portTag)) {
-            wire.connectInputPort(tagToInput.get(portTag));
-        } else if (tagToOutput.containsKey(portTag)) {
-            wire.connectOutputPort(tagToOutput.get(portTag));
+        if (this.tagToInput.containsKey(portTag)) {
+            wire.connectInputPort(this.tagToInput.get(portTag));
+        } else if (this.tagToOutput.containsKey(portTag)) {
+            wire.connectOutputPort(this.tagToOutput.get(portTag));
         } else {
             throw new RuntimeException("This port doesn't exist on this component");
         }
@@ -43,10 +43,10 @@ public abstract class Component implements IBelongToModel, IDestructible {
     }
 
     public void disconnectFromPort(Wire wire, String portTag) {
-        if (tagToInput.containsKey(portTag)) {
-            wire.disconnectInputPort(tagToInput.get(portTag));
-        } else if (tagToOutput.containsKey(portTag)) {
-            wire.disconnectOutputPort(tagToOutput.get(portTag));
+        if (this.tagToInput.containsKey(portTag)) {
+            wire.disconnectInputPort(this.tagToInput.get(portTag));
+        } else if (this.tagToOutput.containsKey(portTag)) {
+            wire.disconnectOutputPort(this.tagToOutput.get(portTag));
         } else {
             throw new RuntimeException("This port doesn't exist on this component");
         }
@@ -57,10 +57,10 @@ public abstract class Component implements IBelongToModel, IDestructible {
     public void destroy() {
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
-        for (Map.Entry<String, InputPort> entry : tagToInput.entrySet()) {
+        for (Map.Entry<String, InputPort> entry : this.tagToInput.entrySet()) {
             entry.getValue().destroy();
         }
-        for (Map.Entry<String, OutputPort> entry : tagToOutput.entrySet()) {
+        for (Map.Entry<String, OutputPort> entry : this.tagToOutput.entrySet()) {
             entry.getValue().destroy();
         }
     }
@@ -91,10 +91,10 @@ public abstract class Component implements IBelongToModel, IDestructible {
     }
 
     public Port getPort(String portTag) {
-        if (tagToOutput.containsKey(portTag)) {
-            return tagToOutput.get(portTag);
-        } else if (tagToInput.containsKey(portTag)) {
-            return tagToInput.get(portTag);
+        if (this.tagToOutput.containsKey(portTag)) {
+            return this.tagToOutput.get(portTag);
+        } else if (this.tagToInput.containsKey(portTag)) {
+            return this.tagToInput.get(portTag);
         }
         throw new RuntimeException("This port doesn't exist on this component");
     }
