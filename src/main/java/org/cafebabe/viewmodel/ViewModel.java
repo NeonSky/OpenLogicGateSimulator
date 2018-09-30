@@ -58,7 +58,7 @@ public class ViewModel {
     }
 
     public void deleteSelectedControllers() {
-        this.controllerSelector.deleteSelectedControllers();
+        this.controllerSelector.deleteSelectedControllers(this.workspace.getCircuit());
     }
 
     public void handleControllerClick(ISelectable component, MouseEvent event) {
