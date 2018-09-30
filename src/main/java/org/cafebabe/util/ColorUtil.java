@@ -7,6 +7,7 @@ import org.cafebabe.model.components.connections.LogicState;
 public class ColorUtil {
 
     public static final Color SELECTED = Color.color(80.0 / 255, 144.0 / 255, 186.0 / 255, 1);
+    public static final Color GRID_LINE = Color.LIGHTGRAY;
     public static final Color BLACK = Color.BLACK;
     public static final Color OFFWHITE = Color.color(239.0 / 255, 239.0 / 255, 239.0 / 255, 0.85);
     public static final Color TRANSPARENT = Color.TRANSPARENT;
