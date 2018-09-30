@@ -8,6 +8,7 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class Wire extends LogicStateContainer implements IBelongToModel {
 
     private static final int MINIMUM_WIRE_CONNECTIONS = 2;
