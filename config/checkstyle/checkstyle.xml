@@ -242,6 +242,10 @@
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="expected"/>
         </module>
+        <module name="RequireThis">
+            <property name="checkMethods" value="false"/>
+            <property name="validateOnlyOverlapping" value="false"/>
+        </module>
         <module name="CommentsIndentation"/>
         <module name="SuppressWarningsHolder" />
     </module>
