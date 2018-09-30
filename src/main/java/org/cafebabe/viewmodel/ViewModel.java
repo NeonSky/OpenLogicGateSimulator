@@ -1,9 +1,6 @@
 package org.cafebabe.viewmodel;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.cafebabe.model.components.Component;
@@ -23,6 +20,7 @@ public class ViewModel {
     public final Event<Node> onDragSelectionReleased = new Event<>();
     private final Workspace workspace;
     private final ControllerSelector controllerSelector = new ControllerSelector();
+    private final SelectionBox selectionBox = new SelectionBox();
     private final ConnectionManager connectionManager;
 
     public ViewModel(Workspace workspace) {
@@ -66,19 +64,19 @@ public class ViewModel {
     }
 
     public void selectComponent(ISelectable selectable) {
-        controllerSelector.select(selectable);
+        this.controllerSelector.select(selectable);
     }
 
     public void selectComponents(List<ISelectable> selectables) {
-        controllerSelector.select(selectables);
+        this.controllerSelector.select(selectables);
     }
 
     public void deselectComponent(ISelectable selectable) {
-        controllerSelector.deselect(selectable);
+        this.controllerSelector.deselect(selectable);
     }
 
     public void deselectComponents(List<ISelectable> selectables) {
-        controllerSelector.deselect(selectables);
+        this.controllerSelector.deselect(selectables);
     }
 
     public void deleteSelectedControllers() {
@@ -94,19 +92,19 @@ public class ViewModel {
     }
 
     public void handleMouseDragged(MouseEvent event) {
-        controllerSelector.handleMouseDragged(event);
-        Node selectionBox = controllerSelector.getSelectionBox();
+        this.selectionBox.handleMouseDragged(event);
         if (event.isDragDetect()) {
+            Node selectionBox = this.selectionBox.getSelectionBox();
             this.onDragSelectionDetected.notifyListeners(selectionBox);
         }
     }
 
     public void handleMouseDragReleased(MouseEvent event) {
-        Node selectionRect = controllerSelector.getSelectionBox();
-        if (selectionRect == null) {
+        if (!this.selectionBox.hasBox()) {
             return;
         }
+        Node selectionRect = this.selectionBox.getSelectionBox();
         this.onDragSelectionReleased.notifyListeners(selectionRect);
-        controllerSelector.handleMouseDragReleased(event);
+        this.selectionBox.handleMouseDragReleased();
     }
 }

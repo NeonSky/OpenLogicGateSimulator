@@ -32,7 +32,7 @@ class CircuitController extends AnchorPane {
         this.viewModel = viewModel;
         viewModel.onComponentAdded.addListener(this::addComponent);
         viewModel.onWireAdded.addListener(this::addWire);
-        viewModel.onDragSelectionDetected.addListener(this::addSelectionBox);
+        viewModel.onDragSelectionDetected.addListener(this::addToComponentPane);
         viewModel.onDragSelectionReleased.addListener(this::makeDragSelection);
         setupFxml();
         this.componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
@@ -83,15 +83,15 @@ class CircuitController extends AnchorPane {
         );
     }
 
-    private void addSelectionBox(Node rectangle) {
-        this.componentPane.getChildren().add(rectangle);
+    private void addToComponentPane(Node node) {
+        this.componentPane.getChildren().add(node);
     }
 
     private void makeDragSelection(Node selectionBox) {
         Bounds selectionBounds = selectionBox.getBoundsInParent();
         this.componentPane.getChildren().remove(selectionBox);
         List<ISelectable> selectedComponents = getComponentsInBounds(selectionBounds);
-        viewModel.selectComponents(selectedComponents);
+        this.viewModel.selectComponents(selectedComponents);
     }
 
     private List<ISelectable> getComponentsInBounds(Bounds bounds) {
@@ -99,6 +99,7 @@ class CircuitController extends AnchorPane {
 
         this.componentPane.getChildren().forEach(component -> {
             Bounds compBounds = component.getBoundsInParent();
+
             if (bounds.intersects(compBounds) && component instanceof ComponentController) {
                 selectedComponents.add((ISelectable)component);
             }
