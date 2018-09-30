@@ -10,6 +10,7 @@ import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class ViewModel {
     public final Event<Component> onComponentAdded = new Event<>();
     public final Event<Wire> onWireAdded = new Event<>();
