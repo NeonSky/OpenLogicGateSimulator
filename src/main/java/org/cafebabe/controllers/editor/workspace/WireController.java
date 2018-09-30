@@ -37,10 +37,7 @@ public class WireController implements ISelectable {
         setWireDrawingOptions();
         this.wireLine.setPickOnBounds(false);
 
-        IReadOnlyMovable startPos = this.wire.getStartPos();
-        moveStartPointTo(startPos.getX(), startPos.getY());
-        IReadOnlyMovable endPos = this.wire.getEndPos();
-        moveEndPointTo(endPos.getX(), endPos.getY());
+        setInitialWirePoints();
     }
 
     /* Public */
@@ -100,6 +97,13 @@ public class WireController implements ISelectable {
         return this.isSelected ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
     }
 
+    private void setInitialWirePoints() {
+        IReadOnlyMovable startPos = this.wire.getStartPos();
+        IReadOnlyMovable endPos = this.wire.getEndPos();
+        moveStartPointTo(startPos.getX(), startPos.getY());
+        moveEndPointTo(endPos.getX(), endPos.getY());
+    }
+
     private void moveStartPointTo(Position startPoint) {
         this.moveStartPointTo(startPoint.getX(), startPoint.getY());
     }
@@ -107,20 +111,7 @@ public class WireController implements ISelectable {
     private void moveStartPointTo(Number x, Number y) {
         this.wireLine.setStartX(x.doubleValue());
         this.wireLine.setStartY(y.doubleValue());
-        setWireControlPoints();
-        this.wireLine.setVisible(this.wire.isAnyOutputConnected()
-                && this.wire.isAnyInputConnected());
-    }
-
-    private void setWireControlPoints() {
-        double startX = this.wireLine.getStartX();
-        double startY = this.wireLine.getStartY();
-        double endX = this.wireLine.getEndX();
-        double endY = this.wireLine.getEndY();
-        this.wireLine.setControlX1((endX + startX) / 2);
-        this.wireLine.setControlY1(startY);
-        this.wireLine.setControlX2((endX + startX) / 2);
-        this.wireLine.setControlY2(endY);
+        updateControlPoints();
     }
 
     private void moveEndPointTo(Position endPoint) {
@@ -130,9 +121,19 @@ public class WireController implements ISelectable {
     private void moveEndPointTo(Number x, Number y) {
         this.wireLine.setEndX(x.doubleValue());
         this.wireLine.setEndY(y.doubleValue());
-        setWireControlPoints();
-        this.wireLine.setVisible(this.wire.isAnyOutputConnected()
-                && this.wire.isAnyInputConnected());
+        updateControlPoints();
+    }
+
+    private void updateControlPoints() {
+        // Set control points for cubic curve
+        double startX = this.wireLine.getStartX();
+        double startY = this.wireLine.getStartY();
+        double endX = this.wireLine.getEndX();
+        double endY = this.wireLine.getEndY();
+        this.wireLine.setControlX1((endX + startX) / 2);
+        this.wireLine.setControlY1(startY);
+        this.wireLine.setControlX2((endX + startX) / 2);
+        this.wireLine.setControlY2(endY);
     }
 
     private void setSelected(boolean isSelected) {
