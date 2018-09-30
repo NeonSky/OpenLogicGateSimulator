@@ -31,7 +31,7 @@ class ConnectionManager {
     }
 
     void broadcastConnectionState() {
-        onStateChanged.notifyListeners();
+        this.onStateChanged.notifyListeners();
     }
 
     void tryConnectWire(InputPort inPort) {
@@ -44,7 +44,7 @@ class ConnectionManager {
             }
 
             broadcastConnectionState();
-            onStateChanged.notifyListeners();
+            this.onStateChanged.notifyListeners();
         }
     }
 
@@ -58,12 +58,12 @@ class ConnectionManager {
             }
 
             broadcastConnectionState();
-            onStateChanged.notifyListeners();
+            this.onStateChanged.notifyListeners();
         }
     }
 
     EmptyEvent onConnectionStateChanged() {
-        return onStateChanged;
+        return this.onStateChanged;
     }
 
     boolean wireHasConnections() {
@@ -80,7 +80,7 @@ class ConnectionManager {
     private Wire createWireIfNeeded() {
         if (this.wire == null) {
             this.wire = new Wire();
-            this.viewModel.addWire(wire);
+            this.viewModel.addWire(this.wire);
         }
         return this.wire;
     }

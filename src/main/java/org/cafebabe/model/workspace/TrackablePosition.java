@@ -38,18 +38,18 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
     @SuppressWarnings("checkstyle:parametername")
     public IReadOnlyMovable offsetClone(int xOffset, int yOffset) {
         TrackablePosition pos = new TrackablePosition(this, xOffset, yOffset);
-        clones.add(pos);
+        this.clones.add(pos);
         return pos;
     }
 
     @Override
     public void addPositionListener(Consumer<Position> func) {
-        onPositionChanged.addListener(func);
+        this.onPositionChanged.addListener(func);
     }
 
     @Override
     public void removePositionListener(Consumer<Position> listener) {
-        onPositionChanged.removeListener(listener);
+        this.onPositionChanged.removeListener(listener);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
 
     @Override
     public EmptyEvent getOnDestroy() {
-        return onDestroy;
+        return this.onDestroy;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
     private void notifyPositionChanged() {
         int x = this.getX();
         int y = this.getY();
-        onPositionChanged.notifyListeners(new Position(x, y));
-        clones.forEach(p -> p.move(x, y));
+        this.onPositionChanged.notifyListeners(new Position(x, y));
+        this.clones.forEach(p -> p.move(x, y));
     }
 }

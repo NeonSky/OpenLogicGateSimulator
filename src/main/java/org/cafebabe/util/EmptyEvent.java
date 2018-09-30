@@ -13,24 +13,24 @@ public class EmptyEvent {
      * Adds listener to this event.
      */
     public void addListener(Runnable listener) {
-        listeners.add(listener);
+        this.listeners.add(listener);
     }
 
     /**
      * Removes listener from this event.
      */
     public void removeListener(Runnable listener) {
-        listeners.remove(listener);
+        this.listeners.remove(listener);
     }
 
     public void removeListeners() {
-        listeners.clear();
+        this.listeners.clear();
     }
 
     /**
      * Calls all listener and provides the given argument.
      */
     public void notifyListeners() {
-        listeners.forEach(Runnable::run);
+        this.listeners.forEach(Runnable::run);
     }
 }

@@ -85,10 +85,10 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
     @Override
     public void destroy() {
-        if (destructionPending) {
+        if (this.destructionPending) {
             return;
         }
-        destructionPending = true;
+        this.destructionPending = true;
         FxmlUtil.destroy(this);
     }
 
@@ -101,10 +101,10 @@ public class ComponentController extends AnchorPane implements ISelectable {
     @SuppressFBWarnings(value = "UWF_NULL_FIELD",
             justification = "SpotBugs believes @FXML fields are always null")
     private void setupFxml() {
-        svgGroup.getChildren().addAll(this.ports);
-        svgGroup.setPickOnBounds(false);
+        this.svgGroup.getChildren().addAll(this.ports);
+        this.svgGroup.setPickOnBounds(false);
 
-        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
+        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(this.component));
         this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
         this.componentSvgPath.setStrokeWidth(3);
         this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
@@ -113,18 +113,18 @@ public class ComponentController extends AnchorPane implements ISelectable {
     private void addPortsFromMetadata(Metadata componentMetadata,
                                       Component component, ViewModel viewModel) {
         componentMetadata.inPortMetadata.forEach(m ->
-                ports.add(new InPortController(m.x, m.y,
+                this.ports.add(new InPortController(m.x, m.y,
                         (InputPort) component.getPort(m.name), viewModel))
         );
         componentMetadata.outPortMetadata.forEach(m ->
-                ports.add(new OutPortController(m.x, m.y,
+                this.ports.add(new OutPortController(m.x, m.y,
                         (OutputPort) component.getPort(m.name), viewModel))
         );
     }
 
     private void updateVisualState() {
         Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
-        componentSvgPath.setStroke(newColor);
+        this.componentSvgPath.setStroke(newColor);
     }
 
     private void updatePosition(Position position) {
