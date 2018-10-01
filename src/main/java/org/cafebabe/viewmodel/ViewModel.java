@@ -8,6 +8,7 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
@@ -22,6 +23,8 @@ public class ViewModel {
     private final ControllerSelector controllerSelector = new ControllerSelector();
     private final SelectionBox selectionBox = new SelectionBox();
     private final ConnectionManager connectionManager;
+    private final Camera camera = new Camera();
+    private Position mouseDragPreviousPos;
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
@@ -81,19 +84,43 @@ public class ViewModel {
     }
 
     public void handleMouseDragged(MouseEvent event) {
-        this.selectionBox.handleMouseDragged(event);
-        if (event.isDragDetect()) {
-            Node selectionBox = this.selectionBox.getSelectionBox();
-            this.onDragSelectionDetected.notifyListeners(selectionBox);
+        if (this.mouseDragPreviousPos == null) {
+            this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
         }
+        /*TODO tools, with an enum instead of these placeholder strings*/
+        String selectedTool = "pan";
+        switch (selectedTool) {
+            case "pan":
+                this.camera.pan(
+                        event.getX() - this.mouseDragPreviousPos.getX(),
+                        event.getY() - this.mouseDragPreviousPos.getY()
+                );
+                break;
+            case "selectionbox":
+                this.selectionBox.handleMouseDragged(event);
+                if (event.isDragDetect()) {
+                    Node selectionBox = this.selectionBox.getSelectionBox();
+                    this.onDragSelectionDetected.notifyListeners(selectionBox);
+                }
+                break;
+            default:
+                break;
+        }
+
+        this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
     }
 
     public void handleMouseDragReleased(MouseEvent event) {
+        this.mouseDragPreviousPos = null;
         if (!this.selectionBox.hasBox()) {
             return;
         }
         Node selectionRect = this.selectionBox.getSelectionBox();
         this.onDragSelectionReleased.notifyListeners(selectionRect);
         this.selectionBox.handleMouseDragReleased();
+    }
+
+    public void addTransformable(ITransformable transformable) {
+        this.camera.addTransformable(transformable);
     }
 }

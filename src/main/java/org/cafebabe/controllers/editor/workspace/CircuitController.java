@@ -64,6 +64,7 @@ class CircuitController extends AnchorPane {
 
     private void addWire(Wire wire) {
         WireController wireController = new WireController(wire);
+        this.viewModel.addTransformable(wireController);
         this.componentPane.getChildren().add(wireController.getWireLine());
         wireController.getWireLine().toBack();
         wireController.addClickListener(event ->
@@ -74,6 +75,7 @@ class CircuitController extends AnchorPane {
 
     private void addComponent(Component component) {
         ComponentController newCompController = new ComponentController(component, this.viewModel);
+        this.viewModel.addTransformable(newCompController);
         this.componentPane.getChildren().add(newCompController);
         newCompController.setOnDragDetected(event ->
                 this.componentDragDropHandler.onComponentDragDetected(newCompController, event)
