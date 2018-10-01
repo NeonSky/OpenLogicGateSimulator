@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.scene.transform.Transform;
 import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.PortController;
@@ -24,9 +27,10 @@ import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 import org.cafebabe.viewmodel.ISelectable;
+import org.cafebabe.viewmodel.ITransformable;
 import org.cafebabe.viewmodel.ViewModel;
 
-public class ComponentController extends AnchorPane implements ISelectable {
+public class ComponentController extends AnchorPane implements ISelectable, ITransformable {
 
     private final List<PortController> ports = new ArrayList<>();
     private final Component component;
@@ -36,6 +40,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
 
     private boolean isSelected;
     private boolean destructionPending;
+    private Transform transform = Transform.scale(1, 1);
 
 
     public ComponentController(Component component, ViewModel viewModel) {
@@ -97,6 +102,13 @@ public class ComponentController extends AnchorPane implements ISelectable {
         return this.component;
     }
 
+    @Override
+    public void setTransform(Transform transform) {
+        this.getTransforms().remove(this.transform);
+        this.transform = transform;
+        this.getTransforms().add(transform);
+    }
+
     /* Private */
     @SuppressFBWarnings(value = "UWF_NULL_FIELD",
             justification = "SpotBugs believes @FXML fields are always null")
@@ -128,8 +140,15 @@ public class ComponentController extends AnchorPane implements ISelectable {
     }
 
     private void updatePosition(Position position) {
-        this.setLayoutX(position.getX());
-        this.setLayoutY(position.getY());
+        Point2D transformedPosition = null;
+        try {
+            transformedPosition = this.transform.inverseTransform(
+                    new Point2D(position.getX(), position.getY()));
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+        this.setLayoutX(transformedPosition.getX());
+        this.setLayoutY(transformedPosition.getY());
     }
 
     private void setSelected(boolean isSelected) {

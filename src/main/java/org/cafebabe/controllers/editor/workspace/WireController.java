@@ -1,6 +1,7 @@
 package org.cafebabe.controllers.editor.workspace;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -9,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.scene.transform.Transform;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.model.circuit.IBelongToModel;
@@ -17,16 +20,18 @@ import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 import org.cafebabe.viewmodel.ISelectable;
+import org.cafebabe.viewmodel.ITransformable;
 
 
 @SuppressWarnings("PMD.TooManyMethods")
-public class WireController implements ISelectable {
+public class WireController implements ISelectable, ITransformable {
 
     private static final int WIRE_WIDTH = 6;
 
     private final CubicCurve wireLine;
     private final Wire wire;
     private boolean isSelected;
+    private Transform transform = Transform.scale(1, 1);
 
 
     WireController(Wire wire) {
@@ -79,6 +84,13 @@ public class WireController implements ISelectable {
         return this.wire;
     }
 
+    @Override
+    public void setTransform(Transform transform) {
+        this.wireLine.getTransforms().remove(this.transform);
+        this.transform = transform;
+        this.wireLine.getTransforms().add(transform);
+    }
+
     /* Package-Private */
     Node getWireLine() {
         return this.wireLine;
@@ -107,7 +119,14 @@ public class WireController implements ISelectable {
     }
 
     private void moveStartPointTo(Position startPoint) {
-        this.moveStartPointTo(startPoint.getX(), startPoint.getY());
+        Point2D transformedPosition = null;
+        try {
+            transformedPosition = this.transform.inverseTransform(
+                    new Point2D(startPoint.getX(), startPoint.getY()));
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+        this.moveStartPointTo(transformedPosition.getX(), transformedPosition.getY());
     }
 
     private void moveStartPointTo(Number x, Number y) {
@@ -117,7 +136,14 @@ public class WireController implements ISelectable {
     }
 
     private void moveEndPointTo(Position endPoint) {
-        this.moveEndPointTo(endPoint.getX(), endPoint.getY());
+        Point2D transformedPosition = null;
+        try {
+            transformedPosition = this.transform.inverseTransform(
+                    new Point2D(endPoint.getX(), endPoint.getY()));
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+        this.moveEndPointTo(transformedPosition.getX(), transformedPosition.getY());
     }
 
     private void moveEndPointTo(Number x, Number y) {
