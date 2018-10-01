@@ -64,20 +64,8 @@ public class ViewModel {
         this.onComponentAdded.notifyListeners(component);
     }
 
-    public void selectComponent(ISelectable selectable) {
-        this.controllerSelector.select(selectable);
-    }
-
     public void selectComponents(List<ISelectable> selectables) {
         this.controllerSelector.select(selectables);
-    }
-
-    public void deselectComponent(ISelectable selectable) {
-        this.controllerSelector.deselect(selectable);
-    }
-
-    public void deselectComponents(List<ISelectable> selectables) {
-        this.controllerSelector.deselect(selectables);
     }
 
     public void deleteSelectedControllers() {
@@ -90,10 +78,6 @@ public class ViewModel {
 
     public void handleControllerClick(ISelectable component, MouseEvent event) {
         this.controllerSelector.handleControllerClick(component, event);
-    }
-
-    public void clearSelection() {
-        this.controllerSelector.clearSelection();
     }
 
     public void handleMouseDragged(MouseEvent event) {

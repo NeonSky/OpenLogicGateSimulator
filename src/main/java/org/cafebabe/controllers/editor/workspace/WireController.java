@@ -18,6 +18,8 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 import org.cafebabe.viewmodel.ISelectable;
 
+
+@SuppressWarnings("PMD.TooManyMethods")
 public class WireController implements ISelectable {
 
     private static final int WIRE_WIDTH = 6;
