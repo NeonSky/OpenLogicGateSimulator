@@ -1,5 +1,7 @@
 package org.cafebabe.controllers.editor.workspace;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -17,8 +19,6 @@ import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
 
 class CircuitController extends AnchorPane {
 
@@ -56,10 +56,10 @@ class CircuitController extends AnchorPane {
         FxmlUtil.onSceneKeyPress(this, this::handleKeyPress);
         FxmlUtil.onMouseDragged(this.componentPane, event -> {
             if (event.getTarget() == this.componentPane) {
-                viewModel.handleMouseDragged(event);
+                this.viewModel.handleMouseDragged(event);
             }
         });
-        FxmlUtil.onMouseDragReleased(this.componentPane, viewModel::handleMouseDragReleased);
+        FxmlUtil.onMouseDragReleased(this.componentPane, this.viewModel::handleMouseDragReleased);
     }
 
     private void addWire(Wire wire) {
@@ -120,15 +120,6 @@ class CircuitController extends AnchorPane {
         } else if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
             this.viewModel.deleteSelectedControllers();
         }
-    }
-
-    private void onComponentDragDetected(ComponentController componentController,
-                                         MouseEvent event) {
-
-        /* Need to add something (anything) to Dragboard, otherwise
-         * the drag does not register on the target */
-
-        this.componentDragDropHandler.onComponentDragDetected(componentController, event);
     }
 
     @FXML

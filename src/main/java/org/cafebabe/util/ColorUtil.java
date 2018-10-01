@@ -7,7 +7,8 @@ import org.cafebabe.model.components.connections.LogicState;
 public final class ColorUtil {
 
     public static final Color SELECTED = Color.color(80.0 / 255, 144.0 / 255, 186.0 / 255, 1);
-    public static final Color SELECTION_BOX_STROKE = Color.color(80.0 / 255, 144.0 / 255, 200.0 / 255, 1);
+    @SuppressWarnings("checkstyle:linelength")
+    public static final Color SELECTION_BOX_STROKE = Color.color(80.0 / 255,144.0 / 255, 200.0 / 255, 1);
     public static final Color SELECTION_BOX_FILL = Color.color(80.0 / 255, 144.0 / 255, 200.0 / 255, 0.1);
     public static final Color GRID_LINE = Color.LIGHTGRAY;
     public static final Color BLACK = Color.BLACK;

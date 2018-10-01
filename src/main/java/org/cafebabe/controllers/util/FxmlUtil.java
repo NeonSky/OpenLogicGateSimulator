@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -75,7 +74,8 @@ public final class FxmlUtil {
         controller.addEventFilter(MouseEvent.MOUSE_DRAGGED, handleMouseDrag);
     }
 
-    public static void onMouseDragReleased(Node controller, EventHandler<MouseEvent> handleMouseDragReleased) {
+    public static void onMouseDragReleased(Node controller,
+                                           EventHandler<MouseEvent> handleMouseDragReleased) {
         controller.addEventFilter(MouseEvent.MOUSE_RELEASED, handleMouseDragReleased);
     }
 
