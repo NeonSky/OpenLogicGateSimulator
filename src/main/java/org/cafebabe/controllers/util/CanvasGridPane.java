@@ -16,7 +16,7 @@ public class CanvasGridPane extends Pane {
         getChildren().add(this.canvas);
 
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        gc.setStroke(ColorUtil.GRID_LINE);
+        gc.setStroke(ColorUtil.GRID_LINE.color());
     }
 
     /* Private */

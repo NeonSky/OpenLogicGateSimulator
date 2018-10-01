@@ -96,7 +96,7 @@ public class WireController implements ISelectable {
 
     private Color getWireColor() {
         LogicState currentState = this.wire.logicState();
-        return this.isSelected ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
+        return this.isSelected ? ColorUtil.SELECTED.color() : ColorUtil.getStateColor(currentState);
     }
 
     private void setInitialWirePoints() {

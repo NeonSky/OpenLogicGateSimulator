@@ -107,7 +107,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
         this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(this.component));
         this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
         this.componentSvgPath.setStrokeWidth(3);
-        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
+        this.componentSvgPath.setFill(ColorUtil.OFFWHITE.color());
     }
 
     private void addPortsFromMetadata(Metadata componentMetadata,
@@ -123,7 +123,7 @@ public class ComponentController extends AnchorPane implements ISelectable {
     }
 
     private void updateVisualState() {
-        Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
+        Color newColor = this.isSelected ? ColorUtil.SELECTED.color() : Color.BLACK;
         this.componentSvgPath.setStroke(newColor);
     }
 
