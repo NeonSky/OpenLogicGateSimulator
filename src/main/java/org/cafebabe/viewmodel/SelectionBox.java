@@ -56,10 +56,15 @@ public class SelectionBox {
     private void setNewTransform(double eventX, double eventY) {
         this.box.getTransforms().clear();
 
-        double xTransform = (eventX < box.getX()) ? -1.0 : 1.0;
-        double yTransform = (eventY < box.getY()) ? -1.0 : 1.0;
+        double xtransform = eventX < this.box.getX() ? -1.0 : 1.0;
+        double ytransform = eventY < this.box.getY() ? -1.0 : 1.0;
 
-        Transform transform = Transform.scale(xTransform, yTransform, this.box.getX(), this.box.getY());
+        Transform transform = Transform.scale(
+                xtransform,
+                ytransform,
+                this.box.getX(),
+                this.box.getY()
+        );
         this.box.getTransforms().add(transform);
     }
 }
