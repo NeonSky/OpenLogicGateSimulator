@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" cache="true" cacheHint="SPEED" maxHeight="-Infinity"
-            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0"
-            prefWidth="800.0" stylesheets="@../css/EditorView.css"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="org.cafebabe.controllers.editor.EditorViewController">
-    <SplitPane fx:id="primatrySplitPane" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0"
-               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <AnchorPane fx:id="sidebarAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                    minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootPane" cache="true" cacheHint="SPEED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" stylesheets="@../css/EditorView.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cafebabe.controllers.editor.EditorViewController">
+    <SplitPane fx:id="primatrySplitPane" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane fx:id="sidebarAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
         </AnchorPane>
-        <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                    prefHeight="100.0" prefWidth="100.0" SplitPane.resizableWithParent="false"/>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <TabPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+                <Tab closable="false" text="Tab 1" />
+                  <Tab closable="false" text="Tab 1" />
+                  <Tab closable="false" text="Tab 1" />
+              </tabs>
+            </TabPane>
+              <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+         </children>
+      </AnchorPane>
     </SplitPane>
 </AnchorPane>
