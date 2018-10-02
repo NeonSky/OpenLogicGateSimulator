@@ -1,1 +1,23 @@
- 
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: -colorscheme-offwhite;
+}
+
+.tab-pane .tab {
+    -fx-background-color: -colorscheme-darkgray;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: -colorscheme-lightgray;
+}
+
+.tab .tab-label {
+    -fx-alignment: center;
+    -fx-text-fill: -colorscheme-black;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: center;
+    -fx-text-fill: -colorscheme-black;
+}
