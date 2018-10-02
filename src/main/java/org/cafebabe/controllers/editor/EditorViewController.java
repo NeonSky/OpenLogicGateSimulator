@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,7 @@ public class EditorViewController implements Initializable {
     @FXML private FlowPane componentFlowPane;
     @FXML private AnchorPane sidebarAnchorPane;
     @FXML private AnchorPane workspacesPane;
+    @FXML private TabPane tabsPane;
 
     /* Public */
     @Override

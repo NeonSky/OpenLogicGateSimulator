@@ -3,13 +3,16 @@
 
     /* Color Scheme Constants */
     -colorscheme-white: rgba(255, 255, 255, 1);
-    -colorscheme-gray: rgba(200, 200, 200, 1);
+    -colorscheme-darkgray: rgba(200, 200, 200, 1);
+    -colorscheme-lightgray: rgba(220, 220, 220, 1);
     -colorscheme-lightestblue: rgba(198, 209, 215, 1);
     -colorscheme-lightblue: rgba(143, 165, 177, 1);
     -colorscheme-midblue: rgba(110, 134, 148, 1);
     -colorscheme-darkblue: rgba(29, 68, 89, 1);
     -colorscheme-red: rgba(234, 38, 38, 1);
     -colorscheme-yellow: rgba(204, 204, 0, 1);
+    -colorscheme-black: rgba(0, 0, 0, 1);
+    -colorscheme-offwhite: rgba(239, 239, 239, 1);
 }
 
 .body-text {
