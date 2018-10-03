@@ -6,10 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import mock.DfsScheduleStateEvents;
 import org.cafebabe.model.components.AndGateComponent;
 import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.OrGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
+import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,8 @@ class PowerChainTest {
 
     @BeforeAll
     static void setUp() {
+        LogicStateContainer.setEventScheduler(new DfsScheduleStateEvents());
+
         final PowerSourceComponent power = new PowerSourceComponent();
         final NotGateComponent not = new NotGateComponent();
         on = new Wire();
