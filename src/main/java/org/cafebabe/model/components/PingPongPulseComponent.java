@@ -12,6 +12,7 @@ import org.cafebabe.model.components.connections.OutputPort;
 public class PingPongPulseComponent extends Component implements IDynamicComponent {
 
     private final OutputPort output;
+    private boolean shouldIDie;
 
 
     @ComponentConstructor
@@ -21,6 +22,8 @@ public class PingPongPulseComponent extends Component implements IDynamicCompone
                 Map.entry("output", this.output)
         );
         this.output.setState(LogicState.LOW);
+
+        this.getOnDestroy().addListener(() -> this.shouldIDie = true);
     }
 
 
@@ -29,8 +32,13 @@ public class PingPongPulseComponent extends Component implements IDynamicCompone
     public void update() {}
 
     @Override
+    public boolean shouldDie() {
+        return this.shouldIDie;
+    }
+
+    @Override
     public List<DynamicEvent> getInitialDynamicEvents() {
-        return Arrays.asList(new DynamicEvent(1000, this::changePulse));
+        return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
     }
 
     @Override
@@ -56,6 +64,6 @@ public class PingPongPulseComponent extends Component implements IDynamicCompone
         } else {
             this.output.setState(LogicState.LOW);
         }
-        return Arrays.asList(new DynamicEvent(1000, this::changePulse));
+        return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
     }
 }

@@ -14,6 +14,10 @@ public class Circuit {
     private final Simulator simulator = new Simulator();
 
 
+    public Circuit() {
+        this.simulator.start();
+    }
+
     /* Public */
     public void addComponent(Component component) {
         if (this.components.contains(component)) {
@@ -21,7 +25,7 @@ public class Circuit {
         }
 
         if (component instanceof IDynamicComponent) {
-            this.simulator.addDynamicComponent((IDynamicComponent) component);
+            this.simulator.addEvents(((IDynamicComponent) component).getInitialDynamicEvents());
         }
 
         this.components.add(component);
@@ -30,10 +34,6 @@ public class Circuit {
     public void removeComponent(Component component) {
         if (!this.components.contains(component)) {
             throw new RuntimeException("Trying to remove nonexistent component from workspace");
-        }
-
-        if (component instanceof IDynamicComponent) {
-            this.simulator.removeDynamicComponent((IDynamicComponent) component);
         }
 
         this.components.remove(component);

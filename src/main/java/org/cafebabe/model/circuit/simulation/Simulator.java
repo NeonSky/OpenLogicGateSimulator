@@ -7,32 +7,32 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.cafebabe.model.IDynamicComponent;
 
 public class Simulator implements Runnable {
+    private final ScheduledExecutorService ticker;
     private final PriorityQueue<DynamicEvent> upcomingDynamicEvents;
+    private static final long SIMULATE_INTERVAL = 1000;
 
 
     public Simulator() {
         this.upcomingDynamicEvents = new PriorityQueue<>(new DueToPriority());
-
-        // call run() every millisecond. Currently needs to be killed somewhere.
-        ScheduledExecutorService ticker = Executors.newScheduledThreadPool(1);
-        ticker.scheduleAtFixedRate(this, 0, 1, TimeUnit.MILLISECONDS);
+        DaemonThreadFactory factory = new DaemonThreadFactory();
+        this.ticker = Executors.newScheduledThreadPool(1, factory);
     }
 
 
     /* Public */
-    public void addDynamicComponent(IDynamicComponent comp) {
-        addEvents(comp.getInitialDynamicEvents());
+    public void start() {
+        this.ticker.scheduleAtFixedRate(this, 0, this.SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
     }
 
-    public void removeDynamicComponent(IDynamicComponent comp) {
-        // Go through all items in queue and remove
-        // Hmmmmm....
-        // Add source to dynamic events? OK solution
+    public void stop() {
+        this.ticker.shutdown();
     }
 
+    public void addEvents(List<DynamicEvent> events) {
+        this.upcomingDynamicEvents.addAll(events);
+    }
 
     /* Private */
     @Override
@@ -41,19 +41,13 @@ public class Simulator implements Runnable {
             DynamicEvent top = this.upcomingDynamicEvents.poll();
 
             try {
-                List<DynamicEvent> newEvents = Objects.requireNonNull(top).resolution.call();
-                addEvents(newEvents);
+                List<DynamicEvent> newEvents = Objects.requireNonNull(top).resolve();
+                if (newEvents != null) {
+                    addEvents(newEvents);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
-    private void addEvents(List<DynamicEvent> events) {
-        this.upcomingDynamicEvents.addAll(events);
-    }
-
-    /*private void removeEvents(List<DynamicEvent> events) {
-        this.upcomingDynamicEvents.removeAll(events);
-    }*/
 }
