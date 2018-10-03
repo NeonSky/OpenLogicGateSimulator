@@ -8,6 +8,6 @@ import java.util.Comparator;
 class DueToPriority implements Comparator<DynamicEvent>, Serializable {
     @Override
     public int compare(DynamicEvent o1, DynamicEvent o2) {
-        return Long.compare(o1.dueTo, o2.dueTo);
+        return Long.compare(o1.getDueTo(), o2.getDueTo());
     }
 }
