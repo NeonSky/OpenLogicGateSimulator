@@ -3,6 +3,7 @@ package org.cafebabe.model.workspace;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+
 import org.cafebabe.model.IDestructible;
 import org.cafebabe.model.IMovable;
 import org.cafebabe.model.IReadOnlyMovable;

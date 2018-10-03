@@ -6,6 +6,7 @@ import java.util.Set;
 import org.cafebabe.model.IDynamicComponent;
 import org.cafebabe.model.circuit.simulation.Simulator;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
 
 /**
@@ -13,12 +14,14 @@ import org.cafebabe.model.components.connections.Wire;
  * them are handled through this, single interface.
  */
 public class Circuit {
+
+    private final Simulator simulator = new Simulator();
     private final Set<Component> components = new HashSet<>();
     private final Set<Wire> wires = new HashSet<>();
-    private final Simulator simulator = new Simulator();
 
 
     public Circuit() {
+        LogicStateContainer.setEventScheduler(this.simulator);
         this.simulator.start();
     }
 

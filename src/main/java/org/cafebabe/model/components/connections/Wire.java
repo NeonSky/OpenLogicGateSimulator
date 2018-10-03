@@ -31,7 +31,6 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
 
 
     public Wire() {
-        this.onStateChanged = new Event<>();
         this.connectedInputs = new HashSet<>();
         this.connectedOutputs = new HashSet<>();
         this.powerSources = new HashSet<>();
@@ -104,15 +103,13 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     }
 
     public void disconnectAll() {
-        notifyIfStateChanges(() -> {
-            for (InputPort inport : this.connectedInputs) {
-                disconnectInputPort(inport);
-            }
-            for (OutputPort outport : this.connectedOutputs) {
-                disconnectOutputPort(outport);
-            }
-            onStateChanged.notifyListeners(this);
-        });
+        for (InputPort inport : this.connectedInputs) {
+            disconnectInputPort(inport);
+        }
+        for (OutputPort outport : this.connectedOutputs) {
+            disconnectOutputPort(outport);
+        }
+        notifyStateChange();
     }
 
     /**

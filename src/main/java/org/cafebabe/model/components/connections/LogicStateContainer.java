@@ -1,5 +1,6 @@
 package org.cafebabe.model.components.connections;
 
+import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;
 import org.cafebabe.util.Event;
 
 /**
@@ -8,9 +9,15 @@ import org.cafebabe.util.Event;
  */
 public abstract class LogicStateContainer {
 
-    Event<LogicStateContainer> onStateChanged = new Event<>();
+    final Event<LogicStateContainer> onStateChanged = new Event<>();
+    private static IScheduleStateEvents eventScheduler;
+
 
     /* Public */
+    public static void setEventScheduler(IScheduleStateEvents eventScheduler) {
+        LogicStateContainer.eventScheduler = eventScheduler;
+    }
+
     public final boolean isUndefined() {
         return logicState() == LogicState.UNDEFINED;
     }
@@ -27,23 +34,25 @@ public abstract class LogicStateContainer {
         return this.onStateChanged;
     }
 
-    /* Package-Private */
-
+    /* Protected */
     /**
      * Run a function while checking if the state changed.
      */
-    void notifyIfStateChanges(Runnable stateMutator) {
+    protected void notifyIfStateChanges(Runnable stateMutator) {
         LogicState prevState = logicState();
         try {
             stateMutator.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (logicState() != prevState) {
-            this.onStateChanged.notifyListeners(this);
+        if (logicState() != prevState && LogicStateContainer.eventScheduler != null) {
+            eventScheduler.queueEvent(this.onStateChanged, this);
         }
     }
 
-    /* Protected */
+    protected void notifyStateChange() {
+        this.onStateChanged.notifyListeners(this);
+    }
+
     protected abstract LogicState logicState();
 }
