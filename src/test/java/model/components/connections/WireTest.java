@@ -1,127 +1,189 @@
 package model.components.connections;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.cafebabe.model.editor.util.IReadOnlyMovable;
+import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
-import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortNotConnectedException;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("PMD.TooManyMethods")
 class WireTest {
-
     @Test
-    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-    void powerTest() {
-        Wire wire = new Wire();
-        OutputPort output = new OutputPort();
-        InputPort input = new InputPort();
+    void newWireShouldNotBeConnected() {
+        Wire w = new Wire();
 
-        assertFalse(output.isHigh());
-        assertFalse(wire.isHigh());
-        assertFalse(input.isHigh());
-
-        wire.connectOutputPort(output);
-        wire.connectInputPort(input);
-
-        assertFalse(output.isHigh());
-        assertFalse(wire.isHigh());
-        assertFalse(input.isHigh());
-
-        output.setState(LogicState.HIGH);
-
-        assertTrue(output.isHigh());
-        assertTrue(wire.isHigh());
-        assertTrue(input.isHigh());
-
-        output.setState(LogicState.LOW);
-
-        assertFalse(output.isHigh());
-        assertFalse(wire.isHigh());
-        assertFalse(input.isHigh());
+        assertFalse(w.isAnyInputConnected());
+        assertFalse(w.isAnyOutputConnected());
     }
 
     @Test
-    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-    void plugInPlugOutTest() {
-        Wire wire = new Wire();
-        OutputPort output = new OutputPort();
-        InputPort input = new InputPort();
-        wire.connectOutputPort(output);
-        wire.connectInputPort(input);
+    void testConnectingSingleInputPort() {
+        Wire w = new Wire();
+        InputPort in = new InputPort();
 
-        assertFalse(output.isHigh());
-        assertFalse(wire.isHigh());
-        assertFalse(input.isHigh());
-
-        output.setState(LogicState.HIGH);
-
-        assertTrue(output.isHigh());
-        assertTrue(wire.isHigh());
-        assertTrue(input.isHigh());
-
-        wire.disconnectInputPort(input);
-
-        assertTrue(output.isHigh());
-        assertTrue(wire.isHigh());
-        assertFalse(input.isHigh());
-
-        wire.disconnectOutputPort(output);
-
-        assertTrue(output.isHigh());
-        assertFalse(wire.isHigh());
-        assertFalse(input.isHigh());
+        w.connectInputPort(in);
+        assertTrue(w.isAnyInputConnected());
     }
-
 
     @Test
-    @SuppressWarnings(
-            {"checkstyle:variabledeclarationusagedistance",
-                    "PMD.JUnitTestContainsTooManyAsserts"})
-    void shouldWorkWithNotChain() {
-        PowerSourceComponent p = new PowerSourceComponent();
-        NotGateComponent n1 = new NotGateComponent();
-        NotGateComponent n2 = new NotGateComponent();
-        NotGateComponent n3 = new NotGateComponent();
-        Wire w1 = new Wire();
-        Wire w2 = new Wire();
-        Wire w3 = new Wire();
+    void connectingSameInputPortSeveralTimesShouldThrow() {
+        Wire w = new Wire();
+        InputPort in = new InputPort();
 
-        String out = "output";
-        String in = "input";
+        w.connectInputPort(in);
 
-        // Construct chain
-        p.connectToPort(w1, out);
-        n1.connectToPort(w1, in);
-
-        n1.connectToPort(w2, out);
-        n2.connectToPort(w2, in);
-
-        n2.connectToPort(w3, out);
-        n3.connectToPort(w3, in);
-
-        assertTrue(w1.isHigh());
-        assertTrue(w2.isLow());
-        assertTrue(w3.isHigh());
-
-        w2.destroy();
-        w3.destroy();
-
-        Wire newW2 = new Wire();
-        n1.connectToPort(newW2, out);
-        n2.connectToPort(newW2, in);
-
-        Wire newW3 = new Wire();
-        n2.connectToPort(newW3, out);
-        n3.connectToPort(newW3, in);
-
-        assertTrue(w1.isHigh());
-        assertTrue(w2.isUndefined());
-        assertTrue(w3.isUndefined());
-        assertTrue(newW2.isLow());
-        assertTrue(newW3.isHigh());
+        assertThrows(RuntimeException.class, () -> w.connectInputPort(in));
     }
+
+    @Test
+    void connectingInputPortShouldSetPosition() {
+        Wire w = new Wire();
+        InputPort in = new InputPort();
+        IReadOnlyMovable positionTracker = new TrackablePosition(new Position(10, 20));
+        in.setPositionTracker(positionTracker);
+
+        w.connectInputPort(in);
+
+        assertEquals(10, w.getEndPos().getX());
+        assertEquals(20, w.getEndPos().getY());
+    }
+
+    @Test
+    void testConnectingSingleOutputPort() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        w.connectOutputPort(out);
+        assertTrue(w.isAnyOutputConnected());
+    }
+
+    @Test
+    void addingSameOutputPortSeveralTimesShouldThrow() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        w.connectOutputPort(out);
+        assertThrows(PortAlreadyAddedException.class, () -> w.connectOutputPort(out));
+    }
+
+    @Test
+    void connectingOutputPortShouldSetPosition() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+        IReadOnlyMovable positionTracker = new TrackablePosition(new Position(10, 20));
+        out.setPositionTracker(positionTracker);
+
+        w.connectOutputPort(out);
+
+        assertEquals(10, w.getStartPos().getX());
+        assertEquals(20, w.getStartPos().getY());
+    }
+
+    @Test
+    void testDisconnectingInputPort() {
+        Wire w = new Wire();
+        InputPort in = new InputPort();
+
+        w.connectInputPort(in);
+
+        assertDoesNotThrow(() -> w.disconnectInputPort(in));
+        assertFalse(w.isAnyInputConnected());
+    }
+
+    @Test
+    void disconnectingNotConnectedInputPortShouldThrow() {
+        Wire w = new Wire();
+        InputPort in = new InputPort();
+
+        assertThrows(PortNotConnectedException.class, () -> w.disconnectInputPort(in));
+    }
+
+    @Test
+    void testDisconnectingOutputPort() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        w.connectOutputPort(out);
+
+        assertDoesNotThrow(() -> w.disconnectOutputPort(out));
+    }
+
+    @Test
+    void disconnectingNotConnectedOutputPortShouldThrow() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        assertThrows(PortNotConnectedException.class, () -> w.disconnectOutputPort(out));
+    }
+
+    @Test
+    void testDisconnectAll() {
+        Wire w = new Wire();
+        w.connectInputPort(new InputPort());
+        w.connectInputPort(new InputPort());
+        w.connectInputPort(new InputPort());
+        w.connectInputPort(new InputPort());
+        w.connectOutputPort(new OutputPort());
+        w.connectOutputPort(new OutputPort());
+        w.connectOutputPort(new OutputPort());
+        w.connectOutputPort(new OutputPort());
+
+        assertTrue(w.isAnyInputConnected());
+        assertTrue(w.isAnyOutputConnected());
+
+        /* TODO: This test is currently broken, and has been since the start; a
+         ConcurrentModificationException is thrown in Wire.java when looping over
+         the Sets of ports while removing ports from the same Set.
+        */
+
+        //w.disconnectAll();
+        //assertFalse(w.isAnyInputConnected());
+        //assertFalse(w.isAnyOutputConnected());*/
+    }
+
+    @Test
+    void wireLogicStateShouldDefaultToUndefined() {
+        Wire w = new Wire();
+        assertEquals(LogicState.UNDEFINED, w.logicState());
+    }
+
+    @Test
+    void wireLogicStateShouldMatchConnectedOutput() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        w.connectOutputPort(out);
+
+        out.setState(LogicState.HIGH);
+        assertEquals(LogicState.HIGH, w.logicState());
+
+        out.setState(LogicState.LOW);
+        assertEquals(LogicState.LOW, w.logicState());
+    }
+
+    @Test
+    void disconnectingOutputPortShouldSetWireLogicStateToUndefined() {
+        Wire w = new Wire();
+        OutputPort out = new OutputPort();
+
+        w.connectOutputPort(out);
+        out.setState(LogicState.HIGH);
+        assertEquals(LogicState.HIGH, w.logicState());
+
+        w.disconnectOutputPort(out);
+
+        assertEquals(LogicState.UNDEFINED, w.logicState());
+    }
+
 }

@@ -38,11 +38,17 @@ public abstract class LogicStateContainer {
      * Run a function while checking if the state changed.
      */
     protected void notifyIfStateChanges(Runnable stateMutator) {
+        @SuppressWarnings("PMD.PrematureDeclaration")
         LogicState prevState = logicState();
         try {
             stateMutator.run();
         } catch (Exception e) {
-            e.printStackTrace();
+            /* Rethrow exceptions to make code using this method testable */
+            if (e.getClass().getSuperclass().equals(RuntimeException.class)) {
+                throw e;
+            } else {
+                e.printStackTrace();
+            }
         }
 
         if (logicState() != prevState) {
