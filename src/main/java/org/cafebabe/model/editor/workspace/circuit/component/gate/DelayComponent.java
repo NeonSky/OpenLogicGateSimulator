@@ -26,6 +26,7 @@ public class DelayComponent extends Component implements IDynamicComponent {
 
     @ComponentConstructor
     public DelayComponent() {
+        super("Buffer_ANSI", "Delay", "Delays the input signal by a second");
         this.onNewDynamicEvent = new Event<>();
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
@@ -68,20 +69,5 @@ public class DelayComponent extends Component implements IDynamicComponent {
     @Override
     public List<DynamicEvent> getInitialDynamicEvents() {
         return Collections.emptyList();
-    }
-
-    @Override
-    public String getAnsiName() {
-        return "Buffer_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Delay";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Delays the input signal by a second";
     }
 }
