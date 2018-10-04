@@ -4,20 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.util.IdGenerator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
 class IdGeneratorTest {
-
-    private static int firstValue;
-
-    @BeforeAll
-    @SuppressWarnings("PMD.UnusedPrivateMethod")
-    private static void setUp() {
-        firstValue = IdGenerator.getNewId();
-    }
 
     @BeforeEach
     @SuppressWarnings("PMD.UnusedPrivateMethod")
@@ -27,7 +18,7 @@ class IdGeneratorTest {
 
     @Test
     void counterStartsAtZero() {
-        assertEquals(0, firstValue);
+        assertEquals(0, IdGenerator.getNewId());
     }
 
     @Test
