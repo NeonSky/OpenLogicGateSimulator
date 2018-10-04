@@ -1,6 +1,9 @@
 package org.cafebabe.viewmodel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -25,12 +28,17 @@ public class ViewModel {
     private final SelectionBox selectionBox = new SelectionBox();
     private final ConnectionManager connectionManager;
     private final Camera camera = new Camera();
+    private static final double ZOOM_FACTOR = 1.001;
     private Position mouseDragPreviousPos;
     private Position mousePos = new Position(0,0);
+    private final Map<Tool, EventHandler<MouseEvent>> toolToMethod = new HashMap<>();
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
         this.connectionManager = new ConnectionManager(this);
+
+        this.toolToMethod.put(Tool.PAN, this::panCamera);
+        this.toolToMethod.put(Tool.SELECT, this::dragSelectionBox);
     }
 
     /* Public */
@@ -99,17 +107,7 @@ public class ViewModel {
         }
 
         Tool selectedTool = event.isControlDown() ? Tool.PAN : Tool.SELECT;
-
-        switch (selectedTool) {
-            case PAN:
-                panCamera(event);
-                break;
-            case SELECT:
-                dragSelectionBox(event);
-                break;
-            default:
-                break;
-        }
+        this.toolToMethod.get(selectedTool).handle(event);
 
         this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
     }
@@ -135,7 +133,7 @@ public class ViewModel {
 
     private void zoomCamera(ScrollEvent event) {
         this.camera.zoom(
-                Math.pow(1.001, event.getDeltaY()),
+                Math.pow(ZOOM_FACTOR, event.getDeltaY()),
                 this.mousePos.getX(),
                 this.mousePos.getY()
         );
