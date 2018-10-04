@@ -6,9 +6,16 @@ import javafx.geometry.Point2D;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 
+/*
+    This class makes it possible to pan and zoom on the workspace.
+    It keeps track of all "Transformables" (Component- and Wire controllers)
+    And updates their FXML transforms when the camera is moved.
+*/
 public class Camera {
     private final Set<ITransformable> transformables = new HashSet<>();
     private Transform cameraTransform = Transform.scale(1, 1);
+
+    /* Public */
 
     public void pan(double x, double y) {
         Point2D deltaPos = Point2D.ZERO;
@@ -20,13 +27,18 @@ public class Camera {
         applyTransform(Transform.translate(deltaPos.getX(), deltaPos.getY()));
     }
 
-    public void zoom(double scaleFactor, double pivotX, double pivotY) {
-        Point2D pivotPoint = Point2D.ZERO;
+    public Transform getInverseTransform() {
         try {
-            pivotPoint = this.cameraTransform.inverseTransform(pivotX, pivotY);
+            return this.cameraTransform.createInverse();
         } catch (NonInvertibleTransformException e) {
             e.printStackTrace();
+            return Transform.scale(1,1);
         }
+    }
+
+    public void zoom(double scaleFactor, double pivotX, double pivotY) {
+        Point2D pivotPoint = getInverseTransform().transform(pivotX, pivotY);
+
         applyTransform(
                 Transform.scale(
                         scaleFactor,
@@ -37,10 +49,6 @@ public class Camera {
         );
     }
 
-    public void rotate(double angle, double pivotX, double pivotY) {
-        applyTransform(Transform.rotate(angle, pivotX, pivotY));
-    }
-
     public void addTransformable(ITransformable transformable) {
         this.transformables.add(transformable);
         updateTransformables();
@@ -49,6 +57,8 @@ public class Camera {
     public Transform getTransform() {
         return this.cameraTransform;
     }
+
+    /* Private */
 
     private void applyTransform(Transform transform) {
         this.cameraTransform = this.cameraTransform.createConcatenation(transform);

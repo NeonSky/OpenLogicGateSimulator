@@ -29,6 +29,7 @@ import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ITransformable;
 import org.cafebabe.viewmodel.ViewModel;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class ComponentController extends AnchorPane implements ISelectable, ITransformable {
 
     private final List<PortController> ports = new ArrayList<>();
@@ -50,9 +51,7 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
 
         component.getOnDestroy().addListener(this::destroy);
         component.getTrackablePosition().addPositionListener(this::updatePosition);
-        this.getTransforms().add(0,Transform.scale(1,1));
-        this.getTransforms().add(1,Transform.scale(1,1));
-        this.getTransforms().add(2,Transform.scale(1,1));
+        initTransforms();
         setupFxml();
 
         this.updateVisualState();
@@ -109,20 +108,6 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
         updateTransform();
     }
 
-    private void updateTransform() {
-        this.getTransforms().set(0, Transform.scale(1,1));
-        this.getTransforms().set(1, Transform.scale(1,1));
-        this.getTransforms().set(2, Transform.scale(1,1));
-        try {
-            Transform t = this.getLocalToParentTransform();
-            this.getTransforms().set(0, t.createInverse());
-            this.getTransforms().set(1, this.transform);
-            this.getTransforms().set(2, t);
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
-    }
-
     /* Private */
     @SuppressFBWarnings(value = "UWF_NULL_FIELD",
             justification = "SpotBugs believes @FXML fields are always null")
@@ -134,6 +119,33 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
         this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
         this.componentSvgPath.setStrokeWidth(3);
         this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
+    }
+
+    private void updateTransform() {
+        resetTransforms();
+        transformInBase(this.transform, this.getLocalToParentTransform());
+    }
+
+    private void transformInBase(Transform transform, Transform base) {
+        try {
+            this.getTransforms().set(0, base.createInverse());
+            this.getTransforms().set(1, transform);
+            this.getTransforms().set(2, base);
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initTransforms() {
+        for (int i = 0; i < 3; i++) {
+            this.getTransforms().add(i,Transform.scale(1,1));
+        }
+    }
+
+    private void resetTransforms() {
+        for (int i = 0; i < 3; i++) {
+            this.getTransforms().set(i,Transform.scale(1,1));
+        }
     }
 
     private void addPortsFromMetadata(Metadata componentMetadata,
