@@ -9,7 +9,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.transform.NonInvertibleTransformException;
 import org.cafebabe.controllers.editor.ComponentListCellController;
 import org.cafebabe.controllers.editor.workspace.component.ComponentController;
 import org.cafebabe.model.components.Component;
@@ -41,9 +40,7 @@ class ComponentDragDropHandler {
         dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
         dragboard.setContent(dummyContent);
         dragboard.setDragView(new WritableImage(1, 1));
-        Point2D dragStartPoint = null;
-
-        dragStartPoint = this.viewModel.getCamera().getTransform()
+        Point2D dragStartPoint = this.viewModel.getCamera().getTransform()
                 .deltaTransform(event.getX(), event.getY());
         this.dragStartedPosition = new Position(
                 (int) dragStartPoint.getX(),
@@ -101,15 +98,10 @@ class ComponentDragDropHandler {
     private void handleComponentDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
 
-        Point2D newModelPosition = Point2D.ZERO;
-        try {
-            newModelPosition = this.viewModel.getCamera().getTransform().inverseTransform(
-                    event.getX() - this.dragStartedPosition.getX(),
-                    event.getY() - this.dragStartedPosition.getY()
-            );
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
+        Point2D newModelPosition = this.viewModel.getCamera().getInverseTransform().transform(
+                event.getX() - this.dragStartedPosition.getX(),
+                event.getY() - this.dragStartedPosition.getY()
+        );
 
         this.dragMousePosition.move(
                 (int) newModelPosition.getX(),
@@ -128,15 +120,10 @@ class ComponentDragDropHandler {
         double height = componentListCellController.getHeight();
         double width = componentListCellController.getWidth();
 
-        Point2D newModelPosition = Point2D.ZERO;
-        try {
-            newModelPosition = this.viewModel.getCamera().getTransform().inverseTransform(
-                    event.getX(),
-                    event.getY()
-            );
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
+        Point2D newModelPosition = this.viewModel.getCamera().getInverseTransform().transform(
+                event.getX(),
+                event.getY()
+        );
 
         this.dragMousePosition.move(
                 (int) (newModelPosition.getX() - width / 2),
