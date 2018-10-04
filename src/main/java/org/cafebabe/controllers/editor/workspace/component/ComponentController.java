@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
@@ -38,7 +39,7 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
 
     private boolean isSelected;
     private boolean destructionPending;
-    private Transform transform = Transform.scale(1, 1);
+    private Transform transform = Transform.scale(1,1);
 
 
     public ComponentController(Component component, ViewModel viewModel) {
@@ -49,7 +50,9 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
 
         component.getOnDestroy().addListener(this::destroy);
         component.getTrackablePosition().addPositionListener(this::updatePosition);
-
+        this.getTransforms().add(0,Transform.scale(1,1));
+        this.getTransforms().add(1,Transform.scale(1,1));
+        this.getTransforms().add(2,Transform.scale(1,1));
         setupFxml();
 
         this.updateVisualState();
@@ -102,9 +105,22 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
 
     @Override
     public void setTransform(Transform transform) {
-        this.getTransforms().remove(this.transform);
         this.transform = transform;
-        this.getTransforms().add(transform);
+        updateTransform();
+    }
+
+    private void updateTransform() {
+        this.getTransforms().set(0, Transform.scale(1,1));
+        this.getTransforms().set(1, Transform.scale(1,1));
+        this.getTransforms().set(2, Transform.scale(1,1));
+        try {
+            Transform t = this.getLocalToParentTransform();
+            this.getTransforms().set(0, t.createInverse());
+            this.getTransforms().set(1, this.transform);
+            this.getTransforms().set(2, t);
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
     }
 
     /* Private */
@@ -138,8 +154,9 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
     }
 
     private void updatePosition(Position position) {
-        this.setLayoutX(position.getX());
-        this.setLayoutY(position.getY());
+        this.setTranslateX(position.getX());
+        this.setTranslateY(position.getY());
+        this.updateTransform();
     }
 
     private void setSelected(boolean isSelected) {

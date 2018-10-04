@@ -41,7 +41,14 @@ class ComponentDragDropHandler {
         dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
         dragboard.setContent(dummyContent);
         dragboard.setDragView(new WritableImage(1, 1));
-        this.dragStartedPosition = new Position((int) event.getX(), (int) event.getY());
+        Point2D dragStartPoint = null;
+
+        dragStartPoint = this.viewModel.getCamera().getTransform()
+                .deltaTransform(event.getX(), event.getY());
+        this.dragStartedPosition = new Position(
+                (int) dragStartPoint.getX(),
+                (int) dragStartPoint.getY()
+        );
         this.dragMousePosition = componentController.getComponent().getTrackablePosition();
 
         event.consume();
@@ -124,15 +131,15 @@ class ComponentDragDropHandler {
         Point2D newModelPosition = Point2D.ZERO;
         try {
             newModelPosition = this.viewModel.getCamera().getTransform().inverseTransform(
-                    event.getX() - width / 2,
-                    event.getY() - height / 2
+                    event.getX(),
+                    event.getY()
             );
         } catch (NonInvertibleTransformException e) {
             e.printStackTrace();
         }
 
         this.dragMousePosition.move(
-                (int) newModelPosition.getX(),
-                (int) newModelPosition.getY());
+                (int) (newModelPosition.getX() - width / 2),
+                (int) (newModelPosition.getY() - height / 2));
     }
 }

@@ -10,9 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public final class FxmlUtil {
 
     private FxmlUtil() {}
@@ -70,8 +72,16 @@ public final class FxmlUtil {
         controller.setOnKeyPressed(handleKeyPress);
     }
 
+    public static void onScroll(Node controller, EventHandler<ScrollEvent> handleScroll) {
+        controller.setOnScroll(handleScroll);
+    }
+
     public static void onMouseDragged(Node controller, EventHandler<MouseEvent> handleMouseDrag) {
         controller.addEventFilter(MouseEvent.MOUSE_DRAGGED, handleMouseDrag);
+    }
+
+    public static void onMouseMoved(Node controller, EventHandler<MouseEvent> handleMouseMove) {
+        controller.addEventFilter(MouseEvent.MOUSE_MOVED, handleMouseMove);
     }
 
     public static void onMouseDragReleased(Node controller,

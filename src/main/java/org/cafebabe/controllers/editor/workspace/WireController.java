@@ -29,7 +29,6 @@ public class WireController implements ISelectable, ITransformable {
     private final CubicCurve wireLine;
     private final Wire wire;
     private boolean isSelected;
-    private Transform transform = Transform.scale(1, 1);
 
 
     WireController(Wire wire) {
@@ -39,6 +38,7 @@ public class WireController implements ISelectable, ITransformable {
         this.wire.onStartPosMoved.addListener(this::moveStartPointTo);
         this.wire.onEndPosMoved.addListener(this::moveEndPointTo);
         this.wireLine = new CubicCurve();
+        this.wireLine.getTransforms().add(0,Transform.scale(1,1));
         setWireDrawingOptions();
         this.wireLine.setPickOnBounds(false);
 
@@ -84,9 +84,7 @@ public class WireController implements ISelectable, ITransformable {
 
     @Override
     public void setTransform(Transform transform) {
-        this.wireLine.getTransforms().remove(this.transform);
-        this.transform = transform;
-        this.wireLine.getTransforms().add(transform);
+        this.wireLine.getTransforms().set(0, transform);
     }
 
     /* Package-Private */
