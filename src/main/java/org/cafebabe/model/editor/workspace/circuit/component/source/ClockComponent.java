@@ -25,6 +25,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     @ComponentConstructor
     public ClockComponent() {
+        super("CLOCK_ANSI", "Clock", "Switches back and forth between high and low output.");
         this.onNewDynamicEvent = new Event<>();
         this.output = new OutputPort();
         tagToOutput = Map.ofEntries(
@@ -53,21 +54,6 @@ public class ClockComponent extends Component implements IDynamicComponent {
     @Override
     public List<DynamicEvent> getInitialDynamicEvents() {
         return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
-    }
-
-    @Override
-    public String getAnsiName() {
-        return "CLOCK_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Clock";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Switches back and forth between high and low output.";
     }
 
 

@@ -17,6 +17,7 @@ public class NandGateComponent extends Component {
 
     @ComponentConstructor
     public NandGateComponent() {
+        super("NAND_ANSI", "NAND Gate", "Emits no signal if both inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class NandGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "NAND_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "NAND Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits no signal if both inputs are active";
     }
 
     @Override

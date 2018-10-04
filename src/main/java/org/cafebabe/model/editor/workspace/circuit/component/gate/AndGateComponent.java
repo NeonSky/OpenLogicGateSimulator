@@ -17,6 +17,7 @@ public class AndGateComponent extends Component {
 
     @ComponentConstructor
     public AndGateComponent() {
+        super("AND_ANSI", "AND Gate", "Emits an active signal if both inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class AndGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "AND_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "AND Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits an active signal if both inputs are active";
     }
 
     @Override

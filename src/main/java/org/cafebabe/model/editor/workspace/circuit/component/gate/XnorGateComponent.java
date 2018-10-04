@@ -17,6 +17,7 @@ public class XnorGateComponent extends Component {
 
     @ComponentConstructor
     public XnorGateComponent() {
+        super("XNOR_ANSI", "XNOR Gate", "Emits no signal if exactly one input is active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class XnorGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "XNOR_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "XNOR Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits no signal if exactly one input is active";
     }
 
     @Override

@@ -32,8 +32,15 @@ public abstract class Component implements IModel {
     private static final int VERTICAL_PORT_OFFSET = 28;
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
+    private final String ansiName;
+    private final String displayName;
+    private final String description;
 
-
+    public Component(String ansiName, String displayName, String description) {
+        this.ansiName = ansiName;
+        this.displayName = displayName;
+        this.description = description;
+    }
     /* Public */
     @Override
     public EmptyEvent getOnDestroy() {
@@ -70,11 +77,25 @@ public abstract class Component implements IModel {
         this.onDestroy.notifyListeners();
     }
 
-    public abstract String getAnsiName();
+    public String getAnsiName() {
+        return this.ansiName;
+    }
 
-    public abstract String getDisplayName();
+    public String getDisplayName() {
+        return this.displayName;
+    }
 
-    public abstract String getDescription();
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Map<String, InputPort> getTagToInput() {
+        return this.tagToInput;
+    }
+
+    public Map<String, OutputPort> getTagToOutput() {
+        return this.tagToOutput;
+    }
 
     public TrackablePosition getTrackablePosition() {
         return this.trackablePosition;
