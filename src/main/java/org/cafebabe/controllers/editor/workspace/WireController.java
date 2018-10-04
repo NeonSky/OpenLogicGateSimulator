@@ -1,7 +1,6 @@
 package org.cafebabe.controllers.editor.workspace;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -10,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.IReadOnlyMovable;
@@ -119,14 +117,7 @@ public class WireController implements ISelectable, ITransformable {
     }
 
     private void moveStartPointTo(Position startPoint) {
-        Point2D transformedPosition = null;
-        try {
-            transformedPosition = this.transform.inverseTransform(
-                    new Point2D(startPoint.getX(), startPoint.getY()));
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
-        this.moveStartPointTo(transformedPosition.getX(), transformedPosition.getY());
+        this.moveStartPointTo(startPoint.getX(), startPoint.getY());
     }
 
     private void moveStartPointTo(Number x, Number y) {
@@ -136,14 +127,7 @@ public class WireController implements ISelectable, ITransformable {
     }
 
     private void moveEndPointTo(Position endPoint) {
-        Point2D transformedPosition = null;
-        try {
-            transformedPosition = this.transform.inverseTransform(
-                    new Point2D(endPoint.getX(), endPoint.getY()));
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
-        this.moveEndPointTo(transformedPosition.getX(), transformedPosition.getY());
+        this.moveEndPointTo(endPoint.getX(), endPoint.getY());
     }
 
     private void moveEndPointTo(Number x, Number y) {

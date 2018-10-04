@@ -12,16 +12,14 @@ public class Camera {
         applyTransform(Transform.translate(x, y));
     }
 
-    public void zoom(double scaleFactor) {
-        applyTransform(Transform.scale(scaleFactor, scaleFactor));
-    }
-
-    public void rotate(double angle, double pivotX, double pivotY) {
-        applyTransform(Transform.rotate(angle, pivotX, pivotY));
-    }
 
     public void addTransformable(ITransformable transformable) {
         this.transformables.add(transformable);
+        updateTransformables();
+    }
+
+    public Transform getTransform() {
+        return this.cameraTransform;
     }
 
     private void applyTransform(Transform transform) {
