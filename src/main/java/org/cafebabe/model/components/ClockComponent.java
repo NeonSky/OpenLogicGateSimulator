@@ -9,14 +9,18 @@ import org.cafebabe.model.circuit.simulation.DynamicEvent;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.OutputPort;
 
-public class PingPongPulseComponent extends Component implements IDynamicComponent {
+/**
+ * An component that only has one output. This output switches back and
+ * forth between high and low state over time.
+ */
+public class ClockComponent extends Component implements IDynamicComponent {
 
     private final OutputPort output;
     private boolean shouldIDie;
 
 
     @ComponentConstructor
-    public PingPongPulseComponent() {
+    public ClockComponent() {
         this.output = new OutputPort();
         tagToOutput = Map.ofEntries(
                 Map.entry("output", this.output)
@@ -43,7 +47,7 @@ public class PingPongPulseComponent extends Component implements IDynamicCompone
 
     @Override
     public String getAnsiName() {
-        return "PowerSource";
+        return "CLOCK_ANSI";
     }
 
     @Override
