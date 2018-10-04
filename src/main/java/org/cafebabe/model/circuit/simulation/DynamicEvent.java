@@ -5,34 +5,38 @@ import java.util.concurrent.Callable;
 import org.cafebabe.model.IDynamicComponent;
 
 
+/**
+ * Represents an event that will be resolved at a specific time.
+ * Components can e.g. use this to set an output high after a set amount of time.
+ */
 public class DynamicEvent {
-    private final Callable<List<DynamicEvent>> resolution;
-    private final long dueTo;
+    private final Callable<List<DynamicEvent>> dueFunc;
+    private final long reslolveAt;
     private final IDynamicComponent source;
 
 
     @SuppressWarnings("checkstyle:linelength")
-    public DynamicEvent(IDynamicComponent source, long dueIn, Callable<List<DynamicEvent>> resolution) {
+    public DynamicEvent(IDynamicComponent source, long resolveIn, Callable<List<DynamicEvent>> dueFunc) {
         this.source = source;
-        this.dueTo = System.currentTimeMillis() + dueIn;
-        this.resolution = resolution;
+        this.reslolveAt = System.currentTimeMillis() + resolveIn;
+        this.dueFunc = dueFunc;
     }
 
 
     /* Package-Private */
-    long getDueTo() {
-        return this.dueTo;
+    long getReslolveAt() {
+        return this.reslolveAt;
     }
 
-    boolean isDue() {
-        return this.dueTo <= System.currentTimeMillis();
+    boolean shouldBeResolved() {
+        return this.reslolveAt <= System.currentTimeMillis();
     }
 
     List<DynamicEvent> resolve() {
         List<DynamicEvent> newEvents = null;
         if (!this.source.shouldDie()) {
             try {
-                newEvents = this.resolution.call();
+                newEvents = this.dueFunc.call();
             } catch (Exception e) {
                 e.printStackTrace();
             }
