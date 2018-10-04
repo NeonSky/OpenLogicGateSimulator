@@ -87,27 +87,40 @@ public class ViewModel {
         if (this.mouseDragPreviousPos == null) {
             this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
         }
-        /*TODO tools, with an enum instead of these placeholder strings*/
-        String selectedTool = "pan";
+
+        Tool selectedTool = event.isControlDown() ? Tool.PAN : Tool.SELECT;
+
         switch (selectedTool) {
-            case "pan":
-                this.camera.pan(
-                        event.getX() - this.mouseDragPreviousPos.getX(),
-                        event.getY() - this.mouseDragPreviousPos.getY()
-                );
+            case PAN:
+                panCamera(event);
                 break;
-            case "selectionbox":
-                this.selectionBox.handleMouseDragged(event);
-                if (event.isDragDetect()) {
-                    Node selectionBox = this.selectionBox.getSelectionBox();
-                    this.onDragSelectionDetected.notifyListeners(selectionBox);
-                }
+            case SELECT:
+                dragSelectionBox(event);
                 break;
             default:
                 break;
         }
 
         this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
+    }
+
+    public Camera getCamera() {
+        return this.camera;
+    }
+
+    private void dragSelectionBox(MouseEvent event) {
+        this.selectionBox.handleMouseDragged(event);
+        if (event.isDragDetect()) {
+            Node selectionBox = this.selectionBox.getSelectionBox();
+            this.onDragSelectionDetected.notifyListeners(selectionBox);
+        }
+    }
+
+    private void panCamera(MouseEvent event) {
+        this.camera.pan(
+                event.getX() - this.mouseDragPreviousPos.getX(),
+                event.getY() - this.mouseDragPreviousPos.getY()
+        );
     }
 
     public void handleMouseDragReleased(MouseEvent event) {

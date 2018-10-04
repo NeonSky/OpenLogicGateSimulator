@@ -1,6 +1,7 @@
 package org.cafebabe.controllers.editor.workspace;
 
 import java.util.Objects;
+import javafx.geometry.Point2D;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -8,6 +9,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.transform.NonInvertibleTransformException;
 import org.cafebabe.controllers.editor.ComponentListCellController;
 import org.cafebabe.controllers.editor.workspace.component.ComponentController;
 import org.cafebabe.model.components.Component;
@@ -16,6 +18,9 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.cafebabe.viewmodel.ViewModel;
 
+/*
+Contains method implementations for handling dragging and dropping of components.
+ */
 class ComponentDragDropHandler {
 
     private final ViewModel viewModel;
@@ -30,7 +35,6 @@ class ComponentDragDropHandler {
     /* Package-Private */
     void onComponentDragDetected(ComponentController componentController, MouseEvent event) {
         Dragboard dragboard = componentController.startDragAndDrop(TransferMode.ANY);
-
         /* Need to add something (anything) to Dragboard, otherwise
          * the drag does not register on the target */
         ClipboardContent dummyContent = new ClipboardContent();
@@ -90,9 +94,19 @@ class ComponentDragDropHandler {
     private void handleComponentDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
 
+        Point2D newModelPosition = Point2D.ZERO;
+        try {
+            newModelPosition = this.viewModel.getCamera().getTransform().inverseTransform(
+                    event.getX() - this.dragStartedPosition.getX(),
+                    event.getY() - this.dragStartedPosition.getY()
+            );
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+
         this.dragMousePosition.move(
-                (int) event.getX() - this.dragStartedPosition.getX(),
-                (int) event.getY() - this.dragStartedPosition.getY());
+                (int) newModelPosition.getX(),
+                (int) newModelPosition.getY());
     }
 
     private void handleComponentListCellDragOver(DragEvent event) {
@@ -106,7 +120,19 @@ class ComponentDragDropHandler {
         }
         double height = componentListCellController.getHeight();
         double width = componentListCellController.getWidth();
-        this.dragMousePosition.move((int) (event.getX() - (width / 2)),
-                (int) (event.getY() - (height / 2)));
+
+        Point2D newModelPosition = Point2D.ZERO;
+        try {
+            newModelPosition = this.viewModel.getCamera().getTransform().inverseTransform(
+                    event.getX() - width / 2,
+                    event.getY() - height / 2
+            );
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+        }
+
+        this.dragMousePosition.move(
+                (int) newModelPosition.getX(),
+                (int) newModelPosition.getY());
     }
 }

@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
 import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
@@ -140,15 +138,8 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
     }
 
     private void updatePosition(Position position) {
-        Point2D transformedPosition = null;
-        try {
-            transformedPosition = this.transform.inverseTransform(
-                    new Point2D(position.getX(), position.getY()));
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
-        this.setLayoutX(transformedPosition.getX());
-        this.setLayoutY(transformedPosition.getY());
+        this.setLayoutX(position.getX());
+        this.setLayoutY(position.getY());
     }
 
     private void setSelected(boolean isSelected) {
