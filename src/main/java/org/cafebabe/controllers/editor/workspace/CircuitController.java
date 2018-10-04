@@ -60,6 +60,8 @@ class CircuitController extends AnchorPane {
             }
         });
         FxmlUtil.onMouseDragReleased(this.componentPane, this.viewModel::handleMouseDragReleased);
+        FxmlUtil.onMouseMoved(this.componentPane, this.viewModel::handleMouseMoved);
+        FxmlUtil.onScroll(this.componentPane, this.viewModel::handleScrollEvent);
     }
 
     private void addWire(Wire wire) {

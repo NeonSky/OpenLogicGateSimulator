@@ -3,6 +3,7 @@ package org.cafebabe.viewmodel;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
@@ -25,6 +26,7 @@ public class ViewModel {
     private final ConnectionManager connectionManager;
     private final Camera camera = new Camera();
     private Position mouseDragPreviousPos;
+    private Position mousePos = new Position(0,0);
 
     public ViewModel(Workspace workspace) {
         this.workspace = workspace;
@@ -83,6 +85,14 @@ public class ViewModel {
         this.controllerSelector.handleControllerClick(component, event);
     }
 
+    public void handleScrollEvent(ScrollEvent event) {
+        zoomCamera(event);
+    }
+
+    public void handleMouseMoved(MouseEvent event) {
+        this.mousePos = new Position((int)event.getX(), (int)event.getY());
+    }
+
     public void handleMouseDragged(MouseEvent event) {
         if (this.mouseDragPreviousPos == null) {
             this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
@@ -120,6 +130,14 @@ public class ViewModel {
         this.camera.pan(
                 event.getX() - this.mouseDragPreviousPos.getX(),
                 event.getY() - this.mouseDragPreviousPos.getY()
+        );
+    }
+
+    private void zoomCamera(ScrollEvent event) {
+        this.camera.zoom(
+                Math.pow(1.001, event.getDeltaY()),
+                this.mousePos.getX(),
+                this.mousePos.getY()
         );
     }
 
