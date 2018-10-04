@@ -17,6 +17,7 @@ public class OrGateComponent extends Component {
 
     @ComponentConstructor
     public OrGateComponent() {
+        super("OR_ANSI", "OR Gate", "Emits an active signal if either inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class OrGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "OR_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "OR Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits an active signal if either inputs are active";
     }
 
     @Override

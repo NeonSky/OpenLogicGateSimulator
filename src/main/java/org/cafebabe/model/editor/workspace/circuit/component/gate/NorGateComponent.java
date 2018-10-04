@@ -17,6 +17,7 @@ public class NorGateComponent extends Component {
 
     @ComponentConstructor
     public NorGateComponent() {
+        super("NOR_ANSI", "NOR Gate", "Emits no signal if any inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class NorGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "NOR_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "NOR Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits no signal if any inputs are active";
     }
 
     @Override

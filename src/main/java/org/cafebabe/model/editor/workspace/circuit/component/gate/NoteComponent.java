@@ -19,6 +19,7 @@ public class NoteComponent extends Component {
 
     @ComponentConstructor
     public NoteComponent() {
+        super("NOTE_ANSI", "NOTE", "Plays note when input signal goes to high.");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)
@@ -31,20 +32,6 @@ public class NoteComponent extends Component {
     }
 
     /* Public */
-    @Override
-    public String getAnsiName() {
-        return "NOTE_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "NOTE";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Plays note when input signal goes to high.";
-    }
 
     @Override
     protected void updateOutputs() {

@@ -16,6 +16,7 @@ public class NotGateComponent extends Component {
 
     @ComponentConstructor
     public NotGateComponent() {
+        super("NOT_ANSI", "NOT Gate", "Emits the opposite signal of the input");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)
@@ -27,22 +28,6 @@ public class NotGateComponent extends Component {
         );
 
         this.input.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "NOT_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "NOT Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits the opposite signal of the input";
     }
 
     @Override

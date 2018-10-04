@@ -17,6 +17,7 @@ public class XorGateComponent extends Component {
 
     @ComponentConstructor
     public XorGateComponent() {
+        super("XOR_ANSI", "XOR Gate", "Emits an active signal if exactly one input is active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
@@ -31,22 +32,6 @@ public class XorGateComponent extends Component {
 
         this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
         this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
-    }
-
-    /* Public */
-    @Override
-    public String getAnsiName() {
-        return "XOR_ANSI";
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "XOR Gate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Emits an active signal if exactly one input is active";
     }
 
     @Override
