@@ -4,8 +4,9 @@ import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
 /**
- * A port that represents the input value of a component.
- * Can be powered by a connected wire.
+ * A port that reflects the logical state of its
+ * connected wire (if any) through a read-only interface.
+ * Used as inputs to components.
  */
 public class InputPort extends Port {
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")

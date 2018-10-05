@@ -18,7 +18,8 @@ import org.cafebabe.util.EmptyEvent;
 
 /**
  * This class represents a "Component" in the circuit
- * It has some inputs, and can based on them compute some output(s).
+ * It has a set of inputs from which it can read logical values.
+ * It has a set of outputs which logical values it can set (possibly based on the inputs' values).
  */
 public abstract class Component implements IBelongToModel, IDestructible {
 
