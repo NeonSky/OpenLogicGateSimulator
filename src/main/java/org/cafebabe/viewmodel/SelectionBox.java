@@ -7,7 +7,7 @@ import javafx.scene.transform.Transform;
 import org.cafebabe.util.ColorUtil;
 
 /**
- * The a controller-wrapper for an FXML rectangle that makes it behave like a selection box.
+ * A controller-wrapper for an FXML rectangle that makes it behave like a selection box.
  */
 public class SelectionBox {
 

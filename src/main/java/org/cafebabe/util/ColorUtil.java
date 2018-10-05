@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import org.cafebabe.model.components.connections.LogicState;
 
 /**
- * A collection of color constants.
+ * Defines the application's color scheme with a collection of color constants.
  */
 public final class ColorUtil {
 
