@@ -7,6 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Entry point of the application.
+ * Simply boots up the JavaFX framework.
+ */
 public class Main extends Application {
 
     private static final int WINDOW_WIDTH = 1920;

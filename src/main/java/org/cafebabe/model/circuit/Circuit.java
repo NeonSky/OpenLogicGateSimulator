@@ -8,6 +8,10 @@ import org.cafebabe.model.circuit.simulation.Simulator;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 
+/**
+ * Owns the wires and components, and ensures that management of
+ * them are handled through this, single interface.
+ */
 public class Circuit {
     private final Set<Component> components = new HashSet<>();
     private final Set<Wire> wires = new HashSet<>();
