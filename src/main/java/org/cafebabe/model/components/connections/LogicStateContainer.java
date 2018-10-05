@@ -2,6 +2,10 @@ package org.cafebabe.model.components.connections;
 
 import org.cafebabe.util.Event;
 
+/**
+ * Contains a logic state.
+ * This logic state may change and may affect others' logic state.
+ */
 public abstract class LogicStateContainer {
 
     Event<LogicStateContainer> onStateChanged = new Event<>();
@@ -40,6 +44,6 @@ public abstract class LogicStateContainer {
         }
     }
 
-    /* Private */
+    /* Protected */
     protected abstract LogicState logicState();
 }
