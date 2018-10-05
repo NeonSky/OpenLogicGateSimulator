@@ -7,7 +7,7 @@ import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * The controller for the workspace.
+ * Provides a pannable, zoomable workspace in which a circuit can be constructed.
  */
 public class WorkspaceController extends AnchorPane {
 
