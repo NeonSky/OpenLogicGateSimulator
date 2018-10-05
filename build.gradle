@@ -66,6 +66,8 @@ checkstyle {
     toolVersion '8.11'
     ignoreFailures false
     maxWarnings 0
+    configFile = project(':').file('config/checkstyle/checkstyle.xml')
+    configProperties = [ "suppressionFile" : project(':').file('config/checkstyle/suppressions.xml')]
 }
 
 // Configure PMD settings

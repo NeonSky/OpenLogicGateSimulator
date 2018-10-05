@@ -3,6 +3,10 @@ package org.cafebabe.model.components.connections;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+/**
+ * A port that represents the input value of a component.
+ * Can be powered by a connected wire.
+ */
 public class InputPort extends Port {
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
     private final Event<InputPort> onWillBeDestroyed = new Event<>();

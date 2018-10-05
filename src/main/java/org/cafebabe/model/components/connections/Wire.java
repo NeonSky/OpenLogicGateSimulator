@@ -8,6 +8,9 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+/**
+ * A wire transmits logical signals from output ports to input ports.
+ */
 @SuppressWarnings("PMD.TooManyMethods")
 public class Wire extends LogicStateContainer implements IBelongToModel {
 

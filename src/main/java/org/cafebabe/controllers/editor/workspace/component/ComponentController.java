@@ -29,9 +29,11 @@ import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ITransformable;
 import org.cafebabe.viewmodel.ViewModel;
 
+/**
+ * The controller for a component in the circuit.
+ */
 @SuppressWarnings("PMD.TooManyMethods")
 public class ComponentController extends AnchorPane implements ISelectable, ITransformable {
-
     private final List<PortController> ports = new ArrayList<>();
     private final Component component;
 

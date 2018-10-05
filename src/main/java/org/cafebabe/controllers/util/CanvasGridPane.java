@@ -5,6 +5,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import org.cafebabe.util.ColorUtil;
 
+/**
+ * Generates a nice looking, scalable grid.
+ * Used as background of the workspace.
+ */
 public class CanvasGridPane extends Pane {
 
     private final Canvas canvas;

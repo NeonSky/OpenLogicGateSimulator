@@ -13,6 +13,10 @@ import org.cafebabe.model.components.ComponentConstructor;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
+/**
+ * Utility class for components.
+ * Primarily used for creating new components through reflection.
+ */
 public final class ComponentUtil {
 
     private ComponentUtil() {}
