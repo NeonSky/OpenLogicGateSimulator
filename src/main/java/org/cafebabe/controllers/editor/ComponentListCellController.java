@@ -17,7 +17,8 @@ import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.util.ColorUtil;
 
 /**
- * The controller for a "List Cell" in the component list.
+ * Represents a single cell / component, in the component list.
+ * Contains a svg image of a component, and can be dragged to spawn that component.
  */
 public class ComponentListCellController extends AnchorPane {
 

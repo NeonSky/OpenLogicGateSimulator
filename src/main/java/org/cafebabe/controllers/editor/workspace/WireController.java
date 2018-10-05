@@ -22,7 +22,8 @@ import org.cafebabe.viewmodel.ITransformable;
 
 
 /**
- * The controller for a wire in the circuit.
+ * Provides a Wire that visually connects two ports in the circuit.
+ * It is colored to reflect its current logic state.
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class WireController implements ISelectable, ITransformable {

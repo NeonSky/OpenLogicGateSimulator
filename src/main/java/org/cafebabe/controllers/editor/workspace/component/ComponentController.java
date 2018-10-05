@@ -30,7 +30,7 @@ import org.cafebabe.viewmodel.ITransformable;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * The controller for a component in the circuit.
+ * Provides a visual representation of a controller with its ports. 
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class ComponentController extends AnchorPane implements ISelectable, ITransformable {
