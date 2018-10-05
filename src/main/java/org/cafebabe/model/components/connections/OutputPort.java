@@ -28,6 +28,7 @@ public class OutputPort extends Port {
     public void destroy() {
         super.destroy();
         this.onWillBeDestroyed.notifyListeners(this);
+        this.onWillBeDestroyed.removeListeners();
     }
 
     @Override
