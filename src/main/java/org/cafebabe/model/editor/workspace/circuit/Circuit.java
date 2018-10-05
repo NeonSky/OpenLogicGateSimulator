@@ -1,6 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -18,8 +18,8 @@ import org.cafebabe.model.editor.workspace.circuit.simulation.Simulator;
 public class Circuit {
 
     private final Simulator simulator = new Simulator();
-    private final Set<Component> components = new HashSet<>();
-    private final Set<Wire> wires = new HashSet<>();
+    private final Set<Component> components = new LinkedHashSet<>();
+    private final Set<Wire> wires = new LinkedHashSet<>();
 
     /* Public */
     public void addComponent(Component component) {
