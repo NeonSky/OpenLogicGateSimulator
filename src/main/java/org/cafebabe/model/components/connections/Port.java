@@ -6,6 +6,10 @@ import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 
+/**
+ The common logic for both input- and output ports.
+ Ports represent connection points for wires.
+ */
 public abstract class Port extends LogicStateContainer implements IBelongToModel, IDestructible {
     private IReadOnlyMovable positionTracker = new TrackablePosition(new Position(0, 0));
 

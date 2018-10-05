@@ -10,6 +10,9 @@ import javafx.scene.layout.Pane;
 import org.cafebabe.controllers.editor.workspace.WorkspaceController;
 import org.cafebabe.model.workspace.Workspace;
 
+/**
+ * The controller of the editor view.
+ */
 public class EditorViewController implements Initializable {
 
     @FXML private Pane rootPane;

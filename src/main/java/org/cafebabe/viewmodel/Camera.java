@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 
-/*
+/**
     This class makes it possible to pan and zoom on the workspace.
     It keeps track of all "Transformables" (Component- and Wire controllers)
     And updates their FXML transforms when the camera is moved.

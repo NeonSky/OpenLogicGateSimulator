@@ -1,5 +1,10 @@
 package org.cafebabe.controllers.util;
 
+
+/**
+ * Represents the metadata for a specific port.
+ * Where it is positioned relative to the owner component and what its name is.
+ */
 public class PortData {
     public final String name;
     public final double x;

@@ -5,7 +5,7 @@ import java.util.Map;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 
-
+/** A component that outputs the logical NAND operation of its two inputs. */
 public class NandGateComponent extends Component {
 
     private final InputPort input1;

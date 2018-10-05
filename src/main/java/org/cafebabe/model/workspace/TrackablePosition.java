@@ -9,6 +9,9 @@ import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+/**
+ * A Mutable position with an event that triggers every time it has been moved.
+ */
 public class TrackablePosition extends Position implements IMovable, IDestructible {
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final Event<Position> onPositionChanged = new Event<>();

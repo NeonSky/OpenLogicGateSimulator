@@ -3,6 +3,9 @@ package org.cafebabe.model.components;
 import java.util.Map;
 import org.cafebabe.model.components.connections.OutputPort;
 
+/**
+ * A component that takes no input and always outputs an active signal.
+ */
 public class PowerSourceComponent extends Component {
 
     @ComponentConstructor

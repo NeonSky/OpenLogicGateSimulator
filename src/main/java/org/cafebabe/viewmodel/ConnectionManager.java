@@ -7,6 +7,9 @@ import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.util.EmptyEvent;
 
 
+/**
+ * A class for managing the process of creating wires and updating the model when clicking on ports.
+ */
 class ConnectionManager {
 
     private final EmptyEvent onStateChanged = new EmptyEvent();

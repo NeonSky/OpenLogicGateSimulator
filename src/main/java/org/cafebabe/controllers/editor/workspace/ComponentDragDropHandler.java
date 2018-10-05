@@ -17,8 +17,11 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.cafebabe.viewmodel.ViewModel;
 
-/*
-Contains method implementations for handling dragging and dropping of components.
+
+/**
+ * Handles dragging and dropping,
+ * both when spawning new components (dragging from component list)
+ * and when moving existing ones.
  */
 class ComponentDragDropHandler {
 

@@ -16,6 +16,10 @@ import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.cafebabe.util.EmptyEvent;
 
+/**
+ * This class represents a "Component" in the circuit
+ * It has some inputs, and can based on them compute some output(s).
+ */
 public abstract class Component implements IBelongToModel, IDestructible {
 
     //TODO: Find out why this is offset is needed

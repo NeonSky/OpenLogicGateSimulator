@@ -1,5 +1,6 @@
 package org.cafebabe.model.components;
 
+/** A basic component that does nothing. */
 public class MockComponent extends Component {
 
     // This component should not be loaded

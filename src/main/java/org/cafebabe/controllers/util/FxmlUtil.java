@@ -14,6 +14,10 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * A collection of static functions for common, useful FXML operations.
+ * Examples: loading FXML, scaling with parent, taking input etc.
+ */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class FxmlUtil {
 

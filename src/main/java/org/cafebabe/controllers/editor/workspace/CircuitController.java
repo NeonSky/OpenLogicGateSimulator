@@ -20,6 +20,9 @@ import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ViewModel;
 
 
+/**
+ * The controller for the circuit.
+ */
 class CircuitController extends AnchorPane {
 
     private final ComponentDragDropHandler componentDragDropHandler;

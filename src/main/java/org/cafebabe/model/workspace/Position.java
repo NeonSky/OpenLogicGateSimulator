@@ -1,5 +1,8 @@
 package org.cafebabe.model.workspace;
 
+/**
+ * An Immutable 2D Vector.
+ */
 public class Position {
     private final int x;
     private final int y;

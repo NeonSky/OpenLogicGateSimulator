@@ -12,6 +12,9 @@ import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.viewmodel.ViewModel;
 
+/**
+ * The common logic for port controllers.
+ */
 public abstract class PortController extends AnchorPane {
 
     final ViewModel viewModel;
