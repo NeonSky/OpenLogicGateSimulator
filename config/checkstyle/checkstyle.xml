@@ -248,5 +248,9 @@
         </module>
         <module name="CommentsIndentation"/>
         <module name="SuppressWarningsHolder" />
+        <module name="JavadocType">
+            <property name="scope" value="private"/>
+            <property name="tokens" value="CLASS_DEF"/>
+        </module>
     </module>
 </module>
