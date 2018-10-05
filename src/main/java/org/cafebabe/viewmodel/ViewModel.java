@@ -17,6 +17,12 @@ import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+/**
+ * Allows for communication between view-specific controllers.
+ * Some calls are first delegated to different handlers (selection, connection etc.)
+ * Used for things that should not concern the model,
+ * but still involves communication between parts of the view.
+ */
 @SuppressWarnings("PMD.TooManyMethods")
 public class ViewModel {
     public final Event<Component> onComponentAdded = new Event<>();

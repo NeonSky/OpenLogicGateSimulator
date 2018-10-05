@@ -6,6 +6,9 @@ import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.viewmodel.ViewModel;
 
+/**
+ * The controller for the workspace.
+ */
 public class WorkspaceController extends AnchorPane {
 
     @FXML private AnchorPane workspaceRoot;

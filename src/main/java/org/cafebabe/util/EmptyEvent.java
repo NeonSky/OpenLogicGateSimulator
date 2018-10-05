@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * An event that transmits no data, just informs listeners that something has happened.
+ */
 public class EmptyEvent {
     private final Set<Runnable> listeners = new HashSet<>();
 

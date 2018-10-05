@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * A class for handling the selection of components and wires.
+ */
 class ControllerSelector {
 
     private final Set<ISelectable> selectedComponents = new HashSet<>();

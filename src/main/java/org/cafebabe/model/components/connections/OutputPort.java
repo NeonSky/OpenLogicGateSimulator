@@ -3,6 +3,10 @@ package org.cafebabe.model.components.connections;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
+/**
+ * A port that represents the output value of a component.
+ * Can potentially power a wire.
+ */
 public class OutputPort extends Port {
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
     private final Event<OutputPort> onWillBeDestroyed = new Event<>();

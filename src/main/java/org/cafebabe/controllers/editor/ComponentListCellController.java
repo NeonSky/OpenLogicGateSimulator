@@ -16,6 +16,9 @@ import javafx.scene.shape.StrokeLineCap;
 import org.cafebabe.controllers.util.FxmlUtil;
 import org.cafebabe.util.ColorUtil;
 
+/**
+ * The controller for a "List Cell" in the component list.
+ */
 public class ComponentListCellController extends AnchorPane {
 
     private static final int CELL_MARGIN = 20;

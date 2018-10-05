@@ -4,6 +4,9 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 import org.cafebabe.model.components.connections.LogicState;
 
+/**
+ * A collection of color constants.
+ */
 public final class ColorUtil {
 
     public static final Color SELECTED = Color.color(80.0 / 255, 144.0 / 255, 186.0 / 255, 1);

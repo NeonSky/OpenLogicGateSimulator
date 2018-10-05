@@ -13,6 +13,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * A utility class for loading data from svg files.
+ */
 public final class SvgUtil {
 
     private SvgUtil() {}

@@ -21,6 +21,9 @@ import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ITransformable;
 
 
+/**
+ * The controller for a wire in the circuit.
+ */
 @SuppressWarnings("PMD.TooManyMethods")
 public class WireController implements ISelectable, ITransformable {
 

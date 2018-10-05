@@ -33,6 +33,10 @@
 
     <module name="SuppressWarningsFilter" />
 
+    <module name="SuppressionFilter">
+        <property name="file" value="${suppressionFile}" default="suppressions.xml"/>
+    </module>
+
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">

@@ -5,6 +5,10 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 
+/**
+ * A generic event.
+ * @param <T> The type of data transmitted by the event.
+ */
 public class Event<T> {
     private final Set<Consumer<T>> listeners = new HashSet<>();
 

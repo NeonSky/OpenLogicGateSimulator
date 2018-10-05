@@ -3,6 +3,9 @@ package org.cafebabe.controllers.editor.workspace.component.port;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.viewmodel.ViewModel;
 
+/**
+ * The controller for an outPort of a component.
+ */
 public class OutPortController extends PortController {
     private final OutputPort port;
 

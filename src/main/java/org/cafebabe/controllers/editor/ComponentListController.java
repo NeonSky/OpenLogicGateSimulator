@@ -11,6 +11,9 @@ import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 
 
+/**
+ * The controller for the component list.
+ */
 class ComponentListController extends AnchorPane {
     @FXML private FlowPane componentFlowPane;
     @FXML private AnchorPane componentListRoot;
