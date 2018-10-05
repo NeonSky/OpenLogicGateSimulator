@@ -12,7 +12,7 @@ import org.cafebabe.model.util.ComponentUtil;
 
 
 /**
- * The controller for the component list.
+ * Provides a scrollable list of components that can be dragged onto the workspace.
  */
 class ComponentListController extends AnchorPane {
     @FXML private FlowPane componentFlowPane;

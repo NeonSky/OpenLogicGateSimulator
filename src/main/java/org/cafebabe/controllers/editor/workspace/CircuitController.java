@@ -21,7 +21,8 @@ import org.cafebabe.viewmodel.ViewModel;
 
 
 /**
- * The controller for the circuit.
+ * Provides a visual representation of the circuit currently being worked on.
+ * TODO is also responsible for the background for some reason, justify or change.
  */
 class CircuitController extends AnchorPane {
 

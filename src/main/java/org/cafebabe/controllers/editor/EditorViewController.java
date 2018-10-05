@@ -11,7 +11,8 @@ import org.cafebabe.controllers.editor.workspace.WorkspaceController;
 import org.cafebabe.model.workspace.Workspace;
 
 /**
- * The controller of the editor view.
+ * This is the primary view of the program
+ * it provides a workspace and a sidebar with components.
  */
 public class EditorViewController implements Initializable {
 

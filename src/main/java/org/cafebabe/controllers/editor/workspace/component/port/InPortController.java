@@ -4,7 +4,7 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * The controller for an inPort of a controller.
+ * The "white circle" representing an inPort of a component.
  */
 public class InPortController extends PortController {
     private final InputPort port;
