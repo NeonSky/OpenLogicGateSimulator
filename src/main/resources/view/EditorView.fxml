@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -11,13 +10,7 @@
         </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <TabPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <tabs>
-                <Tab closable="false" text="Tab 1" />
-                  <Tab closable="false" text="Tab 1" />
-                  <Tab closable="false" text="Tab 1" />
-              </tabs>
-            </TabPane>
+            <TabPane fx:id="tabsPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
          </children>
       </AnchorPane>
