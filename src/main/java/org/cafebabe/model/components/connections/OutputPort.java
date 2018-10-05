@@ -4,8 +4,8 @@ import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
 /**
- * A port that represents the output value of a component.
- * Can potentially power a wire.
+ * A port that emits a logical state determined by its owner component.
+ * Used as outputs for components.
  */
 public class OutputPort extends Port {
     @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")

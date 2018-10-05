@@ -4,7 +4,7 @@ import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * The "white circle" representing an outPort of a component.
+ * The "white circle" representing an output port of a component.
  */
 public class OutPortController extends PortController {
     private final OutputPort port;
