@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
@@ -18,6 +19,8 @@ import org.reflections.scanners.MethodAnnotationsScanner;
  */
 public final class ComponentUtil {
 
+    private static Map<String, Component> componentMap;
+
     private ComponentUtil() {}
 
     /* Public */
@@ -26,9 +29,7 @@ public final class ComponentUtil {
             throw new InvalidComponentException("Component display name can not be null or empty");
         }
 
-        Map componentMap = getComponentMap();
-
-        if (!componentMap.containsKey(displayName)) {
+        if (!getComponentMap().containsKey(displayName)) {
             throw new InvalidComponentException("No such component " + displayName);
         }
 
@@ -70,12 +71,12 @@ public final class ComponentUtil {
 
     /* Private */
     private static Map<String, Component> getComponentMap() {
-        Map<String, Component> map = new HashMap<>();
-
-        for (Component c : getAllComponents()) {
-            map.put(c.getDisplayName(), c);
+        if (Objects.isNull(componentMap)) {
+            componentMap = new HashMap<>();
+            for (Component c : getAllComponents()) {
+                componentMap.put(c.getDisplayName(), c);
+            }
         }
-
-        return map;
+        return componentMap;
     }
 }
