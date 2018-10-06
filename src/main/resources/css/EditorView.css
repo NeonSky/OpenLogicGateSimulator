@@ -21,3 +21,23 @@
     -fx-alignment: center;
     -fx-text-fill: -colorscheme-black;
 }
+
+.addWorkspaceButton {
+    -fx-background-color: -colorscheme-lightgray;
+    -fx-background-radius: 5;
+    -fx-border-color: -colorscheme-darkgray;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+}
+
+.addWorkspaceButton:hover {
+    -fx-background-color: -colorscheme-darkgray;
+}
+
+.addWorkspaceButton:pressed {
+    -fx-background-color: -colorscheme-offwhite;
+}
+
+.workspaceBackgroundPane {
+    -fx-background-color: -colorscheme-offwhite;
+}
