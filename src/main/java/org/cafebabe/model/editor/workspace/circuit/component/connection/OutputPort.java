@@ -13,7 +13,6 @@ public class OutputPort extends Port {
     private boolean connected;
     private boolean destructionPending;
 
-
     public OutputPort() {
         this.state = LogicState.UNDEFINED;
     }
