@@ -3,15 +3,31 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.HLineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
+<?import javafx.scene.shape.VLineTo?>
 
 <AnchorPane fx:id="rootPane" cache="true" cacheHint="SPEED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" stylesheets="@../css/EditorView.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cafebabe.controllers.editor.EditorViewController">
     <SplitPane fx:id="primatrySplitPane" dividerPositions="0.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <AnchorPane fx:id="sidebarAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
         </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="workspaceBackgroundPane">
          <children>
-            <TabPane fx:id="tabsPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <TabPane fx:id="tabsPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
+              <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="100.0" styleClass="workspacesPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <AnchorPane fx:id="addNewWorkspaceButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" snapToPixel="false" styleClass="addWorkspaceButton" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <Path fill="TRANSPARENT" fillRule="EVEN_ODD" stroke="BLACK" strokeWidth="2.0">
+                      <elements>
+                          <MoveTo x="5.0" y="10.0" />
+                        <HLineTo absolute="false" x="10.0" />
+                        <MoveTo x="10.0" y="5.0" />
+                        <VLineTo absolute="false" y="10.0" />
+                      </elements>
+                  </Path>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
     </SplitPane>

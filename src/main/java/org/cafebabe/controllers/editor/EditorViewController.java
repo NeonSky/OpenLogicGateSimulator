@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -29,6 +30,7 @@ public class EditorViewController implements Initializable {
     @FXML private AnchorPane sidebarAnchorPane;
     @FXML private AnchorPane workspacesPane;
     @FXML private TabPane tabsPane;
+    @FXML private AnchorPane addNewWorkspaceButton;
     private final List<WorkspaceController> workspaces = new ArrayList<>();
 
     /* Public */
@@ -39,31 +41,36 @@ public class EditorViewController implements Initializable {
         initializeTabPane();
     }
 
-    public void addNewWorkspace() {
+    /* Private */
+    private void addNewWorkspace(MouseEvent event) {
+        if (event != null) {
+            event.consume();
+        }
+
         Workspace workspace = new Workspace();
         WorkspaceController workspaceController = new WorkspaceController(workspace);
         this.workspaces.add(workspaceController);
         addWorkspaceTab(workspaceController);
     }
 
-    public void removeWorkspace(Event event, WorkspaceController workspaceController) {
+    private void removeWorkspace(Event event, WorkspaceController workspaceController) {
         event.consume();
+
         this.workspacesPane.getChildren().remove(workspaceController);
         this.workspaces.remove(workspaceController);
 
         if (this.workspaces.isEmpty()) {
-            addNewWorkspace();
+            addNewWorkspace(null);
         }
     }
 
-    /* Private */
     private void initializeSidebar() {
         this.sidebarAnchorPane.getChildren().add(new ComponentListController());
     }
 
     private void initializeWorkspace() {
-        addNewWorkspace();
-        this.workspacesPane.getChildren().addAll(this.workspaces.get(0));
+        addNewWorkspace(null);
+        this.workspacesPane.getChildren().add(this.workspaces.get(0));
         this.workspacesPane.requestLayout();
     }
 
@@ -71,6 +78,7 @@ public class EditorViewController implements Initializable {
         SingleSelectionModel<Tab> model = this.tabsPane.getSelectionModel();
         ReadOnlyIntegerProperty selected = model.selectedIndexProperty();
         selected.addListener((observable, oldValue, newValue) -> selectWorkspace(newValue));
+        this.addNewWorkspaceButton.setOnMouseClicked(this::addNewWorkspace);
     }
 
     private void selectWorkspace(Number index) {
@@ -85,7 +93,7 @@ public class EditorViewController implements Initializable {
 
     private void addWorkspaceTab(WorkspaceController workspaceController) {
         Tab tab = new Tab();
-        tab.setText("New Workspace");
+        tab.setText("Space " + this.workspaces.size());
         tab.setClosable(true);
         tab.setOnClosed(event -> this.removeWorkspace(event, workspaceController));
         this.tabsPane.getTabs().add(tab);
