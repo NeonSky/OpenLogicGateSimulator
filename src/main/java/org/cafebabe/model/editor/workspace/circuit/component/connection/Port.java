@@ -5,6 +5,7 @@ import org.cafebabe.model.editor.util.EmptyEvent;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.editor.workspace.Position;
 import org.cafebabe.model.editor.workspace.TrackablePosition;
+import org.cafebabe.model.util.IdGenerator;
 
 /**
  The common logic for both input- and output ports.
@@ -14,6 +15,7 @@ public abstract class Port extends LogicStateContainer implements IModel {
     private IReadOnlyMovable positionTracker = new TrackablePosition(new Position(0, 0));
     private final EmptyEvent onDestroy = new EmptyEvent();
     private boolean destructionPending;
+    private final int id = IdGenerator.getNewId();
 
 
     /* Public */
@@ -39,5 +41,9 @@ public abstract class Port extends LogicStateContainer implements IModel {
     /* Package-Private */
     IReadOnlyMovable getPositionTracker() {
         return this.positionTracker;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
