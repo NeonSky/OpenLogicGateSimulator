@@ -1,5 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -159,6 +160,14 @@ public class Wire extends LogicStateContainer implements IModel {
 
     public IReadOnlyMovable getEndPos() {
         return this.trackableEndPos;
+    }
+
+    public Set<InputPort> getConnectedInputs() {
+        return Collections.unmodifiableSet(this.connectedInputs);
+    }
+
+    public Set<OutputPort> getConnectedOutputs() {
+        return Collections.unmodifiableSet(this.connectedOutputs);
     }
 
     /* Private */
