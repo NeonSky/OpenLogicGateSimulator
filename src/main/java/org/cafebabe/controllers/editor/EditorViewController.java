@@ -95,6 +95,9 @@ public class EditorViewController implements Initializable {
         tab.setClosable(true);
         tab.setOnCloseRequest(event -> {
             this.removeWorkspace(workspaceController);
+            if (tab.isSelected()) {
+                selectWorkspace(this.workspaces.size() - 1);
+            }
         });
         tab.setOnClosed(event -> {
             event.consume();
