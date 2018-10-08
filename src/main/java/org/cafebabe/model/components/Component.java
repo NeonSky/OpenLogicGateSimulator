@@ -46,7 +46,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
         } else if (this.tagToOutput.containsKey(portTag)) {
             wire.connectOutputPort(this.tagToOutput.get(portTag));
         } else {
-            throw new RuntimeException("This port doesn't exist on this component");
+            throw new InvalidPortException("This port doesn't exist on this component");
         }
         update();
     }
@@ -57,7 +57,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
         } else if (this.tagToOutput.containsKey(portTag)) {
             wire.disconnectOutputPort(this.tagToOutput.get(portTag));
         } else {
-            throw new RuntimeException("This port doesn't exist on this component");
+            throw new InvalidPortException("This port doesn't exist on this component");
         }
         update();
     }
@@ -105,7 +105,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
         } else if (this.tagToInput.containsKey(portTag)) {
             return this.tagToInput.get(portTag);
         }
-        throw new RuntimeException("This port doesn't exist on this component");
+        throw new InvalidPortException("This port doesn't exist on this component");
     }
 
     public void setEventScheduler(IScheduleStateEvents eventScheduler) {

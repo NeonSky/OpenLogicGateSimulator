@@ -41,11 +41,12 @@ public class InputPort extends Port {
     void setStateSource(LogicStateContainer stateSource) {
         notifyIfStateChanges(() -> {
             if (stateSource instanceof Port) {
-                throw new RuntimeException("Can't directly connect an "
+                throw new InvalidStateSourceException("Can't directly connect an "
                         + "input port with another port");
             }
             if (this.stateSource != null) {
-                throw new RuntimeException("Can't connect multiple wires to an input");
+                throw new StateSourceAlreadySetException("Can't connect multiple "
+                        + "wires to an input");
             }
             this.stateSource = stateSource;
 

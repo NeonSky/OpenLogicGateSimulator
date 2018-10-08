@@ -29,7 +29,7 @@ class ConnectionManager {
         } else if (port instanceof OutputPort) {
             return !createWireIfNeeded().isAnyOutputConnected() && !port.isConnected();
         } else {
-            throw new RuntimeException("Invalid Port Type!");
+            throw new InvalidPortTypeException();
         }
     }
 
