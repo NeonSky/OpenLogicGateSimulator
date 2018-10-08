@@ -1,14 +1,18 @@
 package org.cafebabe.model.components;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.cafebabe.controllers.util.Metadata;
 import org.cafebabe.model.IDestructible;
 import org.cafebabe.model.circuit.IBelongToModel;
+import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.LogicState;
+import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.components.connections.Wire;
@@ -104,6 +108,13 @@ public abstract class Component implements IBelongToModel, IDestructible {
         throw new RuntimeException("This port doesn't exist on this component");
     }
 
+    public void setEventScheduler(IScheduleStateEvents eventScheduler) {
+        for (LogicStateContainer stateContainer : getPorts()) {
+            stateContainer.setEventScheduler(eventScheduler);
+        }
+    }
+
+
     /* Package-Private */
     void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
         for (InputPort input : relatedInputs) {
@@ -120,7 +131,15 @@ public abstract class Component implements IBelongToModel, IDestructible {
         out.setState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
-    /* Private */
+    /* Protected */
     protected abstract void update();
+
+    /* Private */
+    private List<Port> getPorts() {
+        List<Port> ports = new ArrayList<>();
+        ports.addAll(this.tagToInput.values());
+        ports.addAll(this.tagToOutput.values());
+        return ports;
+    }
 
 }

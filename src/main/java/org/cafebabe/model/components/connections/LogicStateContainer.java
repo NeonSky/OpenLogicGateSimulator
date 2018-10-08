@@ -10,12 +10,11 @@ import org.cafebabe.util.Event;
 public abstract class LogicStateContainer {
 
     final Event<LogicStateContainer> onStateChanged = new Event<>();
-    private static IScheduleStateEvents eventScheduler;
+    private IScheduleStateEvents eventScheduler;
 
 
-    /* Public */
-    public static void setEventScheduler(IScheduleStateEvents eventScheduler) {
-        LogicStateContainer.eventScheduler = eventScheduler;
+    public void setEventScheduler(IScheduleStateEvents eventScheduler) {
+        this.eventScheduler = eventScheduler;
     }
 
     public final boolean isUndefined() {
@@ -45,8 +44,13 @@ public abstract class LogicStateContainer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (logicState() != prevState && LogicStateContainer.eventScheduler != null) {
-            eventScheduler.queueEvent(this.onStateChanged, this);
+
+        if (logicState() != prevState) {
+            if (this.eventScheduler == null) {
+                notifyStateChange();
+            } else {
+                this.eventScheduler.queueEvent(this.onStateChanged, this);
+            }
         }
     }
 

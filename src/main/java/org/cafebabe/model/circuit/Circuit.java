@@ -6,7 +6,6 @@ import java.util.Set;
 import org.cafebabe.model.IDynamicComponent;
 import org.cafebabe.model.circuit.simulation.Simulator;
 import org.cafebabe.model.components.Component;
-import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
 
 /**
@@ -21,7 +20,6 @@ public class Circuit {
 
 
     public Circuit() {
-        LogicStateContainer.setEventScheduler(this.simulator);
         this.simulator.start();
     }
 
@@ -35,6 +33,7 @@ public class Circuit {
             this.simulator.addEvents(((IDynamicComponent) component).getInitialDynamicEvents());
         }
 
+        component.setEventScheduler(this.simulator);
         this.components.add(component);
     }
 
@@ -51,6 +50,7 @@ public class Circuit {
             throw new RuntimeException("Trying to add same wire to workspace several times");
         }
 
+        wire.setEventScheduler(this.simulator);
         this.wires.add(wire);
     }
 
