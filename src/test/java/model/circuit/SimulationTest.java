@@ -2,8 +2,7 @@ package model.circuit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import mock.DfsEventBus;
-import org.cafebabe.model.circuit.simulation.Simulator;
+import org.cafebabe.model.circuit.Circuit;
 import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
 import org.cafebabe.model.components.XorGateComponent;
@@ -20,8 +19,6 @@ public class SimulationTest {
     // Runs two (top/bot) parallell lines of power that will race towards a single XOR.
     @Test
     void xorShouldLeakPowerWithDfs() {
-        LogicStateContainer.setEventBus(new DfsEventBus());
-
         // on = HIGH value
         OutputPort powerSource = new OutputPort();
         powerSource.setState(LogicState.HIGH);
@@ -75,15 +72,15 @@ public class SimulationTest {
 
     @Test
     void xorShouldNotLeakPowerWithBfs() {
-        // Run simulator (which uses bfs approach)
-        Simulator sim = new Simulator();
-        LogicStateContainer.setEventBus(sim);
-        sim.start();
+        Circuit c = new Circuit(); // Circuit uses Simulator which uses a BFS approach
 
         Wire on = new Wire();
+        c.addWire(on);
 
         XorGateComponent xor = new XorGateComponent();
+        c.addComponent(xor);
         Wire res = new Wire();
+        c.addWire(res);
         xor.connectToPort(res, "output");
 
         // The state should ONLY be updated to LOW and never to e.g. HIGH
@@ -94,10 +91,11 @@ public class SimulationTest {
 
         assertTrue(res.isUndefined());
         PowerSourceComponent power = new PowerSourceComponent();
+        c.addComponent(power);
+        assertTrue(res.isUndefined());
         power.connectToPort(on, "output");
 
         // Ensure that the state is actually changed
-        assertTrue(res.isUndefined());
         try {
             Thread.sleep(10); // arbitrary wait time for the simulator
         } catch (InterruptedException e) {
