@@ -117,7 +117,7 @@ class ComponentDragDropHandler {
                 (ComponentListCellController) event.getGestureSource();
         if (!componentListCellController.getComponentName().equals(
                 this.dragNewComponent.getDisplayName())) {
-            throw new RuntimeException("Dragged component from component list is "
+            throw new UnexpectedComponentDragException("Dragged component from component list is "
                     + "not equal to currently dragged component");
         }
         double height = componentListCellController.getHeight();

@@ -45,7 +45,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
      */
     public void connectInputPort(InputPort input) {
         if (isInputConnected(input)) {
-            throw new RuntimeException("An InputPort can only be added once.");
+            throw new PortAlreadyAddedException("An InputPort can only be added once.");
         }
         input.onWillBeDestroyed().addListener(this::onConnectedInputPortDestroyed);
         input.setStateSource(this);
@@ -60,7 +60,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     public void connectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
             if (isOutputConnected(output)) {
-                throw new RuntimeException("An OutputPort can only be added once.");
+                throw new PortAlreadyAddedException("An OutputPort can only be added once.");
             }
 
             output.setConnected(true);
@@ -84,7 +84,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
      */
     public void disconnectInputPort(InputPort input) {
         if (!isInputConnected(input)) {
-            throw new RuntimeException("An InputPort that isn't connected can't be removed.");
+            throw new PortNotConnectedException("An InputPort that isn't "
+                    + "connected can't be removed.");
         }
         input.onStateChanged.removeListener(this::onConnectedOutputStateChanged);
         input.onWillBeDestroyed().removeListener(this::onConnectedInputPortDestroyed);
@@ -119,7 +120,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
     public void disconnectOutputPort(OutputPort output) {
         notifyIfStateChanges(() -> {
             if (!isOutputConnected(output)) {
-                throw new RuntimeException("An OutputPort that isn't connected can't be removed.");
+                throw new PortNotConnectedException("An OutputPort that isn't "
+                        + "connected can't be removed.");
             }
             output.onWillBeDestroyed().removeListener(this::onConnectedOutputPortDestroyed);
             output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
@@ -168,7 +170,7 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
      */
     private void onConnectedOutputStateChanged(LogicStateContainer updatedPort) {
         if (!this.connectedOutputs.contains(updatedPort)) {
-            throw new RuntimeException("Updated port isn't connected!");
+            throw new PortNotConnectedException("Updated port isn't connected!");
         }
         notifyIfStateChanges(() -> {
             switch (updatedPort.logicState()) {

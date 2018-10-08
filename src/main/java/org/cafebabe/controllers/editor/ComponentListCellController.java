@@ -54,7 +54,7 @@ public class ComponentListCellController extends AnchorPane {
 
     private void setComponentNameLabel() {
         if (Strings.isNullOrEmpty(this.displayName)) {
-            throw new RuntimeException("Can't set a label that is null or empty");
+            throw new EmptyLabelException("Can't set a label that is null or empty");
         }
 
         String upperCasedName = this.displayName.toUpperCase();
@@ -64,7 +64,7 @@ public class ComponentListCellController extends AnchorPane {
 
     private void setComponentSvgContent(String svgContent) {
         if (Strings.isNullOrEmpty(svgContent)) {
-            throw new RuntimeException("Can't load svgContent that is null or empty");
+            throw new NoSvgContentException("Can't load svgContent that is null or empty");
         }
 
         this.svg.setContent(svgContent);
