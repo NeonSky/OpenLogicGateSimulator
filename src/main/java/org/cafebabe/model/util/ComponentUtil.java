@@ -24,13 +24,13 @@ public final class ComponentUtil {
     /* Public */
     public static Component componentFactory(String displayName) {
         if (displayName == null || displayName.isEmpty()) {
-            throw new RuntimeException("Component display name can not be null or empty");
+            throw new InvalidComponentException("Component display name can not be null or empty");
         }
 
         Map componentMap = getComponentMap();
 
         if (!componentMap.containsKey(displayName)) {
-            throw new RuntimeException("No such component " + displayName);
+            throw new InvalidComponentException("No such component " + displayName);
         }
 
         Component original = getComponentMap().get(displayName);

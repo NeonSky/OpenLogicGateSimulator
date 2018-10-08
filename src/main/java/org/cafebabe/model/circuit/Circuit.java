@@ -26,7 +26,7 @@ public class Circuit {
     /* Public */
     public void addComponent(Component component) {
         if (this.components.contains(component)) {
-            throw new RuntimeException("Trying to add same component to workspace several times");
+            throw new ComponentAlreadyAddedException();
         }
 
         if (component instanceof IDynamicComponent) {
@@ -39,7 +39,7 @@ public class Circuit {
 
     public void removeComponent(Component component) {
         if (!this.components.contains(component)) {
-            throw new RuntimeException("Trying to remove nonexistent component from workspace");
+            throw new ComponentNotInWorkspaceException();
         }
 
         this.components.remove(component);
@@ -47,7 +47,7 @@ public class Circuit {
 
     public void addWire(Wire wire) {
         if (this.wires.contains(wire)) {
-            throw new RuntimeException("Trying to add same wire to workspace several times");
+            throw new WireAlreadyAddedException();
         }
 
         wire.setEventScheduler(this.simulator);
@@ -56,7 +56,7 @@ public class Circuit {
 
     public void removeWire(Wire wire) {
         if (!this.wires.contains(wire)) {
-            throw new RuntimeException("Trying to remove nonexistent wire from workspace");
+            throw new WireNotInWorkspaceException();
         }
 
         this.wires.remove(wire);

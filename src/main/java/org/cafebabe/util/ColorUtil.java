@@ -31,11 +31,11 @@ public final class ColorUtil {
     private ColorUtil() {}
 
     /* Public */
-    public static Color getStateColor(LogicState state) throws RuntimeException {
+    public static Color getStateColor(LogicState state) throws ColorNotFoundException {
         if (STATE_TO_COLOR.containsKey(state)) {
             return STATE_TO_COLOR.get(state);
         } else {
-            throw new RuntimeException("No color mapped to state: " + state.toString());
+            throw new ColorNotFoundException(state);
         }
     }
 }
