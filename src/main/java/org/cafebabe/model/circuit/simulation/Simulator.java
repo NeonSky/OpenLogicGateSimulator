@@ -78,12 +78,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
     }
 
     @Override
-    public void queueEvent(StateEvent event) {
-        this.circuitStateBfs.add(event);
-    }
-
-    @Override
     public void queueEvent(Event eventToNotify, Object paramToProvide) {
-        queueEvent(new StateEvent(eventToNotify, paramToProvide));
+        this.circuitStateBfs.add(new StateEvent(eventToNotify, paramToProvide));
     }
 }

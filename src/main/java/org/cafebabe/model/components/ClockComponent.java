@@ -52,7 +52,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     @Override
     public String getDisplayName() {
-        return "Ping-Pong pulse emitter.";
+        return "Clock";
     }
 
     @Override

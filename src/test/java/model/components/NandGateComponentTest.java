@@ -2,23 +2,15 @@ package model.components;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import mock.DfsScheduleStateEvents;
 import org.cafebabe.model.components.NandGateComponent;
 import org.cafebabe.model.components.NotGateComponent;
 import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
 class NandGateComponentTest {
 
-
-    @BeforeAll
-    static void setUp() {
-        LogicStateContainer.setEventScheduler(new DfsScheduleStateEvents());
-    }
 
     @Test
     void oneHighInputShouldGiveHighOutput() {
