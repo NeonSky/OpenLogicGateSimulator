@@ -17,8 +17,8 @@ public class SelectionBox {
 
     public void createNewBox(double x, double y) {
         this.box = new Rectangle();
-        this.box.setStroke(ColorUtil.SELECTION_BOX_STROKE);
-        this.box.setFill(ColorUtil.SELECTION_BOX_FILL);
+        this.box.setStroke(ColorUtil.SELECTION_BOX_STROKE.color());
+        this.box.setFill(ColorUtil.SELECTION_BOX_FILL.color());
         this.box.setX(x);
         this.box.setY(y);
     }

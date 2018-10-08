@@ -67,8 +67,8 @@ public class ComponentListCellController extends AnchorPane {
         this.scaleComponentSvg();
         this.svg.setStrokeWidth(2);
         this.svg.setStrokeLineCap(StrokeLineCap.SQUARE);
-        this.svg.setStroke(ColorUtil.BLACK);
-        this.svg.setFill(ColorUtil.TRANSPARENT);
+        this.svg.setStroke(ColorUtil.BLACK.color());
+        this.svg.setFill(ColorUtil.TRANSPARENT.color());
     }
 
     private void scaleComponentSvg() {
