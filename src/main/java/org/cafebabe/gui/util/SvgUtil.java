@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.util;
+package org.cafebabe.gui.util;
 
 import java.io.File;
 import java.net.URISyntaxException;

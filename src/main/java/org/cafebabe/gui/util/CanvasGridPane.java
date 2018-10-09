@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.util;
+package org.cafebabe.gui.util;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

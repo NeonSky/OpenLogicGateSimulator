@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cafebabe.controllers.util.Metadata;
+import org.cafebabe.gui.util.Metadata;
 import org.cafebabe.model.IDestructible;
 import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;

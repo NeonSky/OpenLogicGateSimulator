@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.editor.workspace;
+package org.cafebabe.gui.editor.workspace;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
-import org.cafebabe.controllers.util.FxmlUtil;
+import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.connections.LogicState;

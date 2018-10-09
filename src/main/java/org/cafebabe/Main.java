@@ -15,6 +15,8 @@ public class Main extends Application {
 
     private static final int WINDOW_WIDTH = 1920;
     private static final int WINDOW_HEIGHT = 1080;
+    private static final String ENTRY_POINT = "/view/RootView.fxml";
+    private static final String GLOBAL_CSS = "css/GlobalStyles.css";
 
     /* Public */
     public static void main(String[] args) {
@@ -24,10 +26,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ResourceBundle bundle = ResourceBundle.getBundle("OLGS");
-        Parent root = FXMLLoader.load(getClass().getResource("/view/EditorView.fxml"), bundle);
+        Parent root = FXMLLoader.load(getClass().getResource(ENTRY_POINT), bundle);
 
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        scene.getStylesheets().add("css/GlobalStyles.css");
+        scene.getStylesheets().add(GLOBAL_CSS);
 
         stage.setTitle(bundle.getString("application.name"));
         stage.setScene(scene);

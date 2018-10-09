@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.util;
+package org.cafebabe.gui.util;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -26,12 +26,12 @@ public final class FxmlUtil {
     /* Public */
 
     /**
-     * Attaches the given FXML to the given controller.
+     * Attaches the given FXML to the given view handler.
      */
-    public static void attachFxml(Object controller, String fxmlFilePath) {
-        FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getResource(fxmlFilePath));
-        fxmlLoader.setRoot(controller);
-        fxmlLoader.setController(controller);
+    public static void attachFxml(Object viewHandler, String fxmlFilePath) {
+        FXMLLoader fxmlLoader = new FXMLLoader(viewHandler.getClass().getResource(fxmlFilePath));
+        fxmlLoader.setRoot(viewHandler);
+        fxmlLoader.setController(viewHandler);
 
         try {
             fxmlLoader.load();
