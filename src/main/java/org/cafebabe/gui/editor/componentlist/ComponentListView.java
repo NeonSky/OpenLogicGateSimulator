@@ -1,10 +1,12 @@
-package org.cafebabe.gui.editor;
+package org.cafebabe.gui.editor.componentlist;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import org.cafebabe.gui.editor.componentlist.cell.ComponentListCellController;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.components.Component;
@@ -12,16 +14,17 @@ import org.cafebabe.model.util.ComponentUtil;
 
 
 /**
- * Provides a scrollable list of components that can be dragged onto the workspace.
+ * The component list visual.
  */
-class ComponentListController extends AnchorPane {
+class ComponentListView extends AnchorPane {
     @FXML private FlowPane componentFlowPane;
     @FXML private AnchorPane componentListRoot;
 
-    public ComponentListController() {
+
+    ComponentListView() {
         FxmlUtil.attachFxml(this, "/view/ComponentList.fxml");
         List<Component> components = ComponentUtil.getAllComponents();
-        List<ComponentListCellController> listCells = componentsToListCells(components);
+        List<Node> listCells = componentsToListCells(components);
 
         this.componentFlowPane.getChildren().addAll(listCells);
         FxmlUtil.scaleWithAnchorPaneParent(this.componentListRoot);
@@ -29,14 +32,14 @@ class ComponentListController extends AnchorPane {
 
     /* Private */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    private List<ComponentListCellController> componentsToListCells(List<Component> components) {
-        List<ComponentListCellController> listCells = new ArrayList<>();
+    private List<Node> componentsToListCells(List<Component> components) {
+        List<Node> listCells = new ArrayList<>();
 
         for (Component component : components) {
-            ComponentListCellController clcc = new ComponentListCellController(
+            Node node = new ComponentListCellController(
                     component.getDisplayName(), SvgUtil.getComponentSvgPath(component)
-            );
-            listCells.add(clcc);
+            ).getView();
+            listCells.add(node);
         }
 
         return listCells;

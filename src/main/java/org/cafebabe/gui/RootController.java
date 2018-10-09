@@ -25,7 +25,7 @@ public class RootController implements Initializable {
     }
 
     /* Private */
-    private void loadController(IScreenController screenController) {
+    private void loadController(IController screenController) {
         this.rootPane.getChildren().clear();
         Node view = screenController.getView();
         this.rootPane.getChildren().add(view);

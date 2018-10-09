@@ -5,7 +5,7 @@ import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
-import org.cafebabe.gui.IScreenController;
+import org.cafebabe.gui.IController;
 import org.cafebabe.gui.editor.workspace.WorkspaceController;
 import org.cafebabe.model.workspace.Workspace;
 
@@ -13,7 +13,7 @@ import org.cafebabe.model.workspace.Workspace;
  * This is the primary view of the editor.
  * it provides a set of workspaces and a sidebar with components.
  */
-public class EditorController implements IScreenController {
+public class EditorController implements IController {
 
     private final EditorView view = new EditorView();
     private final List<WorkspaceController> workspaces = new ArrayList<>();
