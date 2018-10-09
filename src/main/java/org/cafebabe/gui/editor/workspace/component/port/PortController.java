@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.editor.workspace.component.port;
+package org.cafebabe.gui.editor.workspace.component.port;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,13 +7,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-import org.cafebabe.controllers.util.FxmlUtil;
+import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * The common logic for port controllers.
+ * The common logic for port gui.
  */
 public abstract class PortController extends AnchorPane {
 

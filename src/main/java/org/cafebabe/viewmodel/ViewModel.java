@@ -18,7 +18,7 @@ import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
 
 /**
- * Allows for communication between view-specific controllers.
+ * Allows for communication between view-specific gui.
  * Some calls are first delegated to different handlers (selection, connection etc.)
  * Used for things that should not concern the model,
  * but still involves communication between parts of the view.
