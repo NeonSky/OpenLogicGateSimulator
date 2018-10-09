@@ -6,6 +6,7 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import org.cafebabe.gui.editor.componentlist.ComponentListController;
 import org.cafebabe.gui.editor.workspace.WorkspaceController;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.util.EmptyEvent;
@@ -61,7 +62,7 @@ class EditorView extends AnchorPane {
 
     /* Private */
     private void initializeSidebar() {
-        this.sidebarAnchorPane.getChildren().add(new ComponentListController());
+        this.sidebarAnchorPane.getChildren().add(new ComponentListController().getView());
     }
 
     private void initializeWorkspace() {

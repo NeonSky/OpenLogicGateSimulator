@@ -1,4 +1,4 @@
-package org.cafebabe.gui.editor;
+package org.cafebabe.gui.editor.componentlist.cell;
 
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
@@ -22,10 +22,9 @@ import org.cafebabe.util.ColorUtil;
  * Represents a single cell / component, in the component list.
  * Contains a svg image of a component, and can be dragged to spawn that component.
  */
-public class ComponentListCellController extends AnchorPane {
+class ComponentListCellView extends AnchorPane {
 
     private static final int CELL_MARGIN = 20;
-
     private final String displayName;
 
     @FXML private AnchorPane componentCell;
@@ -34,7 +33,7 @@ public class ComponentListCellController extends AnchorPane {
     @FXML private Label componentNameLabel;
 
 
-    public ComponentListCellController(String name, String svgContent) throws RuntimeException {
+    ComponentListCellView(String name, String svgContent) {
         FxmlUtil.attachFxml(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
         this.displayName = name;
@@ -43,8 +42,7 @@ public class ComponentListCellController extends AnchorPane {
         setComponentSvgContent(svgContent);
     }
 
-    /* Public */
-    public String getComponentName() {
+    String getComponentName() {
         return this.displayName;
     }
 
