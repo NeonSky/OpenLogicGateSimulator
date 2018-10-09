@@ -2,6 +2,6 @@ package org.cafebabe.gui;
 
 import javafx.scene.Node;
 
-public interface IScreenController {
+public interface IController {
     Node getView();
 }
