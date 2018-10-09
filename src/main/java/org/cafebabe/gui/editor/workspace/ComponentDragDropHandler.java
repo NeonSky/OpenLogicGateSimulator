@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.editor.workspace;
+package org.cafebabe.gui.editor.workspace;
 
 import java.util.Objects;
 import javafx.geometry.Point2D;
@@ -9,8 +9,9 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import org.cafebabe.controllers.editor.ComponentListCellController;
-import org.cafebabe.controllers.editor.workspace.component.ComponentController;
+import org.cafebabe.controllers.editor.workspace.UnexpectedComponentDragException;
+import org.cafebabe.gui.editor.ComponentListCellController;
+import org.cafebabe.gui.editor.workspace.component.ComponentController;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;

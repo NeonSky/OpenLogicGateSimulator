@@ -1,12 +1,12 @@
-package org.cafebabe.controllers.editor;
+package org.cafebabe.gui.editor;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import org.cafebabe.controllers.util.FxmlUtil;
-import org.cafebabe.controllers.util.SvgUtil;
+import org.cafebabe.gui.util.FxmlUtil;
+import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 

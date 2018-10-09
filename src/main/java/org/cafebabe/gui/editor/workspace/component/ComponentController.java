@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.editor.workspace.component;
+package org.cafebabe.gui.editor.workspace.component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
-import org.cafebabe.controllers.editor.workspace.component.port.InPortController;
-import org.cafebabe.controllers.editor.workspace.component.port.OutPortController;
-import org.cafebabe.controllers.editor.workspace.component.port.PortController;
-import org.cafebabe.controllers.util.FxmlUtil;
-import org.cafebabe.controllers.util.Metadata;
-import org.cafebabe.controllers.util.SvgUtil;
+import org.cafebabe.gui.editor.workspace.component.port.InPortController;
+import org.cafebabe.gui.editor.workspace.component.port.OutPortController;
+import org.cafebabe.gui.editor.workspace.component.port.PortController;
+import org.cafebabe.gui.util.FxmlUtil;
+import org.cafebabe.gui.util.Metadata;
+import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;

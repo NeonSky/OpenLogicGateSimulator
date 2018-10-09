@@ -1,4 +1,4 @@
-package org.cafebabe.controllers.editor.workspace;
+package org.cafebabe.gui.editor.workspace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import org.cafebabe.controllers.editor.workspace.component.ComponentController;
-import org.cafebabe.controllers.util.CanvasGridPane;
-import org.cafebabe.controllers.util.FxmlUtil;
+import org.cafebabe.gui.editor.workspace.component.ComponentController;
+import org.cafebabe.gui.util.CanvasGridPane;
+import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.viewmodel.ISelectable;
