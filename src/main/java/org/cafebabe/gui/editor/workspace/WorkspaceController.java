@@ -2,6 +2,7 @@ package org.cafebabe.gui.editor.workspace;
 
 import javafx.scene.Node;
 import org.cafebabe.gui.IController;
+import org.cafebabe.gui.editor.workspace.circuit.CircuitController;
 import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.viewmodel.ViewModel;
 

@@ -21,7 +21,6 @@ class ConnectionManager {
         this.viewModel = viewModel;
     }
 
-    /* Public */
     /* Package-Private */
     boolean canConnectTo(Port port) {
         if (port instanceof InputPort) {

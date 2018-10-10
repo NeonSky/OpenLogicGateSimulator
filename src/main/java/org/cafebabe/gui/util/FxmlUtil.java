@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -58,14 +59,18 @@ public final class FxmlUtil {
         }
     }
 
-    public static void onSceneClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
+    public static void onScenePress(Node controller, EventHandler<MouseEvent> handleMousePress) {
         onSceneAvailable(controller, scene ->
-                scene.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick)
+                scene.addEventFilter(MouseEvent.MOUSE_PRESSED, handleMousePress)
         );
     }
 
     public static void onClick(Node controller, EventHandler<MouseEvent> handleMouseClick) {
-        controller.addEventFilter(MouseEvent.MOUSE_CLICKED, handleMouseClick);
+        controller.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleMouseClick.handle(e);
+            }
+        });
     }
 
     public static void onSceneKeyPress(Node controller, EventHandler<KeyEvent> handleKeyPress) {
@@ -81,16 +86,56 @@ public final class FxmlUtil {
     }
 
     public static void onMouseDragged(Node controller, EventHandler<MouseEvent> handleMouseDrag) {
-        controller.addEventFilter(MouseEvent.MOUSE_DRAGGED, handleMouseDrag);
+        controller.addEventFilter(MouseEvent.MOUSE_DRAGGED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleMouseDrag.handle(e);
+            }
+        });
     }
 
     public static void onMouseMoved(Node controller, EventHandler<MouseEvent> handleMouseMove) {
-        controller.addEventFilter(MouseEvent.MOUSE_MOVED, handleMouseMove);
+        controller.addEventFilter(MouseEvent.MOUSE_MOVED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleMouseMove.handle(e);
+            }
+        });
     }
 
     public static void onMouseDragReleased(Node controller,
                                            EventHandler<MouseEvent> handleMouseDragReleased) {
-        controller.addEventFilter(MouseEvent.MOUSE_RELEASED, handleMouseDragReleased);
+        controller.addEventFilter(MouseEvent.MOUSE_RELEASED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleMouseDragReleased.handle(e);
+            }
+        });
+    }
+
+    public static void onDragEnter(Node controller,
+                                           EventHandler<DragEvent> handleDragEnter) {
+        controller.addEventFilter(DragEvent.DRAG_ENTERED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleDragEnter.handle(e);
+            }
+        });
+    }
+
+    public static void onDragExit(Node controller,
+                                   EventHandler<DragEvent> handleDragExit) {
+        controller.addEventFilter(DragEvent.DRAG_EXITED, (e) -> {
+            if (e.getTarget() == controller) {
+                handleDragExit.handle(e);
+            }
+        });
+    }
+
+    public static void onDragDrop(Node controller,
+                                  EventHandler<DragEvent> handleDragDrop) {
+        controller.addEventHandler(DragEvent.DRAG_DROPPED, handleDragDrop);
+    }
+
+    public static void onDragOver(Node controller,
+                                  EventHandler<DragEvent> handleDragOver) {
+        controller.addEventHandler(DragEvent.DRAG_OVER, handleDragOver);
     }
 
     /* Private */
