@@ -13,8 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
-import org.cafebabe.controllers.editor.EmptyLabelException;
-import org.cafebabe.controllers.editor.NoSvgContentException;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.util.ColorUtil;
 
