@@ -1,4 +1,4 @@
-package org.cafebabe.gui.editor.workspace;
+package org.cafebabe.gui.editor.workspace.circuit;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;

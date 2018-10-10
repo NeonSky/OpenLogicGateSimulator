@@ -22,7 +22,7 @@ import org.cafebabe.util.ColorUtil;
  * Represents a single cell / component, in the component list.
  * Contains a svg image of a component, and can be dragged to spawn that component.
  */
-class ComponentListCellView extends AnchorPane {
+public class ComponentListCellView extends AnchorPane {
 
     private static final int CELL_MARGIN = 20;
     private final String displayName;
@@ -42,8 +42,8 @@ class ComponentListCellView extends AnchorPane {
         setComponentSvgContent(svgContent);
     }
 
-    /* Package-Private */
-    String getComponentName() {
+    /* Public */
+    public String getComponentName() {
         return this.displayName;
     }
 

@@ -73,7 +73,7 @@ public class ViewModel {
         this.connectionManager.abortWireConnection();
     }
 
-    public void addWire(Wire wire) {
+    void addWire(Wire wire) {
         this.workspace.getCircuit().addWire(wire);
         this.onWireAdded.notifyListeners(wire);
     }
@@ -93,6 +93,7 @@ public class ViewModel {
             component.getModelObject().destroy();
         }
         this.connectionManager.broadcastConnectionState();
+        abortSelections();
     }
 
     public void handleControllerClick(ISelectable component, MouseEvent event) {
@@ -116,6 +117,7 @@ public class ViewModel {
         this.toolToMethod.get(selectedTool).handle(event);
 
         this.mouseDragPreviousPos = new Position((int)event.getX(), (int)event.getY());
+        event.consume();
     }
 
     public Camera getCamera() {
@@ -153,6 +155,7 @@ public class ViewModel {
         Node selectionRect = this.selectionBox.getSelectionBox();
         this.onDragSelectionReleased.notifyListeners(selectionRect);
         this.selectionBox.handleMouseDragReleased();
+        event.consume();
     }
 
     public void addTransformable(ITransformable transformable) {

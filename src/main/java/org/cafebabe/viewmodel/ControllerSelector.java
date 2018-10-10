@@ -12,12 +12,13 @@ class ControllerSelector {
 
     private final Set<ISelectable> selectedComponents = new HashSet<>();
 
-    /* Public */
-    public Set<ISelectable> getSelectedComponents() {
+    Set<ISelectable> getSelectedComponents() {
         return this.selectedComponents;
     }
 
-    public void handleControllerClick(ISelectable component, MouseEvent event) {
+
+    /* Package-Private */
+    void handleControllerClick(ISelectable component, MouseEvent event) {
         if (event.isShiftDown()) {
             handleShiftClick(component);
         } else {
@@ -25,38 +26,31 @@ class ControllerSelector {
         }
     }
 
-    public void clearSelection() {
+    void clearSelection() {
         this.selectedComponents.forEach(ISelectable::deselect);
         this.selectedComponents.clear();
     }
 
-    public void select(List<ISelectable> selectables) {
+    void select(List<ISelectable> selectables) {
         clearSelection();
-        selectables.forEach(comp -> {
-            this.selectedComponents.add(comp);
-            comp.select();
-        });
+        selectables.forEach(this::select);
     }
 
-    public void select(ISelectable component) {
+    void select(ISelectable component) {
         this.selectedComponents.add(component);
         component.select();
     }
 
-    public void deselect(List<ISelectable> selectables) {
-        selectables.forEach(comp -> {
-            this.selectedComponents.remove(comp);
-            comp.deselect();
-        });
+    void deselect(List<ISelectable> selectables) {
+        selectables.forEach(this::deselect);
     }
 
-    public void deselect(ISelectable component) {
+    void deselect(ISelectable component) {
         this.selectedComponents.remove(component);
         component.deselect();
     }
 
     /* Private */
-
     private void handleShiftClick(ISelectable component) {
         if (this.selectedComponents.contains(component)) {
             deselect(component);
