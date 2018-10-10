@@ -1,10 +1,13 @@
 package org.cafebabe.gui.editor.workspace.circuit.component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.util.ArrayList;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -38,7 +41,9 @@ class ComponentView extends AnchorPane implements IComponentView {
 
         component.getTrackablePosition().addPositionListener(this::updatePosition);
 
-        this.svgGroup.getChildren().addAll(ports);
+        List<Node> portViews = new ArrayList<>();
+        ports.forEach(p -> portViews.add(p.getView()));
+        this.svgGroup.getChildren().addAll(portViews);
         this.svgGroup.setPickOnBounds(false);
 
         this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));

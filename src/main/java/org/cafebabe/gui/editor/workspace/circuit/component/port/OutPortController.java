@@ -10,9 +10,9 @@ public class OutPortController extends PortController {
     private final OutputPort port;
 
     public OutPortController(double x, double y, OutputPort port, ViewModel connectionManager) {
-        super(x, y, connectionManager);
+        super(x, y, port, connectionManager);
         this.port = port;
-        this.connectionNodeCircle.getStyleClass().add("outPort");
+        updateStyleClasses("outPort");
     }
 
     /* Private */
@@ -20,6 +20,7 @@ public class OutPortController extends PortController {
         this.viewModel.tryConnectWire(this.port);
     }
 
+    /* Protected */
     @Override
     protected void onClick() {
         this.connectIfPossible();
@@ -27,6 +28,6 @@ public class OutPortController extends PortController {
 
     @Override
     protected void handleUpdatedConnectionState() {
-        computeAndSetStyleClasses(this.port, "outPort");
+        updateStyleClasses("outPort");
     }
 }
