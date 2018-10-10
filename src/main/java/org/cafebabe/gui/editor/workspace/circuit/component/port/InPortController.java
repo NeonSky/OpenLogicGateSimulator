@@ -10,9 +10,9 @@ public class InPortController extends PortController {
     private final InputPort port;
 
     public InPortController(double x, double y, InputPort port, ViewModel viewModel) {
-        super(x, y, viewModel);
-        this.connectionNodeCircle.getStyleClass().add("inPort");
+        super(x, y, port, viewModel);
         this.port = port;
+        updateStyleClasses("inPort");
     }
 
     /* Private */
@@ -20,6 +20,7 @@ public class InPortController extends PortController {
         viewModel.tryConnectWire(this.port);
     }
 
+    /* Protected */
     @Override
     protected void onClick() {
         this.connectIfPossible();
@@ -27,6 +28,6 @@ public class InPortController extends PortController {
 
     @Override
     protected void handleUpdatedConnectionState() {
-        computeAndSetStyleClasses(this.port, "inPort");
+        updateStyleClasses("inPort");
     }
 }
