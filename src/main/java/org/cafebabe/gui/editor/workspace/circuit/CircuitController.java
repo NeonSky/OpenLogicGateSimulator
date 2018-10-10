@@ -45,9 +45,7 @@ public class CircuitController implements IController {
         this.view.onMouseMoved.addListener(this.viewModel::handleMouseMoved);
         this.view.onScroll.addListener(this.viewModel::handleScrollEvent);
 
-        this.view.onHandleMousePress.addListener((e) -> {
-            handleMousePress();
-        });
+        this.view.onHandleMousePress.addListener((e) -> handleMousePress());
         this.view.onHandleKeyPress.addListener(this::handleKeyPress);
     }
 

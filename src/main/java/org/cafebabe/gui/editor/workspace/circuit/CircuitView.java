@@ -35,6 +35,7 @@ class CircuitView extends AnchorPane {
     final Event<ScrollEvent> onScroll = new Event<>();
 
 
+    @SuppressWarnings("checkstyle:linelength")
     CircuitView() {
         FxmlUtil.attachFxml(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
@@ -42,19 +43,21 @@ class CircuitView extends AnchorPane {
         setupGridPane();
         setupComponentPane();
 
-        //FxmlUtil.onScenePress(this.componentPane, this.onHandleMousePress::notifyListeners);
-        FxmlUtil.onClick(this.componentPane, this.onHandleMousePress::notifyListeners);
-        FxmlUtil.onSceneKeyPress(this, this.onHandleKeyPress::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, MouseEvent.MOUSE_PRESSED, this.onHandleMousePress::notifyListeners);
+        FxmlUtil.onMySceneLoaded(this, () ->
+                FxmlUtil.onSceneInputEvent(getScene(), KeyEvent.KEY_PRESSED, this.onHandleKeyPress::notifyListeners)
+        );
 
-        FxmlUtil.onDragEnter(this.componentPane, this.onDragEnter::notifyListeners);
-        FxmlUtil.onDragExit(this.componentPane, this.onDragExit::notifyListeners);
-        FxmlUtil.onDragDrop(this.componentPane, this.onDragDrop::notifyListeners);
-        FxmlUtil.onDragOver(this.componentPane, this.onDragOver::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_ENTERED, this.onDragEnter::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_EXITED, this.onDragExit::notifyListeners);
+        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_DROPPED, this.onDragDrop::notifyListeners);
+        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_OVER, this.onDragOver::notifyListeners);
 
-        FxmlUtil.onMouseDragged(this.componentPane, this.onMouseDrag::notifyListeners);
-        FxmlUtil.onMouseDragReleased(this.componentPane, this.onMouseDragReleased::notifyListeners);
-        FxmlUtil.onMouseMoved(this.componentPane, this.onMouseMoved::notifyListeners);
-        FxmlUtil.onScroll(this.componentPane, this.onScroll::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, MouseEvent.MOUSE_DRAGGED, this.onMouseDrag::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, MouseEvent.MOUSE_RELEASED, this.onMouseDragReleased::notifyListeners);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, MouseEvent.MOUSE_MOVED, this.onMouseMoved::notifyListeners);
+
+        this.componentPane.setOnScroll(this.onScroll::notifyListeners);
     }
 
     /* Package-Private */
