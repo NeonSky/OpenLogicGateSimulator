@@ -10,7 +10,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import org.cafebabe.controllers.editor.workspace.UnexpectedComponentDragException;
-import org.cafebabe.gui.editor.componentlist.cell.ComponentListCellView;
+import org.cafebabe.gui.editor.componentlist.cell.IComponentProducer;
 import org.cafebabe.gui.editor.workspace.circuit.component.ComponentController;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
@@ -56,11 +56,11 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragEnter(DragEvent event) {
-        if (event.getGestureSource() instanceof ComponentListCellView) {
-            ComponentListCellView componentListCellView =
-                    (ComponentListCellView) event.getGestureSource();
+        if (event.getGestureSource() instanceof IComponentProducer) {
+            IComponentProducer componentProducer =
+                    (IComponentProducer) event.getGestureSource();
             this.dragNewComponent = ComponentUtil.componentFactory(
-                    componentListCellView.getComponentName()
+                    componentProducer.getComponentName()
             );
             this.dragMousePosition = Objects.requireNonNull(this.dragNewComponent)
                     .getTrackablePosition();
@@ -70,7 +70,7 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragExit(DragEvent event) {
-        if (event.getGestureSource() instanceof ComponentListCellView
+        if (event.getGestureSource() instanceof IComponentProducer
                 && this.dragNewComponent != null) {
             this.dragNewComponent.destroy();
             this.dragNewComponent = null;
@@ -79,7 +79,7 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragDropped(DragEvent event) {
-        if (event.getGestureSource() instanceof ComponentListCellView) {
+        if (event.getGestureSource() instanceof IComponentProducer) {
             event.setDropCompleted(true);
             event.consume();
             this.dragNewComponent = null;
@@ -90,7 +90,7 @@ class ComponentDragDropHandler {
         if (event.getGestureSource() instanceof ComponentController) {
             /* Handle the event if the dragged item is a component controller instance */
             handleComponentDragOver(event);
-        } else if (event.getGestureSource() instanceof ComponentListCellView) {
+        } else if (event.getGestureSource() instanceof IComponentProducer) {
             /* Accept the event if the dragged item is a ComponentListCellView */
             handleComponentListCellDragOver(event);
         }
@@ -114,15 +114,15 @@ class ComponentDragDropHandler {
 
     private void handleComponentListCellDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
-        ComponentListCellView componentListCellView =
-                (ComponentListCellView) event.getGestureSource();
-        if (!componentListCellView.getComponentName().equals(
+        IComponentProducer componentProducer =
+                (IComponentProducer) event.getGestureSource();
+        if (!componentProducer.getComponentName().equals(
                 this.dragNewComponent.getDisplayName())) {
             throw new UnexpectedComponentDragException("Dragged component from component list is "
                     + "not equal to currently dragged component");
         }
-        double height = componentListCellView.getHeight();
-        double width = componentListCellView.getWidth();
+        double height = componentProducer.getHeight();
+        double width = componentProducer.getWidth();
 
         Point2D newModelPosition = this.viewModel.getCamera().getInverseTransform().transform(
                 event.getX(),
