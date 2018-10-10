@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.cafebabe.gui.IController;
 import org.cafebabe.gui.editor.workspace.circuit.component.ComponentController;
+import org.cafebabe.gui.editor.workspace.circuit.wire.WireController;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.viewmodel.ISelectable;
@@ -57,9 +58,9 @@ public class CircuitController implements IController {
         });
 
         this.viewModel.addTransformable(wireController);
-        this.view.addToComponentPane(wireController.getWireLine());
+        this.view.addToComponentPane(wireController.getView());
 
-        wireController.getWireLine().toBack();
+        wireController.getView().toBack();
     }
 
     private void addComponent(Component component) {
