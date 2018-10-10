@@ -1,18 +1,12 @@
 package org.cafebabe.gui.editor.workspace.circuit.component;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
+import org.cafebabe.gui.IController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.OutPortController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.PortController;
@@ -23,40 +17,26 @@ import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.ColorUtil;
 import org.cafebabe.viewmodel.ISelectable;
 import org.cafebabe.viewmodel.ITransformable;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
- * Provides a visual representation of a controller with its ports. 
+ * Provides a visual representation of a component with its ports.
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public class ComponentController extends AnchorPane implements ISelectable, ITransformable {
+public class ComponentController implements IController, ISelectable, ITransformable {
+
+    private final ComponentView view;
     private final List<PortController> ports = new ArrayList<>();
     private final Component component;
 
-    @FXML private SVGPath componentSvgPath;
-    @FXML private Group svgGroup;
-
-    private boolean isSelected;
-    private boolean destructionPending;
-    private Transform transform = Transform.scale(1,1);
-
 
     public ComponentController(Component component, ViewModel viewModel) {
-        FxmlUtil.attachFxml(this, "/view/ComponentView.fxml");
-
         this.component = component;
+        this.component.getOnDestroy().addListener(this::destroy);
+
         this.addPortsFromMetadata(SvgUtil.getComponentMetadata(component), component, viewModel);
-
-        component.getOnDestroy().addListener(this::destroy);
-        component.getTrackablePosition().addPositionListener(this::updatePosition);
-        initTransforms();
-        setupFxml();
-
-        this.updateVisualState();
+        this.view = new ComponentView(component, this.ports);
     }
 
     /* Public */
@@ -64,39 +44,32 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
         return this.component;
     }
 
-    @SuppressFBWarnings(value = "UWF_NULL_FIELD",
-            justification = "SpotBugs believes @FXML fields are always null")
     public void addClickListener(EventHandler<MouseEvent> listener) {
-        this.componentSvgPath.addEventFilter(MouseEvent.MOUSE_CLICKED, listener);
+        this.view.addClickListener(listener);
     }
 
     @Override
     public void select() {
-        setSelected(true);
-        updateVisualState();
+        this.view.setSelected(true);
+        this.view.updateVisualState();
     }
 
     @Override
     public void deselect() {
-        setSelected(false);
-        updateVisualState();
+        this.view.setSelected(false);
+        this.view.updateVisualState();
     }
 
     @Override
     public void disconnectFromWorkspace() {
         this.component.destroy();
         this.ports.clear();
-        this.svgGroup = null;
-        this.componentSvgPath = null;
+        this.view.destroy();
     }
 
     @Override
     public void destroy() {
-        if (this.destructionPending) {
-            return;
-        }
-        this.destructionPending = true;
-        FxmlUtil.destroy(this);
+        FxmlUtil.destroy(this.view);
     }
 
     @Override
@@ -106,50 +79,10 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
 
     @Override
     public void setTransform(Transform transform) {
-        this.transform = transform;
-        updateTransform();
+        this.view.setTransform(transform);
     }
 
     /* Private */
-    @SuppressFBWarnings(value = "UWF_NULL_FIELD",
-            justification = "SpotBugs believes @FXML fields are always null")
-    private void setupFxml() {
-        this.svgGroup.getChildren().addAll(this.ports);
-        this.svgGroup.setPickOnBounds(false);
-
-        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(this.component));
-        this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
-        this.componentSvgPath.setStrokeWidth(3);
-        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
-    }
-
-    private void updateTransform() {
-        resetTransforms();
-        transformInBase(this.transform, this.getLocalToParentTransform());
-    }
-
-    private void transformInBase(Transform transform, Transform base) {
-        try {
-            this.getTransforms().set(0, base.createInverse());
-            this.getTransforms().set(1, transform);
-            this.getTransforms().set(2, base);
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initTransforms() {
-        for (int i = 0; i < 3; i++) {
-            this.getTransforms().add(i,Transform.scale(1,1));
-        }
-    }
-
-    private void resetTransforms() {
-        for (int i = 0; i < 3; i++) {
-            this.getTransforms().set(i,Transform.scale(1,1));
-        }
-    }
-
     private void addPortsFromMetadata(Metadata componentMetadata,
                                       Component component, ViewModel viewModel) {
         componentMetadata.inPortMetadata.forEach(m ->
@@ -162,18 +95,8 @@ public class ComponentController extends AnchorPane implements ISelectable, ITra
         );
     }
 
-    private void updateVisualState() {
-        Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
-        this.componentSvgPath.setStroke(newColor);
-    }
-
-    private void updatePosition(Position position) {
-        this.setTranslateX(position.getX());
-        this.setTranslateY(position.getY());
-        this.updateTransform();
-    }
-
-    private void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
+    @Override
+    public Node getView() {
+        return this.view;
     }
 }
