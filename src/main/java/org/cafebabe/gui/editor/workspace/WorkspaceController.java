@@ -1,31 +1,26 @@
 package org.cafebabe.gui.editor.workspace;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
-import org.cafebabe.gui.util.FxmlUtil;
+import javafx.scene.Node;
+import org.cafebabe.gui.IController;
 import org.cafebabe.model.workspace.Workspace;
 import org.cafebabe.viewmodel.ViewModel;
 
 /**
  * Provides a pannable, zoomable workspace in which a circuit can be constructed.
  */
-public class WorkspaceController extends AnchorPane {
+public class WorkspaceController implements IController {
 
-    @FXML private AnchorPane workspaceRoot;
-    @FXML private AnchorPane circuitAnchorPane;
+    private final WorkspaceView view;
+
 
     public WorkspaceController(Workspace workspace) {
-        FxmlUtil.attachFxml(this, "/view/WorkspaceView.fxml");
-
-        Workspace workspace1 = workspace;
-        ViewModel viewModel = new ViewModel(workspace1);
+        ViewModel viewModel = new ViewModel(workspace);
         CircuitController circuitController = new CircuitController(viewModel);
-        setupFxml(circuitController);
+        this.view = new WorkspaceView(circuitController);
     }
 
-    private void setupFxml(CircuitController circuitController) {
-        this.circuitAnchorPane.getChildren().add(circuitController);
-
-        FxmlUtil.scaleWithAnchorPaneParent(this.workspaceRoot);
+    @Override
+    public Node getView() {
+        return this.view;
     }
 }

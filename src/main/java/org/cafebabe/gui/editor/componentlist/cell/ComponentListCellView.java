@@ -33,18 +33,20 @@ class ComponentListCellView extends AnchorPane {
     @FXML private Label componentNameLabel;
 
 
-    ComponentListCellView(String name, String svgContent) {
+    ComponentListCellView(String displayName, String svgContent) {
         FxmlUtil.attachFxml(this, "/view/ComponentListCell.fxml");
         this.bindSizeProperties();
-        this.displayName = name;
+        this.displayName = displayName;
 
         setComponentNameLabel();
         setComponentSvgContent(svgContent);
     }
 
+    /* Package-Private */
     String getComponentName() {
         return this.displayName;
     }
+
 
     /* Private */
     private void bindSizeProperties() {
