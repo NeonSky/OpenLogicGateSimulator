@@ -71,12 +71,13 @@ public class ComponentView extends View implements ISelectable {
 
         initTransforms();
         updateVisualState();
+        updatePosition(this.component.getTrackablePosition());
     }
 
     /* Public */
     public void setTransform(Transform transform) {
         this.transform = transform;
-        updateTransform();
+        updateTransform();    
     }
 
     public Component getComponent() {
