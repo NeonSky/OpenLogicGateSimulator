@@ -17,7 +17,6 @@ import org.cafebabe.viewmodel.ViewModel;
 
 /**
  * Provides a visual representation of the circuit currently being worked on.
- * TODO is also responsible for the background for some reason, justify or change.
  */
 public class CircuitController implements IController {
 
@@ -65,7 +64,7 @@ public class CircuitController implements IController {
 
     private void addComponent(Component component) {
         ComponentController newCompController = new ComponentController(component, this.viewModel);
-        newCompController.setOnDragDetected(event ->
+        newCompController.getView().setOnDragDetected(event ->
                 this.componentDragDropHandler.onComponentDragDetected(newCompController, event)
         );
         newCompController.addClickListener(event ->
@@ -74,7 +73,7 @@ public class CircuitController implements IController {
         this.componentControllers.add(newCompController);
 
         this.viewModel.addTransformable(newCompController);
-        this.view.addToComponentPane(newCompController);
+        this.view.addToComponentPane(newCompController.getView());
     }
 
     private void makeDragSelection(Node selectionBox) {
@@ -89,7 +88,7 @@ public class CircuitController implements IController {
         List<ISelectable> componentsInBounds = new ArrayList<>();
 
         this.componentControllers.forEach(componentController -> {
-            Bounds compBounds = componentController.getBoundsInParent();
+            Bounds compBounds = componentController.getView().getBoundsInParent();
             if (bounds.intersects(compBounds)) {
                 componentsInBounds.add(componentController);
             }
