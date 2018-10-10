@@ -16,6 +16,7 @@ public class ComponentListCellController implements IController {
         this.view = new ComponentListCellView(name, svgContent);
     }
 
+    /* Public */
     @Override
     public Node getView() {
         return this.view;

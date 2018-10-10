@@ -41,11 +41,11 @@ class EditorView extends AnchorPane {
     /* Package-Private */
     void showWorkspace(WorkspaceController workspaceController) {
         this.workspacesPane.getChildren().clear();
-        this.workspacesPane.getChildren().add(workspaceController);
+        this.workspacesPane.getChildren().add(workspaceController.getView());
     }
 
     void removeWorkspace(WorkspaceController workspaceController) {
-        this.workspacesPane.getChildren().remove(workspaceController);
+        this.workspacesPane.getChildren().remove(workspaceController.getView());
     }
 
     Tab addWorkspaceTab() {
