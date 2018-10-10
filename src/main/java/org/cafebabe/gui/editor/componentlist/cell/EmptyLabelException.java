@@ -1,12 +1,12 @@
-package org.cafebabe.controllers.editor;
+package org.cafebabe.gui.editor.componentlist.cell;
 
 /**
  * Exception thrown when application tries to render an empty label.
  */
-public class EmptyLabelException extends RuntimeException {
+class EmptyLabelException extends RuntimeException {
     private static final long serialVersionUID = 2607349537404232540L;
 
-    public EmptyLabelException(String s) {
+    EmptyLabelException(String s) {
         super(s);
     }
 }

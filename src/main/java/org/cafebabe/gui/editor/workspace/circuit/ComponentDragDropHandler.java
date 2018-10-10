@@ -9,7 +9,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import org.cafebabe.controllers.editor.workspace.UnexpectedComponentDragException;
 import org.cafebabe.gui.editor.componentlist.cell.IComponentProducer;
 import org.cafebabe.gui.editor.workspace.circuit.component.ComponentController;
 import org.cafebabe.gui.editor.workspace.circuit.component.IComponentView;
