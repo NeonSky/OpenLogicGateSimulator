@@ -12,6 +12,7 @@ import javafx.scene.input.TransferMode;
 import org.cafebabe.controllers.editor.workspace.UnexpectedComponentDragException;
 import org.cafebabe.gui.editor.componentlist.cell.IComponentProducer;
 import org.cafebabe.gui.editor.workspace.circuit.component.ComponentController;
+import org.cafebabe.gui.editor.workspace.circuit.component.IComponentView;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
 import org.cafebabe.model.workspace.Position;
@@ -37,7 +38,7 @@ class ComponentDragDropHandler {
 
     /* Package-Private */
     void onComponentDragDetected(ComponentController componentController, MouseEvent event) {
-        Dragboard dragboard = componentController.startDragAndDrop(TransferMode.ANY);
+        Dragboard dragboard = componentController.getView().startDragAndDrop(TransferMode.ANY);
         /* Need to add something (anything) to Dragboard, otherwise
          * the drag does not register on the target */
         ClipboardContent dummyContent = new ClipboardContent();
@@ -87,8 +88,8 @@ class ComponentDragDropHandler {
     }
 
     void onComponentPaneDragOver(DragEvent event) {
-        if (event.getGestureSource() instanceof ComponentController) {
-            /* Handle the event if the dragged item is a component controller instance */
+        if (event.getGestureSource() instanceof IComponentView) {
+            /* Handle the event if the dragged item is a component view instance */
             handleComponentDragOver(event);
         } else if (event.getGestureSource() instanceof IComponentProducer) {
             /* Accept the event if the dragged item is a ComponentListCellView */
