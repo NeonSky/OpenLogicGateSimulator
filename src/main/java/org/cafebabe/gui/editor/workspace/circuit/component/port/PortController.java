@@ -1,4 +1,4 @@
-package org.cafebabe.gui.editor.workspace.component.port;
+package org.cafebabe.gui.editor.workspace.circuit.component.port;
 
 import java.util.ArrayList;
 import java.util.Arrays;

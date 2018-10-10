@@ -1,4 +1,4 @@
-package org.cafebabe.gui.editor.workspace.component.port;
+package org.cafebabe.gui.editor.workspace.circuit.component.port;
 
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.viewmodel.ViewModel;
