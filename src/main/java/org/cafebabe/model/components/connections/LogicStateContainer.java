@@ -1,7 +1,7 @@
 package org.cafebabe.model.components.connections;
 
 import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;
-import org.cafebabe.util.Event;
+import org.cafebabe.model.util.Event;
 
 /**
  * Contains a logic state.

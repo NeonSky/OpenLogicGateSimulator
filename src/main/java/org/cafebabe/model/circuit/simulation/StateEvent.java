@@ -1,6 +1,6 @@
 package org.cafebabe.model.circuit.simulation;
 
-import org.cafebabe.util.Event;
+import org.cafebabe.model.util.Event;
 
 
 /**
