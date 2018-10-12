@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import org.cafebabe.model.IModel;
-import org.cafebabe.util.EmptyEvent;
-import org.cafebabe.util.Event;
-import org.cafebabe.util.IReadOnlyMovable;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
+import org.cafebabe.model.util.IReadOnlyMovable;
 
 /**
  * A Mutable position with an event that triggers every time it has been moved.

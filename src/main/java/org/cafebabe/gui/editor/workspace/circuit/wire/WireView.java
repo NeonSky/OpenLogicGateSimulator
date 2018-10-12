@@ -10,14 +10,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
-
 import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.util.IReadOnlyMovable;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
-import org.cafebabe.util.IReadOnlyMovable;
 
 
 /**

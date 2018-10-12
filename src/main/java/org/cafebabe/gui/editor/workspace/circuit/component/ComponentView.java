@@ -18,8 +18,8 @@ import javafx.scene.transform.Transform;
 import org.cafebabe.gui.IView;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.PortController;
 import org.cafebabe.gui.util.FxmlUtil;
-import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.util.SvgUtil;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
 

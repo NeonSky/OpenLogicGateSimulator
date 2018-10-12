@@ -5,10 +5,10 @@ import java.util.Set;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.components.connections.exceptions.PortAlreadyAddedException;
 import org.cafebabe.model.components.connections.exceptions.PortNotConnectedException;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
+import org.cafebabe.model.util.IReadOnlyMovable;
 import org.cafebabe.model.workspace.Position;
-import org.cafebabe.util.EmptyEvent;
-import org.cafebabe.util.Event;
-import org.cafebabe.util.IReadOnlyMovable;
 
 /**
  * A wire transmits logical signals from output ports to input ports.

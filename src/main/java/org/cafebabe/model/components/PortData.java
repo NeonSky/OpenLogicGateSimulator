@@ -1,4 +1,4 @@
-package org.cafebabe.gui.util;
+package org.cafebabe.model.components;
 
 
 /**

@@ -9,9 +9,9 @@ import javafx.scene.layout.FlowPane;
 import org.cafebabe.gui.IView;
 import org.cafebabe.gui.editor.componentlist.cell.ComponentListCellController;
 import org.cafebabe.gui.util.FxmlUtil;
-import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.util.ComponentUtil;
+import org.cafebabe.model.util.SvgUtil;
 
 
 /**

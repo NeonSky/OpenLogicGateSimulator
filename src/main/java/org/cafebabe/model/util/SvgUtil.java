@@ -1,4 +1,4 @@
-package org.cafebabe.gui.util;
+package org.cafebabe.model.util;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.components.Metadata;
+import org.cafebabe.model.components.PortData;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

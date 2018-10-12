@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.CanvasGridPane;
 import org.cafebabe.gui.util.FxmlUtil;
-import org.cafebabe.util.Event;
+import org.cafebabe.model.util.Event;
 
 
 /**

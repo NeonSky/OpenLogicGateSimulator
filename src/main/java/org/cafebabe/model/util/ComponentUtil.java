@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.cafebabe.gui.util.SvgUtil;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.ComponentConstructor;
 import org.reflections.Reflections;

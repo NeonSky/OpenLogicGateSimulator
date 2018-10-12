@@ -10,7 +10,7 @@ import javafx.scene.shape.Circle;
 import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.components.connections.Port;
-import org.cafebabe.util.EmptyEvent;
+import org.cafebabe.model.util.EmptyEvent;
 
 /**
  * Port visual.

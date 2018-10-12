@@ -12,10 +12,10 @@ import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.Workspace;
-import org.cafebabe.util.EmptyEvent;
-import org.cafebabe.util.Event;
 
 /**
  * Allows for communication between view-specific gui.
