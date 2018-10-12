@@ -31,7 +31,7 @@ public class EditorController extends Controller implements ISceneController {
         setSubviewAttachController(ComponentListView.class, ComponentListController.class);
         setupEventListeners();
 
-        addNewWorkspace();
+        addNewWorkspace(new Workspace());
         this.view.showWorkspace(0);
         this.view.init();
     }
@@ -48,7 +48,7 @@ public class EditorController extends Controller implements ISceneController {
     private void setupEventListeners() {
         AnchorPane addNewTabButton = this.view.getAddNewTabButton();
         addNewTabButton.setOnMouseClicked(event -> {
-            addNewWorkspace();
+            addNewWorkspace(new Workspace());
             event.consume();
         });
 
@@ -57,8 +57,8 @@ public class EditorController extends Controller implements ISceneController {
         selected.addListener((observable, oldValue, newValue) -> selectWorkspace(newValue));
     }
 
-    private void addNewWorkspace() {
-        this.view.addNewWorkspace();
+    private void addNewWorkspace(Workspace workspace) {
+        this.view.addNewWorkspace(workspace);
 
         List<WorkspaceView> workspaceViews = this.view.getWorkspaceViews();
         WorkspaceView newWorkspace = workspaceViews.get(workspaceViews.size() - 1);
@@ -71,7 +71,7 @@ public class EditorController extends Controller implements ISceneController {
         this.view.removeWorkspace(workspaceView);
 
         if (this.view.getWorkspaceViews().isEmpty()) {
-            addNewWorkspace();
+            addNewWorkspace(new Workspace());
         }
 
         if (workspaceTab.isSelected()) {
