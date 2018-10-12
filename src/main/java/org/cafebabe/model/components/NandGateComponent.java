@@ -26,8 +26,8 @@ public class NandGateComponent extends Component {
                 Map.entry("output", this.output)
         );
 
-        this.input1.onStateChangedEvent().addListener(p -> update());
-        this.input2.onStateChangedEvent().addListener(p -> update());
+        this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
     /* Public */
@@ -47,7 +47,7 @@ public class NandGateComponent extends Component {
     }
 
     @Override
-    protected void update() {
+    protected void updateOutputs() {
         setOutputState(this.output, !(this.input1.isHigh() && this.input2.isHigh()),
                 Arrays.asList(this.input1, this.input2));
     }

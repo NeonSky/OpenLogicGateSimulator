@@ -1,5 +1,7 @@
 package org.cafebabe.model.components.connections;
 
+import org.cafebabe.model.components.connections.exceptions.InvalidStateSourceException;
+import org.cafebabe.model.components.connections.exceptions.StateSourceAlreadySetException;
 import org.cafebabe.util.Event;
 
 /**

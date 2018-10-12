@@ -1,4 +1,4 @@
-package org.cafebabe.model.components.connections;
+package org.cafebabe.model.components.connections.exceptions;
 
 /**
  * Exception thrown when trying to add a port twice to a single wire.

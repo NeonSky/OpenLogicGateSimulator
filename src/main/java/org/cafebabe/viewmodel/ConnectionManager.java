@@ -73,7 +73,6 @@ class ConnectionManager {
 
     void abortWireConnection() {
         if (this.wire != null) {
-            createWireIfNeeded().disconnectAll();
             createWireIfNeeded().destroy();
             stopEditingWire();
         }

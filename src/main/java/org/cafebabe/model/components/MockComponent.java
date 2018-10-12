@@ -24,6 +24,6 @@ public class MockComponent extends Component {
     }
 
     @Override
-    protected void update() {
+    protected void updateOutputs() {
     }
 }

@@ -23,7 +23,7 @@ public class NotGateComponent extends Component {
                 Map.entry("output", this.output)
         );
 
-        this.input.onStateChangedEvent().addListener(p -> update());
+        this.input.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
     /* Public */
@@ -43,7 +43,7 @@ public class NotGateComponent extends Component {
     }
 
     @Override
-    protected void update() {
+    protected void updateOutputs() {
         setOutputState(this.output, !this.input.isHigh(), Collections.singletonList(this.input));
     }
 
