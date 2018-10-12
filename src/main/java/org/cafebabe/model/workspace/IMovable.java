@@ -1,4 +1,6 @@
-package org.cafebabe.model;
+package org.cafebabe.model.workspace;
+
+import org.cafebabe.util.IReadOnlyMovable;
 
 public interface IMovable extends IReadOnlyMovable {
     /* Public */

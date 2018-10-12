@@ -1,4 +1,4 @@
-package org.cafebabe.model;
+package org.cafebabe.model.components;
 
 import java.util.List;
 import org.cafebabe.model.circuit.simulation.DynamicEvent;

@@ -4,16 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import org.cafebabe.model.IDestructible;
-import org.cafebabe.model.IMovable;
-import org.cafebabe.model.IReadOnlyMovable;
+import org.cafebabe.model.IModel;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
+import org.cafebabe.util.IReadOnlyMovable;
 
 /**
  * A Mutable position with an event that triggers every time it has been moved.
  */
-public class TrackablePosition extends Position implements IMovable, IDestructible {
+public class TrackablePosition extends Position implements IMovable, IModel {
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final Event<Position> onPositionChanged = new Event<>();
     private final Set<TrackablePosition> clones = new HashSet<>();
@@ -65,7 +64,7 @@ public class TrackablePosition extends Position implements IMovable, IDestructib
     }
 
     @Override
-    public EmptyEvent getOnDestroy() {
+    public EmptyEvent onDestroyed() {
         return this.onDestroy;
     }
 

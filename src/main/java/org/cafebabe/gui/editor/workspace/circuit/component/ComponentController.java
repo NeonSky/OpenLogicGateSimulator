@@ -10,10 +10,8 @@ import org.cafebabe.gui.IController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.OutPortController;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.PortController;
-import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.gui.util.Metadata;
 import org.cafebabe.gui.util.SvgUtil;
-import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.Component;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.OutputPort;
@@ -33,7 +31,7 @@ public class ComponentController implements IController, ISelectable, ITransform
 
     public ComponentController(Component component, ViewModel viewModel) {
         this.component = component;
-        this.component.getOnDestroy().addListener(this::destroy);
+        this.component.onDestroyed().addListener(this::onModelDestroyed);
 
         this.addPortsFromMetadata(SvgUtil.getComponentMetadata(component), component, viewModel);
         this.view = new ComponentView(component, this.ports);
@@ -61,20 +59,8 @@ public class ComponentController implements IController, ISelectable, ITransform
     }
 
     @Override
-    public void disconnectFromWorkspace() {
-        this.component.destroy();
-        this.ports.clear();
-        this.view.destroy();
-    }
-
-    @Override
     public void destroy() {
-        FxmlUtil.destroy(this.view);
-    }
-
-    @Override
-    public IBelongToModel getModelObject() {
-        return this.component;
+        this.component.destroy();
     }
 
     @Override
@@ -98,5 +84,11 @@ public class ComponentController implements IController, ISelectable, ITransform
     @Override
     public Node getView() {
         return this.view;
+    }
+
+    /* Private */
+    private void onModelDestroyed() {
+        this.ports.forEach(IController::destroy);
+        this.view.destroy();
     }
 }

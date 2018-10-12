@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.editor.componentlist.cell.ComponentListCellController;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.gui.util.SvgUtil;
@@ -16,7 +17,7 @@ import org.cafebabe.model.util.ComponentUtil;
 /**
  * The component list visual.
  */
-class ComponentListView extends AnchorPane {
+class ComponentListView extends AnchorPane implements IView {
     @FXML private FlowPane componentFlowPane;
     @FXML private AnchorPane componentListRoot;
 
@@ -28,6 +29,12 @@ class ComponentListView extends AnchorPane {
 
         this.componentFlowPane.getChildren().addAll(listCells);
         FxmlUtil.scaleWithAnchorPaneParent(this.componentListRoot);
+    }
+
+
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this);
     }
 
     /* Private */

@@ -3,9 +3,10 @@ package org.cafebabe.model.circuit;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.cafebabe.model.IDynamicComponent;
+import org.cafebabe.model.IModel;
 import org.cafebabe.model.circuit.simulation.Simulator;
 import org.cafebabe.model.components.Component;
+import org.cafebabe.model.components.IDynamicComponent;
 import org.cafebabe.model.components.connections.Wire;
 
 /**
@@ -62,7 +63,7 @@ public class Circuit {
         this.wires.remove(wire);
     }
 
-    public void removeItem(IBelongToModel item) {
+    public void removeItem(IModel item) {
         if (item instanceof Component) {
             removeComponent((Component) item);
         }

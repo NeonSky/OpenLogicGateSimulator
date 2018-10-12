@@ -5,11 +5,11 @@ package org.cafebabe.model.util;
  * tries to access or instantiate
  * an invalid component.
  */
-public class InvalidComponentException extends RuntimeException {
+class InvalidComponentException extends RuntimeException {
 
     private static final long serialVersionUID = 3303160542107150549L;
 
-    public InvalidComponentException(String s) {
+    InvalidComponentException(String s) {
         super(s);
     }
 }

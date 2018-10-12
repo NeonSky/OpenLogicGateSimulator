@@ -30,4 +30,9 @@ public class InPortController extends PortController {
     protected void handleUpdatedConnectionState() {
         updateStyleClasses("inPort");
     }
+
+    @Override
+    public void destroy() {
+        this.port.destroy();
+    }
 }

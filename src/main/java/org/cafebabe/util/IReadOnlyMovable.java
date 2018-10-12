@@ -1,4 +1,4 @@
-package org.cafebabe.model;
+package org.cafebabe.util;
 
 import java.util.function.Consumer;
 import org.cafebabe.model.workspace.Position;

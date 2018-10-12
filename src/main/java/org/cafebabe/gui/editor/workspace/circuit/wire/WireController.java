@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
 import org.cafebabe.gui.IController;
-import org.cafebabe.model.circuit.IBelongToModel;
 import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.viewmodel.ISelectable;
@@ -26,7 +25,7 @@ public class WireController implements IController, ISelectable, ITransformable 
         this.wire = wire;
         this.view = new WireView(this.wire);
 
-        this.wire.onWillBeDestroyed().addListener(this::destroy);
+        this.wire.onDestroyed().addListener(this::onModelDestroyed);
         this.wire.onStateChangedEvent().addListener(this::updateVisualState);
         this.wire.onStartPosMoved.addListener(this.view::moveStartPointTo);
         this.wire.onEndPosMoved.addListener(this.view::moveEndPointTo);
@@ -55,19 +54,8 @@ public class WireController implements IController, ISelectable, ITransformable 
     }
 
     @Override
-    public void disconnectFromWorkspace() {
-        this.wire.onStateChangedEvent().removeListener(this::updateVisualState);
-        this.wire.disconnectAll();
-    }
-
-    @Override
     public void destroy() {
-        this.view.destroy();
-    }
-
-    @Override
-    public IBelongToModel getModelObject() {
-        return this.wire;
+        this.wire.destroy();
     }
 
     @Override
@@ -79,6 +67,10 @@ public class WireController implements IController, ISelectable, ITransformable 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     private void updateVisualState(LogicStateContainer wire) {
         this.view.updateVisualState();
+    }
+
+    private void onModelDestroyed() {
+        this.view.destroy();
     }
 
 }
