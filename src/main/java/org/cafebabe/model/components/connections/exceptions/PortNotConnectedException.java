@@ -1,4 +1,4 @@
-package org.cafebabe.model.components.connections;
+package org.cafebabe.model.components.connections.exceptions;
 
 /**
  * Exception thrown when a wire tries to access a port that is not connected.

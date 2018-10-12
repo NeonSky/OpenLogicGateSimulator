@@ -35,6 +35,6 @@ public class PowerSourceComponent extends Component {
     }
 
     @Override
-    protected void update() {}
+    protected void updateOutputs() {}
 
 }

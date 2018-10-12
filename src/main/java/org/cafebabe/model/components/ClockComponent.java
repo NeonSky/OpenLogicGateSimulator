@@ -32,7 +32,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     /* Public */
     @Override
-    public void update() {}
+    public void updateOutputs() {}
 
     @Override
     public boolean shouldDie() {

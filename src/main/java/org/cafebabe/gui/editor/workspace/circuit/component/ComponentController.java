@@ -88,7 +88,6 @@ public class ComponentController implements IController, ISelectable, ITransform
 
     /* Private */
     private void onModelDestroyed() {
-        this.ports.forEach(IController::destroy);
         this.view.destroy();
     }
 }
