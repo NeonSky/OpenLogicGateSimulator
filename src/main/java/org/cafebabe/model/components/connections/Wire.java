@@ -3,6 +3,8 @@ package org.cafebabe.model.components.connections;
 import java.util.HashSet;
 import java.util.Set;
 import org.cafebabe.model.IModel;
+import org.cafebabe.model.components.connections.exceptions.PortAlreadyAddedException;
+import org.cafebabe.model.components.connections.exceptions.PortNotConnectedException;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
@@ -25,7 +27,7 @@ public class Wire extends LogicStateContainer implements IModel {
     private final Set<OutputPort> connectedOutputs;
     private final Set<LogicStateContainer> powerSources;
     private final Set<LogicStateContainer> gndSources;
-    private boolean destructionPending;
+
     private IReadOnlyMovable trackableStartPos;
     private IReadOnlyMovable trackableEndPos;
 
@@ -95,22 +97,9 @@ public class Wire extends LogicStateContainer implements IModel {
 
     @Override
     public void destroy() {
-        if (this.destructionPending) {
-            return;
-        }
-        this.destructionPending = true;
         disconnectAll();
         this.onWillBeDestroyed.notifyListeners();
-    }
-
-    public void disconnectAll() {
-        for (InputPort inport : this.connectedInputs) {
-            disconnectInputPort(inport);
-        }
-        for (OutputPort outport : this.connectedOutputs) {
-            disconnectOutputPort(outport);
-        }
-        notifyStateChange();
+        this.onWillBeDestroyed.removeListeners();
     }
 
     /**
@@ -165,6 +154,15 @@ public class Wire extends LogicStateContainer implements IModel {
     }
 
     /* Private */
+    private void disconnectAll() {
+        for (InputPort inport : this.connectedInputs) {
+            disconnectInputPort(inport);
+        }
+        for (OutputPort outport : this.connectedOutputs) {
+            disconnectOutputPort(outport);
+        }
+        notifyStateChange();
+    }
 
     /**
      * Updates the wire's logical value based on updated output value.

@@ -26,12 +26,14 @@ import org.cafebabe.util.EmptyEvent;
  */
 public abstract class Component implements IModel {
 
-    //TODO: Find out why this is offset is needed
+    /* TODO: Find out why this is offset is needed.
+             Doesn't belong here, but will need to stay until we know. */
     private static final int VERTICAL_PORT_OFFSET = 28;
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
     Map<String, InputPort> tagToInput = Collections.unmodifiableMap(new HashMap<>());
     Map<String, OutputPort> tagToOutput = Collections.unmodifiableMap(new HashMap<>());
+
 
     /* Public */
     @Override
@@ -47,7 +49,7 @@ public abstract class Component implements IModel {
         } else {
             throw new InvalidPortException("This port doesn't exist on this component");
         }
-        update();
+        updateOutputs();
     }
 
     public void disconnectFromPort(Wire wire, String portTag) {
@@ -58,19 +60,15 @@ public abstract class Component implements IModel {
         } else {
             throw new InvalidPortException("This port doesn't exist on this component");
         }
-        update();
+        updateOutputs();
     }
 
     @Override
     public void destroy() {
+        for (Port port : getPorts()) {
+            port.destroy();
+        }
         this.onDestroy.notifyListeners();
-        //this.onDestroy.removeListeners();
-        for (Map.Entry<String, InputPort> entry : this.tagToInput.entrySet()) {
-            entry.getValue().destroy();
-        }
-        for (Map.Entry<String, OutputPort> entry : this.tagToOutput.entrySet()) {
-            entry.getValue().destroy();
-        }
     }
 
     public abstract String getAnsiName();
@@ -131,7 +129,7 @@ public abstract class Component implements IModel {
     }
 
     /* Protected */
-    protected abstract void update();
+    protected abstract void updateOutputs();
 
     /* Private */
     private List<Port> getPorts() {

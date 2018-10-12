@@ -26,8 +26,8 @@ public class XorGateComponent extends Component {
                 Map.entry("output", this.output)
         );
 
-        this.input1.onStateChangedEvent().addListener(p -> update());
-        this.input2.onStateChangedEvent().addListener(p -> update());
+        this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
     /* Public */
@@ -48,7 +48,7 @@ public class XorGateComponent extends Component {
 
     @Override
     @SuppressWarnings("PMD.UselessParentheses")
-    protected void update() {
+    protected void updateOutputs() {
         setOutputState(this.output,
                 (this.input1.isHigh() && this.input2.isLow())
                 || (this.input1.isLow() && this.input2.isHigh()),
