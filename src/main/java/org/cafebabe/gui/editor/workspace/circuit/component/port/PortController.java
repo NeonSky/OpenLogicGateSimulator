@@ -19,11 +19,17 @@ public abstract class PortController implements IController {
         this.viewModel = viewModel;
         this.port = port;
 
+        this.port.onDestroyed().addListener(this::onModelDestroyed);
         viewModel.onConnectionStateChanged().addListener(this::handleUpdatedConnectionState);
         this.view.onClicked.addListener(this::onClick);
     }
 
     /* Public */
+    @Override
+    public void destroy() {
+        this.port.destroy();
+    }
+
     @Override
     public Node getView() {
         return this.view;
@@ -39,5 +45,10 @@ public abstract class PortController implements IController {
     protected abstract void onClick();
 
     protected abstract void handleUpdatedConnectionState();
+
+    /* Private */
+    private void onModelDestroyed() {
+        this.view.destroy();
+    }
 
 }

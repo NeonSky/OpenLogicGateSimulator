@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.cafebabe.model.IDynamicComponent;
 import org.cafebabe.model.circuit.simulation.DynamicEvent;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.OutputPort;
@@ -27,7 +26,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
         );
         this.output.setState(LogicState.LOW);
 
-        this.getOnDestroy().addListener(() -> this.shouldIDie = true);
+        this.onDestroyed().addListener(() -> this.shouldIDie = true);
     }
 
 

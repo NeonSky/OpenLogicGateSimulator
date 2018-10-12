@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cafebabe.gui.util.Metadata;
-import org.cafebabe.model.IDestructible;
-import org.cafebabe.model.circuit.IBelongToModel;
+import org.cafebabe.model.IModel;
 import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;
 import org.cafebabe.model.components.connections.InputPort;
 import org.cafebabe.model.components.connections.LogicState;
@@ -25,7 +24,7 @@ import org.cafebabe.util.EmptyEvent;
  * It has a set of inputs from which it can read logical values.
  * It has a set of outputs which logical values it can set (possibly based on the inputs' values).
  */
-public abstract class Component implements IBelongToModel, IDestructible {
+public abstract class Component implements IModel {
 
     //TODO: Find out why this is offset is needed
     private static final int VERTICAL_PORT_OFFSET = 28;
@@ -36,7 +35,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
 
     /* Public */
     @Override
-    public EmptyEvent getOnDestroy() {
+    public EmptyEvent onDestroyed() {
         return this.onDestroy;
     }
 
@@ -65,7 +64,7 @@ public abstract class Component implements IBelongToModel, IDestructible {
     @Override
     public void destroy() {
         this.onDestroy.notifyListeners();
-        this.onDestroy.removeListeners();
+        //this.onDestroy.removeListeners();
         for (Map.Entry<String, InputPort> entry : this.tagToInput.entrySet()) {
             entry.getValue().destroy();
         }

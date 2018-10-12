@@ -15,6 +15,7 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.editor.workspace.circuit.component.port.PortController;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.gui.util.SvgUtil;
@@ -25,7 +26,7 @@ import org.cafebabe.util.ColorUtil;
 /**
  * Component visual.
  */
-class ComponentView extends AnchorPane implements IComponentView {
+class ComponentView extends AnchorPane implements IView, IComponentView {
 
     @FXML private SVGPath componentSvgPath;
     @FXML private Group svgGroup;
@@ -55,6 +56,12 @@ class ComponentView extends AnchorPane implements IComponentView {
         updateVisualState();
     }
 
+    /* Public */
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this);
+    }
+
     /* Package-Private */
     @SuppressFBWarnings(value = "UWF_NULL_FIELD",
             justification = "SpotBugs believes @FXML fields are always null")
@@ -74,11 +81,6 @@ class ComponentView extends AnchorPane implements IComponentView {
 
     void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
-    }
-
-    void destroy() {
-        this.svgGroup = null;
-        this.componentSvgPath = null;
     }
 
 

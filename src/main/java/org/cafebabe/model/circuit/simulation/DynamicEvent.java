@@ -2,7 +2,7 @@ package org.cafebabe.model.circuit.simulation;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-import org.cafebabe.model.IDynamicComponent;
+import org.cafebabe.model.components.IDynamicComponent;
 
 
 /**

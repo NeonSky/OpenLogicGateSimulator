@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.util.EmptyEvent;
@@ -14,15 +15,16 @@ import org.cafebabe.util.EmptyEvent;
 /**
  * Port visual.
  */
-class PortView extends AnchorPane {
+class PortView extends AnchorPane implements IView {
 
-    @FXML Circle connectionNodeCircle;
+    @FXML private Circle connectionNodeCircle;
 
     final EmptyEvent onClicked = new EmptyEvent();
     private final Port port;
 
     PortView(Port port, double x, double y) {
         this.port = port;
+
         FxmlUtil.attachFxml(this, "/view/PortView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
 
@@ -32,6 +34,12 @@ class PortView extends AnchorPane {
         this.connectionNodeCircle.onMouseClickedProperty().setValue(e ->
                 this.onClicked.notifyListeners()
         );
+    }
+
+    /* Public */
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this);
     }
 
     /* Package-Private */

@@ -109,8 +109,15 @@ public class CircuitController implements IController {
         }
     }
 
+    /* Public */
     @Override
     public Node getView() {
         return this.view;
+    }
+
+    @Override
+    public void destroy() {
+        this.componentControllers.forEach(IController::destroy);
+        this.view.destroy();
     }
 }

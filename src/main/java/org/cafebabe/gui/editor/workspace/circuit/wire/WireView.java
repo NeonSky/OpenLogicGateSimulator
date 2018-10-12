@@ -10,18 +10,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
+
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.FxmlUtil;
-import org.cafebabe.model.IReadOnlyMovable;
 import org.cafebabe.model.components.connections.LogicState;
 import org.cafebabe.model.components.connections.Wire;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.ColorUtil;
+import org.cafebabe.util.IReadOnlyMovable;
 
 
 /**
  * Wire visual.
  */
-class WireView {
+class WireView implements IView {
 
     private static final int WIRE_WIDTH = 6;
     private final CubicCurve wireLine;
@@ -36,6 +38,12 @@ class WireView {
         this.wireLine.setPickOnBounds(false);
         setInitialWirePoints();
         stylizeWireLine();
+    }
+
+    /* Public */
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this.wireLine);
     }
 
     /* Package-Private */
@@ -80,10 +88,6 @@ class WireView {
 
     void setTransform(Transform transform) {
         this.wireLine.getTransforms().set(0, transform);
-    }
-
-    void destroy() {
-        FxmlUtil.destroy(this.wireLine);
     }
 
     Node getFxView() {

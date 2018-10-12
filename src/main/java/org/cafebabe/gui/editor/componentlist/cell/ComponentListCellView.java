@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.util.ColorUtil;
 
@@ -20,7 +21,7 @@ import org.cafebabe.util.ColorUtil;
  * Represents a single cell / component, in the component list.
  * Contains a svg image of a component, and can be dragged to spawn that component.
  */
-class ComponentListCellView extends AnchorPane implements IComponentProducer {
+class ComponentListCellView extends AnchorPane implements IView, IComponentProducer {
 
     private static final int CELL_MARGIN = 20;
     private final String displayName;
@@ -41,6 +42,11 @@ class ComponentListCellView extends AnchorPane implements IComponentProducer {
     }
 
     /* Public */
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this);
+    }
+
     @Override
     public String getComponentName() {
         return this.displayName;

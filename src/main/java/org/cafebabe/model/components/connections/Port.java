@@ -1,17 +1,16 @@
 package org.cafebabe.model.components.connections;
 
-import org.cafebabe.model.IDestructible;
-import org.cafebabe.model.IReadOnlyMovable;
-import org.cafebabe.model.circuit.IBelongToModel;
+import org.cafebabe.model.IModel;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
 import org.cafebabe.util.EmptyEvent;
+import org.cafebabe.util.IReadOnlyMovable;
 
 /**
  The common logic for both input- and output ports.
  Ports represent connection points for wires.
  */
-public abstract class Port extends LogicStateContainer implements IBelongToModel, IDestructible {
+public abstract class Port extends LogicStateContainer implements IModel {
     private IReadOnlyMovable positionTracker = new TrackablePosition(new Position(0, 0));
     private final EmptyEvent onDestroy = new EmptyEvent();
 
@@ -25,13 +24,11 @@ public abstract class Port extends LogicStateContainer implements IBelongToModel
 
     @Override
     public void destroy() {
-        this.onStateChanged.removeListeners();
         this.onDestroy.notifyListeners();
-        this.onDestroy.removeListeners();
     }
 
     @Override
-    public EmptyEvent getOnDestroy() {
+    public EmptyEvent onDestroyed() {
         return this.onDestroy;
     }
 

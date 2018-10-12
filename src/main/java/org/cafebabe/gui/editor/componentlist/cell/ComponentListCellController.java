@@ -18,12 +18,13 @@ public class ComponentListCellController implements IController {
 
     /* Public */
     @Override
-    public Node getView() {
-        return this.view;
+    public void destroy() {
+        this.view.destroy();
     }
 
-    public String getComponentName() {
-        return this.view.getComponentName();
+    @Override
+    public Node getView() {
+        return this.view;
     }
 
     public double getWidth() {

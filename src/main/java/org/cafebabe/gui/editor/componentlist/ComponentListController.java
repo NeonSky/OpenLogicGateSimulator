@@ -11,6 +11,12 @@ public class ComponentListController implements IController {
 
     private final ComponentListView view = new ComponentListView();
 
+
+    @Override
+    public void destroy() {
+        this.view.destroy();
+    }
+
     @Override
     public Node getView() {
         return this.view;

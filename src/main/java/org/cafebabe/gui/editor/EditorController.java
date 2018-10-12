@@ -33,6 +33,11 @@ public class EditorController implements IController {
         return this.view;
     }
 
+    @Override
+    public void destroy() {
+        this.workspaces.forEach(IController::destroy);
+        this.view.destroy();
+    }
 
     /* Private */
     private void addNewWorkspace() {

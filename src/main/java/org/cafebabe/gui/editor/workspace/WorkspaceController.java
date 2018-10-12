@@ -12,16 +12,23 @@ import org.cafebabe.viewmodel.ViewModel;
 public class WorkspaceController implements IController {
 
     private final WorkspaceView view;
+    private final CircuitController circuitController;
 
 
     public WorkspaceController(Workspace workspace) {
         ViewModel viewModel = new ViewModel(workspace);
-        CircuitController circuitController = new CircuitController(viewModel);
-        this.view = new WorkspaceView(circuitController);
+        this.circuitController = new CircuitController(viewModel);
+        this.view = new WorkspaceView(this.circuitController);
     }
 
     @Override
     public Node getView() {
         return this.view;
+    }
+
+    @Override
+    public void destroy() {
+        this.circuitController.destroy();
+        this.view.destroy();
     }
 }

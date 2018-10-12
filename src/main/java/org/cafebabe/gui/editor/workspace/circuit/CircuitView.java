@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.cafebabe.gui.IView;
 import org.cafebabe.gui.util.CanvasGridPane;
 import org.cafebabe.gui.util.FxmlUtil;
 import org.cafebabe.util.Event;
@@ -16,7 +17,7 @@ import org.cafebabe.util.Event;
 /**
  * Provides a visual representation of the circuit currently being worked on.
  */
-class CircuitView extends AnchorPane {
+class CircuitView extends AnchorPane implements IView {
 
     @FXML private Pane backgroundPane;
     @FXML private Pane componentPane;
@@ -58,6 +59,12 @@ class CircuitView extends AnchorPane {
         FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, MouseEvent.MOUSE_MOVED, this.onMouseMoved::notifyListeners);
 
         this.componentPane.setOnScroll(this.onScroll::notifyListeners);
+    }
+
+    /* Public */
+    @Override
+    public void destroy() {
+        FxmlUtil.destroy(this);
     }
 
     /* Package-Private */
