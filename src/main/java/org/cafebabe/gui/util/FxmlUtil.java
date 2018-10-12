@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,7 +14,6 @@ import javafx.scene.layout.Pane;
  * A collection of static functions for common, useful FXML operations.
  * Examples: loading FXML, scaling with parent, taking input etc.
  */
-@SuppressWarnings("PMD.TooManyMethods")
 public final class FxmlUtil {
 
     private FxmlUtil() {}
@@ -44,14 +42,22 @@ public final class FxmlUtil {
     }
 
     public static void destroy(Node node) {
-        Parent parent = node.getParent();
-        if (parent != null) {
-            if (parent instanceof Pane) {
-                ((Pane) parent).getChildren().remove(node);
-            } else {
-                parent.getChildrenUnmodifiable().remove(node);
+        Node parent = node;
+        Node child;
+
+        // Traverse upwards until we hit a Pane node
+        do {
+            child = parent;
+            parent = child.getParent();
+
+            // if the parent is null then this sub tree of nodes has already been removed
+            if (parent == null) {
+                return;
             }
-        }
+
+        } while (!(parent instanceof Pane));
+
+        ((Pane) parent).getChildren().remove(child);
     }
 
     public static void onMySceneLoaded(Node node, Runnable callback) {

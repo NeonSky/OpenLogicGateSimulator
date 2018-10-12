@@ -88,13 +88,7 @@ public class ViewModel {
     }
 
     public void deleteSelectedControllers() {
-        for (ISelectable component : this.controllerSelector.getSelectedComponents()) {
-            // This doesn't make sense, we should just call destroy on the controllers
-            // Each controller should be responsible for destroying any model objects
-            // This way we also don't need to expose getModelObject
-            this.workspace.getCircuit().removeItem(component.getModelObject());
-            component.getModelObject().destroy();
-        }
+        this.controllerSelector.getSelectedComponents().forEach(ISelectable::destroy);
         this.connectionManager.broadcastConnectionState();
         abortSelections();
     }

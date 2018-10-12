@@ -2,17 +2,17 @@ package org.cafebabe.model.components.connections;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.cafebabe.model.IReadOnlyMovable;
-import org.cafebabe.model.circuit.IBelongToModel;
+import org.cafebabe.model.IModel;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.util.EmptyEvent;
 import org.cafebabe.util.Event;
+import org.cafebabe.util.IReadOnlyMovable;
 
 /**
  * A wire transmits logical signals from output ports to input ports.
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class Wire extends LogicStateContainer implements IBelongToModel {
+public class Wire extends LogicStateContainer implements IModel {
 
     private static final int MINIMUM_WIRE_CONNECTIONS = 2;
 
@@ -132,7 +132,8 @@ public class Wire extends LogicStateContainer implements IBelongToModel {
         });
     }
 
-    public EmptyEvent onWillBeDestroyed() {
+    @Override
+    public EmptyEvent onDestroyed() {
         return this.onWillBeDestroyed;
     }
 

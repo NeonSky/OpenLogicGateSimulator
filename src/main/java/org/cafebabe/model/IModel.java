@@ -2,9 +2,7 @@ package org.cafebabe.model;
 
 import org.cafebabe.util.EmptyEvent;
 
-public interface IDestructible {
-    /* Public */
+public interface IModel {
     void destroy();
-
-    EmptyEvent getOnDestroy();
+    EmptyEvent onDestroyed();
 }
