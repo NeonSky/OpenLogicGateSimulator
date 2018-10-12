@@ -1,8 +1,9 @@
-package org.cafebabe.gui.util;
+package org.cafebabe.model.components;
 
 
 /**
- * Represents the metadata contained in a component SVG.
+ * Represents the metadata of a component.
+ * Used for initializing its ports.
  */
 public class Metadata {
     public Iterable<PortData> inPortMetadata;

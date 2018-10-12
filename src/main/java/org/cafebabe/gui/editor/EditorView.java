@@ -10,8 +10,8 @@ import org.cafebabe.gui.IView;
 import org.cafebabe.gui.editor.componentlist.ComponentListController;
 import org.cafebabe.gui.editor.workspace.WorkspaceController;
 import org.cafebabe.gui.util.FxmlUtil;
-import org.cafebabe.util.EmptyEvent;
-import org.cafebabe.util.Event;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
 
 
 /**

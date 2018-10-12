@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.cafebabe.util.Event;
+import org.cafebabe.model.util.Event;
 
 /**
  * Simulator simulates the power flow between components and wires.

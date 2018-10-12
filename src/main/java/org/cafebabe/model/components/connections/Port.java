@@ -1,10 +1,10 @@
 package org.cafebabe.model.components.connections;
 
 import org.cafebabe.model.IModel;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.IReadOnlyMovable;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
-import org.cafebabe.util.EmptyEvent;
-import org.cafebabe.util.IReadOnlyMovable;
 
 /**
  The common logic for both input- and output ports.

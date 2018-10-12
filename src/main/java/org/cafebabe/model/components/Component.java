@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.cafebabe.gui.util.Metadata;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.circuit.simulation.IScheduleStateEvents;
 import org.cafebabe.model.components.connections.InputPort;
@@ -15,9 +13,9 @@ import org.cafebabe.model.components.connections.LogicStateContainer;
 import org.cafebabe.model.components.connections.OutputPort;
 import org.cafebabe.model.components.connections.Port;
 import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.util.EmptyEvent;
 import org.cafebabe.model.workspace.Position;
 import org.cafebabe.model.workspace.TrackablePosition;
-import org.cafebabe.util.EmptyEvent;
 
 /**
  * This class represents a "Component" in the circuit
