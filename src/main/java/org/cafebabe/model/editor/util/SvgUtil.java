@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import net.javainthebox.caraibe.svg.SvgContent;
+import net.javainthebox.caraibe.svg.SvgLoaderUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.Metadata;
 import org.cafebabe.model.editor.workspace.circuit.component.PortData;
@@ -40,6 +42,16 @@ public final class SvgUtil {
 
     public static Metadata getComponentMetadata(Component component) {
         return loadMetadata(getComponentSvgFile(component));
+    }
+
+    public static SvgContent loadComponentSvg(Component component) {
+        try {
+            return SvgLoaderUtil.load(component.getClass().getResource(
+                    "/gates/" + component.getAnsiName() + ".svg").toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /* Private */
