@@ -3,9 +3,9 @@ package model.components;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.XnorGateComponent;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.XnorGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class XnorGateComponentTest {
@@ -20,7 +20,7 @@ class XnorGateComponentTest {
         Wire out = new Wire();
         XnorGateComponent comp = new XnorGateComponent();
 
-        // Connect wires to power sources
+        // Connect wires to power source
         power1.connectToPort(in1, "output");
         power2.connectToPort(in2, "output");
 

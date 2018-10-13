@@ -3,10 +3,10 @@ package model.components.connections;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.cafebabe.model.components.connections.InputPort;
-import org.cafebabe.model.components.connections.LogicState;
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.junit.jupiter.api.Test;
 
 class WireTest {
@@ -73,4 +73,5 @@ class WireTest {
         assertFalse(wire.isHigh());
         assertFalse(input.isHigh());
     }
+
 }

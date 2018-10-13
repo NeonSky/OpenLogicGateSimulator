@@ -2,10 +2,10 @@ package model.components;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.OrGateComponent;
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.OrGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class OrGateComponentTest {

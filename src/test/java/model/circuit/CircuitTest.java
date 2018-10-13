@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cafebabe.model.IModel;
-import org.cafebabe.model.circuit.Circuit;
-import org.cafebabe.model.components.AndGateComponent;
-import org.cafebabe.model.components.Component;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.Circuit;
+import org.cafebabe.model.editor.workspace.circuit.component.Component;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.TooManyMethods")
