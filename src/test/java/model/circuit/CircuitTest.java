@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("PMD.TooManyMethods")
 class CircuitTest {
 
+    /* Package-Private */
     @Test
     void newCircuitShouldBeEmpty() {
         Circuit c = new Circuit();

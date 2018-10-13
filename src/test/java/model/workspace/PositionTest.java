@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class PositionTest {
 
+    /* Package-Private */
     @Test
     void newPositionNoParamsShouldBeOrigin() {
         Position p = new Position();

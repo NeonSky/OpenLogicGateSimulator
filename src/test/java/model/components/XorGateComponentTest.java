@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.XorGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +13,10 @@ class XorGateComponentTest {
 
     private static Wire on, off;
 
+    /* Package-Private */
     @BeforeAll
     static void setUp() {
-        final PowerSourceComponent power = new PowerSourceComponent();
+        final SignalSourceComponent power = new SignalSourceComponent();
         final NotGateComponent not = new NotGateComponent();
         on = new Wire();
         off = new Wire();

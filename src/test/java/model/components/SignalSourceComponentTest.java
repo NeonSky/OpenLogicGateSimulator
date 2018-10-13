@@ -4,16 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
-class PowerSourceComponentTest {
+class SignalSourceComponentTest {
 
 
+    /* Package-Private */
     @Test
     void powerTest() {
         Wire wire = new Wire();
-        PowerSourceComponent comp = new PowerSourceComponent();
+        SignalSourceComponent comp = new SignalSourceComponent();
 
         assertFalse(wire.isHigh());
         comp.connectToPort(wire, "output");

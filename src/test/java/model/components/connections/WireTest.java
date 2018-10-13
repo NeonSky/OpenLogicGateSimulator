@@ -28,6 +28,7 @@ class WireTest {
         assertFalse(w.isAnyOutputConnected());
     }
 
+    /* Package-Private */
     @Test
     void testConnectingSingleInputPort() {
         Wire w = new Wire();
