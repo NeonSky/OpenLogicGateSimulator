@@ -16,7 +16,7 @@
          <children>
             <TabPane fx:id="tabsPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" snapToPixel="false" tabClosingPolicy="ALL_TABS" tabMaxHeight="30.0" tabMaxWidth="100.0" tabMinHeight="22.0" tabMinWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
               <AnchorPane fx:id="workspacesPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="100.0" styleClass="workspacesPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-            <AnchorPane fx:id="addNewWorkspaceButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" snapToPixel="false" styleClass="addWorkspaceButton" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <AnchorPane fx:id="addNewTabButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" snapToPixel="false" styleClass="addWorkspaceButton" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                <children>
                   <Path fill="TRANSPARENT" fillRule="EVEN_ODD" stroke="BLACK" strokeWidth="2.0">
                       <elements>

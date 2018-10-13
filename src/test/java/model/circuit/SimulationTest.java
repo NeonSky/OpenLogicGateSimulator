@@ -2,14 +2,14 @@ package model.circuit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.cafebabe.model.circuit.Circuit;
-import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.XorGateComponent;
-import org.cafebabe.model.components.connections.LogicState;
-import org.cafebabe.model.components.connections.LogicStateContainer;
-import org.cafebabe.model.components.connections.OutputPort;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.Circuit;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicStateContainer;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.XorGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
 import org.junit.jupiter.api.Test;
 
 public class SimulationTest {

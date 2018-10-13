@@ -2,9 +2,9 @@ package model.components;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class NotGateComponentTest {
@@ -20,7 +20,7 @@ class NotGateComponentTest {
         comp.connectToPort(in, "input");
         comp.connectToPort(out, "output");
 
-        // Connect wires to power sources
+        // Connect wires to power source
         assertFalse(out.isHigh());
     }
 
