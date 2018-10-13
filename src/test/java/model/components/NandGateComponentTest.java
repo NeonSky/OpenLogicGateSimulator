@@ -5,16 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NandGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 
 class NandGateComponentTest {
 
 
+    /* Package-Private */
     @Test
     void oneHighInputShouldGiveHighOutput() {
-        PowerSourceComponent power = new PowerSourceComponent();
+        SignalSourceComponent power = new SignalSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
 
@@ -35,7 +36,7 @@ class NandGateComponentTest {
 
     @Test
     void highInputsShouldGiveLowOutput() {
-        PowerSourceComponent power = new PowerSourceComponent();
+        SignalSourceComponent power = new SignalSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
 
@@ -51,7 +52,7 @@ class NandGateComponentTest {
 
     @Test
     void noHighInputsShouldGiveHighOutput() {
-        PowerSourceComponent power = new PowerSourceComponent();
+        SignalSourceComponent power = new SignalSourceComponent();
         Wire on = new Wire();
         power.connectToPort(on, "output");
 

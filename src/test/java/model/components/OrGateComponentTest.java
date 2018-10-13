@@ -5,15 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.OrGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class OrGateComponentTest {
 
 
+    /* Package-Private */
     @Test
     void intendedUseTest() {
-        PowerSourceComponent power = new PowerSourceComponent();
+        SignalSourceComponent power = new SignalSourceComponent();
         NotGateComponent not = new NotGateComponent();
         Wire on = new Wire();
         Wire off = new Wire();

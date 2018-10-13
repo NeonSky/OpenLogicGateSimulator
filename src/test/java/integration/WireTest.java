@@ -8,7 +8,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicSta
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class WireTest {
@@ -101,7 +101,7 @@ class WireTest {
             {"checkstyle:variabledeclarationusagedistance",
                     "PMD.JUnitTestContainsTooManyAsserts"})
     void shouldWorkWithNotChain() {
-        PowerSourceComponent p = new PowerSourceComponent();
+        SignalSourceComponent p = new SignalSourceComponent();
         NotGateComponent n1 = new NotGateComponent();
         NotGateComponent n2 = new NotGateComponent();
         NotGateComponent n3 = new NotGateComponent();
