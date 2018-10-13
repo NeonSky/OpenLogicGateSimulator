@@ -2,8 +2,8 @@ package model.workspace;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.cafebabe.model.workspace.Position;
-import org.cafebabe.model.workspace.TrackablePosition;
+import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.TrackablePosition;
 import org.junit.jupiter.api.Test;
 
 class TrackablePositionTest {

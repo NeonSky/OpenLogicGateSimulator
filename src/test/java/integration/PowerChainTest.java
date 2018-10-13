@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.cafebabe.model.components.AndGateComponent;
-import org.cafebabe.model.components.NotGateComponent;
-import org.cafebabe.model.components.OrGateComponent;
-import org.cafebabe.model.components.PowerSourceComponent;
-import org.cafebabe.model.components.connections.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.gate.OrGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
