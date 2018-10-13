@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
+import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.controller.editor.workspace.circuit.ComponentDragDropHandler;
 import org.cafebabe.model.editor.util.SvgUtil;
 import org.cafebabe.model.editor.workspace.Position;
@@ -35,7 +37,7 @@ public class ComponentView extends View implements ISelectable {
     public final ViewModel viewModel;
     public final ComponentDragDropHandler componentDragDropHandler;
 
-    @FXML private SVGPath componentSvgPath;
+    @FXML private Group componentSvgContainer;
     @FXML private Group svgGroup;
 
     private final Component component;
@@ -60,10 +62,12 @@ public class ComponentView extends View implements ISelectable {
         this.svgGroup.getChildren().addAll(this.portViews);
         this.svgGroup.setPickOnBounds(false);
 
-        this.componentSvgPath.setContent(SvgUtil.getBareComponentSvgPath(component));
-        this.componentSvgPath.setStrokeLineCap(StrokeLineCap.SQUARE);
-        this.componentSvgPath.setStrokeWidth(3);
-        this.componentSvgPath.setFill(ColorUtil.OFFWHITE);
+        SvgContent svg = SvgUtil.loadComponentSvg(component);
+        this.componentSvgContainer.getChildren().setAll(svg);
+
+        svg.selectNodes("component-body").forEachRemaining(
+                ComponentView::setDefaultStyle
+        );
 
         initTransforms();
         updateVisualState();
@@ -120,19 +124,29 @@ public class ComponentView extends View implements ISelectable {
         this.updateTransform();
     }
 
-    public SVGPath getComponentSvgPath() {
-        return this.componentSvgPath;
+    public SvgContent getComponentSvg() {
+        return (SvgContent) this.componentSvgContainer.getChildren().get(0);
     }
 
 
     /* Private */
+    private static void setDefaultStyle(Node n) {
+        Shape shape = (Shape) n;
+        shape.setStrokeLineCap(StrokeLineCap.SQUARE);
+        shape.setStrokeWidth(3);
+        shape.setFill(ColorUtil.OFFWHITE);
+    }
+
     private void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
 
     private void updateVisualState() {
         Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
-        this.componentSvgPath.setStroke(newColor);
+        ((SvgContent) this.componentSvgContainer.getChildren().get(0))
+                .selectNodes("component-body").forEachRemaining(
+                    n -> ((Shape) n).setStroke(newColor)
+        );
     }
 
     private void updateTransform() {
@@ -161,5 +175,7 @@ public class ComponentView extends View implements ISelectable {
             this.getTransforms().set(i,Transform.scale(1,1));
         }
     }
+
+
 
 }
