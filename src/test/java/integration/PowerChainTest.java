@@ -6,12 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.OrGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +18,10 @@ class PowerChainTest {
 
     private static Wire on, off;
 
+    /* Package-Private */
     @BeforeAll
     static void setUp() {
-        final PowerSourceComponent power = new PowerSourceComponent();
+        final SignalSourceComponent power = new SignalSourceComponent();
         final NotGateComponent not = new NotGateComponent();
         on = new Wire();
         off = new Wire();
@@ -82,7 +82,7 @@ class PowerChainTest {
     @Test
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     void reverseNotGateChainShouldAlternate() {
-        final PowerSourceComponent p = new PowerSourceComponent();
+        final SignalSourceComponent p = new SignalSourceComponent();
 
         Stack<Wire> wireStack = new Stack<>();
         Wire prev = new Wire();
@@ -151,7 +151,7 @@ class PowerChainTest {
             wires.add(prev);
         }
 
-        PowerSourceComponent p = new PowerSourceComponent();
+        SignalSourceComponent p = new SignalSourceComponent();
         p.connectToPort(prev, "output");
         assertTrue(res.isHigh());
 

@@ -7,6 +7,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.position.TrackableP
 import org.junit.jupiter.api.Test;
 
 class TrackablePositionTest {
+    /* Package-Private */
     @Test
     void newTrackablePositionNoParamsShouldBeOrigin() {
         TrackablePosition p = new TrackablePosition(new Position());

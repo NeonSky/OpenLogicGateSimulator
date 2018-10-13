@@ -20,7 +20,7 @@ import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.cafebabe.model.storage.JsonStorage;
 import org.cafebabe.model.util.IdGenerator;
 import org.junit.jupiter.api.AfterAll;
@@ -36,7 +36,7 @@ class JsonStorageTest {
     private static final String EMPTY_CIRCUIT = "{\"components\":[],\"connections\":[]}";
     private static final String FILLED_CIRCUIT = "{\"components\":[{\"identifier\":"
             + "\"NOT_Gate\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
-            + "\"output\":2}},{\"identifier\":\"POWER_Source\",\"position\":[0,0],"
+            + "\"output\":2}},{\"identifier\":\"SignalSource\",\"position\":[0,0],"
             + "\"input\":{},\"output\":{\"output\":0}}],\"connections\":[{\"outputs\":[0],"
             + "\"inputs\":[1]}]}";
     @BeforeAll
@@ -96,7 +96,7 @@ class JsonStorageTest {
         Writer stringWriter = new StringWriter();
         jsonStorage.setWriter(stringWriter);
 
-        PowerSourceComponent powerSource = new PowerSourceComponent();
+        SignalSourceComponent powerSource = new SignalSourceComponent();
         NotGateComponent notGateComponent = new NotGateComponent();
         Wire wire = new Wire();
 
@@ -170,7 +170,7 @@ class JsonStorageTest {
         Workspace workspace = new Workspace();
         Circuit circuit = workspace.getCircuit();
 
-        PowerSourceComponent powerSource = new PowerSourceComponent();
+        SignalSourceComponent powerSource = new SignalSourceComponent();
         NotGateComponent notGateComponent = new NotGateComponent();
         Wire wire = new Wire();
 

@@ -8,12 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.editor.util.ComponentUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 
 class ComponentUtilTest {
 
+    /* Package-Private */
     @Test
     void gettingAllComponentsShouldReturnAllComponents() {
         assertDoesNotThrow(ComponentUtil::getAllComponents);
@@ -24,7 +25,7 @@ class ComponentUtilTest {
     @Test
     void componentFactoryShouldCreateComponents() {
         assertTrue(componentFactory("AND_Gate") instanceof AndGateComponent);
-        assertTrue(componentFactory("POWER_Source") instanceof PowerSourceComponent);
+        assertTrue(componentFactory("SignalSource") instanceof SignalSourceComponent);
     }
 
     @Test
