@@ -79,5 +79,6 @@ PMD Ruleset for Open Logic Gate Simulator (OLGS).
             <property name="exceptionList" value="output,input1,input2" />
         </properties>
     </rule>
-
+    <exclude-pattern>.*/net/javainthebox/.*</exclude-pattern>
 </ruleset>
+

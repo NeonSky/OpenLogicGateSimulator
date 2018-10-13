@@ -35,7 +35,7 @@ public class ComponentController extends Controller {
         view.setOnDragDetected(event ->
                 view.componentDragDropHandler.onComponentDragDetected(this.view, event)
         );
-        this.view.getComponentSvgPath().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
+        this.view.getComponentSvg().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
                 view.viewModel.handleControllerClick(this.view, event)
         );
 
