@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("PMD.TooManyMethods")
 class CircuitTest {
 
+    /* Package-Private */
     @Test
     void newCircuitShouldBeEmpty() {
         Circuit c = new Circuit();

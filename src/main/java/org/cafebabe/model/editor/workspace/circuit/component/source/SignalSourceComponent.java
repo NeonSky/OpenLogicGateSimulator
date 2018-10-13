@@ -1,7 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.component.source;
 
 import java.util.Map;
-
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
@@ -9,27 +8,25 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
 /**
  * A component that takes no input and always outputs an active signal.
  */
-public class PowerSourceComponent extends Component {
+public class SignalSourceComponent extends Component {
 
     @ComponentConstructor
-    public PowerSourceComponent() {
+    public SignalSourceComponent() {
         OutputPort northOutput = new OutputPort();
         tagToOutput = Map.ofEntries(
-                Map.entry("output", northOutput)
-        );
-
+                Map.entry("output", northOutput));
         setOutputState(northOutput, true);
     }
 
     /* Public */
     @Override
     public String getAnsiName() {
-        return "PowerSource";
+        return "SignalSource";
     }
 
     @Override
     public String getDisplayName() {
-        return "Power Source";
+        return "Signal Source";
     }
 
     @Override

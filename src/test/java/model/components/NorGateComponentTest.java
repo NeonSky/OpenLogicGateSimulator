@@ -4,16 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NorGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 class NorGateComponentTest {
 
 
+    /* Package-Private */
     @Test
     void intendedUseTest() {
-        PowerSourceComponent power1 = new PowerSourceComponent();
-        PowerSourceComponent power2 = new PowerSourceComponent();
+        SignalSourceComponent power1 = new SignalSourceComponent();
+        SignalSourceComponent power2 = new SignalSourceComponent();
         Wire in1 = new Wire();
         Wire in2 = new Wire();
         Wire out = new Wire();

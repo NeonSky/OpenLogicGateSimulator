@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class WireTest {
 
+    /* Package-Private */
     @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     void powerTest() {

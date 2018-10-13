@@ -9,13 +9,14 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.NotGateComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.XorGateComponent;
-import org.cafebabe.model.editor.workspace.circuit.component.source.PowerSourceComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.source.SignalSourceComponent;
 import org.junit.jupiter.api.Test;
 
 public class SimulationTest {
 
     static int dfsHelperCalls;
 
+    /* Package-Private */
     // Runs two (top/bot) parallell lines of power that will race towards a single XOR.
     @Test
     void xorShouldLeakPowerWithDfs() {
@@ -90,7 +91,7 @@ public class SimulationTest {
         xor.connectToPort(on, "input2");
 
         assertTrue(res.isUndefined());
-        PowerSourceComponent power = new PowerSourceComponent();
+        SignalSourceComponent power = new SignalSourceComponent();
         c.addComponent(power);
         assertTrue(res.isUndefined());
         power.connectToPort(on, "output");
