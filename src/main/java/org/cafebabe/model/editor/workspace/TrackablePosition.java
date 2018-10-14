@@ -47,12 +47,12 @@ public class TrackablePosition extends Position implements IMovable, IModel {
 
     @Override
     public void addPositionListener(Consumer<Position> func) {
-        this.onPositionChanged.addListener(func);
+        this.onPositionChanged.addListenerWithOwner(func, this);
     }
 
     @Override
-    public void removePositionListener(Consumer<Position> listener) {
-        this.onPositionChanged.removeListener(listener);
+    public void removePositionListeners() {
+        this.onPositionChanged.removeListenersWithOwner(this);
     }
 
     @Override

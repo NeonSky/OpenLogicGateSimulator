@@ -2,6 +2,7 @@ package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.util.EmptyEvent;
 import org.cafebabe.model.editor.util.Event;
@@ -51,7 +52,7 @@ public class Wire extends LogicStateContainer implements IModel {
             throw new PortAlreadyAddedException("An InputPort can only be added once.");
         }
         this.connectedInputs.add(input);
-        input.onWillBeDestroyed().addListener(this::onConnectedInputPortDestroyed);
+        input.onWillBeDestroyed().addListenerWithOwner(this::onConnectedInputPortDestroyed, this);
         input.setStateSource(this);
         setTrackableEndPos(input.getPositionTracker());
     }
@@ -75,8 +76,12 @@ public class Wire extends LogicStateContainer implements IModel {
                 this.gndSources.add(output);
             }
 
-            output.onWillBeDestroyed().addListener(this::onConnectedOutputPortDestroyed);
-            output.onStateChangedEvent().addListener(this::onConnectedOutputStateChanged);
+            output.onWillBeDestroyed().addListenerWithOwner(
+                    this::onConnectedOutputPortDestroyed, this);
+
+            output.onStateChangedEvent().addListenerWithOwner(
+                    this::onConnectedOutputStateChanged, this);
+
             setTrackableStartPos(output.getPositionTracker());
         });
     }
@@ -90,8 +95,8 @@ public class Wire extends LogicStateContainer implements IModel {
             throw new PortNotConnectedException("An InputPort that isn't "
                     + "connected can't be removed.");
         }
-        input.onStateChanged.removeListener(this::onConnectedOutputStateChanged);
-        input.onWillBeDestroyed().removeListener(this::onConnectedInputPortDestroyed);
+        input.onStateChanged.removeListenersWithOwner(this);
+        input.onWillBeDestroyed().removeListenersWithOwner(this);
         input.removeStateSource();
         this.connectedInputs.remove(input);
     }
@@ -106,8 +111,8 @@ public class Wire extends LogicStateContainer implements IModel {
                 throw new PortNotConnectedException("An OutputPort that isn't "
                         + "connected can't be removed.");
             }
-            output.onWillBeDestroyed().removeListener(this::onConnectedOutputPortDestroyed);
-            output.onStateChangedEvent().removeListener(this::onConnectedOutputStateChanged);
+            output.onWillBeDestroyed().removeListenersWithOwner(this);
+            output.onStateChangedEvent().removeListenersWithOwner(this);
             output.setConnected(false);
             this.connectedOutputs.remove(output);
             this.powerSources.remove(output);
@@ -207,7 +212,7 @@ public class Wire extends LogicStateContainer implements IModel {
 
     private void setTrackableStartPos(IReadOnlyMovable trackableStartPos) {
         if (this.trackableStartPos != null) {
-            this.trackableStartPos.removePositionListener(this.onStartPosMoved::notifyListeners);
+            this.trackableStartPos.removePositionListeners();
         }
         this.trackableStartPos = trackableStartPos;
         this.trackableStartPos.addPositionListener(this.onStartPosMoved::notifyListeners);
@@ -218,7 +223,7 @@ public class Wire extends LogicStateContainer implements IModel {
 
     private void setTrackableEndPos(IReadOnlyMovable trackableEndPos) {
         if (this.trackableEndPos != null) {
-            this.trackableEndPos.removePositionListener(this.onEndPosMoved::notifyListeners);
+            this.trackableEndPos.removePositionListeners();
         }
         this.trackableEndPos = trackableEndPos;
         this.trackableEndPos.addPositionListener(this.onEndPosMoved::notifyListeners);
