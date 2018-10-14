@@ -127,6 +127,11 @@ public abstract class Component implements IModel {
         out.setState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
+
+    protected void setOutputState(OutputPort out, LogicState state) {
+        out.setState(state);
+    }
+
     /* Protected */
     protected abstract void updateOutputs();
 
@@ -137,5 +142,4 @@ public abstract class Component implements IModel {
         ports.addAll(this.tagToOutput.values());
         return ports;
     }
-
 }
