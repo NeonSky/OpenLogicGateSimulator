@@ -44,6 +44,10 @@ public class Simulator implements Runnable, IScheduleStateEvents {
         this.ticker.shutdown();
     }
 
+    public void addEvent(DynamicEvent event) {
+        this.upcomingDynamicEvents.add(event);
+    }
+
     public void addEvents(List<DynamicEvent> events) {
         this.upcomingDynamicEvents.addAll(events);
     }

@@ -31,6 +31,8 @@ public class Circuit {
         }
 
         if (component instanceof IDynamicComponent) {
+            ((IDynamicComponent) component).getOnNewDynamicEvent()
+                    .addListener(this.simulator::addEvent);
             this.simulator.addEvents(((IDynamicComponent) component).getInitialDynamicEvents());
         }
 
@@ -41,6 +43,11 @@ public class Circuit {
     public void removeComponent(Component component) {
         if (!this.components.contains(component)) {
             throw new ComponentNotInWorkspaceException();
+        }
+
+        if (component instanceof IDynamicComponent) {
+            ((IDynamicComponent) component).getOnNewDynamicEvent()
+                    .removeListener(this.simulator::addEvent);
         }
 
         this.components.remove(component);
