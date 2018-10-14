@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.0" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <g>
+    <g fill="none" stroke="#000">
+      <rect stroke="black" class="component-body" fill="EEEC" x="21.5" y="11.5" width="57" height="77" stroke-linecap="square" stroke-width="3"/>
+      <path class="wire-preview" d="m21 30h-16"/>
+      <path class="wire-preview" d="m21 70h-16"/>
+      <path class="wire-preview" d="m79 70h16"/>
+      <path class="wire-preview" d="m79 30h16"/>
+    </g>
+    <path  d="m63.807 62h9.5" fill="none" stroke="#000" stroke-width="2"/>
+    <text x="26.702469" y="34.773438" fill="#000000" font-family="DejaVu Sans" font-size="14" stroke-width="1" xml:space="preserve">D</text>
+    <text x="63.907623" y="35" fill="#000000" font-family="DejaVu Sans" font-size="14" stroke-width="1" text-align="end" text-anchor="end" xml:space="preserve">Q</text>
+    <text x="63.825577" y="75" fill="#000000" font-family="DejaVu Sans" font-size="14" stroke-width="1" text-align="end" text-anchor="end" xml:space="preserve">Q</text>
+    <text x="26.702469" y="75" fill="#000000" font-family="DejaVu Sans" font-size="14" stroke-width="1" xml:space="preserve">E</text>
+  </g>
+  <inport name="dataInput" x="20" y="30" />
+  <inport name="enableInput" x="20" y="70" />
+  <outport name="output" x="80" y="30" />
+  <outport name="inverseOutput" x="80" y="70" />
+</svg>
