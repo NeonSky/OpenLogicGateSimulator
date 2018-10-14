@@ -20,7 +20,7 @@ public abstract class View extends AnchorPane {
 
     public final EmptyEvent onDestroy = new EmptyEvent();
     protected final Event<View> onCreatedSubview = new Event<>();
-    private boolean destructionPending;
+    protected boolean destructionPending;
 
 
     /* Public */
