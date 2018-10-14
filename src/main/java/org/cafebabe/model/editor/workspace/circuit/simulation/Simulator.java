@@ -37,7 +37,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     /* Public */
     public void start() {
-        this.ticker.scheduleAtFixedRate(this, 0, this.SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
+        this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
     }
 
     public void stop() {
@@ -54,15 +54,21 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     @Override
     public void run() {
-        resolveDynamicEvents();
-        resolveCircuitState();
+        // ScheduledExecutorService is sneaky and doesn't expose exceptions
+        // being thrown so we have this try/catch to be notified of any errors.
+        try {
+            resolveDynamicEvents();
+            resolveCircuitState();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }
 
     private void resolveDynamicEvents() {
         while (!this.upcomingDynamicEvents.isEmpty()
                 && this.upcomingDynamicEvents.peek().shouldBeResolved()) {
-            DynamicEvent top = this.upcomingDynamicEvents.poll();
 
+            DynamicEvent top = this.upcomingDynamicEvents.poll();
             try {
                 List<DynamicEvent> newEvents = Objects.requireNonNull(top).resolve();
                 if (newEvents != null) {
