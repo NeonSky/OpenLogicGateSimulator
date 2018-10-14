@@ -83,6 +83,14 @@ public class ViewModel {
         this.onComponentAdded.notifyListeners(component);
     }
 
+    public void removeWire(Wire wire) {
+        this.workspace.getCircuit().removeItem(wire);
+    }
+
+    public void removeComponent(Component component) {
+        this.workspace.getCircuit().removeItem(component);
+    }
+
     public void selectComponents(List<ISelectable> selectables) {
         this.controllerSelector.select(selectables);
     }

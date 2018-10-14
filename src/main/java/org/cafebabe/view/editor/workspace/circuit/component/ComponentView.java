@@ -118,6 +118,14 @@ public class ComponentView extends View implements ISelectable {
         updateVisualState();
     }
 
+    @Override
+    public void destroy() {
+        if (!this.destructionPending) {
+            this.viewModel.removeComponent(this.component);
+        }
+        super.destroy();
+    }
+
     public void updatePosition(Position position) {
         this.setTranslateX(position.getX());
         this.setTranslateY(position.getY());
