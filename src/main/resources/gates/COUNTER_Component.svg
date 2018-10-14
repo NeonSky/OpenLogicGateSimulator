@@ -10,7 +10,7 @@
         </g>
         <text x="35" y="60" fill="#000000" font-family="DejaVu Sans" font-size="40" stroke-width="1px" text-align="end" text-anchor="end" xml:space="preserve">C</text>
      </g>
-    <inport name="clkInput" x="20" y="50" />
+    <inport name="clockInput" x="20" y="50" />
     <outport name="bit0output" x="80" y="30" />
     <outport name="bit1output" x="80" y="43" />
     <outport name="bit2output" x="80" y="57" />
