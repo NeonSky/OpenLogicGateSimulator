@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.0" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <g>
+        <g fill="none" stroke="#000">
+            <rect stroke="black" class="component-body" fill="#EEEC" x="21.5" y="11.5" width="57" height="77" stroke-linecap="square" stroke-width="3"/>
+            <path class="wire-preview" d="m21 30h-16" stroke-width="2"/>
+            <path class="wire-preview" d="m21 70h-16" stroke-width="2"/>
+            <path class="wire-preview" d="m79 70h16" stroke-width="2"/>
+            <path class="wire-preview" d="m79 30h16" stroke-width="2"/>
+        </g>
+        <text x="35" y="60" fill="#000000" font-family="DejaVu Sans" font-size="40" stroke-width="1px" text-align="end" text-anchor="end" xml:space="preserve">C</text>
+     </g>
+    <inport name="clkInput" x="20" y="50" />
+    <outport name="bit0output" x="80" y="30" />
+    <outport name="bit1output" x="80" y="43" />
+    <outport name="bit2output" x="80" y="57" />
+    <outport name="bit3output" x="80" y="70" />
+</svg>
