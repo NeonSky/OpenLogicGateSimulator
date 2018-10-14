@@ -1,6 +1,6 @@
-package org.cafebabe.model.editor.workspace.circuit.component.source;
+package org.cafebabe.model.editor.workspace.circuit.component.gate;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -8,37 +8,52 @@ import org.cafebabe.model.editor.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.simulation.DynamicEvent;
 
 /**
- * An component that only has one output. This output switches back and
- * forth between high and low state over time.
+ * A component which mimics its input with a 1 second delay.
  */
-public class ClockComponent extends Component implements IDynamicComponent {
+public class DelayComponent extends Component implements IDynamicComponent {
 
     private final OutputPort output;
+    private final InputPort input;
     private final Event<DynamicEvent> onNewDynamicEvent;
     private boolean shouldIDie;
 
 
     @ComponentConstructor
-    public ClockComponent() {
+    public DelayComponent() {
         this.onNewDynamicEvent = new Event<>();
+        this.input = new InputPort();
+        tagToInput = Map.ofEntries(
+                Map.entry("input", this.input)
+        );
         this.output = new OutputPort();
         tagToOutput = Map.ofEntries(
                 Map.entry("output", this.output)
         );
-        this.output.setState(LogicState.LOW);
 
+        this.input.onStateChangedEvent().addListener(e -> updateOutputs());
         this.getOnDestroy().addListener(() -> this.shouldIDie = true);
     }
 
 
     /* Public */
     @Override
-    public void updateOutputs() {}
+    public void updateOutputs() {
+        LogicState currentInput = this.input.logicState();
+        this.onNewDynamicEvent.notifyListeners(
+                new DynamicEvent(this, 1000,
+                        () -> {
+                            this.output.setState(currentInput);
+                            return Collections.emptyList();
+                        }
+                )
+        );
+    }
 
     @Override
     public boolean shouldDie() {
@@ -52,32 +67,21 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     @Override
     public List<DynamicEvent> getInitialDynamicEvents() {
-        return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
+        return Collections.emptyList();
     }
 
     @Override
     public String getAnsiName() {
-        return "CLOCK_ANSI";
+        return "Buffer_ANSI";
     }
 
     @Override
     public String getDisplayName() {
-        return "Clock";
+        return "Delay";
     }
 
     @Override
     public String getDescription() {
-        return "Switches back and forth between high and low output.";
-    }
-
-
-    /* Private */
-    private List<DynamicEvent> changePulse() {
-        if (this.output.logicState() == LogicState.LOW) {
-            this.output.setState(LogicState.HIGH);
-        } else {
-            this.output.setState(LogicState.LOW);
-        }
-        return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
+        return "Delays the input signal by a second";
     }
 }
