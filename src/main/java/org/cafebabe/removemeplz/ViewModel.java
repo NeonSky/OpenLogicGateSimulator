@@ -18,7 +18,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 
 /**
- * Allows for communication between view-specific gui.
+ * Allows for communication between view-specific controllers.
  * Some calls are first delegated to different handlers (selection, connection etc.)
  * Used for things that should not concern the model,
  * but still involves communication between parts of the view.
