@@ -9,7 +9,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
 /** A component that counts in binary from 0 to 15 on high flank and loops around. */
 public class CounterComponent extends Component {
 
-    private final InputPort clkInput;
+    private final InputPort clockInput;
     private final OutputPort bit0output;
     private final OutputPort bit1output;
     private final OutputPort bit2output;
@@ -19,9 +19,10 @@ public class CounterComponent extends Component {
     @ComponentConstructor
     public CounterComponent() {
         super("COUNTER_Component", "Counter","Counts in binary from 0 to 15");
-        this.clkInput = new InputPort();
+
+        this.clockInput = new InputPort();
         tagToInput = Map.ofEntries(
-                Map.entry("clkInput", this.clkInput)
+                Map.entry("clockInput", this.clockInput)
         );
 
         this.bit0output = new OutputPort();
@@ -35,14 +36,14 @@ public class CounterComponent extends Component {
                 Map.entry("bit3output", this.bit3output)
         );
 
-        this.clkInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.clockInput.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
-    /* Public */
+    /* Protected */
 
     @Override
     protected void updateOutputs() {
-        if (this.clkInput.isHigh()) {
+        if (this.clockInput.isHigh()) {
             this.value++;
             setOutputState(this.bit0output,(this.value & 0b1) > 0);
             setOutputState(this.bit1output,(this.value & 0b10) > 0);
