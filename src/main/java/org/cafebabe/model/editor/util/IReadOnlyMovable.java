@@ -5,7 +5,7 @@ import org.cafebabe.model.editor.workspace.Position;
 
 public interface IReadOnlyMovable {
     void addPositionListener(Consumer<Position> func);
-    void removePositionListener(Consumer<Position> listener);
+    void removePositionListeners();
     int getX();
     int getY();
 }
