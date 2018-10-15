@@ -126,7 +126,7 @@ public class EditorController extends Controller implements ISceneController {
     private void loadDummyWorkspace() {
         try {
             Workspace workspace = this.storageHandler.loadWorkspace("asdf.txt");
-            this.view.addNewWorkspace(workspace);
+            addNewWorkspace(workspace);
         } catch (Exception e) {
             e.printStackTrace();
         }
