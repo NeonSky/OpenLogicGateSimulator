@@ -23,8 +23,8 @@ class IdGeneratorTest {
 
     @Test
     void counterIsSequential() {
-        int first = IdGenerator.getNewId();
-        int second = IdGenerator.getNewId();
+        long first = IdGenerator.getNewId();
+        long second = IdGenerator.getNewId();
 
         assertTrue(first < second);
     }

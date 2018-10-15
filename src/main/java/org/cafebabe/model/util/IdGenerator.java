@@ -1,6 +1,6 @@
 package org.cafebabe.model.util;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A basic ID generator used to assign unique IDs to objects.
@@ -10,11 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SuppressWarnings("PMD.ClassNamingConventions")
 public final class IdGenerator {
 
-    private static AtomicInteger counter = new AtomicInteger();
+    private static AtomicLong counter = new AtomicLong();
 
     private IdGenerator() {}
 
-    public static int getNewId() {
+    public static long getNewId() {
         return counter.getAndIncrement();
     }
 

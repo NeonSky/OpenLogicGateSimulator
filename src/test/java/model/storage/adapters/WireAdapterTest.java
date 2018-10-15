@@ -80,8 +80,8 @@ class WireAdapterTest {
         and.connectToPort(w, "input1");
         and.connectToPort(w, "output");
 
-        BiMap<Integer, String> allPorts = storageComponent.getAllPorts().inverse();
-        for (int i : allPorts.keySet()) {
+        BiMap<Long, String> allPorts = storageComponent.getAllPorts().inverse();
+        for (long i : allPorts.keySet()) {
             JsonStorage.getPortIdComponentMap().put(i, storageComponent.create());
         }
         JsonStorage.getComponentToIdTagMap().put(storageComponent.create(), allPorts);
