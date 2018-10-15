@@ -4,6 +4,7 @@ import java.util.Map;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 
 /** A component that counts in binary from 0 to 15 on high flank and loops around. */
@@ -45,10 +46,10 @@ public class CounterComponent extends Component {
     protected void updateOutputs() {
         if (this.clockInput.isHigh()) {
             this.value++;
-            setOutputState(this.bit0output,(this.value & 0b1) > 0);
-            setOutputState(this.bit1output,(this.value & 0b10) > 0);
-            setOutputState(this.bit2output,(this.value & 0b100) > 0);
-            setOutputState(this.bit3output,(this.value & 0b1000) > 0);
+            this.bit0output.setState((this.value & 0b1) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit1output.setState((this.value & 0b01) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit2output.setState((this.value & 0b001) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit3output.setState((this.value & 0b0001) > 0 ? LogicState.HIGH : LogicState.LOW);
         }
     }
 

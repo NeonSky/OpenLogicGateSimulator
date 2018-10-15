@@ -42,8 +42,7 @@ public class JkFlipFlopComponent extends Component {
         this.clkInput.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
-    /* Public */
-
+    /* Protected */
     @Override
     protected void updateOutputs() {
         if (!this.clkInput.isHigh()) {

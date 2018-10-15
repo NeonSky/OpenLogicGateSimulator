@@ -20,7 +20,8 @@ public class SrFlipFlopComponent extends Component {
 
     @ComponentConstructor
     public SrFlipFlopComponent() {
-        super("SR_FLIP_FLOP", "SR Flip Flop", "0,0 remains, s sets 1, r sets 0");
+        super("SR_FLIP_FLOP", "SR Flip Flop",
+                "A latch that sets a positive value on S=1 and resets to 0 on R=1.");
         this.setInput = new InputPort();
         this.resetInput = new InputPort();
         tagToInput = Map.ofEntries(
@@ -39,8 +40,7 @@ public class SrFlipFlopComponent extends Component {
         this.resetInput.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
-    /* Public */
-
+    /* Protected */
     @Override
     protected void updateOutputs() {
         boolean currentState = this.output.isHigh();
