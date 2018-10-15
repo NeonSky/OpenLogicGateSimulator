@@ -49,6 +49,6 @@ public class SimulatorToggleButtonView extends View {
     private void initializeButton() {
         this.setCenterShape(true);
         this.setShape(START_PATH);
-        AnchorPane.setRightAnchor(this, 5.0);
+        AnchorPane.setLeftAnchor(this, 22.0);
     }
 }
