@@ -48,7 +48,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
         DaemonThreadFactory factory = new DaemonThreadFactory();
         this.ticker = Executors.newScheduledThreadPool(1, factory);
         this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
-        this.currentSimulationState = SimulationState.STARTED;
+        this.currentSimulationState = SimulationState.RUNNING;
         this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
     }
 
@@ -62,7 +62,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     public void toggleSimulationState() {
         switch (this.currentSimulationState) {
-            case STARTED:
+            case RUNNING:
                 stop();
                 break;
             case STOPPED:

@@ -27,7 +27,7 @@ public class SimulatorToggleButtonView extends View {
         SVGPath newStateShape;
 
         switch (newState) {
-            case STARTED:
+            case RUNNING:
                 newStateShape = STOP_PATH;
                 break;
             case STOPPED:
