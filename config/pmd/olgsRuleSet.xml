@@ -63,6 +63,7 @@ PMD Ruleset for Open Logic Gate Simulator (OLGS).
     <rule ref="category/java/documentation.xml/CommentSize">
         <properties>
             <property name="maxLineLength" value="150" />
+            <property name="maxLines" value="13" />
         </properties>
     </rule>
 
