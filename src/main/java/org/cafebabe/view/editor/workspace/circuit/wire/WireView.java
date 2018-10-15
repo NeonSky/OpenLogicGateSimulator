@@ -77,7 +77,7 @@ public class WireView extends View {
 
     @Override
     public void destroy() {
-        if (!this.destructionPending) {
+        if (!this.isDestructionPending()) {
             this.viewModel.removeWire(this.wire);
         }
         super.destroy();

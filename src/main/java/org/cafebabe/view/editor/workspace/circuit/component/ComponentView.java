@@ -77,7 +77,7 @@ public class ComponentView extends View implements ISelectable {
     /* Public */
     public void setTransform(Transform transform) {
         this.transform = transform;
-        updateTransform();    
+        updateTransform();
     }
 
     public Component getComponent() {
@@ -121,7 +121,7 @@ public class ComponentView extends View implements ISelectable {
 
     @Override
     public void destroy() {
-        if (!this.destructionPending) {
+        if (!this.isDestructionPending()) {
             this.viewModel.removeComponent(this.component);
         }
         super.destroy();
