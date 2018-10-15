@@ -21,10 +21,10 @@ class ComponentAdapterTest {
     private static Gson gson;
 
     private static final String AND_GATE_JSON =
-            "{\"display_name\":\"AND Gate\",\"position\":[0,0],\"input\":{\"input1\":0,"
+            "{\"identifier\":\"AND_Gate\",\"position\":[0,0],\"input\":{\"input1\":0,"
                     + "\"input2\":1},\"output\":{\"output\":2}}";
     private static final String MOVED_AND_GATE_JSON =
-            "{\"display_name\":\"AND Gate\",\"position\":[10,20],\"input\":{\"input1\":0,"
+            "{\"identifier\":\"AND_Gate\",\"position\":[10,20],\"input\":{\"input1\":0,"
                     + "\"input2\":1},\"output\":{\"output\":2}}";
 
     @BeforeAll
@@ -82,7 +82,7 @@ class ComponentAdapterTest {
 
     @Test
     void noDisplayNameShouldThrow() {
-        String noDisplayName = AND_GATE_JSON.replace("AND Gate", "");
+        String noDisplayName = AND_GATE_JSON.replace("AND_Gate", "");
         assertThrows(RuntimeException.class, () -> gson.fromJson(noDisplayName,
                 StorageComponent.class));
     }
@@ -112,7 +112,7 @@ class ComponentAdapterTest {
 
     @Test
     void invalidJsonNameShouldThrow() {
-        String extraTag = "{\"display_name\":\"AND Gate\",\"position\":[0,0],"
+        String extraTag = "{\"identifier\":\"AND Gate\",\"position\":[0,0],"
                 + "\"input\":{\"input1\":0,\"input2\":1},\"output\":{\"output\":2},"
                 + "\"test\":[]}"; // Note this extra piece here.
 

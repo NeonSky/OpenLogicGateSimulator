@@ -13,13 +13,13 @@ import org.cafebabe.model.editor.workspace.Position;
  * ComponentAdapter read() method.
  */
 public class ComponentData {
-    @Getter @Setter private String displayName;
+    @Getter @Setter private String identifier;
     @Getter @Setter private Position position;
     @Getter @Setter private BiMap<String, Integer> inputIds;
     @Getter @Setter private BiMap<String, Integer> outputIds;
 
     public boolean isValid() {
-        return !(Strings.isNullOrEmpty(this.displayName)
+        return !(Strings.isNullOrEmpty(this.identifier)
                 || Objects.isNull(this.position)
                 || Objects.isNull(this.outputIds)
                 || Objects.isNull(this.inputIds));

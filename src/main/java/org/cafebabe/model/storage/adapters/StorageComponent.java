@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import lombok.Getter;
 import org.cafebabe.model.editor.util.ComponentUtil;
 import org.cafebabe.model.editor.workspace.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -34,14 +35,14 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
 
 public class StorageComponent {
 
-    private final String displayName;
-    private final Position position;
-    private final BiMap<String, Integer> inputTagsToIdsMap;
-    private final BiMap<String, Integer> outputTagsToIdsMap;
+    @Getter private final String identifier;
+    @Getter private final Position position;
+    @Getter private final BiMap<String, Integer> inputTagsToIdsMap;
+    @Getter private final BiMap<String, Integer> outputTagsToIdsMap;
     private Component component;
 
     public StorageComponent(Component component) {
-        this.displayName = component.getDisplayName();
+        this.identifier = component.getIdentifier();
 
         this.position = new Position(component.getTrackablePosition().getX(),
                 component.getTrackablePosition().getY());
@@ -64,7 +65,7 @@ public class StorageComponent {
     }
 
     StorageComponent(ComponentData data) {
-        this.displayName = data.getDisplayName();
+        this.identifier = data.getIdentifier();
         this.position = data.getPosition();
         this.inputTagsToIdsMap = data.getInputIds();
         this.outputTagsToIdsMap = data.getOutputIds();
@@ -73,11 +74,11 @@ public class StorageComponent {
     /* Public */
     public Component create() {
         if (Objects.isNull(this.component)) {
-            this.component = ComponentUtil.componentFactory(this.displayName);
+            this.component = ComponentUtil.componentFactory(this.identifier);
 
             if (Objects.isNull(this.component)) {
                 throw new RuntimeException("Could not create component with display name "
-                        + this.displayName);
+                        + this.identifier);
             }
 
             this.component.getTrackablePosition().move(this.position.getX(), this.position.getY());
@@ -91,22 +92,5 @@ public class StorageComponent {
         all.putAll(this.inputTagsToIdsMap);
         all.putAll(this.outputTagsToIdsMap);
         return all;
-    }
-
-    /* Package private */
-    String getDisplayName() {
-        return this.displayName;
-    }
-
-    Position getPosition() {
-        return this.position;
-    }
-
-    BiMap<String, Integer> getInputTagsToIdsMap() {
-        return this.inputTagsToIdsMap;
-    }
-
-    BiMap<String, Integer> getOutputTagsToIdsMap() {
-        return this.outputTagsToIdsMap;
     }
 }
