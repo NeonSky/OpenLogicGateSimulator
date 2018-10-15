@@ -38,4 +38,8 @@ public class WorkspaceView extends View {
                 new CircuitView(this.workspace.getCircuit(), this.viewModel));
     }
 
+    public Workspace getWorkspace() {
+        return this.workspace;
+    }
+
 }
