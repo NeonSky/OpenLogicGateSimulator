@@ -19,13 +19,6 @@ public class EmptyEvent {
         this.listeners.add(listener);
     }
 
-    /**
-     * Removes listener from this event.
-     */
-    public void removeListener(Runnable listener) {
-        this.listeners.remove(listener);
-    }
-
     public void removeListeners() {
         this.listeners.clear();
     }

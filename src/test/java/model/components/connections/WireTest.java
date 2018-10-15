@@ -142,14 +142,9 @@ class WireTest {
         assertTrue(w.isAnyInputConnected());
         assertTrue(w.isAnyOutputConnected());
 
-        /* TODO: This test is currently broken, and has been since the start; a
-         ConcurrentModificationException is thrown in Wire.java when looping over
-         the Sets of ports while removing ports from the same Set.
-        */
-
-        //w.disconnectAll();
-        //assertFalse(w.isAnyInputConnected());
-        //assertFalse(w.isAnyOutputConnected());*/
+        w.disconnectAll();
+        assertFalse(w.isAnyInputConnected());
+        assertFalse(w.isAnyOutputConnected());
     }
 
     @Test
