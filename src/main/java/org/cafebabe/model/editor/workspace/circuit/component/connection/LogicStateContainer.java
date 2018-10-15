@@ -1,6 +1,8 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
 import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
+import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortNotConnectedException;
 import org.cafebabe.model.editor.workspace.circuit.simulation.IScheduleStateEvents;
 
 /**
@@ -37,18 +39,17 @@ public abstract class LogicStateContainer {
     /**
      * Run a function while checking if the state changed.
      */
+    @SuppressWarnings("PMD.AvoidRethrowingException")
     protected void notifyIfStateChanges(Runnable stateMutator) {
         @SuppressWarnings("PMD.PrematureDeclaration")
         LogicState prevState = logicState();
         try {
             stateMutator.run();
+        } catch (PortAlreadyAddedException | PortNotConnectedException e) {
+            /* Rethrow certain exceptions to make code using this method testable */
+            throw e;
         } catch (Exception e) {
-            /* Rethrow exceptions to make code using this method testable */
-            if (e.getClass().getSuperclass().equals(RuntimeException.class)) {
-                throw e;
-            } else {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
 
         if (logicState() != prevState) {

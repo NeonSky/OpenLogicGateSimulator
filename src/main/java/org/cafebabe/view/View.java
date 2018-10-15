@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lombok.Getter;
 import org.cafebabe.model.editor.util.EmptyEvent;
 import org.cafebabe.model.editor.util.Event;
 import org.cafebabe.view.util.FxmlUtil;
@@ -20,7 +21,7 @@ public abstract class View extends AnchorPane {
 
     public final EmptyEvent onDestroy = new EmptyEvent();
     protected final Event<View> onCreatedSubview = new Event<>();
-    protected boolean destructionPending;
+    @Getter private boolean destructionPending;
 
 
     /* Public */

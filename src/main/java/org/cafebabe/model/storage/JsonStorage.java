@@ -28,11 +28,11 @@ import org.cafebabe.model.storage.adapters.WireAdapter;
 /**
  * The main class for saving/loading workspaces as JSON structures using the
  * GSON library.
- * Exposes methods for saving and loading a workspace via the ICanSaveLoad
+ * Exposes methods for saving and loading a workspace via the ISaveLoadWorkspaces
  * interface.
  */
 @SuppressWarnings("PMD.DataClass")
-public class JsonStorage implements ICanSaveLoad {
+public class JsonStorage implements ISaveLoadWorkspaces {
     /*
      * These maps are the central part for reconstructing circuits.
      *
@@ -123,11 +123,11 @@ public class JsonStorage implements ICanSaveLoad {
     private void writeCircuit(Circuit circuit, JsonWriter writer) throws IOException {
         writer.beginObject(); // begin whole circuit
         writer.name("components");
-        writer.beginArray();
+        writer.beginArray(); // being reading "components" section
         writeComponents(circuit.getComponents(), writer);
         writer.endArray(); // end "components" section
         writer.name("connections");
-        writer.beginArray();
+        writer.beginArray(); // begin reading "connections" section
         writeWires(circuit.getWires(), writer);
         writer.endArray(); // end "connections" section
         writer.endObject(); // end whole circuit
@@ -160,7 +160,7 @@ public class JsonStorage implements ICanSaveLoad {
         if (!reader.nextName().equals("connections")) {
             throw new IOException("Invalid save file format");
         }
-        reader.beginArray(); // being reading connections
+        reader.beginArray(); // begin reading connections
         readWires(reader, workspace.getCircuit());
         reader.endArray(); // end reading connections
         reader.endObject(); // end reading circuit
@@ -169,16 +169,13 @@ public class JsonStorage implements ICanSaveLoad {
     private void readComponents(JsonReader reader, Circuit circuit) throws IOException {
         while (reader.hasNext()) {
             StorageComponent component = this.gson.fromJson(reader, StorageComponent.class);
-
             circuit.addComponent(component.create());
-
 
             BiMap<Integer, String> allPorts = component.getAllPorts().inverse();
             // Map all this components' ports to this component
             for (int i : allPorts.keySet()) {
                 PORT_ID_COMPONENT_MAP.put(i, component.create());
             }
-
             // Map this component to its bidirectional map of port tag <-> port id
             COMPONENT_TO_ID_TAG_MAP.put(component.create(), allPorts);
         }

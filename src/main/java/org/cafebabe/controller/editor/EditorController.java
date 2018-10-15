@@ -14,7 +14,7 @@ import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
 import org.cafebabe.controller.editor.workspace.WorkspaceController;
 import org.cafebabe.model.editor.workspace.Workspace;
-import org.cafebabe.model.storage.ICanSaveLoad;
+import org.cafebabe.model.storage.ISaveLoadWorkspaces;
 import org.cafebabe.model.storage.JsonStorage;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.EditorView;
@@ -33,7 +33,7 @@ public class EditorController extends Controller implements ISceneController {
             new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN);
 
     private final EditorView view;
-    private final ICanSaveLoad storageHandler = new JsonStorage();
+    private final ISaveLoadWorkspaces storageHandler = new JsonStorage();
 
     /* Public */
     public EditorController(EditorView view) {
@@ -117,7 +117,7 @@ public class EditorController extends Controller implements ISceneController {
     private void saveCurrentWorkspace() {
         try {
             this.storageHandler.saveWorkspace(this.view.getCurrentWorkspaceView().getWorkspace(),
-                    "asdf.txt");
+                    "savefile.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,7 +125,7 @@ public class EditorController extends Controller implements ISceneController {
 
     private void loadDummyWorkspace() {
         try {
-            Workspace workspace = this.storageHandler.loadWorkspace("asdf.txt");
+            Workspace workspace = this.storageHandler.loadWorkspace("savefile.json");
             addNewWorkspace(workspace);
         } catch (Exception e) {
             e.printStackTrace();
