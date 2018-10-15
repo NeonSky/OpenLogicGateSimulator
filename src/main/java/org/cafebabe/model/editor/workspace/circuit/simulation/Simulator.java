@@ -1,6 +1,12 @@
 package org.cafebabe.model.editor.workspace.circuit.simulation;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +32,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
     private ScheduledExecutorService ticker;
     private SimulationState currentSimulationState = SimulationState.STOPPED;
     private long stoppedAt = System.currentTimeMillis();
-    private Set<DynamicEvent> needsPostpone = new HashSet<>();
+    private final Set<DynamicEvent> needsPostpone = new HashSet<>();
 
 
     public Simulator() {

@@ -12,9 +12,11 @@ import javafx.scene.layout.Pane;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.ComponentController;
 import org.cafebabe.controller.editor.workspace.circuit.wire.WireController;
+import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.removemeplz.ISelectable;
 import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.editor.workspace.circuit.CircuitView;
+import org.cafebabe.view.editor.workspace.circuit.SimulatorToggleButtonView;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
 import org.cafebabe.view.util.FxmlUtil;
@@ -28,7 +30,6 @@ public class CircuitController extends Controller {
     private final CircuitView view;
     private final ViewModel viewModel;
     private final ComponentDragDropHandler componentDragDropHandler;
-
 
     public CircuitController(CircuitView view) {
         super(view);
@@ -67,6 +68,14 @@ public class CircuitController extends Controller {
         FxmlUtil.onInputEventWithMeAsTarget(componentPane, DragEvent.DRAG_EXITED, componentDragDropHandler::onComponentPaneDragExit);
         FxmlUtil.onInputEvent(componentPane, DragEvent.DRAG_DROPPED, componentDragDropHandler::onComponentPaneDragDropped);
         FxmlUtil.onInputEvent(componentPane, DragEvent.DRAG_OVER, componentDragDropHandler::onComponentPaneDragOver);
+
+        SimulatorToggleButtonView simulatorToggleButton = this.view.getSimulatorToggleButton();
+        Circuit circuit = this.view.getCircuit();
+
+        FxmlUtil.onInputEventWithMeAsTarget(simulatorToggleButton, MouseEvent.MOUSE_CLICKED, (e) -> {
+            e.consume();
+            circuit.toggleSimulationState();
+        });
     }
 
     private void makeDragSelection(Node selectionBox) {
