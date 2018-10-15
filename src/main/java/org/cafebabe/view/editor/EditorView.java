@@ -27,7 +27,6 @@ public class EditorView extends View {
 
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
     private int workspaceCounter;
-    private int currentWorkspaceIndex;
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
             justification = "SpotBugs believes @FXML fields are always null")
@@ -46,7 +45,6 @@ public class EditorView extends View {
     public void showWorkspace(int index) {
         this.workspacesPane.getChildren().clear();
         this.workspacesPane.getChildren().add(this.workspaceViews.get(index));
-        this.currentWorkspaceIndex = index;
     }
 
     public void addNewWorkspace(Workspace workspace) {
@@ -67,7 +65,7 @@ public class EditorView extends View {
     }
 
     public WorkspaceView getCurrentWorkspaceView() {
-        return this.workspaceViews.get(this.currentWorkspaceIndex);
+        return (WorkspaceView)this.workspacesPane.getChildrenUnmodifiable().get(0);
     }
 
     public TabPane getTabsPane() {
