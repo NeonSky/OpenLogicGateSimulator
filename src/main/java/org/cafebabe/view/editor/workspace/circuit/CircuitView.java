@@ -31,14 +31,14 @@ public class CircuitView extends View {
 
     public final ViewModel viewModel;
 
-    //private final Circuit circuit;
+    private final Circuit circuit;
     private final List<ComponentView> componentViews = new ArrayList<>();
     private final List<WireView> wireViews = new ArrayList<>();
 
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     public CircuitView(Circuit circuit, ViewModel viewModel) {
-        //this.circuit = circuit;
+        this.circuit = circuit;
         this.viewModel = viewModel;
 
         FxmlUtil.attachFxml(this, "/view/CircuitView.fxml");
@@ -87,6 +87,14 @@ public class CircuitView extends View {
         return this.componentViews;
     }
 
+    public SimulatorToggleButtonView getSimulatorToggleButton() {
+        return this.simulatorToggleButton;
+    }
+
+    public Circuit getCircuit() {
+        return this.circuit;
+    }
+
 
     /* Private */
     private void setupGridPane() {
@@ -108,10 +116,6 @@ public class CircuitView extends View {
     }
 
     private void setupSimulationEventHandlers(Circuit circuit) {
-        this.simulatorToggleButton.setOnMouseClicked(e -> {
-            e.consume();
-            circuit.toggleSimulationState();
-        });
         circuit.registerSimulationStateListener(this.simulatorToggleButton::updateState);
     }
 }
