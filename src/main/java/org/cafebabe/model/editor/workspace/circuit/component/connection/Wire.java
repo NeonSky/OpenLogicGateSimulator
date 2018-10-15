@@ -170,12 +170,14 @@ public class Wire extends LogicStateContainer implements IModel {
         return Collections.unmodifiableSet(this.connectedOutputs);
     }
 
-    /* Private */
-    private void disconnectAll() {
-        for (InputPort inport : this.connectedInputs) {
+    public void disconnectAll() {
+        Set<InputPort> inports = new HashSet<>(this.connectedInputs);
+        for (InputPort inport : inports) {
             disconnectInputPort(inport);
         }
-        for (OutputPort outport : this.connectedOutputs) {
+
+        Set<OutputPort> outports = new HashSet<>(this.connectedOutputs);
+        for (OutputPort outport : outports) {
             disconnectOutputPort(outport);
         }
         notifyStateChange();
