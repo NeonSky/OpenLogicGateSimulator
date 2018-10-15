@@ -20,7 +20,7 @@ public class SignalSourceComponent extends Component {
                 Map.entry("output", this.northOutput)
         );
 
-        setOutputState(this.northOutput, true);
+        this.northOutput.setState(LogicState.HIGH);
     }
 
     /* Public */

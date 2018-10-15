@@ -51,7 +51,7 @@ public class SrFlipFlopComponent extends Component {
 
     @Override
     public String getDescription() {
-        return "0,0 remains, s sets 1, r sets 0";
+        return "A latch that sets a positive value on S=1 and resets to 0 on R=1.";
     }
 
     @Override
@@ -62,8 +62,8 @@ public class SrFlipFlopComponent extends Component {
         boolean newState = true;
         if (s) {
             if (r) {
-                this.setOutputState(this.output, LogicState.UNDEFINED);
-                this.setOutputState(this.inverseOutput, LogicState.UNDEFINED);
+                this.output.setState(LogicState.UNDEFINED);
+                this.inverseOutput.setState(LogicState.UNDEFINED);
                 return;
             }
         } else {
