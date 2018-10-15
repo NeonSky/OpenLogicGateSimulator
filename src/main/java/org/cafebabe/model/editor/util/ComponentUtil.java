@@ -1,5 +1,6 @@
 package org.cafebabe.model.editor.util;
 
+import com.google.common.base.Strings;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public final class ComponentUtil {
 
     /* Public */
     public static Component componentFactory(String identifier) {
-        if (identifier == null || identifier.isEmpty()) {
+        if (Strings.isNullOrEmpty(identifier)) {
             throw new InvalidComponentException("Component display name can not be null or empty");
         }
 
