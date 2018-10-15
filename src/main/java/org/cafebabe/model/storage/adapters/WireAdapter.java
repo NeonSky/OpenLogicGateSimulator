@@ -31,8 +31,8 @@ public class WireAdapter extends TypeAdapter<Wire> {
     public Wire read(JsonReader reader) throws IOException {
         reader.beginObject();
 
-        Set<Integer> connectedInputIds = new HashSet<>();
-        Set<Integer> connectedOutputIds = new HashSet<>();
+        Set<Long> connectedInputIds = new HashSet<>();
+        Set<Long> connectedOutputIds = new HashSet<>();
 
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -53,17 +53,17 @@ public class WireAdapter extends TypeAdapter<Wire> {
 
         Wire wire = new Wire();
 
-        for (Integer id : connectedInputIds) {
+        for (Long id : connectedInputIds) {
             connectWire(wire, id);
         }
-        for (Integer id : connectedOutputIds) {
+        for (Long id : connectedOutputIds) {
             connectWire(wire, id);
         }
 
         return wire;
     }
 
-    private void connectWire(Wire wire, Integer portId) {
+    private void connectWire(Wire wire, Long portId) {
         Component target = JsonStorage.getPortIdComponentMap().get(portId);
         String portTag = JsonStorage.getComponentToIdTagMap().get(target).get(portId);
         target.connectToPort(wire, portTag);

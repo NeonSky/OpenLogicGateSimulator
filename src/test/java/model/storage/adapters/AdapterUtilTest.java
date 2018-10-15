@@ -107,16 +107,16 @@ class AdapterUtilTest {
         JsonReader reader = createJsonReader(AND_GATE_PORTS);
 
         var wrapper = new Object() {
-            BiMap<String, Integer> ports;
+            BiMap<String, Long> ports;
         };
         assertDoesNotThrow(() -> wrapper.ports = AdapterUtil.readComponentPorts(reader));
         assertEquals(3, wrapper.ports.size());
         assertTrue(wrapper.ports.containsKey("input1"));
         assertTrue(wrapper.ports.containsKey("input2"));
         assertTrue(wrapper.ports.containsKey("output"));
-        assertTrue(wrapper.ports.containsValue(0));
-        assertTrue(wrapper.ports.containsValue(1));
-        assertTrue(wrapper.ports.containsValue(2));
+        assertTrue(wrapper.ports.containsValue(0L));
+        assertTrue(wrapper.ports.containsValue(1L));
+        assertTrue(wrapper.ports.containsValue(2L));
     }
 
     @Test
@@ -144,7 +144,7 @@ class AdapterUtilTest {
         JsonReader reader = createJsonReader(EMPTY_PORT_ARRAY);
 
         var wrapper = new Object() {
-            Set<Integer> ports;
+            Set<Long> ports;
         };
         assertDoesNotThrow(() -> wrapper.ports =
                 AdapterUtil.readWirePortArray(reader));

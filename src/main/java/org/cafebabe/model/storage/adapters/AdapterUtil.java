@@ -43,22 +43,22 @@ public final class AdapterUtil {
         return pos;
     }
 
-    public static void writeComponentPorts(JsonWriter writer, BiMap<String, Integer> ports)
+    public static void writeComponentPorts(JsonWriter writer, BiMap<String, Long> ports)
             throws IOException {
         writer.beginObject();
-        for (Map.Entry<String, Integer> entry : ports.entrySet()) {
+        for (Map.Entry<String, Long> entry : ports.entrySet()) {
             writer.name(entry.getKey()).value(entry.getValue());
         }
         writer.endObject();
     }
 
-    public static BiMap<String, Integer> readComponentPorts(JsonReader reader) throws IOException {
-        BiMap<String, Integer> tagToPortIdMap = HashBiMap.create();
+    public static BiMap<String, Long> readComponentPorts(JsonReader reader) throws IOException {
+        BiMap<String, Long> tagToPortIdMap = HashBiMap.create();
 
         reader.beginObject();
         while (reader.hasNext()) {
             String tag = reader.nextName();
-            int id = reader.nextInt();
+            long id = reader.nextLong();
             tagToPortIdMap.put(tag, id);
         }
         reader.endObject();
@@ -70,24 +70,24 @@ public final class AdapterUtil {
             throws IOException {
         writer.beginArray();
 
-        List<Integer> portIds = new ArrayList<>();
+        List<Long> portIds = new ArrayList<>();
         for (Port p : ports) {
             portIds.add(p.getId());
         }
         Collections.sort(portIds);
 
-        for (Integer id : portIds) {
+        for (Long id : portIds) {
             writer.value(id);
         }
         writer.endArray();
     }
 
-    public static Set<Integer> readWirePortArray(JsonReader reader) throws IOException {
-        Set<Integer> ids = new HashSet<>();
+    public static Set<Long> readWirePortArray(JsonReader reader) throws IOException {
+        Set<Long> ids = new HashSet<>();
 
         reader.beginArray();
         while (reader.hasNext()) {
-            ids.add(reader.nextInt());
+            ids.add(reader.nextLong());
         }
         reader.endArray();
 

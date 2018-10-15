@@ -37,8 +37,8 @@ public class StorageComponent {
 
     @Getter private final String identifier;
     @Getter private final Position position;
-    @Getter private final BiMap<String, Integer> inputTagsToIdsMap;
-    @Getter private final BiMap<String, Integer> outputTagsToIdsMap;
+    @Getter private final BiMap<String, Long> inputTagsToIdsMap;
+    @Getter private final BiMap<String, Long> outputTagsToIdsMap;
     private Component component;
 
     public StorageComponent(Component component) {
@@ -87,8 +87,8 @@ public class StorageComponent {
         return this.component;
     }
 
-    public BiMap<String, Integer> getAllPorts() {
-        BiMap<String, Integer> all = HashBiMap.create();
+    public BiMap<String, Long> getAllPorts() {
+        BiMap<String, Long> all = HashBiMap.create();
         all.putAll(this.inputTagsToIdsMap);
         all.putAll(this.outputTagsToIdsMap);
         return all;

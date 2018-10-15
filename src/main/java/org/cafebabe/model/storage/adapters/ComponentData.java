@@ -15,8 +15,8 @@ import org.cafebabe.model.editor.workspace.Position;
 public class ComponentData {
     @Getter @Setter private String identifier;
     @Getter @Setter private Position position;
-    @Getter @Setter private BiMap<String, Integer> inputIds;
-    @Getter @Setter private BiMap<String, Integer> outputIds;
+    @Getter @Setter private BiMap<String, Long> inputIds;
+    @Getter @Setter private BiMap<String, Long> outputIds;
 
     public boolean isValid() {
         return !(Strings.isNullOrEmpty(this.identifier)
