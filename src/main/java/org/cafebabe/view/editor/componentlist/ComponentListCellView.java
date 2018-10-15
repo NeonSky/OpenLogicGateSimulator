@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
@@ -29,13 +30,18 @@ public class ComponentListCellView extends View implements IComponentProducer {
     @FXML private Label componentNameLabel;
 
 
-    public ComponentListCellView(String displayName, String identifier, Group svg) {
+    public ComponentListCellView(String displayName,
+                                 String identifier,
+                                 Group svg,
+                                 String description) {
+
         this.displayName = displayName;
         this.identifier = identifier;
         FxmlUtil.attachFxml(this, "/view/ComponentListCell.fxml");
 
         setComponentNameLabel();
         setComponentSvg(svg);
+        setComponentDescription(description);
     }
 
     private static void setComponentStyle(Node n) {
@@ -74,6 +80,11 @@ public class ComponentListCellView extends View implements IComponentProducer {
         );
         this.svgContainer.getChildren().setAll(svg);
         scaleComponentSvg();
+    }
+
+    private void setComponentDescription(String description) {
+        Tooltip tooltip = new Tooltip(description);
+        Tooltip.install(this.componentCell, tooltip);
     }
 
     private static void setWirePreviewStyle(Node node) {
