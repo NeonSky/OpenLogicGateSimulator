@@ -40,8 +40,8 @@ public class JsonStorage implements ISaveLoadWorkspaces {
      * The second maps from a component to a bidirectional map, which maps
      * port tags <-> port ids.
      */
-    private static final Map<Integer, Component> PORT_ID_COMPONENT_MAP = new HashMap<>();
-    private static final Map<Component, BiMap<Integer, String>>
+    private static final Map<Long, Component> PORT_ID_COMPONENT_MAP = new HashMap<>();
+    private static final Map<Component, BiMap<Long, String>>
             COMPONENT_TO_ID_TAG_MAP = new HashMap<>();
 
     private final Gson gson;
@@ -63,11 +63,11 @@ public class JsonStorage implements ISaveLoadWorkspaces {
         this.reader = reader;
     }
 
-    public static Map<Integer, Component> getPortIdComponentMap() {
+    public static Map<Long, Component> getPortIdComponentMap() {
         return PORT_ID_COMPONENT_MAP;
     }
 
-    public static Map<Component, BiMap<Integer, String>> getComponentToIdTagMap() {
+    public static Map<Component, BiMap<Long, String>> getComponentToIdTagMap() {
         return COMPONENT_TO_ID_TAG_MAP;
     }
 
@@ -171,9 +171,9 @@ public class JsonStorage implements ISaveLoadWorkspaces {
             StorageComponent component = this.gson.fromJson(reader, StorageComponent.class);
             circuit.addComponent(component.create());
 
-            BiMap<Integer, String> allPorts = component.getAllPorts().inverse();
+            BiMap<Long, String> allPorts = component.getAllPorts().inverse();
             // Map all this components' ports to this component
-            for (int i : allPorts.keySet()) {
+            for (long i : allPorts.keySet()) {
                 PORT_ID_COMPONENT_MAP.put(i, component.create());
             }
             // Map this component to its bidirectional map of port tag <-> port id
