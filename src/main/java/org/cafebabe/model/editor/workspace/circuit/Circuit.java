@@ -32,7 +32,7 @@ public class Circuit {
 
         if (component instanceof IDynamicComponent) {
             ((IDynamicComponent) component).getOnNewDynamicEvent()
-                    .addListener(this.simulator::addEvent);
+                    .addListenerWithOwner(this.simulator::addEvent, component);
             this.simulator.addEvents(((IDynamicComponent) component).getInitialDynamicEvents());
         }
 
@@ -47,7 +47,7 @@ public class Circuit {
 
         if (component instanceof IDynamicComponent) {
             ((IDynamicComponent) component).getOnNewDynamicEvent()
-                    .removeListener(this.simulator::addEvent);
+                    .removeListenersWithOwner(component);
         }
 
         this.components.remove(component);
