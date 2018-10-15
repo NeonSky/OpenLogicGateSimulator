@@ -11,7 +11,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
  */
 public class DynamicEvent {
     private final Callable<List<DynamicEvent>> dueFunc;
-    private final long reslolveAt;
+    private long reslolveAt;
     private final IDynamicComponent source;
 
 
@@ -30,6 +30,10 @@ public class DynamicEvent {
 
     boolean shouldBeResolved() {
         return this.reslolveAt <= System.currentTimeMillis();
+    }
+
+    void postpone(long amount) {
+        this.reslolveAt += amount;
     }
 
     List<DynamicEvent> resolve() {

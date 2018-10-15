@@ -1,10 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.simulation;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,12 +17,16 @@ import org.cafebabe.model.editor.util.Event;
  *      This is managed through the circuit state breadth-first search.
  */
 public class Simulator implements Runnable, IScheduleStateEvents {
+
+    private static final long SIMULATE_INTERVAL = 1000;
+    private final Event<SimulationState> onSimulationStateChanged = new Event<>();
     private final Queue<StateEvent> circuitStateBfs;
     private final PriorityQueue<DynamicEvent> upcomingDynamicEvents;
-    private final Event<SimulationState> onSimulationStateChanged = new Event<>();
+
     private ScheduledExecutorService ticker;
-    private static final long SIMULATE_INTERVAL = 1000;
     private SimulationState currentSimulationState = SimulationState.STOPPED;
+    private long stoppedAt = System.currentTimeMillis();
+    private Set<DynamicEvent> needsPostpone = new HashSet<>();
 
 
     public Simulator() {
@@ -37,6 +37,8 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     /* Public */
     public void start() {
+        this.needsPostpone.forEach(e -> e.postpone(System.currentTimeMillis() - stoppedAt));
+
         DaemonThreadFactory factory = new DaemonThreadFactory();
         this.ticker = Executors.newScheduledThreadPool(1, factory);
         this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
@@ -46,6 +48,8 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     public void stop() {
         this.ticker.shutdown();
+        this.stoppedAt = System.currentTimeMillis();
+        this.needsPostpone.addAll(this.upcomingDynamicEvents);
         this.currentSimulationState = SimulationState.STOPPED;
         this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
     }
