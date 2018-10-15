@@ -1,0 +1,7 @@
+.simulatorControlsPane {
+    -fx-background-color: -colorscheme-lightgray;
+    -fx-background-radius: 22;
+    -fx-border-color: -colorscheme-black;
+    -fx-border-width: 1;
+    -fx-border-radius: 22;
+}

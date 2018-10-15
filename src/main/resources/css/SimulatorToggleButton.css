@@ -1,0 +1,14 @@
+.simulatorToggleButton {
+    -fx-background-color: -colorscheme-offwhite;
+    -fx-opacity: 1;
+    -fx-border-width: 2;
+    -fx-border-color: -colorscheme-black;
+}
+
+.simulatorToggleButton:hover {
+    -fx-background-color: -colorscheme-white;
+}
+
+.simulatorToggleButton:pressed {
+    -fx-background-color: -colorscheme-lightestblue;
+}
