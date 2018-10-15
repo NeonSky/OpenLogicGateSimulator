@@ -17,7 +17,7 @@ public class ComponentAdapter extends TypeAdapter<StorageComponent> {
     @Override
     public void write(JsonWriter writer, StorageComponent component) throws IOException {
         writer.beginObject();
-        writer.name("display_name").value(component.getDisplayName());
+        writer.name("identifier").value(component.getIdentifier());
         writer.name("position");
         AdapterUtil.writePositionArray(writer, component.getPosition());
         writer.name("input");
@@ -45,8 +45,8 @@ public class ComponentAdapter extends TypeAdapter<StorageComponent> {
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
-                case "display_name":
-                    data.setDisplayName(reader.nextString());
+                case "identifier":
+                    data.setIdentifier(reader.nextString());
                     break;
                 case "position":
                     data.setPosition(AdapterUtil.readPositionArray(reader));

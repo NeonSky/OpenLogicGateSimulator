@@ -13,7 +13,7 @@ public class PowerSourceComponent extends Component {
 
     @ComponentConstructor
     public PowerSourceComponent() {
-        super("PowerSource", "Power Source", "Emits an active signal to all connected outputs");
+        super("POWER_Source", "Power Source", "Emits an active signal to all connected outputs");
         OutputPort northOutput = new OutputPort();
         tagToOutput = Map.ofEntries(
                 Map.entry("output", northOutput)

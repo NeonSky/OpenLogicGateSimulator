@@ -24,16 +24,16 @@ public final class ComponentUtil {
     private ComponentUtil() {}
 
     /* Public */
-    public static Component componentFactory(String displayName) {
-        if (displayName == null || displayName.isEmpty()) {
+    public static Component componentFactory(String identifier) {
+        if (identifier == null || identifier.isEmpty()) {
             throw new InvalidComponentException("Component display name can not be null or empty");
         }
 
-        if (!getComponentMap().containsKey(displayName)) {
-            throw new InvalidComponentException("No such component " + displayName);
+        if (!getComponentMap().containsKey(identifier)) {
+            throw new InvalidComponentException("No such component " + identifier);
         }
 
-        Component original = getComponentMap().get(displayName);
+        Component original = getComponentMap().get(identifier);
 
         try {
             Constructor ctor = original.getClass().getConstructor();
@@ -74,7 +74,7 @@ public final class ComponentUtil {
         if (Objects.isNull(componentMap)) {
             componentMap = new HashMap<>();
             for (Component c : getAllComponents()) {
-                componentMap.put(c.getDisplayName(), c);
+                componentMap.put(c.getIdentifier(), c);
             }
         }
         return componentMap;

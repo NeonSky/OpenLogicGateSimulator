@@ -41,7 +41,8 @@ public class ComponentListView extends View {
 
         for (Component component : components) {
             ComponentListCellView cellView = new ComponentListCellView(
-                    component.getDisplayName(), SvgUtil.loadComponentSvg(component)
+                    component.getDisplayName(), component.getIdentifier(),
+                    SvgUtil.loadComponentSvg(component)
             );
             cells.add(cellView);
         }

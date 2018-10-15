@@ -21,6 +21,7 @@ import org.cafebabe.view.util.FxmlUtil;
 public class ComponentListCellView extends View implements IComponentProducer {
 
     private final String displayName;
+    private final String identifier;
 
     @FXML private AnchorPane componentCell;
     @FXML private Group svgContainer;
@@ -28,9 +29,9 @@ public class ComponentListCellView extends View implements IComponentProducer {
     @FXML private Label componentNameLabel;
 
 
-
-    ComponentListCellView(String displayName, Group svg) {
+    public ComponentListCellView(String displayName, String identifier, Group svg) {
         this.displayName = displayName;
+        this.identifier = identifier;
         FxmlUtil.attachFxml(this, "/view/ComponentListCell.fxml");
 
         setComponentNameLabel();
@@ -46,8 +47,8 @@ public class ComponentListCellView extends View implements IComponentProducer {
 
     /* Public */
     @Override
-    public String getComponentName() {
-        return this.displayName;
+    public String getComponentIdentifier() {
+        return this.identifier;
     }
 
 
