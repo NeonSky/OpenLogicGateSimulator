@@ -13,6 +13,6 @@ class ResolveAtPriority implements Comparator<DynamicEvent>, Serializable {
 
     @Override
     public int compare(DynamicEvent o1, DynamicEvent o2) {
-        return Long.compare(o1.getReslolveAt(), o2.getReslolveAt());
+        return Long.compare(o1.getResolveAt(), o2.getResolveAt());
     }
 }
