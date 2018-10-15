@@ -124,6 +124,10 @@ public abstract class Component implements IModel {
     }
 
     /* Protected */
+    protected void updateOutputs() {
+        this.onUpdate.notifyListeners();
+    }
+
     protected void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
         for (InputPort input : relatedInputs) {
             if (input.logicState() == LogicState.UNDEFINED) {
@@ -135,15 +139,11 @@ public abstract class Component implements IModel {
         setOutputState(out, state);
     }
 
-    protected void setOutputState(OutputPort out, boolean state) {
+    /* Private */
+    private void setOutputState(OutputPort out, boolean state) {
         out.setState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
-    protected void updateOutputs() {
-        this.onUpdate.notifyListeners();
-    }
-
-    /* Private */
     private List<Port> getPorts() {
         List<Port> ports = new ArrayList<>();
         ports.addAll(this.tagToInput.values());

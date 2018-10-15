@@ -12,7 +12,6 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
  */
 public class TFlipFlopComponent extends Component {
 
-    @SuppressWarnings("CheckStyle")
     private final InputPort toggleInput;
     private final InputPort clkInput;
     private final OutputPort output;
@@ -40,8 +39,7 @@ public class TFlipFlopComponent extends Component {
         this.clkInput.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
-    /* Public */
-
+    /* Protected */
     @Override
     protected void updateOutputs() {
         boolean currentState = this.output.isHigh();

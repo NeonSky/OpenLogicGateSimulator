@@ -38,7 +38,7 @@ public class DFlipFlopComponent extends Component {
         this.enableInput.onStateChangedEvent().addListener(p -> updateOutputs());
     }
 
-    /* Public */
+    /* Protected */
 
     @Override
     protected void updateOutputs() {

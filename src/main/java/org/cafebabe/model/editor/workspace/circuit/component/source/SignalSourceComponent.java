@@ -22,7 +22,7 @@ public class SignalSourceComponent extends Component {
                 Map.entry("output", this.signalOutput)
         );
 
-        setOutputState(this.signalOutput, true);
+        this.signalOutput.setState(LogicState.HIGH);
     }
 
     @Override
