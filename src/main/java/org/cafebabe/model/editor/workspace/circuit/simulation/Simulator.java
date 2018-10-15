@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import org.cafebabe.model.editor.util.Event;
 
@@ -22,26 +23,48 @@ import org.cafebabe.model.editor.util.Event;
 public class Simulator implements Runnable, IScheduleStateEvents {
     private final Queue<StateEvent> circuitStateBfs;
     private final PriorityQueue<DynamicEvent> upcomingDynamicEvents;
-    private final ScheduledExecutorService ticker;
+    private final Event<SimulationState> onSimulationStateChanged = new Event<>();
+    private ScheduledExecutorService ticker;
     private static final long SIMULATE_INTERVAL = 1000;
+    private SimulationState currentSimulationState = SimulationState.STOPPED;
 
 
     public Simulator() {
         this.circuitStateBfs = new ArrayDeque<>();
         this.upcomingDynamicEvents = new PriorityQueue<>(new ResolveAtPriority());
-
-        DaemonThreadFactory factory = new DaemonThreadFactory();
-        this.ticker = Executors.newScheduledThreadPool(1, factory);
     }
 
 
     /* Public */
     public void start() {
+        DaemonThreadFactory factory = new DaemonThreadFactory();
+        this.ticker = Executors.newScheduledThreadPool(1, factory);
         this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
+        this.currentSimulationState = SimulationState.STARTED;
+        this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
     }
 
     public void stop() {
         this.ticker.shutdown();
+        this.currentSimulationState = SimulationState.STOPPED;
+        this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
+    }
+
+    public void toggleSimulationState() {
+        switch (this.currentSimulationState) {
+            case STARTED:
+                stop();
+                break;
+            case STOPPED:
+                start();
+                break;
+            default:
+                throw new UndefinedSimulationStateException();
+        }
+    }
+
+    public void registerSimulationStateListener(Consumer<SimulationState> listener) {
+        this.onSimulationStateChanged.addListener(listener);
     }
 
     public void addEvent(DynamicEvent event) {
@@ -64,6 +87,7 @@ public class Simulator implements Runnable, IScheduleStateEvents {
         }
     }
 
+    /* Private */
     private void resolveDynamicEvents() {
         while (!this.upcomingDynamicEvents.isEmpty()
                 && this.upcomingDynamicEvents.peek().shouldBeResolved()) {

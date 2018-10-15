@@ -73,6 +73,7 @@ public class SimulationTest {
     @Test
     void xorShouldNotLeakPowerWithBfs() {
         Circuit c = new Circuit(); // Circuit uses Simulator which uses a BFS approach
+        c.toggleSimulationState();
 
         Wire on = new Wire();
         c.addWire(on);
