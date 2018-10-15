@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import org.cafebabe.controller.editor.workspace.circuit.ComponentDragDropHandler;
@@ -25,6 +26,8 @@ public class CircuitView extends View {
 
     @FXML private Pane backgroundPane;
     @FXML private Pane componentPane;
+    @FXML private AnchorPane simulatorControlsPane;
+    private SimulatorToggleButtonView simulatorToggleButton;
 
     public final ViewModel viewModel;
 
@@ -43,6 +46,8 @@ public class CircuitView extends View {
 
         setupGridPane();
         setupComponentPane();
+        setupSimulatorControlsPane();
+        setupSimulationEventHandlers(circuit);
     }
 
     /* Public */
@@ -96,4 +101,17 @@ public class CircuitView extends View {
         FxmlUtil.scaleWithAnchorPaneParent(this.componentPane);
     }
 
+    private void setupSimulatorControlsPane() {
+        this.simulatorControlsPane.toFront();
+        this.simulatorToggleButton = new SimulatorToggleButtonView();
+        this.simulatorControlsPane.getChildren().add(this.simulatorToggleButton);
+    }
+
+    private void setupSimulationEventHandlers(Circuit circuit) {
+        this.simulatorToggleButton.setOnMouseClicked(e -> {
+            e.consume();
+            circuit.toggleSimulationState();
+        });
+        circuit.registerSimulationStateListener(this.simulatorToggleButton::updateState);
+    }
 }
