@@ -34,12 +34,11 @@ class JsonStorageTest {
     private static final Path TEST_PATH = Paths.get("test/");
 
     private static final String EMPTY_CIRCUIT = "{\"components\":[],\"connections\":[]}";
-    private static final String FILLED_CIRCUIT = "{\"components\":[{\"display_name\":"
-            + "\"NOT Gate\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
-            + "\"output\":2}},{\"display_name\":\"Power Source\",\"position\":[0,0],"
+    private static final String FILLED_CIRCUIT = "{\"components\":[{\"identifier\":"
+            + "\"NOT_Gate\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
+            + "\"output\":2}},{\"identifier\":\"POWER_Source\",\"position\":[0,0],"
             + "\"input\":{},\"output\":{\"output\":0}}],\"connections\":[{\"outputs\":[0],"
             + "\"inputs\":[1]}]}";
-
     @BeforeAll
     static void setUp() {
         // Create test file directory
@@ -53,11 +52,7 @@ class JsonStorageTest {
         try {
             Writer writer = Files.newBufferedWriter(Paths.get("test/test_read.json"),
                     StandardCharsets.UTF_8);
-            writer.write("{\"components\":[{\"display_name\":\"NOT Gate\",\"position\""
-                    + ":[0,0],\"input\":{\"input\":1},\"output\":{\"output\":2}},"
-                    + "{\"display_name\":\"Power Source\",\"position\":[0,0],\"input\":{},"
-                    + "\"output\":{\"output\":0}}],\"connections\":[{\"outputs\":[0],"
-                    + "\"inputs\":[1]}]}");
+            writer.write(FILLED_CIRCUIT);
             writer.flush();
             writer.close();
         } catch (IOException e) {

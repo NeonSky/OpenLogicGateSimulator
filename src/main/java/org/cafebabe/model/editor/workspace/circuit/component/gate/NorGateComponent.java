@@ -17,7 +17,7 @@ public class NorGateComponent extends Component {
 
     @ComponentConstructor
     public NorGateComponent() {
-        super("NOR_ANSI", "NOR Gate", "Emits no signal if any inputs are active");
+        super("NOR_Gate", "NOR Gate", "Emits no signal if any inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(

@@ -17,7 +17,7 @@ public class XnorGateComponent extends Component {
 
     @ComponentConstructor
     public XnorGateComponent() {
-        super("XNOR_ANSI", "XNOR Gate", "Emits no signal if exactly one input is active");
+        super("XNOR_Gate", "XNOR Gate", "Emits no signal if exactly one input is active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(

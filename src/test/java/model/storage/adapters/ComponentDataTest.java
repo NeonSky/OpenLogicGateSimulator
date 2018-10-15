@@ -18,7 +18,7 @@ class ComponentDataTest {
     @Test
     void allDataShouldBeValid() {
         ComponentData data = new ComponentData();
-        data.setDisplayName("display name");
+        data.setIdentifier("display name");
         data.setPosition(new Position(10, 20));
         data.setInputIds(HashBiMap.create());
         data.setOutputIds(HashBiMap.create());

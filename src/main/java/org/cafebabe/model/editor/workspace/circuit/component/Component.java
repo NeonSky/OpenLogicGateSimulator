@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Getter;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.util.EmptyEvent;
 import org.cafebabe.model.editor.workspace.Position;
@@ -32,12 +34,12 @@ public abstract class Component implements IModel {
     private static final int VERTICAL_PORT_OFFSET = 28;
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
-    private final String ansiName;
-    private final String displayName;
-    private final String description;
+    @Getter private final String identifier;
+    @Getter private final String displayName;
+    @Getter private final String description;
 
-    public Component(String ansiName, String displayName, String description) {
-        this.ansiName = ansiName;
+    public Component(String identifier, String displayName, String description) {
+        this.identifier = identifier;
         this.displayName = displayName;
         this.description = description;
     }
@@ -75,18 +77,6 @@ public abstract class Component implements IModel {
             port.destroy();
         }
         this.onDestroy.notifyListeners();
-    }
-
-    public String getAnsiName() {
-        return this.ansiName;
-    }
-
-    public String getDisplayName() {
-        return this.displayName;
-    }
-
-    public String getDescription() {
-        return this.description;
     }
 
     public Map<String, InputPort> getTagToInput() {

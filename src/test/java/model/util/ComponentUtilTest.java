@@ -23,8 +23,8 @@ class ComponentUtilTest {
 
     @Test
     void componentFactoryShouldCreateComponents() {
-        assertTrue(componentFactory("AND Gate") instanceof AndGateComponent);
-        assertTrue(componentFactory("Power Source") instanceof PowerSourceComponent);
+        assertTrue(componentFactory("AND_Gate") instanceof AndGateComponent);
+        assertTrue(componentFactory("POWER_Source") instanceof PowerSourceComponent);
     }
 
     @Test

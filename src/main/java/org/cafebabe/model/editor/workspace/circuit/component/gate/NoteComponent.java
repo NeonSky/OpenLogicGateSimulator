@@ -19,7 +19,7 @@ public class NoteComponent extends Component {
 
     @ComponentConstructor
     public NoteComponent() {
-        super("NOTE_ANSI", "NOTE", "Plays note when input signal goes to high.");
+        super("NOTE_Component", "NOTE", "Plays note when input signal goes to high.");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)

@@ -17,7 +17,7 @@ public class AndGateComponent extends Component {
 
     @ComponentConstructor
     public AndGateComponent() {
-        super("AND_ANSI", "AND Gate", "Emits an active signal if both inputs are active");
+        super("AND_Gate", "AND Gate", "Emits an active signal if both inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(
