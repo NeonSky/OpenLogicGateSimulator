@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.util.Duration;
 import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.view.View;
 import org.cafebabe.view.util.ColorUtil;
@@ -85,6 +86,8 @@ public class ComponentListCellView extends View implements IComponentProducer {
     private void setComponentDescription(String description) {
         Tooltip tooltip = new Tooltip(description);
         Tooltip.install(this.componentCell, tooltip);
+        tooltip.setShowDelay(new Duration(500));
+        tooltip.setHideDelay(new Duration(0));
     }
 
     private static void setWirePreviewStyle(Node node) {
