@@ -6,6 +6,15 @@
  * user guide available at https://docs.gradle.org/4.10/userguide/tutorial_java_projects.html
  */
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    }
+}
+
 plugins {
     // Apply the java plugin to add support for Java
     id 'java'
@@ -17,22 +26,32 @@ plugins {
     id 'checkstyle'
 
     // Apply the SpotBugs plugin to find common bugs in java code
-    id "com.github.spotbugs" version "1.6.3"
+    id "com.github.spotbugs" version "1.6.4"
 
     // Apply the PMD plugin
     id "pmd"
 }
 
+// Detect the platform we are running on
+apply plugin: 'com.google.osdetector'
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
 // Define the main class for the application
 mainClassName = 'org.cafebabe.Main'
 
 dependencies {
+    compile "org.openjfx:javafx-base:11:$platform"
+    compile "org.openjfx:javafx-graphics:11:$platform"
+    compile "org.openjfx:javafx-controls:11:$platform"
+    compile "org.openjfx:javafx-fxml:11:$platform"
+    compile "org.openjfx:javafx-media:11:$platform"
+
     compileOnly (
         'net.jcip:jcip-annotations:1.0'
     )
 
     compileOnly (
-        'com.github.spotbugs:spotbugs-annotations:3.1.3'
+        'com.github.spotbugs:spotbugs-annotations:3.1.8'
     )
 
     implementation (
@@ -51,6 +70,34 @@ dependencies {
         'org.junit.jupiter:junit-jupiter-engine:5.3.1'
     )
 }
+
+// Define compilation steps to build with the correct javafx version
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls'
+        ]
+    }
+}
+
+// Add necessary JVM args to run application
+run {
+    doFirst {
+        jvmArgs = [
+                '-Djdk.gtk.version=2',
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls',
+                '--add-exports', 'javafx.graphics/com.sun.javafx.util=ALL-UNNAMED',
+                '--add-exports', 'javafx.base/com.sun.javafx.reflect=ALL-UNNAMED',
+                '--add-exports', 'javafx.base/com.sun.javafx.beans=ALL-UNNAMED',
+                '--add-exports', 'javafx.graphics/com.sun.glass.utils=ALL-UNNAMED',
+                '--add-exports', 'javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED'
+
+        ]
+    }
+}
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
