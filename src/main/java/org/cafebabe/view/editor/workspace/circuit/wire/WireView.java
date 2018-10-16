@@ -75,14 +75,6 @@ public class WireView extends View {
                 && this.wire.isAnyInputConnected());
     }
 
-    @Override
-    public void destroy() {
-        if (!this.isDestructionPending()) {
-            this.viewModel.removeWire(this.wire);
-        }
-        super.destroy();
-    }
-
     public void setTransform(Transform transform) {
         this.wireLine.getTransforms().set(0, transform);
     }
