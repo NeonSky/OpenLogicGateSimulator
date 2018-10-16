@@ -1,7 +1,6 @@
 package model.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.util.IdGenerator;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,7 @@ class IdGeneratorTest {
     @BeforeEach
     @SuppressWarnings("PMD.UnusedPrivateMethod")
     private void resetCounter() {
-        IdGenerator.setStartingValue(0);
+        IdGenerator.reset();
     }
 
     @Test
@@ -22,24 +21,11 @@ class IdGeneratorTest {
     }
 
     @Test
-    void counterIsSequential() {
-        long first = IdGenerator.getNewId();
-        long second = IdGenerator.getNewId();
-
-        assertTrue(first < second);
-    }
-
-    @Test
-    void counterSetWorks() {
-        int start = 10;
-        IdGenerator.setStartingValue(start);
-        assertEquals(start, IdGenerator.getNewId());
-    }
-
-    @Test
-    void settingCounterToNegativeShouldSetToZero() {
-        int start = -10;
-        IdGenerator.setStartingValue(start);
+    void counterResetWorks() {
+        for (int i = 0; i < 10; i++) {
+            IdGenerator.getNewId();
+        }
+        IdGenerator.reset();
         assertEquals(0, IdGenerator.getNewId());
     }
 }

@@ -74,7 +74,7 @@ class JsonStorageTest {
     @BeforeEach
     @SuppressWarnings("PMD.UnusedPrivateMethod")
     private void resetCounter() {
-        IdGenerator.setStartingValue(0);
+        IdGenerator.reset();
     }
 
     @Test
