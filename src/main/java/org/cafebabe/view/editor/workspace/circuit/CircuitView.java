@@ -51,6 +51,16 @@ public class CircuitView extends View {
     }
 
     /* Public */
+    public void initializeComponentPane(ComponentDragDropHandler componentDragDropHandler) {
+        for (Component component : getCircuit().getComponents()) {
+            addComponent(component, componentDragDropHandler);
+        }
+
+        for (Wire wire : getCircuit().getWires()) {
+            addWire(wire);
+        }
+    }
+
     public void addToComponentPane(Node node) {
         this.componentPane.getChildren().add(node);
     }
