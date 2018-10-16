@@ -13,8 +13,6 @@ import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.ComponentController;
 import org.cafebabe.controller.editor.workspace.circuit.wire.WireController;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
-import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.removemeplz.ISelectable;
 import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.editor.workspace.circuit.CircuitView;
@@ -42,13 +40,7 @@ public class CircuitController extends Controller {
         setSubviewAttachController(ComponentView.class, ComponentController.class);
         setSubviewAttachController(WireView.class, WireController.class);
 
-        for (Component component : this.view.getCircuit().getComponents()) {
-            this.view.addComponent(component, this.componentDragDropHandler);
-        }
-
-        for (Wire wire : this.view.getCircuit().getWires()) {
-            this.view.addWire(wire);
-        }
+        this.view.initializeComponentPane(this.componentDragDropHandler);
 
         setupEventListeners();
     }

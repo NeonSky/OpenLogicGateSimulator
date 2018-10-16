@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import lombok.Getter;
+import org.cafebabe.model.editor.Editor;
 import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.componentlist.ComponentListView;
@@ -25,14 +27,18 @@ public class EditorView extends View {
     @FXML private TabPane tabsPane;
     @FXML private AnchorPane addNewTabButton;
 
+    @Getter private final Editor editor;
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
     private int workspaceCounter;
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
             justification = "SpotBugs believes @FXML fields are always null")
-    public EditorView() {
+    public EditorView(Editor editor) {
+        this.editor = editor;
+
         FxmlUtil.attachFxml(this, "/view/EditorView.fxml");
 
+        //
         this.workspacesPane.requestLayout();
     }
 
@@ -43,19 +49,22 @@ public class EditorView extends View {
     }
 
     public void showWorkspace(int index) {
+        this.editor.switchWorkspace(index);
         this.workspacesPane.getChildren().clear();
         this.workspacesPane.getChildren().add(this.workspaceViews.get(index));
     }
 
-    public void addNewWorkspace(Workspace workspace) {
+    public void addWorkspaceView(Workspace workspace) {
         WorkspaceView workspaceView = new WorkspaceView(workspace);
-        onCreatedSubview.notifyListeners(workspaceView);
         this.workspaceViews.add(workspaceView);
+        showWorkspace(this.editor.getWorkspaceList().indexOf(workspace));
+        onCreatedSubview.notifyListeners(workspaceView);
 
         addWorkspaceTab();
     }
 
     public void removeWorkspace(WorkspaceView workspaceView) {
+        this.editor.removeWorkspace(workspaceView.getWorkspace());
         this.workspacesPane.getChildren().remove(workspaceView);
         this.workspaceViews.remove(workspaceView);
     }
