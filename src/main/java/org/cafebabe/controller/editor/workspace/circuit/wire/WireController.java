@@ -57,6 +57,7 @@ public class WireController extends Controller implements ISelectable, ITransfor
         super.destroy();
         if (!this.destructionPending) {
             this.destructionPending = true;
+            this.view.viewModel.removeWire(this.wire);
             this.wire.destroy();
         }
     }

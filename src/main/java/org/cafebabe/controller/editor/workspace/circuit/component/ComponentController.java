@@ -51,7 +51,9 @@ public class ComponentController extends Controller {
         super.destroy();
         if (!this.destructionPending) {
             this.destructionPending = true;
+            this.view.viewModel.removeComponent(this.component);
             this.component.destroy();
         }
+
     }
 }
