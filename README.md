@@ -23,12 +23,12 @@ To be able to run the project, we need to add a run configuration.
    * *Tasks:*: `run` (autocompletion should list this task).
 3. Press *Apply*, then *OK*. You can now select the configuration and run it.
 
-#### Unit tests
-Instructions for setting up and running the unit test gradle task:  
+#### All checks (including unit tests)
+Instructions for setting up and running the check gradle task:  
 
 1. From the menu select *Run->Edit configurations*. Click the plus (+) button and select Gradle.
 2. Set the following values:
    * *Name*: Unit tests
    * *Gradle project*: Press the folder icon and select the OpenLogicGateSimulator project.
-   * *Tasks:*: `test` (autocompletion should list this task).
+   * *Tasks:*: `clean check`.
 3. Press *Apply*, then *OK*. You can now select the configuration and run it.
