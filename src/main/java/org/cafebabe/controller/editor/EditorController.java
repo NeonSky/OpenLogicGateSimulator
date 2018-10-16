@@ -14,8 +14,6 @@ import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
 import org.cafebabe.controller.editor.workspace.WorkspaceController;
 import org.cafebabe.model.editor.workspace.Workspace;
-import org.cafebabe.model.storage.ISaveLoadWorkspaces;
-import org.cafebabe.model.storage.JsonStorage;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.EditorView;
 import org.cafebabe.view.editor.componentlist.ComponentListView;
@@ -33,7 +31,6 @@ public class EditorController extends Controller implements ISceneController {
             new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN);
 
     private final EditorView view;
-    private final ISaveLoadWorkspaces storageHandler = new JsonStorage();
 
     /* Public */
     public EditorController(EditorView view) {
@@ -44,9 +41,8 @@ public class EditorController extends Controller implements ISceneController {
         setSubviewAttachController(ComponentListView.class, ComponentListController.class);
         setupEventListeners();
 
-        addNewWorkspace(new Workspace());
-        this.view.showWorkspace(0);
         this.view.init();
+        addNewWorkspace();
 
         FxmlUtil.onInputEvent(view, KeyEvent.KEY_PRESSED, this::handleKeyPress);
     }
@@ -63,18 +59,24 @@ public class EditorController extends Controller implements ISceneController {
     private void setupEventListeners() {
         AnchorPane addNewTabButton = this.view.getAddNewTabButton();
         addNewTabButton.setOnMouseClicked(event -> {
-            addNewWorkspace(new Workspace());
+            addNewWorkspace();
             event.consume();
         });
 
         SingleSelectionModel<Tab> model = this.view.getTabsPane().getSelectionModel();
         ReadOnlyIntegerProperty selected = model.selectedIndexProperty();
-        selected.addListener((observable, oldValue, newValue) -> selectWorkspace(newValue));
+        selected.addListener((observable, oldValue, newValue) -> {
+            selectWorkspace(newValue);
+        });
     }
 
-    private void addNewWorkspace(Workspace workspace) {
-        this.view.addNewWorkspace(workspace);
+    private void addNewWorkspace() {
+        this.view.getEditor().createNewWorkspace();
+        addWorkspace(this.view.getEditor().getCurrentWorkspace());
+    }
 
+    private void addWorkspace(Workspace workspace) {
+        this.view.addWorkspaceView(workspace);
         List<WorkspaceView> workspaceViews = this.view.getWorkspaceViews();
         WorkspaceView newWorkspace = workspaceViews.get(workspaceViews.size() - 1);
         Tab newTab = this.view.lastTab();
@@ -86,7 +88,7 @@ public class EditorController extends Controller implements ISceneController {
         this.view.removeWorkspace(workspaceView);
 
         if (this.view.getWorkspaceViews().isEmpty()) {
-            addNewWorkspace(new Workspace());
+            addNewWorkspace();
         }
 
         if (workspaceTab.isSelected()) {
@@ -106,29 +108,12 @@ public class EditorController extends Controller implements ISceneController {
 
     private void handleKeyPress(KeyEvent event) {
         if (SAVE_WORKSPACE_SHORTCUT.match(event)) {
-            saveCurrentWorkspace();
+            this.view.getEditor().saveCurrentWorkspace();
             event.consume();
         } else if (OPEN_WORKSPACE_SHORTCUT.match(event)) {
-            loadDummyWorkspace();
+            Workspace workspace = this.view.getEditor().loadDummyWorkspace();
+            this.addWorkspace(workspace);
             event.consume();
-        }
-    }
-
-    private void saveCurrentWorkspace() {
-        try {
-            this.storageHandler.saveWorkspace(this.view.getCurrentWorkspaceView().getWorkspace(),
-                    "savefile.json");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadDummyWorkspace() {
-        try {
-            Workspace workspace = this.storageHandler.loadWorkspace("savefile.json");
-            addNewWorkspace(workspace);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

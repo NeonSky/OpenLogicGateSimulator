@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
 import org.cafebabe.controller.editor.EditorController;
+import org.cafebabe.model.editor.Editor;
 import org.cafebabe.view.editor.EditorView;
 import org.cafebabe.view.util.FxmlUtil;
 
@@ -22,7 +23,7 @@ public class RootController implements Initializable {
     /* Public */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadScene(new EditorController(new EditorView()));
+        loadScene(new EditorController(new EditorView(new Editor())));
     }
 
     /* Private */
