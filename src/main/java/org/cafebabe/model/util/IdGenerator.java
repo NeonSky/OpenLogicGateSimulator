@@ -18,11 +18,7 @@ public final class IdGenerator {
         return counter.getAndIncrement();
     }
 
-    public static void setStartingValue(int startingValue) {
-        int start = startingValue;
-        if (startingValue < 0) {
-            start = 0;
-        }
-        counter.set(start);
+    public static void reset() {
+        counter.set(0);
     }
 }
