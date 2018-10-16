@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import lombok.Getter;
 import org.cafebabe.controller.editor.workspace.circuit.ComponentDragDropHandler;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -34,12 +36,14 @@ public class CircuitView extends View {
     private final Circuit circuit;
     private final List<ComponentView> componentViews = new ArrayList<>();
     private final List<WireView> wireViews = new ArrayList<>();
+    @Getter private final ComponentDragDropHandler componentDragDropHandler;
 
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     public CircuitView(Circuit circuit, ViewModel viewModel) {
         this.circuit = circuit;
         this.viewModel = viewModel;
+        this.componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
 
         FxmlUtil.attachFxml(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
@@ -51,9 +55,9 @@ public class CircuitView extends View {
     }
 
     /* Public */
-    public void initializeComponentPane(ComponentDragDropHandler componentDragDropHandler) {
+    public void initializeComponentPane() {
         for (Component component : getCircuit().getComponents()) {
-            addComponent(component, componentDragDropHandler);
+            addComponent(component, this.componentDragDropHandler);
         }
 
         for (Wire wire : getCircuit().getWires()) {
@@ -125,7 +129,14 @@ public class CircuitView extends View {
         this.simulatorControlsPane.getChildren().add(this.simulatorToggleButton);
     }
 
+    @SuppressWarnings("checkstyle:linelength")
     private void setupSimulationEventHandlers(Circuit circuit) {
         circuit.registerSimulationStateListener(this.simulatorToggleButton::updateState);
+        this.viewModel.onComponentAdded.addListener((c) -> addComponent(c, this.componentDragDropHandler));
+
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_ENTERED, this.componentDragDropHandler::onComponentPaneDragEnter);
+        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_EXITED, this.componentDragDropHandler::onComponentPaneDragExit);
+        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_DROPPED, this.componentDragDropHandler::onComponentPaneDragDropped);
+        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_OVER, this.componentDragDropHandler::onComponentPaneDragOver);
     }
 }

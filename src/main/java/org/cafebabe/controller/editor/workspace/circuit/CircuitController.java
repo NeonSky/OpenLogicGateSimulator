@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -29,18 +28,16 @@ public class CircuitController extends Controller {
 
     private final CircuitView view;
     private final ViewModel viewModel;
-    private final ComponentDragDropHandler componentDragDropHandler;
 
     public CircuitController(CircuitView view) {
         super(view);
         this.view = view;
         this.viewModel = view.viewModel;
-        this.componentDragDropHandler = new ComponentDragDropHandler(this.viewModel);
 
         setSubviewAttachController(ComponentView.class, ComponentController.class);
         setSubviewAttachController(WireView.class, WireController.class);
 
-        this.view.initializeComponentPane(this.componentDragDropHandler);
+        this.view.initializeComponentPane();
 
         setupEventListeners();
     }
@@ -48,7 +45,6 @@ public class CircuitController extends Controller {
     /* Private */
     @SuppressWarnings("checkstyle:linelength")
     private void setupEventListeners() {
-        this.viewModel.onComponentAdded.addListener((c) -> this.view.addComponent(c, this.componentDragDropHandler));
         this.viewModel.onWireAdded.addListener(this.view::addWire);
         this.viewModel.onDragSelectionDetected.addListener(this.view::addToComponentPane);
         this.viewModel.onDragSelectionReleased.addListener(this::makeDragSelection);
@@ -64,12 +60,6 @@ public class CircuitController extends Controller {
         FxmlUtil.onInputEventWithMeAsTarget(componentPane, MouseEvent.MOUSE_RELEASED, this.viewModel::handleMouseDragReleased);
         FxmlUtil.onInputEventWithMeAsTarget(componentPane, MouseEvent.MOUSE_MOVED, this.viewModel::handleMouseMoved);
         componentPane.setOnScroll(this.viewModel::handleScrollEvent);
-
-        ComponentDragDropHandler componentDragDropHandler = this.componentDragDropHandler;
-        FxmlUtil.onInputEventWithMeAsTarget(componentPane, DragEvent.DRAG_ENTERED, componentDragDropHandler::onComponentPaneDragEnter);
-        FxmlUtil.onInputEventWithMeAsTarget(componentPane, DragEvent.DRAG_EXITED, componentDragDropHandler::onComponentPaneDragExit);
-        FxmlUtil.onInputEvent(componentPane, DragEvent.DRAG_DROPPED, componentDragDropHandler::onComponentPaneDragDropped);
-        FxmlUtil.onInputEvent(componentPane, DragEvent.DRAG_OVER, componentDragDropHandler::onComponentPaneDragOver);
 
         SimulatorToggleButtonView simulatorToggleButton = this.view.getSimulatorToggleButton();
         Circuit circuit = this.view.getCircuit();
