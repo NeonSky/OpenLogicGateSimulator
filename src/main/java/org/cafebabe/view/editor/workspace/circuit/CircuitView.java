@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -133,10 +132,5 @@ public class CircuitView extends View {
     private void setupSimulationEventHandlers(Circuit circuit) {
         circuit.registerSimulationStateListener(this.simulatorToggleButton::updateState);
         this.viewModel.onComponentAdded.addListener((c) -> addComponent(c, this.componentDragDropHandler));
-
-        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_ENTERED, this.componentDragDropHandler::onComponentPaneDragEnter);
-        FxmlUtil.onInputEventWithMeAsTarget(this.componentPane, DragEvent.DRAG_EXITED, this.componentDragDropHandler::onComponentPaneDragExit);
-        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_DROPPED, this.componentDragDropHandler::onComponentPaneDragDropped);
-        FxmlUtil.onInputEvent(this.componentPane, DragEvent.DRAG_OVER, this.componentDragDropHandler::onComponentPaneDragOver);
     }
 }

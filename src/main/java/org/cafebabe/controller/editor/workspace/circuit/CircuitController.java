@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -60,6 +61,12 @@ public class CircuitController extends Controller {
         FxmlUtil.onInputEventWithMeAsTarget(componentPane, MouseEvent.MOUSE_RELEASED, this.viewModel::handleMouseDragReleased);
         FxmlUtil.onInputEventWithMeAsTarget(componentPane, MouseEvent.MOUSE_MOVED, this.viewModel::handleMouseMoved);
         componentPane.setOnScroll(this.viewModel::handleScrollEvent);
+
+        ComponentDragDropHandler componentDragDropHandler = this.view.getComponentDragDropHandler();
+        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_ENTERED, componentDragDropHandler::onComponentPaneDragEnter);
+        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_EXITED, componentDragDropHandler::onComponentPaneDragExit);
+        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_DROPPED, componentDragDropHandler::onComponentPaneDragDropped);
+        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_OVER, componentDragDropHandler::onComponentPaneDragOver);
 
         SimulatorToggleButtonView simulatorToggleButton = this.view.getSimulatorToggleButton();
         Circuit circuit = this.view.getCircuit();
