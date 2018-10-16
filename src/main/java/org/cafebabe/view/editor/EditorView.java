@@ -38,7 +38,6 @@ public class EditorView extends View {
 
         FxmlUtil.attachFxml(this, "/view/EditorView.fxml");
 
-        //
         this.workspacesPane.requestLayout();
     }
 
