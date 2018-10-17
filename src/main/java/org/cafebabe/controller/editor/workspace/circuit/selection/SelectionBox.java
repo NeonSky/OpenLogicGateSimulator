@@ -1,4 +1,4 @@
-package org.cafebabe.model.editor.workspace.selection;
+package org.cafebabe.controller.editor.workspace.circuit.selection;
 
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;

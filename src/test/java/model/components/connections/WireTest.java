@@ -7,15 +7,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
-import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortNotConnectedException;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.junit.jupiter.api.Test;
+
 
 @SuppressWarnings("PMD.TooManyMethods")
 class WireTest {

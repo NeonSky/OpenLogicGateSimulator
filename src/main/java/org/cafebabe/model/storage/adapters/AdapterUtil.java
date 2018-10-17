@@ -4,7 +4,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 
 /**
  * A number of helper methods for the custom GSON type adapters used to

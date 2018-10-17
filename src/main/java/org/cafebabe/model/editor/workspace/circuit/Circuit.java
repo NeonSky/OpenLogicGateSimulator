@@ -10,12 +10,16 @@ import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.simulation.SimulationState;
 import org.cafebabe.model.editor.workspace.circuit.simulation.Simulator;
+import org.cafebabe.model.util.Event;
 
 /**
  * Owns the wires and component, and ensures that management of
  * them are handled through this, single interface.
  */
 public class Circuit {
+
+    public final Event<Component> onComponentAdded = new Event<>();
+    public final Event<Wire> onWireAdded = new Event<>();
 
     private final Simulator simulator = new Simulator();
     private final Set<Component> components = new LinkedHashSet<>();
@@ -34,7 +38,9 @@ public class Circuit {
         }
 
         component.setEventScheduler(this.simulator);
+        component.getOnDestroy().addListener(() -> this.components.remove(component));
         this.components.add(component);
+        this.onComponentAdded.notifyListeners(component);
     }
 
     public void removeComponent(Component component) {
@@ -56,7 +62,9 @@ public class Circuit {
         }
 
         wire.setEventScheduler(this.simulator);
+        wire.getOnDestroy().addListener(() -> this.wires.remove(wire));
         this.wires.add(wire);
+        this.onWireAdded.notifyListeners(wire);
     }
 
     public void removeWire(Wire wire) {
@@ -67,12 +75,14 @@ public class Circuit {
         this.wires.remove(wire);
     }
 
+    // This method shouldn't exist.
     public void removeItem(IModel item) {
         if (item instanceof Component) {
             removeComponent((Component) item);
-        }
-        if (item instanceof Wire) {
+        } else if (item instanceof Wire) {
             removeWire((Wire) item);
+        } else {
+            throw new RuntimeException("Can't remove this type");
         }
     }
 

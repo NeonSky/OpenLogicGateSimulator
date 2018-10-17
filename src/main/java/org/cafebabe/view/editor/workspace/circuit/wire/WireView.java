@@ -7,11 +7,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
+import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
-import org.cafebabe.removemeplz.ViewModel;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.view.View;
 import org.cafebabe.view.util.ColorUtil;
 
@@ -20,9 +21,7 @@ import org.cafebabe.view.util.ColorUtil;
  * Provides a Wire that visually connects two ports in the circuit.
  * It is colored to reflect its current logic state.
  */
-public class WireView extends View {
-
-    public final ViewModel viewModel;
+public class WireView extends View implements IHaveTransform, ISelectable {
 
     private static final int WIRE_WIDTH = 6;
     private final CubicCurve wireLine;
@@ -30,9 +29,8 @@ public class WireView extends View {
     private boolean isSelected;
 
 
-    public WireView(Wire wire, ViewModel viewModel) {
+    public WireView(Wire wire) {
         this.wire = wire;
-        this.viewModel = viewModel;
         this.wireLine = new CubicCurve();
         this.wireLine.getTransforms().add(0,Transform.scale(1,1));
 
@@ -75,6 +73,7 @@ public class WireView extends View {
                 && this.wire.isAnyInputConnected());
     }
 
+    @Override
     public void setTransform(Transform transform) {
         this.wireLine.getTransforms().set(0, transform);
     }
@@ -85,6 +84,18 @@ public class WireView extends View {
 
     public Wire getWire() {
         return this.wire;
+    }
+
+    @Override
+    public void select() {
+        setSelected(true);
+        updateVisualState();
+    }
+
+    @Override
+    public void deselect() {
+        setSelected(false);
+        updateVisualState();
     }
 
 

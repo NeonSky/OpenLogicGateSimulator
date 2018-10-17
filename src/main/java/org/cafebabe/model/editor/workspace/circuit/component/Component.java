@@ -5,19 +5,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
 import org.cafebabe.model.IModel;
-import org.cafebabe.model.util.EmptyEvent;
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
-import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicStateContainer;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.simulation.IScheduleStateEvents;
+import org.cafebabe.model.util.EmptyEvent;
 
 /**
  * This class represents a "Component" in the circuit
@@ -121,6 +120,13 @@ public abstract class Component implements IModel {
         }
     }
 
+    public List<Port> getPorts() {
+        List<Port> ports = new ArrayList<>();
+        ports.addAll(this.tagToInput.values());
+        ports.addAll(this.tagToOutput.values());
+        return ports;
+    }
+
 
     /* Protected */
     protected void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
@@ -138,15 +144,6 @@ public abstract class Component implements IModel {
         out.setState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
-    /* Protected */
     protected abstract void updateOutputs();
-
-    /* Private */
-    private List<Port> getPorts() {
-        List<Port> ports = new ArrayList<>();
-        ports.addAll(this.tagToInput.values());
-        ports.addAll(this.tagToOutput.values());
-        return ports;
-    }
 
 }

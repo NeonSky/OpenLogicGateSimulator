@@ -2,19 +2,17 @@ package org.cafebabe.model.storage.adapters;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import lombok.Getter;
 import org.cafebabe.model.editor.util.ComponentUtil;
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 
 
 /**

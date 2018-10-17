@@ -1,4 +1,4 @@
-package org.cafebabe.controller.editor.workspace.circuit;
+package org.cafebabe.controller.editor.workspace.circuit.selection;
 
 /**
  * Exception thrown when a drag event is
