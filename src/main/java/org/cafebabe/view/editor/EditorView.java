@@ -77,6 +77,10 @@ public class EditorView extends View {
         return this.workspaceViews;
     }
 
+    public TabPane getTabsPane() {
+        return this.tabsPane;
+    }
+
     public Tab lastTab() {
         return getTabsPane().getTabs().get(getTabsPane().getTabs().size() - 1);
     }

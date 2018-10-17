@@ -1,6 +1,5 @@
 package org.cafebabe.controller.editor.workspace.circuit.component;
 
-import javafx.scene.input.MouseEvent;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
@@ -35,14 +34,9 @@ public class ComponentController extends Controller {
         view.setOnDragDetected(event ->
                 view.componentDragDropHandler.onComponentDragDetected(this.view, event)
         );
-        this.view.getComponentSvg().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
-                view.viewModel.handleControllerClick(this.view, event)
-        );
-
-        view.viewModel.addTransform(this.view::setTransform);
 
         ComponentData metadata = SvgUtil.getComponentMetadata(this.component);
-        view.addPortsFromMetadata(metadata, this.component, view.viewModel);
+        view.addPortsFromMetadata(metadata, this.component);
     }
 
     /* Public */
@@ -51,7 +45,6 @@ public class ComponentController extends Controller {
         super.destroy();
         if (!this.destructionPending) {
             this.destructionPending = true;
-            this.view.viewModel.removeComponent(this.component);
             this.component.destroy();
         }
 

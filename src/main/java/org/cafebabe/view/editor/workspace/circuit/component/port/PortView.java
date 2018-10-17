@@ -1,13 +1,13 @@
 package org.cafebabe.view.editor.workspace.circuit.component.port;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
-import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.View;
 import org.cafebabe.view.util.FxmlUtil;
 
@@ -16,14 +16,14 @@ import org.cafebabe.view.util.FxmlUtil;
  */
 public class PortView extends View {
 
-    @FXML private Circle connectionNodeCircle;
+    @Getter @FXML private Circle connectionNodeCircle;
+    @Getter @Setter private List<String> persistentStyles;
 
-    public final ViewModel viewModel;
     private final Port port;
+    private boolean isHighlighted;
 
-    public PortView(Port port, double x, double y, ViewModel viewModel) {
+    public PortView(Port port, double x, double y) {
         this.port = port;
-        this.viewModel = viewModel;
 
         FxmlUtil.attachFxml(this, "/view/PortView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
@@ -42,18 +42,24 @@ public class PortView extends View {
         return this.connectionNodeCircle;
     }
 
-    public void updateStyleClasses(boolean isCandidate, String... extraClasses) {
-        List<String> styleClasses = new ArrayList<>(Arrays.asList(extraClasses));
+    public void updateStyleClasses() {
+        List<String> styleClasses = new ArrayList<>(getPersistentStyles());
 
         if (this.port.isConnected()) {
             styleClasses.add("connected");
             if (this.port.isHigh()) {
                 styleClasses.add("active");
             }
-        } else if (isCandidate) {
+        } else if (this.isHighlighted) {
             styleClasses.add("candidate");
         }
 
         this.connectionNodeCircle.getStyleClass().setAll(styleClasses);
     }
+
+    public void setHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+        updateStyleClasses();
+    }
+
 }

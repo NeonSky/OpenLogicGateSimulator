@@ -1,4 +1,4 @@
-package org.cafebabe.controller.editor.workspace.circuit;
+package org.cafebabe.controller.editor.workspace.circuit.selection;
 
 import java.util.Objects;
 import javafx.geometry.Point2D;
@@ -10,10 +10,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import org.cafebabe.model.editor.util.ComponentUtil;
+import org.cafebabe.model.editor.workspace.camera.Camera;
+import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
-import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.removemeplz.ViewModel;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.view.editor.componentlist.IComponentProducer;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 
@@ -25,13 +26,16 @@ import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
  */
 public class ComponentDragDropHandler {
 
-    private final ViewModel viewModel;
+    public final Event<Component> onAddComponent = new Event<>();
+
+    private final Camera camera;
     private Component dragNewComponent;
     private Position dragStartedPosition;
     private TrackablePosition dragMousePosition;
 
-    public ComponentDragDropHandler(ViewModel viewModel) {
-        this.viewModel = viewModel;
+
+    public ComponentDragDropHandler(Camera camera) {
+        this.camera = camera;
     }
 
     /* Public */
@@ -43,7 +47,8 @@ public class ComponentDragDropHandler {
         dummyContent.put(DataFormat.PLAIN_TEXT, "foo");
         dragboard.setContent(dummyContent);
         dragboard.setDragView(new WritableImage(1, 1));
-        Point2D dragStartPoint = this.viewModel.getCamera().getTransform()
+
+        Point2D dragStartPoint = this.camera.getTransform()
                 .deltaTransform(event.getX(), event.getY());
         this.dragStartedPosition = new Position(
                 (int) dragStartPoint.getX(),
@@ -63,7 +68,7 @@ public class ComponentDragDropHandler {
             );
             this.dragMousePosition = Objects.requireNonNull(this.dragNewComponent)
                     .getTrackablePosition();
-            this.viewModel.addComponent(this.dragNewComponent);
+            this.onAddComponent.notifyListeners(this.dragNewComponent);
             event.consume();
         }
     }
@@ -101,7 +106,7 @@ public class ComponentDragDropHandler {
     private void handleComponentDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
 
-        Point2D newModelPosition = this.viewModel.getCamera().getInverseTransform().transform(
+        Point2D newModelPosition = this.camera.getInverseTransform().transform(
                 event.getX() - this.dragStartedPosition.getX(),
                 event.getY() - this.dragStartedPosition.getY()
         );
@@ -123,7 +128,7 @@ public class ComponentDragDropHandler {
         double height = componentProducer.getHeight();
         double width = componentProducer.getWidth();
 
-        Point2D newModelPosition = this.viewModel.getCamera().getInverseTransform().transform(
+        Point2D newModelPosition = this.camera.getInverseTransform().transform(
                 event.getX(),
                 event.getY()
         );

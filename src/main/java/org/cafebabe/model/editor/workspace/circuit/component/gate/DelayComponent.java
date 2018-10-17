@@ -3,8 +3,6 @@ package org.cafebabe.model.editor.workspace.circuit.component.gate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import org.cafebabe.model.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
@@ -12,6 +10,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPor
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.simulation.DynamicEvent;
+import org.cafebabe.model.util.Event;
 
 /**
  * A component which mimics its input with a 1 second delay.

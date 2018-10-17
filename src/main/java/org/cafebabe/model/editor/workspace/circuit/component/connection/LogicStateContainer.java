@@ -1,9 +1,9 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
-import org.cafebabe.model.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortNotConnectedException;
 import org.cafebabe.model.editor.workspace.circuit.simulation.IScheduleStateEvents;
+import org.cafebabe.model.util.Event;
 
 /**
  * Contains a logic state.

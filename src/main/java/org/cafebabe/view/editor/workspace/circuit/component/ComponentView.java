@@ -1,7 +1,6 @@
 package org.cafebabe.view.editor.workspace.circuit.component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -13,16 +12,17 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
+import lombok.Getter;
 import net.javainthebox.caraibe.svg.SvgContent;
-import org.cafebabe.controller.editor.workspace.circuit.ComponentDragDropHandler;
+import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
+import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.util.SvgUtil;
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
-import org.cafebabe.model.editor.workspace.selection.ISelectable;
-import org.cafebabe.removemeplz.ViewModel;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.workspace.circuit.component.port.InPortView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.OutPortView;
@@ -33,16 +33,16 @@ import org.cafebabe.view.util.FxmlUtil;
 /**
  * Provides a visual representation of a component with its ports.
  */
-public class ComponentView extends View implements ISelectable {
+@SuppressWarnings("PMD.TooManyMethods")
+public class ComponentView extends View implements IHaveTransform, ISelectable {
 
-    public final ViewModel viewModel;
     public final ComponentDragDropHandler componentDragDropHandler;
 
     @FXML private Group componentSvgContainer;
     @FXML private Group svgGroup;
 
-    private final Component component;
-    private final List<PortView> portViews = new ArrayList<>();
+    @Getter private final Component component;
+    @Getter private final List<PortView> portViews = new ArrayList<>();
     private boolean isSelected;
     private Transform transform = Transform.scale(1,1);
 
@@ -51,13 +51,11 @@ public class ComponentView extends View implements ISelectable {
             justification = "SpotBugs believes @FXML fields are always null")
     public ComponentView(
             Component component,
-            ViewModel viewModel,
             ComponentDragDropHandler componentDragDropHandler) {
 
         FxmlUtil.attachFxml(this, "/view/ComponentView.fxml");
 
         this.component = component;
-        this.viewModel = viewModel;
         this.componentDragDropHandler = componentDragDropHandler;
 
         this.svgGroup.getChildren().addAll(this.portViews);
@@ -77,23 +75,19 @@ public class ComponentView extends View implements ISelectable {
     }
 
     /* Public */
+    @Override
     public void setTransform(Transform transform) {
         this.transform = transform;
         updateTransform();
     }
 
-    public Component getComponent() {
-        return this.component;
-    }
-
     public void addPortsFromMetadata(ComponentData componentMetadata,
-                                     Component component, ViewModel viewModel) {
+                                     Component component) {
         componentMetadata.inPortMetadata.forEach(m -> {
             InPortView view = new InPortView(
                             (InputPort) component.getPort(m.name),
                             m.x,
-                            m.y,
-                            viewModel);
+                            m.y);
             this.portViews.add(view);
             addSubview(this.svgGroup, view);
         });
@@ -102,8 +96,7 @@ public class ComponentView extends View implements ISelectable {
             OutPortView view = new OutPortView(
                     (OutputPort) component.getPort(m.name),
                     m.x,
-                    m.y,
-                    viewModel);
+                    m.y);
             this.portViews.add(view);
             addSubview(this.svgGroup, view);
         });
@@ -136,6 +129,22 @@ public class ComponentView extends View implements ISelectable {
         Bounds groupBounds = this.svgGroup.parentToLocal(localBounds);
         Bounds containerBounds = this.componentSvgContainer.parentToLocal(groupBounds);
         return getComponentSvg().intersects(containerBounds);
+    }
+
+    public void highlightInputPorts() {
+        this.portViews.forEach((p) ->
+                p.setHighlighted(p.getPort() instanceof InputPort)
+        );
+    }
+
+    public void highlightOutputPorts() {
+        this.portViews.forEach((p) ->
+                p.setHighlighted(p.getPort() instanceof OutputPort)
+        );
+    }
+
+    public void unhighlightPorts() {
+        this.portViews.forEach((p) -> p.setHighlighted(false));
     }
 
     /* Private */

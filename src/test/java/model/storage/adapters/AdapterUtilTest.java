@@ -8,16 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.BiMap;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.storage.adapters.AdapterUtil;
 import org.cafebabe.model.storage.adapters.StorageComponent;
 import org.cafebabe.model.util.IdGenerator;
