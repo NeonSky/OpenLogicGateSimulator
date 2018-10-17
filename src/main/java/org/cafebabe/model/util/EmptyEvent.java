@@ -1,4 +1,4 @@
-package org.cafebabe.model.editor.util;
+package org.cafebabe.model.util;
 
 import java.util.HashSet;
 import java.util.Set;

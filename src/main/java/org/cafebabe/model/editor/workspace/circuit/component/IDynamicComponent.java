@@ -1,7 +1,7 @@
 package org.cafebabe.model.editor.workspace.circuit.component;
 
 import java.util.List;
-import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.simulation.DynamicEvent;
 
 

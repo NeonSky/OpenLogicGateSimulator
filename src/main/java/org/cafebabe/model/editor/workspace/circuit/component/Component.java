@@ -8,9 +8,9 @@ import java.util.Map;
 
 import lombok.Getter;
 import org.cafebabe.model.IModel;
-import org.cafebabe.model.editor.util.EmptyEvent;
-import org.cafebabe.model.editor.workspace.Position;
-import org.cafebabe.model.editor.workspace.TrackablePosition;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicStateContainer;
@@ -91,7 +91,7 @@ public abstract class Component implements IModel {
         return this.trackablePosition;
     }
 
-    public void initPorts(Metadata componentMetadata) {
+    public void initPorts(ComponentData componentMetadata) {
         componentMetadata.inPortMetadata.forEach(p ->
                 this.getPort(p.name).setPositionTracker(
                         this.trackablePosition.offsetClone((int) p.x,

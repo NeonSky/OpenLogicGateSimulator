@@ -3,7 +3,7 @@ package org.cafebabe.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.view.View;
 
 /**

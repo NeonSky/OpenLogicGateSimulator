@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import lombok.Getter;
 import org.cafebabe.model.editor.util.ComponentUtil;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;

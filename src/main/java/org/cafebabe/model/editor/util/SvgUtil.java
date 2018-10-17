@@ -10,11 +10,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.javainthebox.caraibe.svg.SvgContent;
 import net.javainthebox.caraibe.svg.SvgLoaderUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.model.editor.workspace.circuit.component.Metadata;
+import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.model.editor.workspace.circuit.component.PortData;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -26,21 +25,7 @@ public final class SvgUtil {
 
     /* Public */
 
-    /**
-     * Returns the component's associated SVG path.
-     */
-    public static String getComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvgFile(component), false);
-    }
-
-    /**
-     * Returns the component's associated SVG path, but excludes any wire visuals.
-     */
-    public static String getBareComponentSvgPath(Component component) {
-        return loadSvgPath(SvgUtil.getComponentSvgFile(component), true);
-    }
-
-    public static Metadata getComponentMetadata(Component component) {
+    public static ComponentData getComponentMetadata(Component component) {
         return loadMetadata(getComponentSvgFile(component));
     }
 
@@ -55,21 +40,6 @@ public final class SvgUtil {
     }
 
     /* Private */
-
-    /**
-     * Returns the full SVG path of the given component's associated SVG file.
-     */
-    private static String loadSvgPath(File file, boolean loadBarePath) {
-        StringBuilder svgPath = new StringBuilder();
-        NodeList paths = getNodesWithTag(file, "path");
-        for (int i = 0; i < Objects.requireNonNull(paths).getLength(); i++) {
-            if (loadBarePath && isWirePath(paths.item(i))) {
-                continue;
-            }
-            svgPath.append(paths.item(i).getAttributes().getNamedItem("d").getNodeValue());
-        }
-        return svgPath.toString();
-    }
 
     /**
      * Returns the component's associated SVG file.
@@ -97,12 +67,8 @@ public final class SvgUtil {
         return null;
     }
 
-    private static boolean isWirePath(Node node) {
-        return node.getAttributes().getNamedItem("iswire").getNodeValue().equals("true");
-    }
-
-    private static Metadata loadMetadata(File file) {
-        Metadata metadata = new Metadata();
+    private static ComponentData loadMetadata(File file) {
+        ComponentData metadata = new ComponentData();
         metadata.inPortMetadata = loadPortData(file, "inport");
         metadata.outPortMetadata = loadPortData(file, "outport");
         return metadata;

@@ -1,4 +1,4 @@
-package org.cafebabe.model.editor.util;
+package org.cafebabe.model.util;
 
 import java.util.function.Consumer;
 
@@ -8,11 +8,11 @@ import java.util.function.Consumer;
  * keep track on who created a certain lambda.
  * @param <T> is the param type that the lambda takes.
  */
-public class OwnedConsumer<T>  {
-    public Consumer<T> consumer;
-    public Object owner;
+class OwnedConsumer<T>  {
+    Consumer<T> consumer;
+    Object owner;
 
-    public OwnedConsumer(Consumer consumer, Object owner) {
+    OwnedConsumer(Consumer consumer, Object owner) {
         this.consumer = consumer;
         this.owner = owner;
     }
