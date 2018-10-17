@@ -41,3 +41,7 @@
 .workspaceBackgroundPane {
     -fx-background-color: -colorscheme-offwhite;
 }
+
+.clickable {
+    -fx-cursor: hand;
+}

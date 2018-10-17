@@ -8,8 +8,14 @@
             class="wire-preview"
             d="M 30,25 H5"/>
     <path
-             class="component-body" fill="#EEEC" stroke="black" stroke-width="2"
+             class="component-body trigger-toggle-active" fill="#EEEC" stroke="black" stroke-width="2"
             d="M30 2.59375v44.8125l2.15625-1.0625 41.03125-20v-2.6875l-41.03125-20-2.15625-1.0625z"
     />
+
+    <path
+            class="visible-if-active trigger-toggle-active hide-in-preview" fill="red"
+            d="M30 2.59375v44.8125l2.15625-1.0625 41.03125-20v-2.6875l-41.03125-20-2.15625-1.0625z"
+    />
+
     <outport name="output" x="72" y="25" />
 </svg>
