@@ -89,8 +89,8 @@ public class CircuitController extends Controller {
         List<ISelectable> componentsInBounds = new ArrayList<>();
 
         this.view.getComponentViews().forEach(componentView -> {
-            Bounds compBounds = componentView.getBoundsInParent();
-            if (bounds.intersects(compBounds)) {
+
+            if (componentView.isIntersecting(bounds)) {
                 componentsInBounds.add(componentView);
             }
         });
