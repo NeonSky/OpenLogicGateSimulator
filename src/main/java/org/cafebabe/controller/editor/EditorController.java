@@ -138,7 +138,7 @@ public class EditorController extends Controller implements ISceneController {
             }
 
             // Append olgs file extension if not present
-            if (!path.contains(".olgs")) {
+            if (!path.endsWith(".olgs")) {
                 StringBuilder pathBuilder = new StringBuilder(path);
                 pathBuilder.append(".olgs");
                 path = pathBuilder.toString();
