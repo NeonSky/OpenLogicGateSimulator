@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect class="component-body" fill="#EEEC" stroke="black" stroke-width="2" x="0" y="0" width="90" height="120"/>
+        <polygon points=" 31,11  37,5  73,5  79,11  73,17  37,17" fill="#DDD"/>
+        <polygon points=" 79,11 85,17 85,53  79,59  73,53  73,17" fill="#DDD"/>
+        <polygon points=" 79,59 85,65 85,101  79,107  73,101  73,65" fill="#DDD"/>
+        <polygon points=" 79,107  73,113  37,113  31,107  37,101  73,101" fill="#DDD"/>
+        <polygon points=" 31,107  25,101  25,65  31,59  37,65  37,101" fill="#DDD"/>
+        <polygon points=" 31,59  25,53  25,17  31,11  37,17  37,53" fill="#DDD"/>
+        <polygon points=" 31,59  37,53  73,53  79,59  73,65  37,65" fill="#DDD"/>
+        <polygon class="visible-if-port-0-high" points=" 31,11  37,5  73,5  79,11  73,17  37,17" fill="#FF0000"/>
+        <polygon class="visible-if-port-1-high" points=" 79,11 85,17 85,53  79,59  73,53  73,17" fill="#FF0000"/>
+        <polygon class="visible-if-port-2-high" points=" 79,59 85,65 85,101  79,107  73,101  73,65" fill="#FF0000"/>
+        <polygon class="visible-if-port-3-high" points=" 79,107  73,113  37,113  31,107  37,101  73,101" fill="#FF0000"/>
+        <polygon class="visible-if-port-4-high" points=" 31,107  25,101  25,65  31,59  37,65  37,101" fill="#FF0000"/>
+        <polygon class="visible-if-port-5-high" points=" 31,59  25,53  25,17  31,11  37,17  37,53" fill="#FF0000"/>
+        <polygon class="visible-if-port-6-high" points=" 31,59  37,53  73,53  79,59  73,65  37,65" fill="#FF0000"/>
+    </g>
+
+    <inport name="input0" x="10" y="19" />
+    <inport name="input1" x="10" y="33" />
+    <inport name="input2" x="10" y="47" />
+    <inport name="input3" x="10" y="61" />
+    <inport name="input4" x="10" y="75" />
+    <inport name="input5" x="10" y="89" />
+    <inport name="input6" x="10" y="103" />
+</svg>
