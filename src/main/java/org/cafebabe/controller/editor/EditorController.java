@@ -108,12 +108,22 @@ public class EditorController extends Controller implements ISceneController {
 
     private void handleKeyPress(KeyEvent event) {
         if (SAVE_WORKSPACE_SHORTCUT.match(event)) {
-            this.view.getEditor().saveCurrentWorkspace();
+            saveWorkspace();
             event.consume();
         } else if (OPEN_WORKSPACE_SHORTCUT.match(event)) {
             Workspace workspace = this.view.getEditor().loadDummyWorkspace();
             this.addWorkspace(workspace);
             event.consume();
+        }
+    }
+
+    private void saveWorkspace() {
+        Workspace currentWorkspace = this.view.getEditor().getCurrentWorkspace();
+        if (currentWorkspace.isSaved()) {
+            this.view.getEditor().saveCurrentWorkspace(currentWorkspace.getPath());
+        } else {
+            String location = ""; // TODO new filechooser here
+            this.view.getEditor().saveCurrentWorkspace(location);
         }
     }
 }

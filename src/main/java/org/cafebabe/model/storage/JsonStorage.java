@@ -92,6 +92,7 @@ public class JsonStorage implements ISaveLoadWorkspaces {
             throw new RuntimeException(e);
         }
 
+        workspace.setPath(location);
         PORT_ID_COMPONENT_MAP.clear();
         COMPONENT_TO_ID_TAG_MAP.clear();
 
@@ -114,6 +115,7 @@ public class JsonStorage implements ISaveLoadWorkspaces {
             writeCircuit(workspace.getCircuit(), jsonWriter);
             jsonWriter.flush();
             jsonWriter.close();
+            workspace.setPath(location);
         } catch (IOException e) {
             e.printStackTrace();
         }

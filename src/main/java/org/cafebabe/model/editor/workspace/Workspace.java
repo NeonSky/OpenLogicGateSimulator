@@ -1,5 +1,8 @@
 package org.cafebabe.model.editor.workspace;
 
+import com.google.common.base.Strings;
+import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 
 /**
@@ -8,6 +11,7 @@ import org.cafebabe.model.editor.workspace.circuit.Circuit;
 public class Workspace {
 
     private final Circuit circuit;
+    @Getter @Setter private String path;
 
     public Workspace() {
         this.circuit = new Circuit();
@@ -16,6 +20,10 @@ public class Workspace {
     /* Public */
     public Circuit getCircuit() {
         return this.circuit;
+    }
+
+    public boolean isSaved() {
+        return Strings.isNullOrEmpty(this.path);
     }
 
 }
