@@ -50,7 +50,7 @@ class JsonStorageTest {
 
         // Create test reading file
         try {
-            Writer writer = Files.newBufferedWriter(Paths.get("test/test_read.json"),
+            Writer writer = Files.newBufferedWriter(Paths.get("test/test_read.olgs"),
                     StandardCharsets.UTF_8);
             writer.write(FILLED_CIRCUIT);
             writer.flush();
@@ -182,8 +182,8 @@ class JsonStorageTest {
         notGateComponent.connectToPort(wire, "input");
 
         JsonStorage jsonStorage = new JsonStorage();
-        jsonStorage.saveWorkspace(workspace, "test/test_write.json");
-        assertTrue(new File("test/test_write.json").isFile());
+        jsonStorage.saveWorkspace(workspace, "test/test_write.olgs");
+        assertTrue(new File("test/test_write.olgs").isFile());
     }
 
     @Test
@@ -195,7 +195,7 @@ class JsonStorageTest {
         };
 
         assertDoesNotThrow(() -> wrapper.workspace = jsonStorage.loadWorkspace(
-                "test/test_read.json"));
+                "test/test_read.olgs"));
 
         assertEquals(1, wrapper.workspace.getCircuit().getWires().size());
         assertEquals(2, wrapper.workspace.getCircuit().getComponents().size());
