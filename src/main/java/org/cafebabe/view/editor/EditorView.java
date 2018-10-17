@@ -30,7 +30,7 @@ public class EditorView extends View {
     @Getter @FXML private MenuItem openMenuItem;
     @Getter @FXML private MenuItem saveMenuItem;
     @Getter @FXML private MenuItem saveAsMenuItem;
-    @FXML private MenuItem quitMenuItem;
+    @Getter @FXML private MenuItem quitMenuItem;
 
     @Getter private final Editor editor;
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
@@ -53,7 +53,6 @@ public class EditorView extends View {
     }
 
     public void showWorkspace(int index) {
-        this.editor.switchWorkspace(index);
         this.workspacesPane.getChildren().clear();
         this.workspacesPane.getChildren().add(this.workspaceViews.get(index));
     }
@@ -81,6 +80,14 @@ public class EditorView extends View {
         return getTabsPane().getTabs().get(getTabsPane().getTabs().size() - 1);
     }
 
+    public WorkspaceView getCurrentWorkspaceView() {
+        return (WorkspaceView)this.workspacesPane.getChildrenUnmodifiable().get(0);
+    }
+
+    public Tab getWorkspaceTab(WorkspaceView view) {
+        int index = this.workspaceViews.indexOf(view);
+        return this.tabsPane.getTabs().get(index);
+    }
 
     /* Private */
     private void addWorkspaceTab() {

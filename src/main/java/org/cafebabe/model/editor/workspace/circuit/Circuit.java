@@ -91,4 +91,8 @@ public class Circuit {
     public void registerSimulationStateListener(Consumer<SimulationState> listener) {
         this.simulator.registerSimulationStateListener(listener);
     }
+
+    public boolean isEmpty() {
+        return this.components.isEmpty() && this.wires.isEmpty();
+    }
 }

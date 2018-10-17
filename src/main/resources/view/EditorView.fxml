@@ -18,23 +18,27 @@
      <menus>
        <Menu text="_File">
          <items>
-               <MenuItem fx:id="openMenuItem" text="_Open…">
-                  <accelerator>
-                     <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                  </accelerator>
-               </MenuItem>
-               <MenuItem fx:id="saveMenuItem" text="_Save">
-                  <accelerator>
-                     <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                  </accelerator>
-               </MenuItem>
-               <MenuItem fx:id="saveAsMenuItem" text="Save _as…">
-                  <accelerator>
-                     <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-                  </accelerator>
-               </MenuItem>
-               <SeparatorMenuItem mnemonicParsing="false" />
-           <MenuItem fx:id="quitMenuItem" disable="true" text="_Quit" />
+            <MenuItem fx:id="openMenuItem" text="_Open…">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="saveMenuItem" text="_Save">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="saveAsMenuItem" text="Save _as…">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+               </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="quitMenuItem" text="_Quit">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
+            </MenuItem>
          </items>
        </Menu>
      </menus>

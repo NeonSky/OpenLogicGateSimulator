@@ -1,9 +1,18 @@
 package org.cafebabe.controller.editor;
 
 import com.google.common.base.Strings;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -13,6 +22,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
@@ -27,6 +37,7 @@ import org.cafebabe.view.util.FxmlUtil;
 /**
  * Handles user interactions with the editor view.
  */
+@SuppressWarnings("PMD.ExcessiveImports")
 public class EditorController extends Controller implements ISceneController {
 
     private static final KeyCombination SAVE_WORKSPACE_SHORTCUT =
@@ -85,20 +96,29 @@ public class EditorController extends Controller implements ISceneController {
 
         MenuItem saveMenuItem = this.view.getSaveMenuItem();
         saveMenuItem.setOnAction(event -> {
-            saveWorkspace();
+            Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
+            saveWorkspace(currentWorkspace);
             event.consume();
         });
 
         MenuItem saveAsMenuItem = this.view.getSaveAsMenuItem();
         saveAsMenuItem.setOnAction(event -> {
-            saveWorkspace(true);
+            Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
+            saveWorkspace(currentWorkspace, true);
             event.consume();
+        });
+
+        MenuItem quitMenuItem = this.view.getQuitMenuItem();
+        quitMenuItem.setOnAction(event -> {
+            if (saveAllWorkspaces()) {
+                Platform.exit();
+            }
         });
     }
 
     private void addNewWorkspace() {
-        this.view.getEditor().createNewWorkspace();
-        addWorkspace(this.view.getEditor().getCurrentWorkspace());
+        Workspace workspace = this.view.getEditor().createNewWorkspace();
+        addWorkspace(workspace);
     }
 
     private void addWorkspace(Workspace workspace) {
@@ -134,7 +154,8 @@ public class EditorController extends Controller implements ISceneController {
 
     private void handleKeyPress(KeyEvent event) {
         if (SAVE_WORKSPACE_SHORTCUT.match(event)) {
-            saveWorkspace();
+            Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
+            saveWorkspace(currentWorkspace);
             event.consume();
         } else if (OPEN_WORKSPACE_SHORTCUT.match(event)) {
             openWorkspace();
@@ -142,23 +163,23 @@ public class EditorController extends Controller implements ISceneController {
         }
     }
 
-    private void saveWorkspace() {
-        saveWorkspace(false);
+    private void saveWorkspace(Workspace workspace) {
+        saveWorkspace(workspace, false);
     }
 
-    private void saveWorkspace(boolean saveAs) {
-        Workspace currentWorkspace = this.view.getEditor().getCurrentWorkspace();
-        if (currentWorkspace.isSaved() && !saveAs) {
-            this.view.getEditor().saveCurrentWorkspace(currentWorkspace.getPath());
+    private void saveWorkspace(Workspace workspace, boolean saveAs) {
+        if (workspace.isSaved() && !saveAs) {
+            this.view.getEditor().saveWorkspace(workspace, workspace.getPath());
         } else {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Circuit File");
             fileChooser.getExtensionFilters().addAll(this.extensionFilters);
-            String path = fileChooser.showSaveDialog(this.view.getScene().getWindow()).getPath();
 
-            if (Strings.isNullOrEmpty(path)) {
+            File file = fileChooser.showSaveDialog(this.view.getScene().getWindow());
+            if (Objects.isNull(file)) {
                 return;
             }
+            String path = file.getPath();
 
             // Append olgs file extension if not present
             if (!path.endsWith(".olgs")) {
@@ -167,7 +188,7 @@ public class EditorController extends Controller implements ISceneController {
                 path = pathBuilder.toString();
             }
 
-            this.view.getEditor().saveCurrentWorkspace(path);
+            this.view.getEditor().saveWorkspace(workspace, path);
         }
     }
 
@@ -183,5 +204,45 @@ public class EditorController extends Controller implements ISceneController {
 
         Workspace workspace = this.view.getEditor().loadWorkspace(path);
         this.addWorkspace(workspace);
+    }
+
+    private boolean saveAllWorkspaces() {
+        List<WorkspaceView> views = new ArrayList<>(this.view.getWorkspaceViews());
+        for (WorkspaceView workspaceView : views) {
+            Workspace workspace = workspaceView.getWorkspace();
+
+            if (!workspace.isEmpty() && !workspace.isSaved()) {
+                Optional<ButtonType> option = showUnsavedChangesAlert();
+                String response = option.get().getText();
+
+                switch (response) {
+                    case "Save":
+                        saveWorkspace(workspace);
+                        break;
+                    case "Don't Save":
+                        continue;
+                    case "Cancel":
+                        return false;
+                    default:
+                }
+
+            }
+
+            Tab tab = this.view.getWorkspaceTab(workspaceView);
+            removeWorkspace(workspaceView, tab);
+        }
+        return true;
+    }
+
+    private Optional<ButtonType> showUnsavedChangesAlert() {
+        ButtonType save = new ButtonType("Save");
+        ButtonType dontSave = new ButtonType("Don't Save");
+        ButtonType cancel = new ButtonType("Cancel");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You have unsaved changes, "
+                + "do you want to save them?",
+                save, dontSave, cancel);
+        alert.setResizable(true);
+        return alert.showAndWait();
     }
 }
