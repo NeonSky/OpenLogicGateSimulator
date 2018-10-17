@@ -86,6 +86,10 @@ public class Circuit {
         this.simulator.toggleSimulationState();
     }
 
+    public void stopSimulator() {
+        this.simulator.stop();
+    }
+
     public void registerSimulationStateListener(Consumer<SimulationState> listener) {
         this.simulator.registerSimulationStateListener(listener);
     }

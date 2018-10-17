@@ -27,6 +27,7 @@ public class Editor {
             throw new WorkspaceNotInEditorException();
         }
 
+        workspace.getCircuit().stopSimulator();
         this.workspaceList.remove(workspace);
     }
 
