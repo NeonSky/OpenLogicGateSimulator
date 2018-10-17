@@ -12,28 +12,18 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPor
  */
 public class SegmentDisplayComponent extends Component {
 
-    protected final List<InputPort> inputs;
+    private final List<InputPort> inputs = new ArrayList<>();
 
     @ComponentConstructor
     public SegmentDisplayComponent() {
         super("7SEG_Display", "7 Segment Display", "A display with seven segments.");
-        this.inputs = new ArrayList<>();
         tagToInput = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             addInputAtIndex(i);
         }
     }
 
-    private void addInputAtIndex(int i) {
-        InputPort port = new InputPort();
-        tagToInput.put("input" + i, port);
-        this.inputs.add(i, port);
-        port.onStateChangedEvent().addListener(p -> updateOutputs());
-        removeStateData("port-" + i + "-high");
-    }
-
-    /* Public */
-
+    /* Protected */
     @Override
     protected void updateOutputs() {
         for (int i = 0; i < 7; i++) {
@@ -44,5 +34,14 @@ public class SegmentDisplayComponent extends Component {
                 removeStateData("port-" + i + "-high");
             }
         }
+    }
+
+    /* Private */
+    private void addInputAtIndex(int i) {
+        InputPort port = new InputPort();
+        tagToInput.put("input" + i, port);
+        this.inputs.add(i, port);
+        port.onStateChangedEvent().addListener(p -> updateOutputs());
+        removeStateData("port-" + i + "-high");
     }
 }
