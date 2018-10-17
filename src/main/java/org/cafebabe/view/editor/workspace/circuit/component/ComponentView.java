@@ -3,6 +3,7 @@ package org.cafebabe.view.editor.workspace.circuit.component;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -33,18 +34,22 @@ import org.cafebabe.view.util.FxmlUtil;
 /**
  * Provides a visual representation of a component with its ports.
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports"})
 public class ComponentView extends View implements IHaveTransform, ISelectable {
 
     public final ComponentDragDropHandler componentDragDropHandler;
 
-    @FXML private Group componentSvgContainer;
-    @FXML private Group svgGroup;
+    @FXML
+    private Group componentSvgContainer;
+    @FXML
+    private Group svgGroup;
 
-    @Getter private final Component component;
-    @Getter private final List<PortView> portViews = new ArrayList<>();
+    @Getter
+    private final Component component;
+    @Getter
+    private final List<PortView> portViews = new ArrayList<>();
     private boolean isSelected;
-    private Transform transform = Transform.scale(1,1);
+    private Transform transform = Transform.scale(1, 1);
 
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
@@ -85,9 +90,9 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
                                      Component component) {
         componentMetadata.inPortMetadata.forEach(m -> {
             InPortView view = new InPortView(
-                            (InputPort) component.getPort(m.name),
-                            m.x,
-                            m.y);
+                    (InputPort) component.getPort(m.name),
+                    m.x,
+                    m.y);
             this.portViews.add(view);
             addSubview(this.svgGroup, view);
         });
@@ -148,6 +153,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     }
 
     /* Private */
+
     private static void setDefaultStyle(Node n) {
         Shape shape = (Shape) n;
         shape.setStrokeLineCap(StrokeLineCap.SQUARE);
@@ -159,12 +165,21 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         this.isSelected = isSelected;
     }
 
-    private void updateVisualState() {
+    public void updateVisualState() {
         Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
-        ((SvgContent) this.componentSvgContainer.getChildren().get(0))
-                .selectNodes("component-body").forEachRemaining(
-                    n -> ((Shape) n).setStroke(newColor)
+        SvgContent svg = getComponentSvg();
+        svg.selectNodes("component-body").forEachRemaining(
+                n -> ((Shape) n).setStroke(newColor)
         );
+
+        for (Map.Entry<String, Boolean> tag : this.component.getExtraStateData().entrySet()) {
+            svg.selectNodes("visible-if-" + (tag.getKey())).forEachRemaining(
+                    n -> n.setVisible(tag.getValue())
+            );
+            svg.selectNodes("visible-unless-" + tag.getValue()).forEachRemaining(
+                    n -> n.setVisible(!tag.getValue())
+            );
+        }
     }
 
     private void updateTransform() {
@@ -184,16 +199,13 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
 
     private void initTransforms() {
         for (int i = 0; i < 3; i++) {
-            this.getTransforms().add(i,Transform.scale(1,1));
+            this.getTransforms().add(i, Transform.scale(1, 1));
         }
     }
 
     private void resetTransforms() {
         for (int i = 0; i < 3; i++) {
-            this.getTransforms().set(i,Transform.scale(1,1));
+            this.getTransforms().set(i, Transform.scale(1, 1));
         }
     }
-
-
-
 }

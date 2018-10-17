@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,14 +37,16 @@ class JsonStorageTest {
     private static final String EMPTY_CIRCUIT = "{\"components\":[],\"connections\":[]}";
     private static final String FILLED_CIRCUIT = "{\"components\":[{\"identifier\":"
             + "\"NOT_Gate\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
-            + "\"output\":2}},{\"identifier\":\"SignalSource\",\"position\":[0,0],"
+            + "\"output\":2}},{\"identifier\":\"SIGNAL_Source\",\"position\":[0,0],"
             + "\"input\":{},\"output\":{\"output\":0}}],\"connections\":[{\"outputs\":[0],"
             + "\"inputs\":[1]}]}";
     @BeforeAll
     static void setUp() {
         // Create test file directory
         try {
-            Files.createDirectory(TEST_PATH);
+            if (!Files.exists(TEST_PATH)) {
+                Files.createDirectory(TEST_PATH);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +68,11 @@ class JsonStorageTest {
         // Remove test files and directory
         try {
             Files.walk(TEST_PATH).map(Path::toFile).forEach(File::delete);
-            Files.delete(TEST_PATH);
+            Files.deleteIfExists(TEST_PATH);
+        } catch (DirectoryNotEmptyException e) {
+            // We should throw here, but it doesn't work on windows
+            // and fixing it is more trouble than it's worth.
+            e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

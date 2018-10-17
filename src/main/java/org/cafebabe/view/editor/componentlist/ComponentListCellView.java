@@ -79,6 +79,10 @@ public class ComponentListCellView extends View implements IComponentProducer {
                 .selectNodes("wire-preview").forEachRemaining(
                 ComponentListCellView::setWirePreviewStyle
         );
+        ((SvgContent) svg)
+                .selectNodes("hide-in-preview").forEachRemaining(
+                    n -> n.setVisible(false)
+        );
         this.svgContainer.getChildren().setAll(svg);
         scaleComponentSvg();
     }

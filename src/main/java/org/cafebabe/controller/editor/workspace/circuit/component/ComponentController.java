@@ -1,5 +1,7 @@
 package org.cafebabe.controller.editor.workspace.circuit.component;
 
+import java.util.stream.Collectors;
+import javafx.scene.Node;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
@@ -30,6 +32,16 @@ public class ComponentController extends Controller {
         setSubviewAttachController(OutPortView.class, OutPortController.class);
 
         this.component.getTrackablePosition().addPositionListener(this.view::updatePosition);
+
+        this.component.getOnExtraStateDataUpdated().addListener(this.view::updateVisualState);
+        view.setOnMouseClicked(
+                e -> this.component.trigger(SvgUtil.getSvgClasses((Node) e.getTarget())
+                        .stream()
+                        .filter(x -> x.startsWith("trigger-"))
+                        .map(x -> x.substring(8))
+                        .collect(Collectors.toSet())
+                )
+        );
 
         view.setOnDragDetected(event ->
                 view.componentDragDropHandler.onComponentDragDetected(this.view, event)
