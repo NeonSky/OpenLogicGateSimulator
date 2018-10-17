@@ -15,12 +15,11 @@ public class Editor {
 
     @Getter private final List<Workspace> workspaceList = new ArrayList<>();
     private final ISaveLoadWorkspaces storageHandler = new JsonStorage();
-    @Getter private Workspace currentWorkspace;
 
-    public void createNewWorkspace() {
+    public Workspace createNewWorkspace() {
         Workspace workspace = new Workspace();
-        this.currentWorkspace = workspace;
         this.workspaceList.add(workspace);
+        return workspace;
     }
 
     public void removeWorkspace(Workspace workspace) {
@@ -31,13 +30,9 @@ public class Editor {
         this.workspaceList.remove(workspace);
     }
 
-    public void switchWorkspace(int index) {
-        this.currentWorkspace = this.workspaceList.get(index);
-    }
-
-    public void saveCurrentWorkspace(String location) {
+    public void saveWorkspace(Workspace workspace, String location) {
         try {
-            this.storageHandler.saveWorkspace(this.currentWorkspace, location);
+            this.storageHandler.saveWorkspace(workspace, location);
         } catch (Exception e) {
             e.printStackTrace();
         }
