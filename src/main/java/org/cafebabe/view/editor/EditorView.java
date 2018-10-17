@@ -93,7 +93,7 @@ public class EditorView extends View {
     /* Private */
     private void addWorkspaceTab() {
         Tab tab = new Tab();
-        tab.setText("Workspace " + this.workspaceCounter++);
+        tab.setText("Workspace " + (++this.workspaceCounter));
         tab.setClosable(true);
         tab.setOnClosed(javafx.event.Event::consume);
         this.tabsPane.getTabs().add(tab);
