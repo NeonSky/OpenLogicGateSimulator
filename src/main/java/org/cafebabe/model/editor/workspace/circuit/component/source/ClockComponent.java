@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.HashBiMap;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.storage.adapters.ComponentData;
 import org.junit.jupiter.api.Test;
 

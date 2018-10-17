@@ -13,7 +13,7 @@ import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.ComponentController;
 import org.cafebabe.controller.editor.workspace.circuit.wire.WireController;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
-import org.cafebabe.removemeplz.ISelectable;
+import org.cafebabe.model.editor.workspace.selection.ISelectable;
 import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.editor.workspace.circuit.CircuitView;
 import org.cafebabe.view.editor.workspace.circuit.SimulatorToggleButtonView;

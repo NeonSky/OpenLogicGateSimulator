@@ -1,4 +1,4 @@
-package org.cafebabe.removemeplz;
+package org.cafebabe.model.editor.workspace.selection;
 
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;

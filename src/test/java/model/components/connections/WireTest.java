@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
-import org.cafebabe.model.editor.workspace.Position;
-import org.cafebabe.model.editor.workspace.TrackablePosition;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;

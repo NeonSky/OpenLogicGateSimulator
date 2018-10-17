@@ -16,12 +16,12 @@ import javafx.scene.transform.Transform;
 import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.controller.editor.workspace.circuit.ComponentDragDropHandler;
 import org.cafebabe.model.editor.util.SvgUtil;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.model.editor.workspace.circuit.component.Metadata;
+import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
-import org.cafebabe.removemeplz.ISelectable;
+import org.cafebabe.model.editor.workspace.selection.ISelectable;
 import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.workspace.circuit.component.port.InPortView;
@@ -86,7 +86,7 @@ public class ComponentView extends View implements ISelectable {
         return this.component;
     }
 
-    public void addPortsFromMetadata(Metadata componentMetadata,
+    public void addPortsFromMetadata(ComponentData componentMetadata,
                                      Component component, ViewModel viewModel) {
         componentMetadata.inPortMetadata.forEach(m -> {
             InPortView view = new InPortView(

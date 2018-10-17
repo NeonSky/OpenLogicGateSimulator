@@ -8,7 +8,7 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.removemeplz.ViewModel;
