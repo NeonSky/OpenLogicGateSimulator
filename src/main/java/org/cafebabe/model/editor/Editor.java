@@ -30,6 +30,10 @@ public class Editor {
         this.workspaceList.remove(workspace);
     }
 
+    public void saveWorkspace(Workspace workspace) {
+        saveWorkspace(workspace, workspace.getPath());
+    }
+
     public void saveWorkspace(Workspace workspace, String location) {
         try {
             this.storageHandler.saveWorkspace(workspace, location);
