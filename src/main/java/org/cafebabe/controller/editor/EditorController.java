@@ -1,5 +1,7 @@
 package org.cafebabe.controller.editor;
 
+import com.google.common.base.Strings;
+import java.util.Arrays;
 import java.util.List;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.scene.control.SingleSelectionModel;
@@ -9,6 +11,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
@@ -29,6 +32,10 @@ public class EditorController extends Controller implements ISceneController {
             new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN);
     private static final KeyCombination OPEN_WORKSPACE_SHORTCUT =
             new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN);
+
+    private final List<FileChooser.ExtensionFilter> extensionFilters = Arrays.asList(
+            new FileChooser.ExtensionFilter("Circuit files", "*.olgs")
+    );
 
     private final EditorView view;
 
@@ -111,8 +118,7 @@ public class EditorController extends Controller implements ISceneController {
             saveWorkspace();
             event.consume();
         } else if (OPEN_WORKSPACE_SHORTCUT.match(event)) {
-            Workspace workspace = this.view.getEditor().loadDummyWorkspace();
-            this.addWorkspace(workspace);
+            openWorkspace();
             event.consume();
         }
     }
@@ -122,8 +128,37 @@ public class EditorController extends Controller implements ISceneController {
         if (currentWorkspace.isSaved()) {
             this.view.getEditor().saveCurrentWorkspace(currentWorkspace.getPath());
         } else {
-            String location = ""; // TODO new filechooser here
-            this.view.getEditor().saveCurrentWorkspace(location);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Circuit File");
+            fileChooser.getExtensionFilters().addAll(this.extensionFilters);
+            String path = fileChooser.showSaveDialog(this.view.getScene().getWindow()).getPath();
+
+            if (Strings.isNullOrEmpty(path)) {
+                return;
+            }
+
+            // Append olgs file extension if not present
+            if (!path.contains(".olgs")) {
+                StringBuilder pathBuilder = new StringBuilder(path);
+                pathBuilder.append(".olgs");
+                path = pathBuilder.toString();
+            }
+
+            this.view.getEditor().saveCurrentWorkspace(path);
         }
+    }
+
+    private void openWorkspace() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Circuit File");
+        fileChooser.getExtensionFilters().addAll(this.extensionFilters);
+        String path = fileChooser.showOpenDialog(this.view.getScene().getWindow()).getPath();
+
+        if (Strings.isNullOrEmpty(path)) {
+            return;
+        }
+
+        Workspace workspace = this.view.getEditor().loadWorkspace(path);
+        this.addWorkspace(workspace);
     }
 }

@@ -23,7 +23,7 @@ public class Workspace {
     }
 
     public boolean isSaved() {
-        return Strings.isNullOrEmpty(this.path);
+        return !Strings.isNullOrEmpty(this.path);
     }
 
 }

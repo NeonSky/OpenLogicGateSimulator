@@ -43,9 +43,9 @@ public class Editor {
         }
     }
 
-    public Workspace loadDummyWorkspace() {
+    public Workspace loadWorkspace(String location) {
         try {
-            Workspace workspace = this.storageHandler.loadWorkspace("savefile.json");
+            Workspace workspace = this.storageHandler.loadWorkspace(location);
             this.workspaceList.add(workspace);
             return workspace;
         } catch (Exception e) {
