@@ -26,4 +26,7 @@ public class Workspace {
         return !Strings.isNullOrEmpty(this.path);
     }
 
+    public boolean isEmpty() {
+        return this.circuit.isEmpty();
+    }
 }
