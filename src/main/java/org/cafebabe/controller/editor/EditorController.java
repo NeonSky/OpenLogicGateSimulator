@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.List;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
@@ -75,6 +76,24 @@ public class EditorController extends Controller implements ISceneController {
         selected.addListener((observable, oldValue, newValue) -> {
             selectWorkspace(newValue);
         });
+
+        MenuItem openMenuItem = this.view.getOpenMenuItem();
+        openMenuItem.setOnAction(event -> {
+            openWorkspace();
+            event.consume();
+        });
+
+        MenuItem saveMenuItem = this.view.getSaveMenuItem();
+        saveMenuItem.setOnAction(event -> {
+            saveWorkspace();
+            event.consume();
+        });
+
+        MenuItem saveAsMenuItem = this.view.getSaveAsMenuItem();
+        saveAsMenuItem.setOnAction(event -> {
+            saveWorkspace(true);
+            event.consume();
+        });
     }
 
     private void addNewWorkspace() {
@@ -124,8 +143,12 @@ public class EditorController extends Controller implements ISceneController {
     }
 
     private void saveWorkspace() {
+        saveWorkspace(false);
+    }
+
+    private void saveWorkspace(boolean saveAs) {
         Workspace currentWorkspace = this.view.getEditor().getCurrentWorkspace();
-        if (currentWorkspace.isSaved()) {
+        if (currentWorkspace.isSaved() && !saveAs) {
             this.view.getEditor().saveCurrentWorkspace(currentWorkspace.getPath());
         } else {
             FileChooser fileChooser = new FileChooser();
