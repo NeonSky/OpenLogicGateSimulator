@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -24,8 +25,12 @@ public class EditorView extends View {
 
     @FXML private AnchorPane sidebarAnchorPane;
     @FXML private AnchorPane workspacesPane;
-    @FXML private TabPane tabsPane;
-    @FXML private AnchorPane addNewTabButton;
+    @Getter @FXML private TabPane tabsPane;
+    @Getter @FXML private AnchorPane addNewTabButton;
+    @Getter @FXML private MenuItem openMenuItem;
+    @Getter @FXML private MenuItem saveMenuItem;
+    @Getter @FXML private MenuItem saveAsMenuItem;
+    @FXML private MenuItem quitMenuItem;
 
     @Getter private final Editor editor;
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
@@ -72,20 +77,8 @@ public class EditorView extends View {
         return this.workspaceViews;
     }
 
-    public WorkspaceView getCurrentWorkspaceView() {
-        return (WorkspaceView)this.workspacesPane.getChildrenUnmodifiable().get(0);
-    }
-
-    public TabPane getTabsPane() {
-        return this.tabsPane;
-    }
-
     public Tab lastTab() {
         return getTabsPane().getTabs().get(getTabsPane().getTabs().size() - 1);
-    }
-
-    public AnchorPane getAddNewTabButton() {
-        return this.addNewTabButton;
     }
 
 
