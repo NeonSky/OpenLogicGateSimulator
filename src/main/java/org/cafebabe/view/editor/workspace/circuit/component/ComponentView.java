@@ -5,6 +5,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -64,6 +65,7 @@ public class ComponentView extends View implements ISelectable {
 
         SvgContent svg = SvgUtil.loadComponentSvg(component);
         this.componentSvgContainer.getChildren().setAll(svg);
+        svg.setPickOnBounds(false);
 
         svg.selectNodes("component-body").forEachRemaining(
                 ComponentView::setDefaultStyle
@@ -129,6 +131,12 @@ public class ComponentView extends View implements ISelectable {
         return (SvgContent) this.componentSvgContainer.getChildren().get(0);
     }
 
+    public boolean isIntersecting(Bounds bounds) {
+        Bounds localBounds = this.parentToLocal(bounds);
+        Bounds groupBounds = this.svgGroup.parentToLocal(localBounds);
+        Bounds containerBounds = this.componentSvgContainer.parentToLocal(groupBounds);
+        return getComponentSvg().intersects(containerBounds);
+    }
 
     /* Private */
     private static void setDefaultStyle(Node n) {
