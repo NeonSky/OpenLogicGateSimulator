@@ -88,6 +88,7 @@ public class ComponentListCellView extends View implements IComponentProducer {
         Tooltip.install(this.componentCell, tooltip);
         tooltip.setShowDelay(new Duration(500));
         tooltip.setHideDelay(new Duration(0));
+        tooltip.setShowDuration(new Duration(5000));
     }
 
     private static void setWirePreviewStyle(Node node) {
