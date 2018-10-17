@@ -88,27 +88,27 @@ public class EditorController extends Controller implements ISceneController {
             selectWorkspace(newValue);
         });
 
-        MenuItem openMenuItem = this.view.getOpenMenuItem();
+        MenuItem openMenuItem = this.view.getMenuBarView().getOpenMenuItem();
         openMenuItem.setOnAction(event -> {
             openWorkspace();
             event.consume();
         });
 
-        MenuItem saveMenuItem = this.view.getSaveMenuItem();
+        MenuItem saveMenuItem = this.view.getMenuBarView().getSaveMenuItem();
         saveMenuItem.setOnAction(event -> {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
             saveWorkspace(currentWorkspace);
             event.consume();
         });
 
-        MenuItem saveAsMenuItem = this.view.getSaveAsMenuItem();
+        MenuItem saveAsMenuItem = this.view.getMenuBarView().getSaveAsMenuItem();
         saveAsMenuItem.setOnAction(event -> {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
             saveWorkspaceAs(currentWorkspace);
             event.consume();
         });
 
-        MenuItem quitMenuItem = this.view.getQuitMenuItem();
+        MenuItem quitMenuItem = this.view.getMenuBarView().getQuitMenuItem();
         quitMenuItem.setOnAction(event -> {
             saveAndQuit();
         });

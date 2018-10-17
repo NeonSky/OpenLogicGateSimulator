@@ -4,7 +4,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -23,16 +22,14 @@ import org.cafebabe.view.util.FxmlUtil;
  */
 public class EditorView extends View {
 
+    @FXML private AnchorPane menuBarAnchorPane;
     @FXML private AnchorPane sidebarAnchorPane;
     @FXML private AnchorPane workspacesPane;
     @Getter @FXML private TabPane tabsPane;
     @Getter @FXML private AnchorPane addNewTabButton;
-    @Getter @FXML private MenuItem openMenuItem;
-    @Getter @FXML private MenuItem saveMenuItem;
-    @Getter @FXML private MenuItem saveAsMenuItem;
-    @Getter @FXML private MenuItem quitMenuItem;
 
     @Getter private final Editor editor;
+    @Getter private final MenuBarView menuBarView;
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
     private int workspaceCounter;
 
@@ -40,8 +37,12 @@ public class EditorView extends View {
             justification = "SpotBugs believes @FXML fields are always null")
     public EditorView(Editor editor) {
         this.editor = editor;
+        this.menuBarView = new MenuBarView();
 
         FxmlUtil.attachFxml(this, "/view/EditorView.fxml");
+
+        this.menuBarAnchorPane.getChildren().add(this.menuBarView);
+        FxmlUtil.scaleWithAnchorPaneParent(this.menuBarView);
 
         this.workspacesPane.requestLayout();
     }
