@@ -36,14 +36,11 @@ public abstract class Component implements IModel {
     private final EmptyEvent onDestroy = new EmptyEvent();
     private final Map<String, Boolean> extraStateData = new HashMap<>();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
-    @Getter
-    final EmptyEvent onExtraStateDataUpdated = new EmptyEvent();
-    @Getter
-    private final String identifier;
-    @Getter
-    private final String displayName;
-    @Getter
-    private final String description;
+
+    @Getter private final String identifier;
+    @Getter private final String displayName;
+    @Getter private final String description;
+    @Getter private final EmptyEvent onExtraStateDataUpdated = new EmptyEvent();
 
     public Component(String identifier, String displayName, String description) {
         this.identifier = identifier;

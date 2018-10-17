@@ -4,12 +4,12 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,12 +35,11 @@ public final class SvgUtil {
         return loadMetadata(getComponentSvgFile(component));
     }
 
-    public static Collection<String> getSvgClasses(javafx.scene.Node shape) {
+    public static Collection<String> getSvgClasses(Node shape) {
         if (!(shape instanceof Shape || shape instanceof Group)) {
-            return Collections.EMPTY_LIST;
+            return List.of();
         }
-        Set<String> classes = new HashSet<>();
-        classes.addAll(shape.getStyleClass());
+        Set<String> classes = new HashSet<>(shape.getStyleClass());
         if (!(shape instanceof SvgContent)) {
             classes.addAll(getSvgClasses(shape.getParent()));
         }

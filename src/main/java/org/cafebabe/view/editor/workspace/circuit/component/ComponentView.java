@@ -70,7 +70,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         this.componentSvgContainer.getChildren().setAll(svg);
         svg.setPickOnBounds(false);
 
-        svg.selectNodes("component-body").forEachRemaining(
+        svg.selectNodesWithClasses("component-body").forEach(
                 ComponentView::setDefaultStyle
         );
 
@@ -168,15 +168,15 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     public void updateVisualState() {
         Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
         SvgContent svg = getComponentSvg();
-        svg.selectNodes("component-body").forEachRemaining(
+        svg.selectNodesWithClasses("component-body").forEach(
                 n -> ((Shape) n).setStroke(newColor)
         );
 
         for (Map.Entry<String, Boolean> tag : this.component.getExtraStateData().entrySet()) {
-            svg.selectNodes("visible-if-" + (tag.getKey())).forEachRemaining(
+            svg.selectNodesWithClasses("visible-if-" + (tag.getKey())).forEach(
                     n -> n.setVisible(tag.getValue())
             );
-            svg.selectNodes("visible-unless-" + tag.getValue()).forEachRemaining(
+            svg.selectNodesWithClasses("visible-unless-" + tag.getValue()).forEach(
                     n -> n.setVisible(!tag.getValue())
             );
         }

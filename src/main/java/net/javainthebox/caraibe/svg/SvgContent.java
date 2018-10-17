@@ -1,9 +1,10 @@
 package net.javainthebox.caraibe.svg;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -46,8 +47,8 @@ public class SvgContent extends Group {
         return this.groups.get(id);
     }
 
-    public Iterator<Node> selectNodes(String... styleClasses) {
-        return subnodes(this, styleClasses).iterator();
+    public Collection<Node> selectNodesWithClasses(String... styleClasses) {
+        return subnodes(this, styleClasses).collect(Collectors.toList());
     }
 
     private Stream<Node> subnodes(Node node, String... styleClasses) {

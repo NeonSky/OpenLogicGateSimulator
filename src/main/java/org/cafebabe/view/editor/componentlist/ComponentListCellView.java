@@ -1,6 +1,8 @@
 package org.cafebabe.view.editor.componentlist;
 
 import com.google.common.base.Strings;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -45,13 +47,6 @@ public class ComponentListCellView extends View implements IComponentProducer {
         setComponentDescription(description);
     }
 
-    private static void setComponentStyle(Node n) {
-        Shape shape = (Shape) n;
-        shape.setStrokeLineCap(StrokeLineCap.SQUARE);
-        shape.setStrokeWidth(3);
-        shape.setFill(ColorUtil.OFFWHITE);
-    }
-
     /* Public */
     @Override
     public String getComponentIdentifier() {
@@ -70,21 +65,29 @@ public class ComponentListCellView extends View implements IComponentProducer {
         this.componentNameLabel.setWrapText(true);
     }
 
-    private void setComponentSvg(Group svg) {
-        ((SvgContent) svg)
-                .selectNodes("component-body").forEachRemaining(
-                ComponentListCellView::setComponentStyle
-        );
-        ((SvgContent) svg)
-                .selectNodes("wire-preview").forEachRemaining(
-                ComponentListCellView::setWirePreviewStyle
-        );
-        ((SvgContent) svg)
-                .selectNodes("hide-in-preview").forEachRemaining(
-                    n -> n.setVisible(false)
-        );
+    private void setComponentSvg(Group svgNode) {
+        SvgContent svg = (SvgContent) svgNode;
+        svg.selectNodesWithClasses("component-body", "wire-preview", "hide-in-preview")
+                .forEach(this::setSvgNodeStyle);
+
         this.svgContainer.getChildren().setAll(svg);
-        scaleComponentSvg();
+        resizeComponentSvg();
+    }
+
+    private void setSvgNodeStyle(Node node) {
+        Set<String> nodeCssClasses = new HashSet<>(node.getStyleClass());
+        Shape shape = (Shape) node;
+        if (nodeCssClasses.contains("component-body")) {
+            shape.setStrokeLineCap(StrokeLineCap.SQUARE);
+            shape.setStrokeWidth(3);
+            shape.setFill(ColorUtil.OFFWHITE);
+        } else if (nodeCssClasses.contains("wire-preview")) {
+            shape.setStrokeWidth(2);
+            shape.setStroke(Paint.valueOf("black"));
+        } else if (nodeCssClasses.contains("hide-in-preview")) {
+            node.setVisible(false);
+        }
+
     }
 
     private void setComponentDescription(String description) {
@@ -95,13 +98,7 @@ public class ComponentListCellView extends View implements IComponentProducer {
         tooltip.setShowDuration(new Duration(5000));
     }
 
-    private static void setWirePreviewStyle(Node node) {
-        Shape shape = (Shape) node;
-        shape.setStrokeWidth(2);
-        shape.setStroke(Paint.valueOf("black"));
-    }
-
-    private void scaleComponentSvg() {
+    private void resizeComponentSvg() {
 
         /*
          * SVG prefWidth and prefHeight methods calculate their results
