@@ -97,7 +97,7 @@ public class EditorController extends Controller implements ISceneController {
         MenuItem saveMenuItem = this.view.getSaveMenuItem();
         saveMenuItem.setOnAction(event -> {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
-            saveWorkspace(currentWorkspace, currentWorkspace.getPath());
+            saveWorkspace(currentWorkspace);
             event.consume();
         });
 
@@ -110,9 +110,7 @@ public class EditorController extends Controller implements ISceneController {
 
         MenuItem quitMenuItem = this.view.getQuitMenuItem();
         quitMenuItem.setOnAction(event -> {
-            if (saveAllWorkspaces()) {
-                Platform.exit();
-            }
+            saveAndQuit();
         });
     }
 
@@ -163,13 +161,13 @@ public class EditorController extends Controller implements ISceneController {
         }
     }
 
-    private void saveWorkspace(Workspace workspace, String path) {
-        this.view.getEditor().saveWorkspace(workspace, path);
+    private void saveWorkspace(Workspace workspace) {
+        this.view.getEditor().saveWorkspace(workspace);
     }
 
     private void saveWorkspaceAs(Workspace workspace) {
         if (workspace.isSaved()) {
-            saveWorkspace(workspace, workspace.getPath());
+            saveWorkspace(workspace);
         } else {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Circuit File");
@@ -181,7 +179,7 @@ public class EditorController extends Controller implements ISceneController {
             }
             String path = file.getPath();
 
-            saveWorkspace(workspace, path);
+            this.view.getEditor().saveWorkspace(workspace, path);
         }
     }
 
@@ -199,7 +197,7 @@ public class EditorController extends Controller implements ISceneController {
         this.addWorkspace(workspace);
     }
 
-    private boolean saveAllWorkspaces() {
+    private void saveAndQuit() {
         List<WorkspaceView> views = new ArrayList<>(this.view.getWorkspaceViews());
         for (WorkspaceView workspaceView : views) {
             Workspace workspace = workspaceView.getWorkspace();
@@ -210,12 +208,15 @@ public class EditorController extends Controller implements ISceneController {
 
                 switch (response) {
                     case "Save":
+                        // Save this workspace
                         saveWorkspaceAs(workspace);
                         break;
                     case "Don't Save":
+                        // Ignore this workspace, move on to the next one
                         continue;
                     case "Cancel":
-                        return false;
+                        // Keep running and don't quit the program
+                        return;
                     default:
                 }
 
@@ -224,7 +225,8 @@ public class EditorController extends Controller implements ISceneController {
             Tab tab = this.view.getWorkspaceTab(workspaceView);
             removeWorkspace(workspaceView, tab);
         }
-        return true;
+
+        Platform.exit();
     }
 
     private Optional<ButtonType> showUnsavedChangesAlert() {
@@ -232,8 +234,8 @@ public class EditorController extends Controller implements ISceneController {
         ButtonType dontSave = new ButtonType("Don't Save");
         ButtonType cancel = new ButtonType("Cancel");
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You have unsaved changes, "
-                + "do you want to save them?",
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "You have unsaved changes, do you want to save them?",
                 save, dontSave, cancel);
         alert.setResizable(true);
         return alert.showAndWait();
