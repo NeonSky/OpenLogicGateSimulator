@@ -1,5 +1,6 @@
 package org.cafebabe.model.storage;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -103,7 +104,9 @@ public class JsonStorage implements ISaveLoadWorkspaces {
     public void saveWorkspace(Workspace workspace, String location) {
         if (Objects.isNull(this.writer) || this.writer instanceof BufferedWriter) {
             try {
-                this.writer = Files.newBufferedWriter(Paths.get(location), StandardCharsets.UTF_8);
+                String path = validateFilename(location);
+                workspace.setPath(path);
+                this.writer = Files.newBufferedWriter(Paths.get(path), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -115,7 +118,6 @@ public class JsonStorage implements ISaveLoadWorkspaces {
             writeCircuit(workspace.getCircuit(), jsonWriter);
             jsonWriter.flush();
             jsonWriter.close();
-            workspace.setPath(location);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,10 +126,26 @@ public class JsonStorage implements ISaveLoadWorkspaces {
         COMPONENT_TO_ID_TAG_MAP.clear();
     }
 
+    private String validateFilename(String location) {
+        if (Strings.isNullOrEmpty(location)) {
+            throw new RuntimeException("Invalid save path specified");
+        }
+
+        // Append olgs file extension if not present
+        String path = location;
+        if (!location.endsWith(".olgs")) {
+            StringBuilder pathBuilder = new StringBuilder(location);
+            pathBuilder.append(".olgs");
+            path = pathBuilder.toString();
+        }
+
+        return path;
+    }
+
     private void writeCircuit(Circuit circuit, JsonWriter writer) throws IOException {
         writer.beginObject(); // begin whole circuit
         writer.name("components");
-        writer.beginArray(); // being writing "components" section
+        writer.beginArray(); // begin writing "components" section
         writeComponents(circuit.getComponents(), writer);
         writer.endArray(); // end "components" section
         writer.name("connections");

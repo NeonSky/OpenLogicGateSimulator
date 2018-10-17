@@ -97,14 +97,14 @@ public class EditorController extends Controller implements ISceneController {
         MenuItem saveMenuItem = this.view.getSaveMenuItem();
         saveMenuItem.setOnAction(event -> {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
-            saveWorkspace(currentWorkspace);
+            saveWorkspace(currentWorkspace, currentWorkspace.getPath());
             event.consume();
         });
 
         MenuItem saveAsMenuItem = this.view.getSaveAsMenuItem();
         saveAsMenuItem.setOnAction(event -> {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
-            saveWorkspace(currentWorkspace, true);
+            saveWorkspaceAs(currentWorkspace);
             event.consume();
         });
 
@@ -155,7 +155,7 @@ public class EditorController extends Controller implements ISceneController {
     private void handleKeyPress(KeyEvent event) {
         if (SAVE_WORKSPACE_SHORTCUT.match(event)) {
             Workspace currentWorkspace = this.view.getCurrentWorkspaceView().getWorkspace();
-            saveWorkspace(currentWorkspace);
+            saveWorkspaceAs(currentWorkspace);
             event.consume();
         } else if (OPEN_WORKSPACE_SHORTCUT.match(event)) {
             openWorkspace();
@@ -163,13 +163,13 @@ public class EditorController extends Controller implements ISceneController {
         }
     }
 
-    private void saveWorkspace(Workspace workspace) {
-        saveWorkspace(workspace, false);
+    private void saveWorkspace(Workspace workspace, String path) {
+        this.view.getEditor().saveWorkspace(workspace, path);
     }
 
-    private void saveWorkspace(Workspace workspace, boolean saveAs) {
-        if (workspace.isSaved() && !saveAs) {
-            this.view.getEditor().saveWorkspace(workspace, workspace.getPath());
+    private void saveWorkspaceAs(Workspace workspace) {
+        if (workspace.isSaved()) {
+            saveWorkspace(workspace, workspace.getPath());
         } else {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Circuit File");
@@ -181,14 +181,7 @@ public class EditorController extends Controller implements ISceneController {
             }
             String path = file.getPath();
 
-            // Append olgs file extension if not present
-            if (!path.endsWith(".olgs")) {
-                StringBuilder pathBuilder = new StringBuilder(path);
-                pathBuilder.append(".olgs");
-                path = pathBuilder.toString();
-            }
-
-            this.view.getEditor().saveWorkspace(workspace, path);
+            saveWorkspace(workspace, path);
         }
     }
 
@@ -217,7 +210,7 @@ public class EditorController extends Controller implements ISceneController {
 
                 switch (response) {
                     case "Save":
-                        saveWorkspace(workspace);
+                        saveWorkspaceAs(workspace);
                         break;
                     case "Don't Save":
                         continue;
