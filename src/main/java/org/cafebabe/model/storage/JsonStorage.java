@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -73,7 +75,7 @@ public class JsonStorage implements ISaveLoadWorkspaces {
 
     @Override
     public Workspace loadWorkspace(String location) {
-        if (Objects.isNull(this.reader)) {
+        if (Objects.isNull(this.reader) || this.reader instanceof BufferedReader) {
             try {
                 this.reader = Files.newBufferedReader(Paths.get(location), StandardCharsets.UTF_8);
             } catch (IOException e) {
@@ -98,7 +100,7 @@ public class JsonStorage implements ISaveLoadWorkspaces {
 
     @Override
     public void saveWorkspace(Workspace workspace, String location) {
-        if (Objects.isNull(this.writer)) {
+        if (Objects.isNull(this.writer) || this.writer instanceof BufferedWriter) {
             try {
                 this.writer = Files.newBufferedWriter(Paths.get(location), StandardCharsets.UTF_8);
             } catch (IOException e) {
@@ -123,11 +125,11 @@ public class JsonStorage implements ISaveLoadWorkspaces {
     private void writeCircuit(Circuit circuit, JsonWriter writer) throws IOException {
         writer.beginObject(); // begin whole circuit
         writer.name("components");
-        writer.beginArray(); // being reading "components" section
+        writer.beginArray(); // being writing "components" section
         writeComponents(circuit.getComponents(), writer);
         writer.endArray(); // end "components" section
         writer.name("connections");
-        writer.beginArray(); // begin reading "connections" section
+        writer.beginArray(); // begin writing "connections" section
         writeWires(circuit.getWires(), writer);
         writer.endArray(); // end "connections" section
         writer.endObject(); // end whole circuit
