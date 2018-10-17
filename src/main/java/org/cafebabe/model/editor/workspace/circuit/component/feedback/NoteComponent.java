@@ -1,4 +1,4 @@
-package org.cafebabe.model.editor.workspace.circuit.component.gate;
+package org.cafebabe.model.editor.workspace.circuit.component.feedback;
 
 import java.util.Map;
 import javafx.scene.media.AudioClip;
