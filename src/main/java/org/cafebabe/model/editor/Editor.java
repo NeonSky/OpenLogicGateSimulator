@@ -35,9 +35,9 @@ public class Editor {
         this.currentWorkspace = this.workspaceList.get(index);
     }
 
-    public void saveCurrentWorkspace() {
+    public void saveCurrentWorkspace(String location) {
         try {
-            this.storageHandler.saveWorkspace(this.currentWorkspace, "savefile.json");
+            this.storageHandler.saveWorkspace(this.currentWorkspace, location);
         } catch (Exception e) {
             e.printStackTrace();
         }
