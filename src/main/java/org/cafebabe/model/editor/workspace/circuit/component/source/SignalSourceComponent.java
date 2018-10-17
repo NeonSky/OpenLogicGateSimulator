@@ -12,18 +12,18 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPo
  */
 public class SignalSourceComponent extends Component {
 
-    private final OutputPort northOutput;
+    private final OutputPort signalOutput;
 
     @ComponentConstructor
     public SignalSourceComponent() {
         super("SIGNAL_Source", "Signal Source", "Emits an active signal to all connected outputs");
 
-        this.northOutput = new OutputPort();
+        this.signalOutput = new OutputPort();
         this.tagToOutput = Map.ofEntries(
-                Map.entry("output", this.northOutput)
+                Map.entry("output", this.signalOutput)
         );
 
-        setOutputState(this.northOutput, true);
+        setOutputState(this.signalOutput, true);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class SignalSourceComponent extends Component {
     }
 
     public void toggle() {
-        this.toggle(!this.northOutput.isHigh());
+        this.toggle(!this.signalOutput.isHigh());
     }
 
-    public void toggle(Boolean setHigh) {
-        this.northOutput.setState(setHigh ? LogicState.HIGH : LogicState.LOW);
+    public void toggle(boolean setHigh) {
+        this.signalOutput.setState(setHigh ? LogicState.HIGH : LogicState.LOW);
         if (setHigh) {
             this.addStateData("active");
         } else {
