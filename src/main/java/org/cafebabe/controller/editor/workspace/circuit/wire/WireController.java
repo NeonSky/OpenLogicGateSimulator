@@ -4,8 +4,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Transform;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
-import org.cafebabe.removemeplz.ISelectable;
-import org.cafebabe.removemeplz.ITransformable;
+import org.cafebabe.model.editor.workspace.selection.ISelectable;
+import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
 import org.cafebabe.removemeplz.ViewModel;
 import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
 
@@ -13,7 +13,7 @@ import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
 /**
  * Handles user interactions with the wire view.
  */
-public class WireController extends Controller implements ISelectable, ITransformable {
+public class WireController extends Controller implements ISelectable, IHaveTransform {
 
     private final WireView view;
     private final Wire wire;
@@ -29,7 +29,7 @@ public class WireController extends Controller implements ISelectable, ITransfor
         this.view.getWireLine().addEventFilter(MouseEvent.MOUSE_CLICKED, (e) ->
                 viewModel.handleControllerClick(this, e)
         );
-        viewModel.addTransformable(this);
+        viewModel.addTransform(this.view::setTransform);
 
         this.wire.getOnDestroy().addListener(this::destroy);
         this.wire.onStateChangedEvent().addListener((w) -> this.view.updateVisualState());

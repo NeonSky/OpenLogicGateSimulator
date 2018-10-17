@@ -6,7 +6,7 @@ import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortCon
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
 import org.cafebabe.model.editor.util.SvgUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.model.editor.workspace.circuit.component.Metadata;
+import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.InPortView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.OutPortView;
@@ -39,9 +39,9 @@ public class ComponentController extends Controller {
                 view.viewModel.handleControllerClick(this.view, event)
         );
 
-        view.viewModel.addTransformable(this.view::setTransform);
+        view.viewModel.addTransform(this.view::setTransform);
 
-        Metadata metadata = SvgUtil.getComponentMetadata(this.component);
+        ComponentData metadata = SvgUtil.getComponentMetadata(this.component);
         view.addPortsFromMetadata(metadata, this.component, view.viewModel);
     }
 

@@ -7,9 +7,15 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import org.cafebabe.model.editor.util.EmptyEvent;
-import org.cafebabe.model.editor.util.Event;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.camera.Camera;
+import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
+import org.cafebabe.model.editor.workspace.selection.ConnectionManager;
+import org.cafebabe.model.editor.workspace.selection.ControllerSelector;
+import org.cafebabe.model.editor.workspace.selection.ISelectable;
+import org.cafebabe.model.editor.workspace.selection.SelectionBox;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
@@ -73,7 +79,7 @@ public class ViewModel {
         this.connectionManager.abortWireConnection();
     }
 
-    void addWire(Wire wire) {
+    public void addWire(Wire wire) {
         this.workspace.getCircuit().addWire(wire);
         this.onWireAdded.notifyListeners(wire);
     }
@@ -163,7 +169,7 @@ public class ViewModel {
         event.consume();
     }
 
-    public void addTransformable(ITransformable transformable) {
-        this.camera.addTransformable(transformable);
+    public void addTransform(IHaveTransform transform) {
+        this.camera.addTransform(transform);
     }
 }

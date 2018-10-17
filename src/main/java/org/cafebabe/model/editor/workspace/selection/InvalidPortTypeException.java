@@ -1,4 +1,4 @@
-package org.cafebabe.removemeplz;
+package org.cafebabe.model.editor.workspace.selection;
 
 /**
  * Exception thrown when application encounters
@@ -9,9 +9,5 @@ public class InvalidPortTypeException extends RuntimeException {
 
     public InvalidPortTypeException() {
         super();
-    }
-
-    public InvalidPortTypeException(String s) {
-        super(s);
     }
 }

@@ -6,8 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
-import org.cafebabe.model.editor.util.EmptyEvent;
-import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.util.EmptyEvent;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.view.util.FxmlUtil;
 
 /**

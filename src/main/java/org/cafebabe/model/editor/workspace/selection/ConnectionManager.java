@@ -1,28 +1,29 @@
-package org.cafebabe.removemeplz;
+package org.cafebabe.model.editor.workspace.selection;
 
-import org.cafebabe.model.editor.util.EmptyEvent;
+import org.cafebabe.model.util.EmptyEvent;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
+import org.cafebabe.removemeplz.ViewModel;
 
 
 /**
  * A class for managing the process of creating wires and updating the model when clicking on ports.
  */
-class ConnectionManager {
+public class ConnectionManager {
 
     private final EmptyEvent onStateChanged = new EmptyEvent();
     private final ViewModel viewModel;
     private Wire wire;
 
 
-    ConnectionManager(ViewModel viewModel) {
+    public ConnectionManager(ViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
-    /* Package-Private */
-    boolean canConnectTo(Port port) {
+    /* Public */
+    public boolean canConnectTo(Port port) {
         if (port instanceof InputPort) {
             return !createWireIfNeeded().isAnyInputConnected() && !port.isConnected();
         } else if (port instanceof OutputPort) {
@@ -32,11 +33,11 @@ class ConnectionManager {
         }
     }
 
-    void broadcastConnectionState() {
+    public void broadcastConnectionState() {
         this.onStateChanged.notifyListeners();
     }
 
-    void tryConnectWire(InputPort inPort) {
+    public void tryConnectWire(InputPort inPort) {
         if (canConnectTo(inPort)) {
             createWireIfNeeded();
             this.wire.connectInputPort(inPort);
@@ -49,7 +50,7 @@ class ConnectionManager {
         }
     }
 
-    void tryConnectWire(OutputPort outPort) {
+    public void tryConnectWire(OutputPort outPort) {
         if (canConnectTo(outPort)) {
             createWireIfNeeded();
             this.wire.connectOutputPort(outPort);
@@ -62,16 +63,16 @@ class ConnectionManager {
         }
     }
 
-    EmptyEvent onConnectionStateChanged() {
+    public EmptyEvent onConnectionStateChanged() {
         return this.onStateChanged;
     }
 
-    boolean wireHasConnections() {
+    public boolean wireHasConnections() {
         return this.createWireIfNeeded().isAnyOutputConnected()
                 || this.createWireIfNeeded().isAnyInputConnected();
     }
 
-    void abortWireConnection() {
+    public void abortWireConnection() {
         if (this.wire != null) {
             this.wire.destroy();
             stopEditingWire();

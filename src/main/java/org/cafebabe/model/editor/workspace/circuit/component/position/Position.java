@@ -1,4 +1,4 @@
-package org.cafebabe.model.editor.workspace;
+package org.cafebabe.model.editor.workspace.circuit.component.position;
 
 /**
  * An Immutable 2D Vector.

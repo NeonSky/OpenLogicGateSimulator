@@ -1,6 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
-import org.cafebabe.model.editor.util.Event;
+import org.cafebabe.model.util.Event;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.InvalidStateSourceException;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.StateSourceAlreadySetException;
 

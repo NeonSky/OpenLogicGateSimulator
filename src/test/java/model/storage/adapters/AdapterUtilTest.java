@@ -14,7 +14,7 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.gate.AndGateComponent;

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.cafebabe.model.editor.workspace.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 
 /**
  * A helper struct for keeping component data to reduce complexity in the

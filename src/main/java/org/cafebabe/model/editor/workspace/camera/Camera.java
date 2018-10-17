@@ -1,4 +1,4 @@
-package org.cafebabe.removemeplz;
+package org.cafebabe.model.editor.workspace.camera;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,11 +8,13 @@ import javafx.scene.transform.Transform;
 
 /**
     This class makes it possible to pan and zoom on the workspace.
-    It keeps track of all "Transformables" (Component- and Wire controllers)
-    And updates their FXML transforms when the camera is moved.
+    It keeps track of all transforms and updates them when this
+    camera is moved.
+    This makes it possible for visual representations to only show
+    a certain portion of the workspace at a time.
 */
 public class Camera {
-    private final Set<ITransformable> transformables = new HashSet<>();
+    private final Set<IHaveTransform> transforms = new HashSet<>();
     private Transform cameraTransform = Transform.scale(1, 1);
 
     /* Public */
@@ -25,15 +27,6 @@ public class Camera {
             e.printStackTrace();
         }
         applyTransform(Transform.translate(deltaPos.getX(), deltaPos.getY()));
-    }
-
-    public Transform getInverseTransform() {
-        try {
-            return this.cameraTransform.createInverse();
-        } catch (NonInvertibleTransformException e) {
-            e.printStackTrace();
-            return Transform.scale(1,1);
-        }
     }
 
     public void zoom(double scaleFactor, double pivotX, double pivotY) {
@@ -49,23 +42,32 @@ public class Camera {
         );
     }
 
-    public void addTransformable(ITransformable transformable) {
-        this.transformables.add(transformable);
-        updateTransformables();
+    public void addTransform(IHaveTransform transform) {
+        this.transforms.add(transform);
+        updateTransforms();
     }
 
     public Transform getTransform() {
         return this.cameraTransform;
     }
 
+    public Transform getInverseTransform() {
+        try {
+            return this.cameraTransform.createInverse();
+        } catch (NonInvertibleTransformException e) {
+            e.printStackTrace();
+            return Transform.scale(1,1);
+        }
+    }
+
     /* Private */
 
     private void applyTransform(Transform transform) {
         this.cameraTransform = this.cameraTransform.createConcatenation(transform);
-        updateTransformables();
+        updateTransforms();
     }
 
-    private void updateTransformables() {
-        this.transformables.forEach(t -> t.setTransform(this.cameraTransform));
+    private void updateTransforms() {
+        this.transforms.forEach(t -> t.setTransform(this.cameraTransform));
     }
 }

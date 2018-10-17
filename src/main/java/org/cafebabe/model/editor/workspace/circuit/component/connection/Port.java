@@ -2,10 +2,10 @@ package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
 import lombok.Getter;
 import org.cafebabe.model.IModel;
-import org.cafebabe.model.editor.util.EmptyEvent;
+import org.cafebabe.model.util.EmptyEvent;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
-import org.cafebabe.model.editor.workspace.Position;
-import org.cafebabe.model.editor.workspace.TrackablePosition;
+import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.editor.workspace.circuit.component.position.TrackablePosition;
 import org.cafebabe.model.util.IdGenerator;
 
 /**
