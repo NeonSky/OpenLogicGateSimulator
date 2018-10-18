@@ -2,6 +2,7 @@ package org.cafebabe.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.cafebabe.model.util.Event;
 import org.cafebabe.view.View;
@@ -47,17 +48,33 @@ public abstract class Controller {
         });
     }
 
+    protected void setSubviewAttachController(
+            Class<? extends View> subviewClass,
+            Class<? extends Controller> controllerClass,
+            Consumer<Controller> callback) {
+
+        this.view.getOnCreatedSubview().addListener((subview) -> {
+            if (subview.getClass() == subviewClass) {
+                Controller controller = instantiateController(
+                        controllerClass, subviewClass, subview);
+                callback.accept(controller);
+            }
+        });
+    }
+
     /* Private */
-    private void instantiateController(
+    private Controller instantiateController(
             Class<? extends Controller> controllerClass,
             Class<? extends View> subviewClass, View subview) {
 
+        Controller newChild = null;
         try {
-            Controller newChild = controllerClass.getConstructor(subviewClass).newInstance(subview);
+            newChild = controllerClass.getConstructor(subviewClass).newInstance(subview);
             newChild.onDestroy.addListener(this.children::remove);
             this.children.add(newChild);
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
+        return newChild;
     }
 }
