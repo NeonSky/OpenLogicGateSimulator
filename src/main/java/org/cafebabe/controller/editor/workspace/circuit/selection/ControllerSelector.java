@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 public class ControllerSelector {
 
-    @Getter private final Set<ISelectable> selectedComponents = new HashSet<>();
+    @Getter private final Set<ISelectable> selectedItems = new HashSet<>();
 
     /* Public */
     public void handleControllerClick(ISelectable component, MouseEvent event) {
@@ -23,8 +23,8 @@ public class ControllerSelector {
     }
 
     public void clearSelection() {
-        this.selectedComponents.forEach(ISelectable::deselect);
-        this.selectedComponents.clear();
+        this.selectedItems.forEach(ISelectable::deselect);
+        this.selectedItems.clear();
     }
 
     public void select(List<ISelectable> selectables) {
@@ -33,18 +33,18 @@ public class ControllerSelector {
     }
 
     public void select(ISelectable component) {
-        this.selectedComponents.add(component);
+        this.selectedItems.add(component);
         component.select();
     }
 
     public void deselect(ISelectable component) {
-        this.selectedComponents.remove(component);
+        this.selectedItems.remove(component);
         component.deselect();
     }
 
     /* Private */
     private void handleShiftClick(ISelectable component) {
-        if (this.selectedComponents.contains(component)) {
+        if (this.selectedItems.contains(component)) {
             deselect(component);
         } else {
             select(component);

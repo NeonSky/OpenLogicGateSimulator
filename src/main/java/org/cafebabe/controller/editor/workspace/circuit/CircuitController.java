@@ -46,7 +46,7 @@ public class CircuitController extends Controller {
             this.view.getCircuit().toggleSimulationState();
         });
 
-        this.view.getComponentDragDropHandler().onAddComponent.addListener(
+        this.view.getComponentDragDropHandler().getOnAddComponent().addListener(
                 this.view.getCircuit()::addComponent
         );
     }

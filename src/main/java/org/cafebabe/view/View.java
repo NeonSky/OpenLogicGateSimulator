@@ -19,7 +19,7 @@ import org.cafebabe.view.util.FxmlUtil;
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class View extends AnchorPane {
 
-    public final EmptyEvent onDestroy = new EmptyEvent();
+    @Getter private final EmptyEvent onDestroy = new EmptyEvent();
     @Getter protected final Event<View> onCreatedSubview = new Event<>();
     @Getter private boolean destructionPending;
 

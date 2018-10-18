@@ -65,8 +65,8 @@ public class WorkspaceController extends Controller {
             );
         });
 
-        connectionManager.onNewEditingWire.addListener(this.view::unhighlightPorts);
-        connectionManager.onLookingForPortType.addListener((type) -> {
+        connectionManager.getOnNewEditingWire().addListener(this.view::unhighlightPorts);
+        connectionManager.getOnLookingForPortType().addListener((type) -> {
             if (type == InputPort.class) {
                 this.view.highlightInputPorts();
             } else {
@@ -154,7 +154,7 @@ public class WorkspaceController extends Controller {
     }
 
     private void deleteSelectedControllers() {
-        this.controllerSelector.getSelectedComponents().forEach(ISelectable::destroy);
+        this.controllerSelector.getSelectedItems().forEach(ISelectable::destroy);
         abortSelections();
     }
 

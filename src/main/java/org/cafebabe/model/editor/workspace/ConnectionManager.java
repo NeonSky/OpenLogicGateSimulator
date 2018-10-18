@@ -1,5 +1,7 @@
 package org.cafebabe.model.editor.workspace;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Port;
@@ -13,9 +15,9 @@ import org.cafebabe.model.util.Event;
  */
 public class ConnectionManager {
 
-    public final Event<Class<? extends Port>> onLookingForPortType = new Event<>();
-    public final EmptyEvent onNewEditingWire = new EmptyEvent();
-    final Event<Wire> onAddWire = new Event<>();
+    @Getter private final Event<Class<? extends Port>> onLookingForPortType = new Event<>();
+    @Getter private final EmptyEvent onNewEditingWire = new EmptyEvent();
+    @Getter(AccessLevel.PACKAGE) final Event<Wire> onAddWire = new Event<>();
     private Wire editingWire;
 
 
