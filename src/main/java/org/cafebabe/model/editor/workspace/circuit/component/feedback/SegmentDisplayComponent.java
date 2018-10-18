@@ -8,7 +8,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructo
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 
 /**
- * A component with 7 sements that can be individually lit / unlit.
+ * A component with 7 segments that can be individually lit / unlit.
  */
 public class SegmentDisplayComponent extends Component {
 
@@ -23,17 +23,9 @@ public class SegmentDisplayComponent extends Component {
         }
     }
 
-    /* Protected */
-    @Override
-    protected void updateOutputs() {
-        for (int i = 0; i < 7; i++) {
-            InputPort port = this.inputs.get(i);
-            if (port.isHigh()) {
-                addStateData("port-" + i + "-high");
-            } else {
-                removeStateData("port-" + i + "-high");
-            }
-        }
+    /* Public */
+    public boolean isSegmentActive(int i) {
+        return this.inputs.get(i).isHigh();
     }
 
     /* Private */
@@ -41,7 +33,6 @@ public class SegmentDisplayComponent extends Component {
         InputPort port = new InputPort();
         tagToInput.put("input" + i, port);
         this.inputs.add(i, port);
-        port.onStateChangedEvent().addListener(p -> updateOutputs());
-        removeStateData("port-" + i + "-high");
+        port.onStateChangedEvent().addListener(p -> this.getOnUpdate().notifyListeners());
     }
 }
