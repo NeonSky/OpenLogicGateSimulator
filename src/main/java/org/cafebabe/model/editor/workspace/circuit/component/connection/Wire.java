@@ -111,7 +111,9 @@ public class Wire extends LogicStateContainer implements IModel {
                 throw new PortNotConnectedException("An OutputPort that isn't "
                         + "connected can't be removed.");
             }
-            output.onWillBeDestroyed().removeListenersWithOwner(this);
+            if (!output.isDestructionPending()) {
+                output.onWillBeDestroyed().removeListenersWithOwner(this);
+            }
             output.onStateChangedEvent().removeListenersWithOwner(this);
             output.setConnected(false);
             this.connectedOutputs.remove(output);

@@ -47,14 +47,12 @@ public class ConnectionManager {
     }
 
     public void connectToPort(OutputPort outPort) {
-        if (canConnectTo(outPort)) {
-            this.editingWire.connectOutputPort(outPort);
+        this.editingWire.connectOutputPort(outPort);
 
-            if (isWireDone()) {
-                finishEditingWire();
-            } else {
-                this.onLookingForPortType.notifyListeners(InputPort.class);
-            }
+        if (isWireDone()) {
+            finishEditingWire();
+        } else {
+            this.onLookingForPortType.notifyListeners(InputPort.class);
         }
     }
 
@@ -76,10 +74,6 @@ public class ConnectionManager {
 
     private boolean canConnectTo(InputPort port) {
         return !this.editingWire.isAnyInputConnected() && !port.isConnected();
-    }
-
-    private boolean canConnectTo(OutputPort port) {
-        return !this.editingWire.isAnyOutputConnected() && !port.isConnected();
     }
 
     private boolean isWireDone() {
