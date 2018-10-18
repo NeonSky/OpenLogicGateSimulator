@@ -38,10 +38,6 @@ public class PortView extends View {
         return this.port;
     }
 
-    public Circle getConnectionNodeCircle() {
-        return this.connectionNodeCircle;
-    }
-
     public void updateStyleClasses() {
         List<String> styleClasses = new ArrayList<>(getPersistentStyles());
 
