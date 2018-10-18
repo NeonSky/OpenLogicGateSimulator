@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
+import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
@@ -24,9 +26,9 @@ import org.cafebabe.view.util.ColorUtil;
 public class WireView extends View implements IHaveTransform, ISelectable {
 
     private static final int WIRE_WIDTH = 6;
-    private final CubicCurve wireLine;
-    private final Wire wire;
-    private boolean isSelected;
+    @Getter private final CubicCurve wireLine;
+    @Getter private final Wire wire;
+    @Setter private boolean isSelected;
 
 
     public WireView(Wire wire) {
@@ -63,10 +65,6 @@ public class WireView extends View implements IHaveTransform, ISelectable {
         updateWireLineTransform();
     }
 
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
-
     public void updateVisualState() {
         this.wireLine.setStroke(getWireColor());
         this.wireLine.setVisible(this.wire.isAnyOutputConnected()
@@ -76,14 +74,6 @@ public class WireView extends View implements IHaveTransform, ISelectable {
     @Override
     public void setTransform(Transform transform) {
         this.wireLine.getTransforms().set(0, transform);
-    }
-
-    public CubicCurve getWireLine() {
-        return this.wireLine;
-    }
-
-    public Wire getWire() {
-        return this.wire;
     }
 
     @Override
@@ -101,7 +91,7 @@ public class WireView extends View implements IHaveTransform, ISelectable {
 
     /* Private */
     private Color getWireColor() {
-        LogicState currentState = this.wire.logicState();
+        LogicState currentState = this.wire.getLogicState();
         return this.isSelected ? ColorUtil.SELECTED : ColorUtil.getStateColor(currentState);
     }
 

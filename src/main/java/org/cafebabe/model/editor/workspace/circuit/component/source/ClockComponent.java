@@ -3,6 +3,8 @@ package org.cafebabe.model.editor.workspace.circuit.component.source;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
@@ -18,7 +20,7 @@ import org.cafebabe.model.util.Event;
 public class ClockComponent extends Component implements IDynamicComponent {
 
     private final OutputPort output;
-    private final Event<DynamicEvent> onNewDynamicEvent;
+    @Getter private final Event<DynamicEvent> onNewDynamicEvent;
     private boolean shouldIDie;
 
 
@@ -30,7 +32,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
         tagToOutput = Map.ofEntries(
                 Map.entry("output", this.output)
         );
-        this.output.setState(LogicState.LOW);
+        this.output.setLogicState(LogicState.LOW);
 
         this.getOnDestroy().addListener(() -> this.shouldIDie = true);
     }
@@ -46,11 +48,6 @@ public class ClockComponent extends Component implements IDynamicComponent {
     }
 
     @Override
-    public Event<DynamicEvent> getOnNewDynamicEvent() {
-        return this.onNewDynamicEvent;
-    }
-
-    @Override
     public List<DynamicEvent> getInitialDynamicEvents() {
         return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
     }
@@ -58,10 +55,10 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     /* Private */
     private List<DynamicEvent> changePulse() {
-        if (this.output.logicState() == LogicState.LOW) {
-            this.output.setState(LogicState.HIGH);
+        if (this.output.getLogicState() == LogicState.LOW) {
+            this.output.setLogicState(LogicState.HIGH);
         } else {
-            this.output.setState(LogicState.LOW);
+            this.output.setLogicState(LogicState.LOW);
         }
         return Arrays.asList(new DynamicEvent(this, 1000, this::changePulse));
     }

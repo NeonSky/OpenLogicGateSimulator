@@ -31,13 +31,13 @@ class WireTest {
         assertFalse(wire.isHigh());
         assertFalse(input.isHigh());
 
-        output.setState(LogicState.HIGH);
+        output.setLogicState(LogicState.HIGH);
 
         assertTrue(output.isHigh());
         assertTrue(wire.isHigh());
         assertTrue(input.isHigh());
 
-        output.setState(LogicState.LOW);
+        output.setLogicState(LogicState.LOW);
 
         assertFalse(output.isHigh());
         assertFalse(wire.isHigh());
@@ -57,7 +57,7 @@ class WireTest {
         assertFalse(wire.isHigh());
         assertFalse(input.isHigh());
 
-        output.setState(LogicState.HIGH);
+        output.setLogicState(LogicState.HIGH);
 
         assertTrue(output.isHigh());
         assertTrue(wire.isHigh());
@@ -83,7 +83,7 @@ class WireTest {
         assertFalse(wire.isHigh());
         assertFalse(input.isHigh());
 
-        output.setState(LogicState.HIGH);
+        output.setLogicState(LogicState.HIGH);
 
         assertTrue(output.isHigh());
         assertTrue(wire.isHigh());

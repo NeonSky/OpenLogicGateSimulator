@@ -35,8 +35,8 @@ public class TFlipFlopComponent extends Component {
                 Map.entry("inverseOutput", this.inverseOutput)
         );
 
-        this.toggleInput.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.clkInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.toggleInput.getOnStateChanged().addListener(p -> updateOutputs());
+        this.clkInput.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     /* Protected */

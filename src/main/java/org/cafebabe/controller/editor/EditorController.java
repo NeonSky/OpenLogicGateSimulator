@@ -10,13 +10,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
+
+import lombok.Getter;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
 import org.cafebabe.controller.editor.workspace.WorkspaceController;
 import org.cafebabe.model.editor.Editor;
 import org.cafebabe.model.editor.workspace.Workspace;
-import org.cafebabe.view.View;
 import org.cafebabe.view.editor.EditorView;
 import org.cafebabe.view.editor.MenuBarView;
 import org.cafebabe.view.editor.componentlist.ComponentListView;
@@ -27,7 +28,8 @@ import org.cafebabe.view.editor.workspace.WorkspaceView;
  */
 public class EditorController extends Controller implements ISceneController {
 
-    private final EditorView view;
+    @Getter private final EditorView view;
+
 
     /* Public */
     public EditorController(EditorView view) {
@@ -43,14 +45,6 @@ public class EditorController extends Controller implements ISceneController {
         this.view.init();
         addNewWorkspace();
     }
-
-
-    /* Public */
-    @Override
-    public View getView() {
-        return this.view;
-    }
-
 
     /* Private */
     private void setupEventListeners() {

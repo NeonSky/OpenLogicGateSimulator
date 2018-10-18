@@ -1,26 +1,26 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.model.util.Event;
 
 /**
- * A port that emits a logical state determined by its owner component.
+ * A port that emits a logical logicState determined by its owner component.
  * Used as outputs for component.
  */
 public class OutputPort extends Port {
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    private final Event<OutputPort> onWillBeDestroyed = new Event<>();
-    private LogicState state;
-    private boolean connected;
+    @Getter private final Event<OutputPort> onWillBeDestroyed = new Event<>();
+    @Getter private LogicState logicState;
+    @Getter @Setter private boolean connected;
     @Getter private boolean destructionPending;
 
     public OutputPort() {
-        this.state = LogicState.UNDEFINED;
+        this.logicState = LogicState.UNDEFINED;
     }
 
     /* Public */
-    public void setState(LogicState state) {
-        notifyIfStateChanges(() -> this.state = state);
+    public void setLogicState(LogicState state) {
+        notifyIfStateChanges(() -> this.logicState = state);
     }
 
     @Override
@@ -32,21 +32,4 @@ public class OutputPort extends Port {
         }
     }
 
-    @Override
-    public boolean isConnected() {
-        return this.connected;
-    }
-
-    void setConnected(boolean connected) {
-        this.connected = connected;
-    }
-
-    @Override
-    public LogicState logicState() {
-        return this.state;
-    }
-
-    public Event<OutputPort> onWillBeDestroyed() {
-        return this.onWillBeDestroyed;
-    }
 }

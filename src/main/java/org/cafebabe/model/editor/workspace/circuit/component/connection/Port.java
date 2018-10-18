@@ -1,6 +1,7 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
@@ -13,18 +14,14 @@ import org.cafebabe.model.util.IdGenerator;
  Ports represent connection points for wires.
  */
 public abstract class Port extends LogicStateContainer implements IModel {
-    private IReadOnlyMovable positionTracker = new TrackablePosition(new Position(0, 0));
-    private final EmptyEvent onDestroy = new EmptyEvent();
+    @Getter @Setter private IReadOnlyMovable positionTracker =
+            new TrackablePosition(new Position(0, 0));
+    @Getter private final EmptyEvent onDestroy = new EmptyEvent();
     private boolean destructionPending;
     @Getter private final long id = IdGenerator.getNewId();
 
-
     /* Public */
     public abstract boolean isConnected();
-
-    public void setPositionTracker(IReadOnlyMovable positionTracker) {
-        this.positionTracker = positionTracker;
-    }
 
     @Override
     public void destroy() {
@@ -32,15 +29,5 @@ public abstract class Port extends LogicStateContainer implements IModel {
             this.destructionPending = true;
             this.onDestroy.notifyListeners();
         }
-    }
-
-    @Override
-    public EmptyEvent getOnDestroy() {
-        return this.onDestroy;
-    }
-
-    /* Package-Private */
-    IReadOnlyMovable getPositionTracker() {
-        return this.positionTracker;
     }
 }

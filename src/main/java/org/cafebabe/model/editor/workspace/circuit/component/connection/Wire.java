@@ -3,6 +3,8 @@ package org.cafebabe.model.editor.workspace.circuit.component.connection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import lombok.Getter;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
@@ -22,15 +24,14 @@ public class Wire extends LogicStateContainer implements IModel {
     public final Event<Position> onStartPosMoved = new Event<>();
     public final Event<Position> onEndPosMoved = new Event<>();
 
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    private final EmptyEvent onDestroy = new EmptyEvent();
+    @Getter private final EmptyEvent onDestroy = new EmptyEvent();
     private final Set<InputPort> connectedInputs;
     private final Set<OutputPort> connectedOutputs;
     private final Set<LogicStateContainer> powerSources;
     private final Set<LogicStateContainer> gndSources;
 
-    private IReadOnlyMovable trackableStartPos;
-    private IReadOnlyMovable trackableEndPos;
+    @Getter private IReadOnlyMovable startPos;
+    @Getter private IReadOnlyMovable endPos;
     private boolean destructionPending;
 
 
@@ -52,9 +53,10 @@ public class Wire extends LogicStateContainer implements IModel {
             throw new PortAlreadyAddedException("An InputPort can only be added once.");
         }
         this.connectedInputs.add(input);
-        input.onWillBeDestroyed().addListenerWithOwner(this::onConnectedInputPortDestroyed, this);
+        input.getOnWillBeDestroyed().addListenerWithOwner(
+                this::onConnectedInputPortDestroyed, this);
         input.setStateSource(this);
-        setTrackableEndPos(input.getPositionTracker());
+        setEndPos(input.getPositionTracker());
     }
 
     /**
@@ -76,13 +78,13 @@ public class Wire extends LogicStateContainer implements IModel {
                 this.gndSources.add(output);
             }
 
-            output.onWillBeDestroyed().addListenerWithOwner(
+            output.getOnWillBeDestroyed().addListenerWithOwner(
                     this::onConnectedOutputPortDestroyed, this);
 
-            output.onStateChangedEvent().addListenerWithOwner(
+            output.getOnStateChanged().addListenerWithOwner(
                     this::onConnectedOutputStateChanged, this);
 
-            setTrackableStartPos(output.getPositionTracker());
+            setStartPos(output.getPositionTracker());
         });
     }
 
@@ -96,7 +98,7 @@ public class Wire extends LogicStateContainer implements IModel {
                     + "connected can't be removed.");
         }
         input.onStateChanged.removeListenersWithOwner(this);
-        input.onWillBeDestroyed().removeListenersWithOwner(this);
+        input.getOnWillBeDestroyed().removeListenersWithOwner(this);
         input.removeStateSource();
         this.connectedInputs.remove(input);
     }
@@ -112,9 +114,9 @@ public class Wire extends LogicStateContainer implements IModel {
                         + "connected can't be removed.");
             }
             if (!output.isDestructionPending()) {
-                output.onWillBeDestroyed().removeListenersWithOwner(this);
+                output.getOnWillBeDestroyed().removeListenersWithOwner(this);
             }
-            output.onStateChangedEvent().removeListenersWithOwner(this);
+            output.getOnStateChanged().removeListenersWithOwner(this);
             output.setConnected(false);
             this.connectedOutputs.remove(output);
             this.powerSources.remove(output);
@@ -132,12 +134,7 @@ public class Wire extends LogicStateContainer implements IModel {
     }
 
     @Override
-    public EmptyEvent getOnDestroy() {
-        return this.onDestroy;
-    }
-
-    @Override
-    public LogicState logicState() {
+    public LogicState getLogicState() {
         if (this.powerSources.isEmpty() && this.gndSources.isEmpty()) {
             return LogicState.UNDEFINED;
         }
@@ -153,14 +150,6 @@ public class Wire extends LogicStateContainer implements IModel {
 
     public boolean isAnyOutputConnected() {
         return !this.connectedOutputs.isEmpty();
-    }
-
-    public IReadOnlyMovable getStartPos() {
-        return this.trackableStartPos;
-    }
-
-    public IReadOnlyMovable getEndPos() {
-        return this.trackableEndPos;
     }
 
     public Set<InputPort> getConnectedInputs() {
@@ -192,7 +181,7 @@ public class Wire extends LogicStateContainer implements IModel {
             throw new PortNotConnectedException("Updated port isn't connected!");
         }
         notifyIfStateChanges(() -> {
-            switch (updatedPort.logicState()) {
+            switch (updatedPort.getLogicState()) {
                 case LOW:
                     this.gndSources.add(updatedPort);
                     this.powerSources.remove(updatedPort);
@@ -222,25 +211,25 @@ public class Wire extends LogicStateContainer implements IModel {
         return this.connectedInputs.size() + this.connectedOutputs.size();
     }
 
-    private void setTrackableStartPos(IReadOnlyMovable trackableStartPos) {
-        if (this.trackableStartPos != null) {
-            this.trackableStartPos.removePositionListeners();
+    private void setStartPos(IReadOnlyMovable startPos) {
+        if (this.startPos != null) {
+            this.startPos.removePositionListeners();
         }
-        this.trackableStartPos = trackableStartPos;
-        this.trackableStartPos.addPositionListener(this.onStartPosMoved::notifyListeners);
+        this.startPos = startPos;
+        this.startPos.addPositionListener(this.onStartPosMoved::notifyListeners);
         this.onStartPosMoved.notifyListeners(
-                new Position(trackableStartPos.getX(), trackableStartPos.getY())
+                new Position(startPos.getX(), startPos.getY())
         );
     }
 
-    private void setTrackableEndPos(IReadOnlyMovable trackableEndPos) {
-        if (this.trackableEndPos != null) {
-            this.trackableEndPos.removePositionListeners();
+    private void setEndPos(IReadOnlyMovable endPos) {
+        if (this.endPos != null) {
+            this.endPos.removePositionListeners();
         }
-        this.trackableEndPos = trackableEndPos;
-        this.trackableEndPos.addPositionListener(this.onEndPosMoved::notifyListeners);
+        this.endPos = endPos;
+        this.endPos.addPositionListener(this.onEndPosMoved::notifyListeners);
         this.onEndPosMoved.notifyListeners(
-                new Position(trackableEndPos.getX(), trackableEndPos.getY()));
+                new Position(endPos.getX(), endPos.getY()));
     }
 
 

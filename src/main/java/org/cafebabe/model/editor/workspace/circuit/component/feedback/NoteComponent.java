@@ -25,7 +25,7 @@ public class NoteComponent extends Component {
                 Map.entry("input", this.input)
         );
 
-        this.input.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input.getOnStateChanged().addListener(p -> updateOutputs());
         this.noteAudioClip = new AudioClip(
                 this.getClass().getResource("/sound/note.wav").toExternalForm()
         );

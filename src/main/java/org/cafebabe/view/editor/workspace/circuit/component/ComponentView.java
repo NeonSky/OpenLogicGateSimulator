@@ -15,6 +15,7 @@ import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
 import javafx.util.Pair;
 import lombok.Getter;
+import lombok.Setter;
 import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
 import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
@@ -47,7 +48,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     @Getter private final Component component;
     @Getter private final List<PortView> portViews = new ArrayList<>();
     private final EmptyEvent onUpdateStyle = new EmptyEvent();
-    private boolean isSelected;
+    @Setter private boolean isSelected;
     private Transform transform = Transform.scale(1, 1);
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
@@ -158,10 +159,6 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         shape.setStrokeLineCap(StrokeLineCap.SQUARE);
         shape.setStrokeWidth(3);
         shape.setFill(ColorUtil.OFFWHITE);
-    }
-
-    private void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
     }
 
     public void updateVisualState() {

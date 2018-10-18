@@ -3,6 +3,8 @@ package org.cafebabe.model.editor.workspace.circuit.component.gate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.ComponentConstructor;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
@@ -19,7 +21,7 @@ public class DelayComponent extends Component implements IDynamicComponent {
 
     private final OutputPort output;
     private final InputPort input;
-    private final Event<DynamicEvent> onNewDynamicEvent;
+    @Getter private final Event<DynamicEvent> onNewDynamicEvent;
     private boolean shouldIDie;
 
 
@@ -36,7 +38,7 @@ public class DelayComponent extends Component implements IDynamicComponent {
                 Map.entry("output", this.output)
         );
 
-        this.input.onStateChangedEvent().addListener(e -> updateOutputs());
+        this.input.getOnStateChanged().addListener(e -> updateOutputs());
         this.getOnDestroy().addListener(() -> this.shouldIDie = true);
     }
 
@@ -44,11 +46,11 @@ public class DelayComponent extends Component implements IDynamicComponent {
     /* Public */
     @Override
     public void updateOutputs() {
-        LogicState currentInput = this.input.logicState();
+        LogicState currentInput = this.input.getLogicState();
         this.onNewDynamicEvent.notifyListeners(
                 new DynamicEvent(this, 1000,
                         () -> {
-                            this.output.setState(currentInput);
+                            this.output.setLogicState(currentInput);
                             return Collections.emptyList();
                         }
                 )
@@ -58,11 +60,6 @@ public class DelayComponent extends Component implements IDynamicComponent {
     @Override
     public boolean shouldDie() {
         return this.shouldIDie;
-    }
-
-    @Override
-    public Event<DynamicEvent> getOnNewDynamicEvent() {
-        return this.onNewDynamicEvent;
     }
 
     @Override

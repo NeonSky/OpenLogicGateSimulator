@@ -20,7 +20,7 @@ import org.cafebabe.view.util.FxmlUtil;
 public abstract class View extends AnchorPane {
 
     public final EmptyEvent onDestroy = new EmptyEvent();
-    protected final Event<View> onCreatedSubview = new Event<>();
+    @Getter protected final Event<View> onCreatedSubview = new Event<>();
     @Getter private boolean destructionPending;
 
 
@@ -31,10 +31,6 @@ public abstract class View extends AnchorPane {
     * has been instantiated and is ready to start listening to the view. */
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void init() {}
-
-    public Event<View> getOnCreatedSubview() {
-        return this.onCreatedSubview;
-    }
 
     // Since it is a JavaFX application, this default is handy.
     public void destroy() {

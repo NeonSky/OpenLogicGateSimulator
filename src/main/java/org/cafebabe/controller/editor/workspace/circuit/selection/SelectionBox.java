@@ -1,9 +1,9 @@
 package org.cafebabe.controller.editor.workspace.circuit.selection;
 
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Transform;
+import lombok.Getter;
 import org.cafebabe.view.util.ColorUtil;
 
 /**
@@ -11,7 +11,7 @@ import org.cafebabe.view.util.ColorUtil;
  */
 public class SelectionBox {
 
-    private Rectangle box;
+    @Getter private Rectangle box;
 
     /* Public */
     public boolean hasBox() {
@@ -41,10 +41,6 @@ public class SelectionBox {
 
     public void handleMouseDragReleased() {
         this.box = null;
-    }
-
-    public Node getSelectionBox() {
-        return this.box;
     }
 
     /* Private */

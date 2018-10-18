@@ -4,6 +4,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import lombok.Getter;
+import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
@@ -21,8 +23,8 @@ public class Circuit {
     public final Event<Wire> onWireAdded = new Event<>();
 
     private final Simulator simulator = new Simulator();
-    private final Set<Component> components = new LinkedHashSet<>();
-    private final Set<Wire> wires = new LinkedHashSet<>();
+    @Getter private final Set<Component> components = new LinkedHashSet<>();
+    @Getter private final Set<Wire> wires = new LinkedHashSet<>();
 
     /* Public */
     public void addComponent(Component component) {
@@ -74,12 +76,15 @@ public class Circuit {
         this.wires.remove(wire);
     }
 
-    public Set<Component> getComponents() {
-        return this.components;
-    }
-
-    public Set<Wire> getWires() {
-        return this.wires;
+    // This method shouldn't exist.
+    public void removeItem(IModel item) {
+        if (item instanceof Component) {
+            removeComponent((Component) item);
+        } else if (item instanceof Wire) {
+            removeWire((Wire) item);
+        } else {
+            throw new RuntimeException("Can't remove this type");
+        }
     }
 
     public void toggleSimulationState() {

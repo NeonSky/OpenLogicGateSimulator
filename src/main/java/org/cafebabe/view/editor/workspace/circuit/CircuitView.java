@@ -26,22 +26,22 @@ import org.cafebabe.view.util.FxmlUtil;
  */
 public class CircuitView extends View {
 
-    public final Event<ComponentView> onComponentAdded = new Event<>();
-    public final Event<WireView> onWireAdded = new Event<>();
+    @Getter private final Event<ComponentView> onComponentAdded = new Event<>();
+    @Getter private final Event<WireView> onWireAdded = new Event<>();
 
     @FXML private Pane backgroundPane;
-    @FXML private Pane componentPane;
+    @FXML @Getter private Pane componentPane;
     @FXML private AnchorPane simulatorControlsPane;
 
-    private final Circuit circuit;
+    @Getter private final Circuit circuit;
     @Getter private final ComponentDragDropHandler componentDragDropHandler;
 
-    private final SimulatorToggleButtonView simulatorToggleButton = new SimulatorToggleButtonView();
+    @Getter private final SimulatorToggleButtonView simulatorToggleButton =
+            new SimulatorToggleButtonView();
     private final List<ComponentView> componentViews = new ArrayList<>();
     private final List<WireView> wireViews = new ArrayList<>();
 
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
     public CircuitView(Circuit circuit, ComponentDragDropHandler componentDragDropHandler) {
         this.circuit = circuit;
         this.componentDragDropHandler = componentDragDropHandler;
@@ -63,18 +63,6 @@ public class CircuitView extends View {
     public void init() {
         this.circuit.getComponents().forEach(this::addComponent);
         this.circuit.getWires().forEach(this::addWire);
-    }
-
-    public Pane getComponentPane() {
-        return this.componentPane;
-    }
-
-    public SimulatorToggleButtonView getSimulatorToggleButton() {
-        return this.simulatorToggleButton;
-    }
-
-    public Circuit getCircuit() {
-        return this.circuit;
     }
 
     public List<ISelectable> getComponentsInBounds(Bounds bounds) {

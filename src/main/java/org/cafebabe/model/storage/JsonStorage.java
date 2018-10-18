@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import lombok.Setter;
 import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -48,22 +49,14 @@ public class JsonStorage implements ISaveLoadWorkspaces {
             COMPONENT_TO_ID_TAG_MAP = new HashMap<>();
 
     private final Gson gson;
-    private Writer writer;
-    private Reader reader;
+    @Setter private Writer writer;
+    @Setter private Reader reader;
 
     public JsonStorage() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(StorageComponent.class, new ComponentAdapter());
         gsonBuilder.registerTypeAdapter(Wire.class, new WireAdapter());
         this.gson = gsonBuilder.create();
-    }
-
-    public void setWriter(Writer writer) {
-        this.writer = writer;
-    }
-
-    public void setReader(Reader reader) {
-        this.reader = reader;
     }
 
     public static Map<Long, Component> getPortIdComponentMap() {

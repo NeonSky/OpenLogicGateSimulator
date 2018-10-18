@@ -20,7 +20,7 @@ public abstract class PortController extends Controller {
 
         this.port = view.getPort();
         this.port.getOnDestroy().addListener(this::destroy);
-        this.port.onStateChangedEvent().addListener((p) -> this.handleUpdatedConnectionState());
+        this.port.getOnStateChanged().addListener((p) -> this.handleUpdatedConnectionState());
     }
 
     /* Public */
