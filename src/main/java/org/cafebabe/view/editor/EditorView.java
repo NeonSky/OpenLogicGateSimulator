@@ -41,6 +41,8 @@ public class EditorView extends View {
 
         FxmlUtil.attachFxml(this, "/view/EditorView.fxml");
 
+        this.tabsPane.toFront();
+
         this.menuBarAnchorPane.getChildren().add(this.menuBarView);
         FxmlUtil.scaleWithAnchorPaneParent(this.menuBarView);
 
