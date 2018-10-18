@@ -7,7 +7,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicSta
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 
 /**
- * A component that takes no input and always outputs an active signal.
+ * A component that takes no input and outputs either a high or low signal, which can be toggled.
  */
 public class SignalSourceComponent extends Component {
 
@@ -15,15 +15,13 @@ public class SignalSourceComponent extends Component {
 
     @ComponentConstructor
     public SignalSourceComponent() {
-        super("SIGNAL_Source", "Signal Source", "Emits an active signal to all connected outputs");
+        super("SIGNAL_Source", "Signal Source", "Emits a high or low signal, can be toggled.");
 
         this.signalOutput = new OutputPort();
         this.tagToOutput = Map.ofEntries(
                 Map.entry("output", this.signalOutput)
         );
 
-        this.signalOutput.onStateChangedEvent().addListener(
-                s -> this.getOnUpdate().notifyListeners());
         setOutputState(this.signalOutput, true);
     }
 
@@ -40,5 +38,6 @@ public class SignalSourceComponent extends Component {
 
     public void toggle(boolean setHigh) {
         this.signalOutput.setState(setHigh ? LogicState.HIGH : LogicState.LOW);
+        this.getOnUpdate().notifyListeners();
     }
 }

@@ -35,6 +35,7 @@ public final class SvgUtil {
         return loadMetadata(getComponentSvgFile(component));
     }
 
+    // Gets all svg classes from a node up to the root svg node.
     public static Collection<String> getSvgClasses(Node shape) {
         if (!(shape instanceof Shape || shape instanceof Group)) {
             return List.of();
@@ -45,10 +46,6 @@ public final class SvgUtil {
         }
         return classes;
     }
-
-    /**
-     * Returns the component's associated SVG path, but excludes any wire visuals.
-     */
 
     public static SvgContent loadComponentSvg(Component component) {
         try {
