@@ -1,5 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
+import lombok.Getter;
 import org.cafebabe.model.util.Event;
 
 /**
@@ -11,7 +12,7 @@ public class OutputPort extends Port {
     private final Event<OutputPort> onWillBeDestroyed = new Event<>();
     private LogicState state;
     private boolean connected;
-    private boolean destructionPending;
+    @Getter private boolean destructionPending;
 
     public OutputPort() {
         this.state = LogicState.UNDEFINED;
