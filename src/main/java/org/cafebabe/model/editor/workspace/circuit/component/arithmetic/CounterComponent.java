@@ -47,9 +47,9 @@ public class CounterComponent extends Component {
         if (this.clockInput.isHigh()) {
             this.value++;
             this.bit0output.setState((this.value & 0b1) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit1output.setState((this.value & 0b01) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit2output.setState((this.value & 0b001) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit3output.setState((this.value & 0b0001) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit1output.setState((this.value & 0b10) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit2output.setState((this.value & 0b100) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit3output.setState((this.value & 0b1000) > 0 ? LogicState.HIGH : LogicState.LOW);
         }
     }
 
