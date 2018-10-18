@@ -22,8 +22,8 @@ public class WireController extends Controller {
 
         this.wire.getOnDestroy().addListener(this::destroy);
         this.wire.getOnStateChanged().addListener((w) -> this.view.updateVisualState());
-        this.wire.onStartPosMoved.addListener(this.view::moveStartPointTo);
-        this.wire.onEndPosMoved.addListener(this.view::moveEndPointTo);
+        this.wire.getOnStartPosMoved().addListener(this.view::moveStartPointTo);
+        this.wire.getOnEndPosMoved().addListener(this.view::moveEndPointTo);
 
         this.view.updateVisualState();
     }

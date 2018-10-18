@@ -25,7 +25,7 @@ public abstract class Controller {
         this.view = view;
         this.children = new ArrayList<>();
 
-        view.onDestroy.addListener(this::destroy);
+        view.getOnDestroy().addListener(this::destroy);
     }
 
     /* Public */

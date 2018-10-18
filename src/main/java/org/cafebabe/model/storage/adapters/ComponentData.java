@@ -12,11 +12,13 @@ import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
  * A helper struct for keeping component data to reduce complexity in the
  * ComponentAdapter read() method.
  */
+@Getter
+@Setter
 public class ComponentData {
-    @Getter @Setter private String identifier;
-    @Getter @Setter private Position position;
-    @Getter @Setter private BiMap<String, Long> inputIds;
-    @Getter @Setter private BiMap<String, Long> outputIds;
+    private String identifier;
+    private Position position;
+    private BiMap<String, Long> inputIds;
+    private BiMap<String, Long> outputIds;
 
     public boolean isValid() {
         return !(Strings.isNullOrEmpty(this.identifier)

@@ -54,8 +54,8 @@ public class CircuitView extends View {
         setupSimulatorControlsPane();
 
         circuit.registerSimulationStateListener(this.simulatorToggleButton::updateState);
-        this.circuit.onComponentAdded.addListener(this::addComponent);
-        this.circuit.onWireAdded.addListener(this::addWire);
+        this.circuit.getOnComponentAdded().addListener(this::addComponent);
+        this.circuit.getOnWireAdded().addListener(this::addWire);
     }
 
     /* Public */

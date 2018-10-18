@@ -3,6 +3,7 @@ package org.cafebabe.model.editor.workspace.circuit.simulation;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
 
@@ -13,7 +14,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
  */
 public class DynamicEvent {
     private final Callable<List<DynamicEvent>> dueFunc;
-    @Getter private long resolveAt;
+    @Getter(AccessLevel.PACKAGE) private long resolveAt;
     private final IDynamicComponent source;
 
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.cafebabe.model.util.Event;
 
 /**
- * A port that emits a logical logicState determined by its owner component.
+ * A port that emits a logical state determined by its owner component.
  * Used as outputs for component.
  */
 public class OutputPort extends Port {

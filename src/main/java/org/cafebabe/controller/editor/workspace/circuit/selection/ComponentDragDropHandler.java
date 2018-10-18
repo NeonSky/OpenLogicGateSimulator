@@ -9,6 +9,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import lombok.Getter;
 import org.cafebabe.model.editor.util.ComponentUtil;
 import org.cafebabe.model.editor.workspace.camera.Camera;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -26,7 +27,7 @@ import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
  */
 public class ComponentDragDropHandler {
 
-    public final Event<Component> onAddComponent = new Event<>();
+    @Getter private final Event<Component> onAddComponent = new Event<>();
 
     private final Camera camera;
     private Component dragNewComponent;
