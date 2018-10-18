@@ -51,6 +51,21 @@ public class SvgContent extends Group {
         return subnodes(this, styleClasses).collect(Collectors.toList());
     }
 
+    public Collection<String> getStyleClassesRecursive() {
+        return getStyleClassesRecursive(this).collect(Collectors.toSet());
+    }
+
+    private Stream<String> getStyleClassesRecursive(Node node) {
+        if (node instanceof Parent) {
+            return Stream.concat(
+                    node.getStyleClass().stream(),
+                    ((Parent) node).getChildrenUnmodifiable().stream()
+                            .flatMap(this::getStyleClassesRecursive)
+            );
+        }
+        return node.getStyleClass().stream();
+    }
+
     private Stream<Node> subnodes(Node node, String... styleClasses) {
         Boolean appendSelf = Arrays.stream(styleClasses)
                 .anyMatch(s -> node.getStyleClass().contains(s));

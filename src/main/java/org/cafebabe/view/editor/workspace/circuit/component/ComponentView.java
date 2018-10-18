@@ -1,9 +1,14 @@
 package org.cafebabe.view.editor.workspace.circuit.component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -13,6 +18,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Transform;
+import javafx.util.Pair;
 import lombok.Getter;
 import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
@@ -24,6 +30,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.OutputPort;
 import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
+import org.cafebabe.model.util.EmptyEvent;
 import org.cafebabe.view.View;
 import org.cafebabe.view.editor.workspace.circuit.component.port.InPortView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.OutPortView;
@@ -39,17 +46,19 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
 
     public final ComponentDragDropHandler componentDragDropHandler;
 
-    @FXML
-    private Group componentSvgContainer;
-    @FXML
-    private Group svgGroup;
+    @FXML private Group componentSvgContainer;
+    @FXML private Group svgGroup;
 
-    @Getter
-    private final Component component;
-    @Getter
-    private final List<PortView> portViews = new ArrayList<>();
+    @Getter private final Component component;
+    @Getter private final List<PortView> portViews = new ArrayList<>();
+    private final EmptyEvent onUpdateStyle = new EmptyEvent();
     private boolean isSelected;
     private Transform transform = Transform.scale(1, 1);
+    private static final String[] CSS_KEYWORDS = new String[]{
+            "visible-if-",
+            "visible-unless-",
+            "trigger-"
+    };
 
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
@@ -75,6 +84,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         );
 
         initTransforms();
+        initComponentMethods();
         updateVisualState();
         updatePosition(this.component.getTrackablePosition());
     }
@@ -172,14 +182,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
                 n -> ((Shape) n).setStroke(newColor)
         );
 
-        for (Map.Entry<String, Boolean> tag : this.component.getExtraStateData().entrySet()) {
-            svg.selectNodesWithClasses("visible-if-" + (tag.getKey())).forEach(
-                    n -> n.setVisible(tag.getValue())
-            );
-            svg.selectNodesWithClasses("visible-unless-" + tag.getValue()).forEach(
-                    n -> n.setVisible(!tag.getValue())
-            );
-        }
+        this.onUpdateStyle.notifyListeners();
     }
 
     private void updateTransform() {
@@ -207,5 +210,116 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         for (int i = 0; i < 3; i++) {
             this.getTransforms().set(i, Transform.scale(1, 1));
         }
+    }
+
+    private void initComponentMethods() {
+        Collection<String> allStyleClasses =
+                getComponentSvg().getStyleClassesRecursive();
+        for (String cssClass : allStyleClasses) {
+            boolean invert;
+            if (cssClass.startsWith("visible-if-")) {
+                invert = false;
+            } else if (cssClass.startsWith("visible-unless-")) {
+                invert = true;
+            } else {
+                continue;
+            }
+            Collection<Node> targets = getComponentSvg().selectNodesWithClasses(cssClass);
+            this.onUpdateStyle.addListener(() -> {
+                        Pair<Object, Class> res = null;
+                        try {
+                            res = cssClassToComponentMethod(cssClass).call();
+
+                            if (res.getValue() != boolean.class) {
+                                throw new RuntimeException("Method bound to class \"" + cssClass
+                                        + "\" does not return a boolean, actual type: \""
+                                        + res.getValue().getName() + "\"");
+                            }
+                            for (Node target : targets) {
+                                target.setVisible(invert == (boolean) res.getKey());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+            );
+        }
+    }
+
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
+    public Callable<Pair<Object, Class>> cssClassToComponentMethod(String cssClass) {
+        for (String keyword: CSS_KEYWORDS) {
+            if (cssClass.startsWith(keyword)) {
+                String[] methodAndArgs = cssClass.substring(keyword.length()).split("_");
+                if (methodAndArgs.length == 1) {
+                    return () -> callComponentMethod(methodAndArgs[0]);
+                }
+                return () -> callComponentMethod(methodAndArgs[0], methodAndArgs[1]);
+            }
+        }
+        return null;
+    }
+
+    private Pair<Object, Class> callComponentMethod(String methodName) {
+        return callComponentMethod(methodName, null);
+    }
+
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
+    private Pair<Object, Class> callComponentMethod(String methodName, String argument) {
+        List<Method> methods = Arrays.stream(this.component.getClass().getDeclaredMethods()).filter(
+                m -> m.getName().equals(methodName)
+        ).filter(m -> m.getParameterCount() == ((argument == null) ? 0 : 1)).collect(Collectors
+                .toList());
+        Method method;
+        if (methods.size() > 1) {
+            throw new RuntimeException("Ambiguous method! \"" + methodName + "\"");
+        } else {
+            method = methods.get(0);
+        }
+
+        Object res = inferArgumentAndCallMethod(method, argument);
+        Class c = method.getReturnType();
+        return new Pair<>(res, c);
+    }
+
+    private Object inferArgumentAndCallMethod(Method method, String argument) {
+        Object res;
+        try {
+            switch (method.getParameterCount()) {
+                case 0:
+                    res = method.invoke(this.component);
+                    break;
+                case 1:
+                    Object argObj = parseMethodParameterToExpectedType(method, argument);
+                    res = method.invoke(this.component, argObj);
+                    break;
+                default:
+                    throw new RuntimeException("Too many method parameters");
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+
+    private Object parseMethodParameterToExpectedType(Method method, String argument) {
+        Object argObj;
+        switch (method.getParameterTypes()[0].getName()) {
+            case "String":
+                argObj = argument;
+                break;
+            case "Float":
+                argObj = Float.parseFloat(argument);
+                break;
+            case "Double":
+                argObj = Double.parseDouble(argument);
+                break;
+            case "Integer":
+                argObj = Integer.parseInt(argument);
+                break;
+            default:
+                throw new RuntimeException("Invalid argument type");
+        }
+        return argObj;
     }
 }
