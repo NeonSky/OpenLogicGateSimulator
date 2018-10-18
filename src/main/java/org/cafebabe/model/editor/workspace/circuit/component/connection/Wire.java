@@ -21,8 +21,8 @@ public class Wire extends LogicStateContainer implements IModel {
 
     private static final int MINIMUM_WIRE_CONNECTIONS = 2;
 
-    public final Event<Position> onStartPosMoved = new Event<>();
-    public final Event<Position> onEndPosMoved = new Event<>();
+    @Getter private final Event<Position> onStartPosMoved = new Event<>();
+    @Getter private final Event<Position> onEndPosMoved = new Event<>();
 
     @Getter private final EmptyEvent onDestroy = new EmptyEvent();
     private final Set<InputPort> connectedInputs;
