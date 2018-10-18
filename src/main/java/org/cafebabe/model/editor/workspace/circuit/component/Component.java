@@ -1,12 +1,10 @@
 package org.cafebabe.model.editor.workspace.circuit.component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import lombok.Getter;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
@@ -34,13 +32,12 @@ public abstract class Component implements IModel {
              Doesn't belong here, but will need to stay until we know. */
     private static final int VERTICAL_PORT_OFFSET = 28;
     private final EmptyEvent onDestroy = new EmptyEvent();
-    private final Map<String, Boolean> extraStateData = new HashMap<>();
     private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
 
     @Getter private final String identifier;
     @Getter private final String displayName;
     @Getter private final String description;
-    @Getter private final EmptyEvent onExtraStateDataUpdated = new EmptyEvent();
+    @Getter private EmptyEvent onUpdate = new EmptyEvent();
 
     public Component(String identifier, String displayName, String description) {
         this.identifier = identifier;
@@ -82,10 +79,6 @@ public abstract class Component implements IModel {
             port.destroy();
         }
         this.onDestroy.notifyListeners();
-    }
-
-    public Map<String, Boolean> getExtraStateData() {
-        return Collections.unmodifiableMap(this.extraStateData);
     }
 
     public Map<String, InputPort> getTagToInput() {
@@ -130,25 +123,6 @@ public abstract class Component implements IModel {
         }
     }
 
-    public void addStateData(String data) {
-        addStateData(List.of(data));
-    }
-
-    public void addStateData(Collection<String> data) {
-        data.forEach(d -> this.extraStateData.put(d, true));
-        this.onExtraStateDataUpdated.notifyListeners();
-    }
-
-    public void removeStateData(String data) {
-        removeStateData(List.of(data));
-    }
-
-    public void removeStateData(Collection<String> data) {
-        data.forEach(d -> this.extraStateData.put(d, false));
-        this.onExtraStateDataUpdated.notifyListeners();
-    }
-
-
     /* Protected */
     protected void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
         for (InputPort input : relatedInputs) {
@@ -166,10 +140,6 @@ public abstract class Component implements IModel {
     }
 
     protected abstract void updateOutputs();
-
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void trigger(Set<String> tags) {
-    }
 
     /* Private */
     private List<Port> getPorts() {
