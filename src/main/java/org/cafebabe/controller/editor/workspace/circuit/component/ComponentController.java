@@ -1,6 +1,7 @@
 package org.cafebabe.controller.editor.workspace.circuit.component;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
@@ -33,17 +34,7 @@ public class ComponentController extends Controller {
         this.component.getTrackablePosition().addPositionListener(this.view::updatePosition);
 
         this.component.getOnUpdate().addListener(this.view::updateVisualState);
-        view.setOnMouseClicked(
-                e -> SvgUtil.getSvgClasses((Node) e.getTarget())
-                        .stream().filter(c -> c.startsWith("trigger-")).forEach(c -> {
-                            try {
-                                this.view
-                                        .cssClassToComponentMethod(c).call();
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                        })
-        );
+        view.setOnMouseClicked(this::callClickedTriggerMethods);
 
         view.setOnDragDetected(event ->
                 view.componentDragDropHandler.onComponentDragDetected(this.view, event)
@@ -51,6 +42,18 @@ public class ComponentController extends Controller {
 
         ComponentData metadata = SvgUtil.getComponentMetadata(this.component);
         view.addPortsFromMetadata(metadata, this.component);
+    }
+
+    private void callClickedTriggerMethods(MouseEvent mouseEvent) {
+        for (String cssClass : SvgUtil.getSvgClasses((Node) mouseEvent.getTarget())) {
+            if (cssClass.startsWith("trigger-")) {
+                try {
+                    this.view.cssClassToComponentMethod(cssClass).call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /* Public */
