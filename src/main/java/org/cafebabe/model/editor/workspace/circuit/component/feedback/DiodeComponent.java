@@ -14,13 +14,13 @@ public class DiodeComponent extends Component {
 
     @ComponentConstructor
     public DiodeComponent() {
-        super("DIODE_Component", "DIODE", "Is lit up bright yellow on high signal.");
+        super("DIODE_Component", "Diode", "Is lit up bright yellow on high signal.");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)
         );
 
-        this.input.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input.onStateChangedEvent().addListener(p -> getOnUpdate().notifyListeners());
     }
 
     public boolean isLit() {
