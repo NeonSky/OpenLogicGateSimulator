@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
@@ -162,7 +161,7 @@ class CircuitTest {
         c.addComponent(component);
         assertEquals(1, c.getComponents().size());
 
-        c.removeItem((IModel) component);
+        c.removeComponent(component);
         assertEquals(0, c.getComponents().size());
     }
 
@@ -173,7 +172,7 @@ class CircuitTest {
         c.addWire(wire);
         assertEquals(1, c.getWires().size());
 
-        c.removeItem((IModel) wire);
+        c.removeWire(wire);
         assertEquals(0, c.getWires().size());
     }
 
