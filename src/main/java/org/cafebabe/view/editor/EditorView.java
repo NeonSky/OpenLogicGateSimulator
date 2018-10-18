@@ -29,7 +29,7 @@ public class EditorView extends View {
     @Getter @FXML private AnchorPane addNewTabButton;
 
     @Getter private final Editor editor;
-    private final List<WorkspaceView> workspaceViews = new ArrayList<>();
+    @Getter private final List<WorkspaceView> workspaceViews = new ArrayList<>();
     private int workspaceCounter;
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
@@ -71,10 +71,6 @@ public class EditorView extends View {
         this.editor.removeWorkspace(workspaceView.getWorkspace());
         this.workspacesPane.getChildren().remove(workspaceView);
         this.workspaceViews.remove(workspaceView);
-    }
-
-    public List<WorkspaceView> getWorkspaceViews() {
-        return this.workspaceViews;
     }
 
     public Tab lastTab() {

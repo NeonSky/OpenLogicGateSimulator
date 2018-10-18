@@ -64,7 +64,7 @@ public class ComponentDragDropHandler {
             IComponentProducer componentProducer =
                     (IComponentProducer) event.getGestureSource();
             this.dragNewComponent = ComponentUtil.componentFactory(
-                    componentProducer.getComponentIdentifier()
+                    componentProducer.getIdentifier()
             );
             this.dragMousePosition = Objects.requireNonNull(this.dragNewComponent)
                     .getTrackablePosition();
@@ -120,7 +120,7 @@ public class ComponentDragDropHandler {
         event.acceptTransferModes(TransferMode.ANY);
         IComponentProducer componentProducer =
                 (IComponentProducer) event.getGestureSource();
-        if (!componentProducer.getComponentIdentifier().equals(
+        if (!componentProducer.getIdentifier().equals(
                 this.dragNewComponent.getIdentifier())) {
             throw new UnexpectedComponentDragException("Dragged component from component list is "
                     + "not equal to currently dragged component");

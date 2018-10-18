@@ -37,19 +37,20 @@ public class CounterComponent extends Component {
                 Map.entry("bit3output", this.bit3output)
         );
 
-        this.clockInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.clockInput.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     /* Protected */
 
     @Override
+    @SuppressWarnings("checkstyle:linelength")
     protected void updateOutputs() {
         if (this.clockInput.isHigh()) {
             this.value++;
-            this.bit0output.setState((this.value & 0b1) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit1output.setState((this.value & 0b10) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit2output.setState((this.value & 0b100) > 0 ? LogicState.HIGH : LogicState.LOW);
-            this.bit3output.setState((this.value & 0b1000) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit0output.setLogicState((this.value & 0b1) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit1output.setLogicState((this.value & 0b10) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit2output.setLogicState((this.value & 0b100) > 0 ? LogicState.HIGH : LogicState.LOW);
+            this.bit3output.setLogicState((this.value & 0b1000) > 0 ? LogicState.HIGH : LogicState.LOW);
         }
     }
 

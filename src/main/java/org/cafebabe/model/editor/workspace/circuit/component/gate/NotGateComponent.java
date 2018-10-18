@@ -27,7 +27,7 @@ public class NotGateComponent extends Component {
                 Map.entry("output", this.output)
         );
 
-        this.input.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     @Override

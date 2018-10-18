@@ -1,5 +1,6 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.InvalidStateSourceException;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.StateSourceAlreadySetException;
 import org.cafebabe.model.util.Event;
@@ -10,8 +11,7 @@ import org.cafebabe.model.util.Event;
  * Used as inputs to component.
  */
 public class InputPort extends Port {
-    @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-    private final Event<InputPort> onWillBeDestroyed = new Event<>();
+    @Getter private final Event<InputPort> onWillBeDestroyed = new Event<>();
     private LogicStateContainer stateSource;
     private boolean destructionPending;
 
@@ -26,20 +26,16 @@ public class InputPort extends Port {
     }
 
     @Override
-    public LogicState logicState() {
+    public LogicState getLogicState() {
         if (this.stateSource == null) {
             return LogicState.UNDEFINED;
         }
-        return this.stateSource.logicState();
+        return this.stateSource.getLogicState();
     }
 
     @Override
     public boolean isConnected() {
         return this.stateSource != null;
-    }
-
-    public Event<InputPort> onWillBeDestroyed() {
-        return this.onWillBeDestroyed;
     }
 
     /* Package-Private */

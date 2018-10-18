@@ -19,7 +19,7 @@ public class PortView extends View {
     @Getter @FXML private Circle connectionNodeCircle;
     @Getter @Setter private List<String> persistentStyles;
 
-    private final Port port;
+    @Getter private final Port port;
     private boolean isHighlighted;
 
     public PortView(Port port, double x, double y) {
@@ -34,10 +34,6 @@ public class PortView extends View {
     }
 
     /* Public */
-    public Port getPort() {
-        return this.port;
-    }
-
     public void updateStyleClasses() {
         List<String> styleClasses = new ArrayList<>(getPersistentStyles());
 

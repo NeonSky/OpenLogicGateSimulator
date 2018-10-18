@@ -46,7 +46,7 @@ public class WorkspaceController extends Controller {
         setupComponentPaneEvents();
 
         ConnectionManager connectionManager = this.view.getWorkspace().getConnectionManager();
-        this.view.onComponentAdded.addListener((c) -> {
+        this.view.getOnComponentAdded().addListener((c) -> {
             this.camera.addTransform(c);
             c.getComponentSvg().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
                     this.controllerSelector.handleControllerClick(c, event)
@@ -58,7 +58,7 @@ public class WorkspaceController extends Controller {
             });
         });
 
-        this.view.onWireAdded.addListener((w) -> {
+        this.view.getOnWireAdded().addListener((w) -> {
             this.camera.addTransform(w);
             w.getWireLine().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
                     this.controllerSelector.handleControllerClick(w, event)
@@ -108,17 +108,17 @@ public class WorkspaceController extends Controller {
     private void startDragSelection(MouseEvent event) {
         this.selectionBox.handleMouseDragged(event);
         if (event.isDragDetect()) {
-            Node selectionBox = this.selectionBox.getSelectionBox();
+            Node selectionBox = this.selectionBox.getBox();
             this.view.getComponentPane().getChildren().add(selectionBox);
         }
     }
 
     private void finishDragSelection() {
-        Bounds selectionBounds = this.selectionBox.getSelectionBox().getBoundsInParent();
+        Bounds selectionBounds = this.selectionBox.getBox().getBoundsInParent();
         List<ISelectable> selectedComponents = this.view.getComponentsInBounds(selectionBounds);
         this.controllerSelector.select(selectedComponents);
 
-        this.view.getComponentPane().getChildren().remove(this.selectionBox.getSelectionBox());
+        this.view.getComponentPane().getChildren().remove(this.selectionBox.getBox());
     }
 
     private void handleMouseDragged(MouseEvent event) {

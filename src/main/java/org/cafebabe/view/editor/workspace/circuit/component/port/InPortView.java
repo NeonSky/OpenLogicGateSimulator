@@ -1,5 +1,6 @@
 package org.cafebabe.view.editor.workspace.circuit.component.port;
 
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPort;
 
 /**
@@ -7,16 +8,10 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.InputPor
  */
 public class InPortView extends PortView {
 
-    private final InputPort port;
+    @Getter private final InputPort port;
 
     public InPortView(InputPort port, double x, double y) {
         super(port, x, y);
         this.port = port;
-    }
-
-    /* Public */
-    @Override
-    public InputPort getPort() {
-        return this.port;
     }
 }

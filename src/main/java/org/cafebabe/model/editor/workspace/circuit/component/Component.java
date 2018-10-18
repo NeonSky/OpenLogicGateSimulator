@@ -25,15 +25,17 @@ import org.cafebabe.model.util.EmptyEvent;
  */
 public abstract class Component implements IModel {
 
-    protected Map<String, InputPort> tagToInput = Collections.unmodifiableMap(new HashMap<>());
-    protected Map<String, OutputPort> tagToOutput = Collections.unmodifiableMap(new HashMap<>());
+    @Getter protected Map<String, InputPort> tagToInput =
+            Collections.unmodifiableMap(new HashMap<>());
+    @Getter protected Map<String, OutputPort> tagToOutput =
+            Collections.unmodifiableMap(new HashMap<>());
 
     /* TODO: Find out why this is offset is needed.
              Doesn't belong here, but will need to stay until we know. */
     private static final int VERTICAL_PORT_OFFSET = 28;
-    private final EmptyEvent onDestroy = new EmptyEvent();
-    private final TrackablePosition trackablePosition = new TrackablePosition(new Position(0, 0));
-
+    @Getter private final EmptyEvent onDestroy = new EmptyEvent();
+    @Getter private final TrackablePosition trackablePosition =
+            new TrackablePosition(new Position(0, 0));
     @Getter private final String identifier;
     @Getter private final String displayName;
     @Getter private final String description;
@@ -46,11 +48,6 @@ public abstract class Component implements IModel {
     }
 
     /* Public */
-    @Override
-    public EmptyEvent getOnDestroy() {
-        return this.onDestroy;
-    }
-
     public void connectToPort(Wire wire, String portTag) {
         if (this.tagToInput.containsKey(portTag)) {
             wire.connectInputPort(this.tagToInput.get(portTag));
@@ -79,18 +76,6 @@ public abstract class Component implements IModel {
             port.destroy();
         }
         this.onDestroy.notifyListeners();
-    }
-
-    public Map<String, InputPort> getTagToInput() {
-        return this.tagToInput;
-    }
-
-    public Map<String, OutputPort> getTagToOutput() {
-        return this.tagToOutput;
-    }
-
-    public TrackablePosition getTrackablePosition() {
-        return this.trackablePosition;
     }
 
     public void initPorts(ComponentData componentMetadata) {
@@ -130,8 +115,8 @@ public abstract class Component implements IModel {
 
     protected void setOutputState(OutputPort out, boolean state, List<InputPort> relatedInputs) {
         for (InputPort input : relatedInputs) {
-            if (input.logicState() == LogicState.UNDEFINED) {
-                out.setState(LogicState.UNDEFINED);
+            if (input.getLogicState() == LogicState.UNDEFINED) {
+                out.setLogicState(LogicState.UNDEFINED);
                 return;
             }
         }
@@ -141,7 +126,7 @@ public abstract class Component implements IModel {
 
     /* Private */
     private void setOutputState(OutputPort out, boolean state) {
-        out.setState(state ? LogicState.HIGH : LogicState.LOW);
+        out.setLogicState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
     private List<Port> getPorts() {

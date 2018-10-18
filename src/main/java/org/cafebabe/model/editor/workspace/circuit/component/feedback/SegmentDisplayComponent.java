@@ -33,6 +33,6 @@ public class SegmentDisplayComponent extends Component {
         InputPort port = new InputPort();
         tagToInput.put("input" + i, port);
         this.inputs.add(i, port);
-        port.onStateChangedEvent().addListener(p -> this.getOnUpdate().notifyListeners());
+        port.getOnStateChanged().addListener(p -> this.getOnUpdate().notifyListeners());
     }
 }

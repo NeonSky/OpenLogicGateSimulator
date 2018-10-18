@@ -22,8 +22,8 @@ import org.cafebabe.view.util.FxmlUtil;
  */
 public class WorkspaceView extends View {
 
-    public final Event<ComponentView> onComponentAdded = new Event<>();
-    public final Event<WireView> onWireAdded = new Event<>();
+    @Getter private final Event<ComponentView> onComponentAdded = new Event<>();
+    @Getter private final Event<WireView> onWireAdded = new Event<>();
 
     @FXML private AnchorPane workspaceRoot;
     @FXML private AnchorPane circuitAnchorPane;
@@ -50,8 +50,8 @@ public class WorkspaceView extends View {
         );
         addSubview(this.circuitAnchorPane, this.circuitView);
 
-        this.circuitView.onComponentAdded.addListener(this.onComponentAdded::notifyListeners);
-        this.circuitView.onWireAdded.addListener(this.onWireAdded::notifyListeners);
+        this.circuitView.getOnComponentAdded().addListener(this.onComponentAdded::notifyListeners);
+        this.circuitView.getOnWireAdded().addListener(this.onWireAdded::notifyListeners);
     }
 
     public List<ISelectable> getComponentsInBounds(Bounds bounds) {

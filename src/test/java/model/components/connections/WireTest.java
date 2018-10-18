@@ -151,7 +151,7 @@ class WireTest {
     @Test
     void wireLogicStateShouldDefaultToUndefined() {
         Wire w = new Wire();
-        assertEquals(LogicState.UNDEFINED, w.logicState());
+        assertEquals(LogicState.UNDEFINED, w.getLogicState());
     }
 
     @Test
@@ -161,11 +161,11 @@ class WireTest {
 
         w.connectOutputPort(out);
 
-        out.setState(LogicState.HIGH);
-        assertEquals(LogicState.HIGH, w.logicState());
+        out.setLogicState(LogicState.HIGH);
+        assertEquals(LogicState.HIGH, w.getLogicState());
 
-        out.setState(LogicState.LOW);
-        assertEquals(LogicState.LOW, w.logicState());
+        out.setLogicState(LogicState.LOW);
+        assertEquals(LogicState.LOW, w.getLogicState());
     }
 
     @Test
@@ -174,12 +174,12 @@ class WireTest {
         OutputPort out = new OutputPort();
 
         w.connectOutputPort(out);
-        out.setState(LogicState.HIGH);
-        assertEquals(LogicState.HIGH, w.logicState());
+        out.setLogicState(LogicState.HIGH);
+        assertEquals(LogicState.HIGH, w.getLogicState());
 
         w.disconnectOutputPort(out);
 
-        assertEquals(LogicState.UNDEFINED, w.logicState());
+        assertEquals(LogicState.UNDEFINED, w.getLogicState());
     }
 
 }

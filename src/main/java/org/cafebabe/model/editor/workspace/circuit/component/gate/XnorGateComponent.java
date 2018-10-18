@@ -30,8 +30,8 @@ public class XnorGateComponent extends Component {
                 Map.entry("output", this.output)
         );
 
-        this.input1.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.input2.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.input1.getOnStateChanged().addListener(p -> updateOutputs());
+        this.input2.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     @Override

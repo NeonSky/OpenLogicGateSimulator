@@ -37,9 +37,9 @@ public class JkFlipFlopComponent extends Component {
                 Map.entry("inverseOutput", this.inverseOutput)
         );
 
-        this.jackInput.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.kilbyInput.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.clkInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.jackInput.getOnStateChanged().addListener(p -> updateOutputs());
+        this.kilbyInput.getOnStateChanged().addListener(p -> updateOutputs());
+        this.clkInput.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     /* Protected */

@@ -2,6 +2,8 @@ package org.cafebabe.model.editor.workspace.circuit.simulation;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import lombok.Getter;
 import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
 
 
@@ -11,7 +13,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.IDynamicComponent;
  */
 public class DynamicEvent {
     private final Callable<List<DynamicEvent>> dueFunc;
-    private long resolveAt;
+    @Getter private long resolveAt;
     private final IDynamicComponent source;
 
 
@@ -24,10 +26,6 @@ public class DynamicEvent {
 
 
     /* Package-Private */
-    long getResolveAt() {
-        return this.resolveAt;
-    }
-
     boolean shouldBeResolved() {
         return this.resolveAt <= System.currentTimeMillis();
     }
