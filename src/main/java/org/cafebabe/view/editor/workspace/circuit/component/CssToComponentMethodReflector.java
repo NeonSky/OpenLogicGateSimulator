@@ -135,12 +135,15 @@ public final class CssToComponentMethodReflector {
             case "String":
                 argObj = argument;
                 break;
+            case "float":
             case "Float":
                 argObj = Float.parseFloat(argument);
                 break;
+            case "double":
             case "Double":
                 argObj = Double.parseDouble(argument);
                 break;
+            case "int":
             case "Integer":
                 argObj = Integer.parseInt(argument);
                 break;
