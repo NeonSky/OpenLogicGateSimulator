@@ -22,7 +22,7 @@ public class SimulationTest {
     void xorShouldLeakPowerWithDfs() {
         // on = HIGH value
         OutputPort powerSource = new OutputPort();
-        powerSource.setState(LogicState.HIGH);
+        powerSource.setLogicState(LogicState.HIGH);
 
         // Left part
         Wire topLeft = new Wire();
@@ -54,10 +54,10 @@ public class SimulationTest {
         Wire res = new Wire();
         xor.connectToPort(res, "output");
 
-        res.onStateChangedEvent().addListener(this::xorShouldLeakPowerWithDfsHelper);
+        res.getOnStateChanged().addListener(this::xorShouldLeakPowerWithDfsHelper);
 
         assertTrue(res.isLow());
-        powerSource.setState(LogicState.LOW);
+        powerSource.setLogicState(LogicState.LOW);
         assertTrue(res.isLow());
     }
 
@@ -86,7 +86,7 @@ public class SimulationTest {
         xor.connectToPort(res, "output");
 
         // The state should ONLY be updated to LOW and never to e.g. HIGH
-        res.onStateChangedEvent().addListener((wire) -> assertTrue(wire.isLow()));
+        res.getOnStateChanged().addListener((wire) -> assertTrue(wire.isLow()));
 
         xor.connectToPort(on, "input1");
         xor.connectToPort(on, "input2");

@@ -46,6 +46,6 @@ public class HexDisplayComponent extends Component {
         InputPort port = new InputPort();
         tagToInput.put("input" + i, port);
         this.inputs.add(i, port);
-        port.onStateChangedEvent().addListener(p -> getOnUpdate().notifyListeners());
+        port.getOnStateChanged().addListener(p -> getOnUpdate().notifyListeners());
     }
 }

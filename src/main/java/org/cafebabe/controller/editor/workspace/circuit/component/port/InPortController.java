@@ -13,7 +13,7 @@ public class InPortController extends PortController {
         super(view);
         view.setPersistentStyles(List.of("inPort"));
         InputPort port = view.getPort();
-        port.onStateChangedEvent().addListener((p) -> updateStyleClasses());
+        port.getOnStateChanged().addListener((p) -> updateStyleClasses());
         updateStyleClasses();
     }
 

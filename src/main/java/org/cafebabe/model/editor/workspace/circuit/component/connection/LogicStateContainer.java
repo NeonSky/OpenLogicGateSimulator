@@ -1,5 +1,7 @@
 package org.cafebabe.model.editor.workspace.circuit.component.connection;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortAlreadyAddedException;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.exceptions.PortNotConnectedException;
 import org.cafebabe.model.editor.workspace.circuit.simulation.IScheduleStateEvents;
@@ -11,28 +13,19 @@ import org.cafebabe.model.util.Event;
  */
 public abstract class LogicStateContainer {
 
-    final Event<LogicStateContainer> onStateChanged = new Event<>();
-    private IScheduleStateEvents eventScheduler;
-
-
-    public void setEventScheduler(IScheduleStateEvents eventScheduler) {
-        this.eventScheduler = eventScheduler;
-    }
+    @Getter final Event<LogicStateContainer> onStateChanged = new Event<>();
+    @Setter private IScheduleStateEvents eventScheduler;
 
     public final boolean isUndefined() {
-        return logicState() == LogicState.UNDEFINED;
+        return getLogicState() == LogicState.UNDEFINED;
     }
 
     public final boolean isLow() {
-        return logicState() == LogicState.LOW;
+        return getLogicState() == LogicState.LOW;
     }
 
     public final boolean isHigh() {
-        return logicState() == LogicState.HIGH;
-    }
-
-    public final Event<LogicStateContainer> onStateChangedEvent() {
-        return this.onStateChanged;
+        return getLogicState() == LogicState.HIGH;
     }
 
     /* Protected */
@@ -42,7 +35,7 @@ public abstract class LogicStateContainer {
     @SuppressWarnings("PMD.AvoidRethrowingException")
     protected void notifyIfStateChanges(Runnable stateMutator) {
         @SuppressWarnings("PMD.PrematureDeclaration")
-        LogicState prevState = logicState();
+        LogicState prevState = getLogicState();
         try {
             stateMutator.run();
         } catch (PortAlreadyAddedException | PortNotConnectedException e) {
@@ -52,7 +45,7 @@ public abstract class LogicStateContainer {
             e.printStackTrace();
         }
 
-        if (logicState() != prevState) {
+        if (getLogicState() != prevState) {
             if (this.eventScheduler == null) {
                 notifyStateChange();
             } else {
@@ -65,5 +58,5 @@ public abstract class LogicStateContainer {
         this.onStateChanged.notifyListeners(this);
     }
 
-    protected abstract LogicState logicState();
+    protected abstract LogicState getLogicState();
 }

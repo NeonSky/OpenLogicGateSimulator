@@ -14,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.util.Duration;
+import lombok.Getter;
 import net.javainthebox.caraibe.svg.SvgContent;
 import org.cafebabe.view.View;
 import org.cafebabe.view.util.ColorUtil;
@@ -25,7 +26,7 @@ import org.cafebabe.view.util.FxmlUtil;
 public class ComponentListCellView extends View implements IComponentProducer {
 
     private final String displayName;
-    private final String identifier;
+    @Getter private final String identifier;
 
     @FXML private AnchorPane componentCell;
     @FXML private Group svgContainer;
@@ -46,13 +47,6 @@ public class ComponentListCellView extends View implements IComponentProducer {
         setComponentSvg(svg);
         setComponentDescription(description);
     }
-
-    /* Public */
-    @Override
-    public String getComponentIdentifier() {
-        return this.identifier;
-    }
-
 
     /* Private */
     private void setComponentNameLabel() {

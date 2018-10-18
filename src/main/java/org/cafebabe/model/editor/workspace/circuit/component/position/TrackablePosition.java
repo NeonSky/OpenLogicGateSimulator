@@ -3,6 +3,8 @@ package org.cafebabe.model.editor.workspace.circuit.component.position;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import lombok.Getter;
 import org.cafebabe.model.IModel;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.util.EmptyEvent;
@@ -12,7 +14,7 @@ import org.cafebabe.model.util.Event;
  * A Mutable position with an event that triggers every time it has been moved.
  */
 public class TrackablePosition extends Position implements IMovable, IModel {
-    private final EmptyEvent onDestroy = new EmptyEvent();
+    @Getter private final EmptyEvent onDestroy = new EmptyEvent();
     private final Event<Position> onPositionChanged = new Event<>();
     private final Set<TrackablePosition> clones = new HashSet<>();
     private int x;
@@ -60,11 +62,6 @@ public class TrackablePosition extends Position implements IMovable, IModel {
         this.onPositionChanged.removeListeners();
         this.onDestroy.notifyListeners();
         this.onDestroy.removeListeners();
-    }
-
-    @Override
-    public EmptyEvent getOnDestroy() {
-        return this.onDestroy;
     }
 
     @Override

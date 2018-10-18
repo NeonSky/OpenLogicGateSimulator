@@ -4,13 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javafx.scene.input.MouseEvent;
+import lombok.Getter;
 
 /**
  * A class for handling the selection of component and wires.
  */
 public class ControllerSelector {
 
-    private final Set<ISelectable> selected = new HashSet<>();
+    @Getter private final Set<ISelectable> selectedComponents = new HashSet<>();
 
     /* Public */
     public void handleControllerClick(ISelectable component, MouseEvent event) {
@@ -22,8 +23,8 @@ public class ControllerSelector {
     }
 
     public void clearSelection() {
-        this.selected.forEach(ISelectable::deselect);
-        this.selected.clear();
+        this.selectedComponents.forEach(ISelectable::deselect);
+        this.selectedComponents.clear();
     }
 
     public void select(List<ISelectable> selectables) {
@@ -32,22 +33,18 @@ public class ControllerSelector {
     }
 
     public void select(ISelectable component) {
-        this.selected.add(component);
+        this.selectedComponents.add(component);
         component.select();
     }
 
     public void deselect(ISelectable component) {
-        this.selected.remove(component);
+        this.selectedComponents.remove(component);
         component.deselect();
-    }
-
-    public Set<ISelectable> getSelectedComponents() {
-        return this.selected;
     }
 
     /* Private */
     private void handleShiftClick(ISelectable component) {
-        if (this.selected.contains(component)) {
+        if (this.selectedComponents.contains(component)) {
             deselect(component);
         } else {
             select(component);

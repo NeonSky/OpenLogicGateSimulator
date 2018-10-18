@@ -22,7 +22,7 @@ public class SignalSourceComponent extends Component {
                 Map.entry("output", this.signalOutput)
         );
 
-        this.signalOutput.setState(LogicState.HIGH);
+        this.signalOutput.setLogicState(LogicState.HIGH);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SignalSourceComponent extends Component {
     }
 
     public void toggle(boolean setHigh) {
-        this.signalOutput.setState(setHigh ? LogicState.HIGH : LogicState.LOW);
+        this.signalOutput.setLogicState(setHigh ? LogicState.HIGH : LogicState.LOW);
         this.getOnUpdate().notifyListeners();
     }
 }

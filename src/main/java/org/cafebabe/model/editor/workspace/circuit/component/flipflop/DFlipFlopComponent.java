@@ -34,8 +34,8 @@ public class DFlipFlopComponent extends Component {
                 Map.entry("inverseOutput", this.inverseOutput)
         );
 
-        this.dataInput.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.enableInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.dataInput.getOnStateChanged().addListener(p -> updateOutputs());
+        this.enableInput.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     /* Protected */

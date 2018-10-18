@@ -20,7 +20,7 @@ public class DiodeComponent extends Component {
                 Map.entry("input", this.input)
         );
 
-        this.input.onStateChangedEvent().addListener(p -> getOnUpdate().notifyListeners());
+        this.input.getOnStateChanged().addListener(p -> getOnUpdate().notifyListeners());
     }
 
     public boolean isLit() {

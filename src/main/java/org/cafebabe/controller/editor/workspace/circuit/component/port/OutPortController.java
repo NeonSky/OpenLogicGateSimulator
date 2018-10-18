@@ -13,7 +13,7 @@ public class OutPortController extends PortController {
         super(view);
         OutputPort port = view.getPort();
         view.setPersistentStyles(List.of("outPort"));
-        port.onStateChangedEvent().addListener((p) -> updateStyleClasses());
+        port.getOnStateChanged().addListener((p) -> updateStyleClasses());
         updateStyleClasses();
     }
 

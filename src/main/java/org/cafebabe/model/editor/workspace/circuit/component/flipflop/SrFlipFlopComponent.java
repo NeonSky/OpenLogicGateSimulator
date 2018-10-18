@@ -36,8 +36,8 @@ public class SrFlipFlopComponent extends Component {
                 Map.entry("inverseOutput", this.inverseOutput)
         );
 
-        this.setInput.onStateChangedEvent().addListener(p -> updateOutputs());
-        this.resetInput.onStateChangedEvent().addListener(p -> updateOutputs());
+        this.setInput.getOnStateChanged().addListener(p -> updateOutputs());
+        this.resetInput.getOnStateChanged().addListener(p -> updateOutputs());
     }
 
     /* Protected */
@@ -49,8 +49,8 @@ public class SrFlipFlopComponent extends Component {
         boolean newState = true;
         if (s) {
             if (r) {
-                this.output.setState(LogicState.UNDEFINED);
-                this.inverseOutput.setState(LogicState.UNDEFINED);
+                this.output.setLogicState(LogicState.UNDEFINED);
+                this.inverseOutput.setLogicState(LogicState.UNDEFINED);
                 return;
             }
         } else {

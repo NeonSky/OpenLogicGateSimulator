@@ -8,7 +8,6 @@ import java.util.Comparator;
  * Compares dynamic events by their dueTo time in increasing order.
  */
 class ResolveAtPriority implements Comparator<DynamicEvent>, Serializable {
-    @SuppressWarnings("PMD.FieldNamingConventions")
     private static final long serialVersionUID = 1234L;
 
     @Override
