@@ -1,14 +1,9 @@
 package org.cafebabe.view.editor.workspace.circuit.component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
@@ -54,12 +49,6 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     private final EmptyEvent onUpdateStyle = new EmptyEvent();
     private boolean isSelected;
     private Transform transform = Transform.scale(1, 1);
-    private static final String[] CSS_KEYWORDS = new String[]{
-            "visible-if-",
-            "visible-unless-",
-            "trigger-"
-    };
-
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
             justification = "SpotBugs believes @FXML fields are always null")
@@ -84,7 +73,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         );
 
         initTransforms();
-        initComponentMethods();
+        CssToComponentMethodReflector.initComponentMethods(svg, this.onUpdateStyle, component);
         updateVisualState();
         updatePosition(this.component.getTrackablePosition());
     }
@@ -212,114 +201,8 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         }
     }
 
-    private void initComponentMethods() {
-        Collection<String> allStyleClasses =
-                getComponentSvg().getStyleClassesRecursive();
-        for (String cssClass : allStyleClasses) {
-            boolean invert;
-            if (cssClass.startsWith("visible-if-")) {
-                invert = false;
-            } else if (cssClass.startsWith("visible-unless-")) {
-                invert = true;
-            } else {
-                continue;
-            }
-            Collection<Node> targets = getComponentSvg().selectNodesWithClasses(cssClass);
-            this.onUpdateStyle.addListener(() -> {
-                        Pair<Object, Class> res = null;
-                        try {
-                            res = cssClassToComponentMethod(cssClass).call();
-
-                            if (res.getValue() != boolean.class) {
-                                throw new RuntimeException("Method bound to class \"" + cssClass
-                                        + "\" does not return a boolean, actual type: \""
-                                        + res.getValue().getName() + "\"");
-                            }
-                            for (Node target : targets) {
-                                target.setVisible(invert == (boolean) res.getKey());
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-            );
-        }
-    }
-
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public Callable<Pair<Object, Class>> cssClassToComponentMethod(String cssClass) {
-        for (String keyword: CSS_KEYWORDS) {
-            if (cssClass.startsWith(keyword)) {
-                String[] methodAndArgs = cssClass.substring(keyword.length()).split("_");
-                if (methodAndArgs.length == 1) {
-                    return () -> callComponentMethod(methodAndArgs[0]);
-                }
-                return () -> callComponentMethod(methodAndArgs[0], methodAndArgs[1]);
-            }
-        }
-        return null;
-    }
-
-    private Pair<Object, Class> callComponentMethod(String methodName) {
-        return callComponentMethod(methodName, null);
-    }
-
-    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
-    private Pair<Object, Class> callComponentMethod(String methodName, String argument) {
-        List<Method> methods = Arrays.stream(this.component.getClass().getDeclaredMethods()).filter(
-                m -> m.getName().equals(methodName)
-        ).filter(m -> m.getParameterCount() == ((argument == null) ? 0 : 1)).collect(Collectors
-                .toList());
-        Method method;
-        if (methods.size() > 1) {
-            throw new RuntimeException("Ambiguous method! \"" + methodName + "\"");
-        } else {
-            method = methods.get(0);
-        }
-
-        Object res = inferArgumentAndCallMethod(method, argument);
-        Class c = method.getReturnType();
-        return new Pair<>(res, c);
-    }
-
-    private Object inferArgumentAndCallMethod(Method method, String argument) {
-        Object res;
-        try {
-            switch (method.getParameterCount()) {
-                case 0:
-                    res = method.invoke(this.component);
-                    break;
-                case 1:
-                    Object argObj = parseMethodParameterToExpectedType(method, argument);
-                    res = method.invoke(this.component, argObj);
-                    break;
-                default:
-                    throw new RuntimeException("Too many method parameters");
-            }
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-        return res;
-    }
-
-    private Object parseMethodParameterToExpectedType(Method method, String argument) {
-        Object argObj;
-        switch (method.getParameterTypes()[0].getName()) {
-            case "String":
-                argObj = argument;
-                break;
-            case "Float":
-                argObj = Float.parseFloat(argument);
-                break;
-            case "Double":
-                argObj = Double.parseDouble(argument);
-                break;
-            case "Integer":
-                argObj = Integer.parseInt(argument);
-                break;
-            default:
-                throw new RuntimeException("Invalid argument type");
-        }
-        return argObj;
+        return CssToComponentMethodReflector.cssClassToComponentMethod(cssClass, this.component);
     }
 }

@@ -139,7 +139,9 @@ public abstract class Component implements IModel {
         out.setState(state ? LogicState.HIGH : LogicState.LOW);
     }
 
-    protected abstract void updateOutputs();
+    protected void updateOutputs() {
+        this.onUpdate.notifyListeners();
+    }
 
     /* Private */
     private List<Port> getPorts() {
