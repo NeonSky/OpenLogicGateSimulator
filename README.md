@@ -13,22 +13,36 @@ Open Logic Gate Simulator
 
 The project is now imported into IntelliJ.
 
-#### Running
+### Running the program
 To be able to run the project, we need to add a run configuration.
 
 1. From the menu select *Run->Edit configurations*. Click the plus (+) button and select Gradle.
 2. Set the following values:
    * *Name*: OpenLogicGateSimulator
    * *Gradle project*: Press the folder icon and select the OpenLogicGateSimulator project.
-   * *Tasks:*: `run` (autocompletion should list this task).
+   * *Tasks*: `run` (autocompletion should list this task).
 3. Press *Apply*, then *OK*. You can now select the configuration and run it.
 
-#### All checks (including unit tests)
+### Running all checks (including unit tests)
 Instructions for setting up and running the check gradle task:  
 
 1. From the menu select *Run->Edit configurations*. Click the plus (+) button and select Gradle.
 2. Set the following values:
-   * *Name*: Unit tests
+   * *Name*: OLGS checks
    * *Gradle project*: Press the folder icon and select the OpenLogicGateSimulator project.
-   * *Tasks:*: `clean check`.
+   * *Tasks*: `clean check`.
 3. Press *Apply*, then *OK*. You can now select the configuration and run it.
+
+Reports from the different tools can be found in build/reports/. 
+
+### Generating coverage reports in HTML format
+Instructions for setting up and running the tests and generating a report:  
+
+1. From the menu select *Run->Edit configurations*. Click the plus (+) button and select Gradle.
+2. Set the following values:
+   * *Name*: OLGS coverage report
+   * *Gradle project*: Press the folder icon and select the OpenLogicGateSimulator project.
+   * *Tasks*: `test jacocoTestReport`.
+3. Press *Apply*, then *OK*. You can now select the configuration and run it.
+
+The coverage report can be found in build/reports/jacoco/test/html. Open index.html to browse.

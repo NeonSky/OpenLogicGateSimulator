@@ -33,6 +33,9 @@ plugins {
 
     // Apply the lombok plugin
     id 'io.franzbecker.gradle-lombok' version '1.14'
+
+    // Apply the jacoco plugin
+    id 'jacoco'
 }
 
 // Detect the platform we are running on
@@ -136,4 +139,15 @@ pmd {
     consoleOutput true
     ignoreFailures false
     ruleSetFiles files("config/pmd/olgsRuleSet.xml")
+}
+
+// Configure jacoco settings
+jacoco {
+    toolVersion '0.8.2'
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+    }
 }
