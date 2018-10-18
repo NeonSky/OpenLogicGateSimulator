@@ -29,7 +29,6 @@ public class EditorView extends View {
     @Getter @FXML private AnchorPane addNewTabButton;
 
     @Getter private final Editor editor;
-    @Getter private final MenuBarView menuBarView;
     private final List<WorkspaceView> workspaceViews = new ArrayList<>();
     private int workspaceCounter;
 
@@ -37,15 +36,10 @@ public class EditorView extends View {
             justification = "SpotBugs believes @FXML fields are always null")
     public EditorView(Editor editor) {
         this.editor = editor;
-        this.menuBarView = new MenuBarView();
 
         FxmlUtil.attachFxml(this, "/view/EditorView.fxml");
 
         this.tabsPane.toFront();
-
-        this.menuBarAnchorPane.getChildren().add(this.menuBarView);
-        FxmlUtil.scaleWithAnchorPaneParent(this.menuBarView);
-
         this.workspacesPane.requestLayout();
     }
 
@@ -53,6 +47,10 @@ public class EditorView extends View {
     @Override
     public void init() {
         addSubview(this.sidebarAnchorPane, new ComponentListView());
+
+        MenuBarView view = new MenuBarView();
+        addSubview(this.menuBarAnchorPane, view);
+        FxmlUtil.scaleWithAnchorPaneParent(view);
     }
 
     public void showWorkspace(int index) {
