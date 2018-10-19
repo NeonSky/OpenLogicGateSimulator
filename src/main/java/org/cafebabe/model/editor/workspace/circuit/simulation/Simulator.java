@@ -43,21 +43,25 @@ public class Simulator implements Runnable, IScheduleStateEvents {
 
     /* Public */
     public void start() {
-        this.needsPostpone.forEach(e -> e.postpone(System.currentTimeMillis() - stoppedAt));
+        if (this.currentSimulationState == SimulationState.STOPPED) {
+            this.needsPostpone.forEach(e -> e.postpone(System.currentTimeMillis() - stoppedAt));
 
-        DaemonThreadFactory factory = new DaemonThreadFactory();
-        this.ticker = Executors.newScheduledThreadPool(1, factory);
-        this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
-        this.currentSimulationState = SimulationState.RUNNING;
-        this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
+            DaemonThreadFactory factory = new DaemonThreadFactory();
+            this.ticker = Executors.newScheduledThreadPool(1, factory);
+            this.ticker.scheduleWithFixedDelay(this, 0, SIMULATE_INTERVAL, TimeUnit.MICROSECONDS);
+            this.currentSimulationState = SimulationState.RUNNING;
+            this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
+        }
     }
 
     public void stop() {
-        this.ticker.shutdown();
-        this.stoppedAt = System.currentTimeMillis();
-        this.needsPostpone.addAll(this.upcomingDynamicEvents);
-        this.currentSimulationState = SimulationState.STOPPED;
-        this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
+        if (this.currentSimulationState == SimulationState.RUNNING) {
+            this.ticker.shutdown();
+            this.stoppedAt = System.currentTimeMillis();
+            this.needsPostpone.addAll(this.upcomingDynamicEvents);
+            this.currentSimulationState = SimulationState.STOPPED;
+            this.onSimulationStateChanged.notifyListeners(this.currentSimulationState);
+        }
     }
 
     public void toggleSimulationState() {
