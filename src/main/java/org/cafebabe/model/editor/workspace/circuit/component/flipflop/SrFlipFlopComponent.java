@@ -20,7 +20,7 @@ public class SrFlipFlopComponent extends Component {
 
     @ComponentConstructor
     public SrFlipFlopComponent() {
-        super("SR_FLIP_FLOP", "SR Flip Flop",
+        super("FLIPFLOP_SR", "SR Flip Flop",
                 "A latch that sets a positive value on S=1 and resets to 0 on R=1.");
         this.setInput = new InputPort();
         this.resetInput = new InputPort();

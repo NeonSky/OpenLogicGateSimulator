@@ -2,6 +2,7 @@ package org.cafebabe.view.editor.componentlist;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -37,6 +38,7 @@ public class ComponentListView extends View {
     /* Private */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private void populateComponentFlowPane(List<Component> components) {
+        components.sort(Comparator.comparing(Component::getIdentifier));
         List<View> cells = new ArrayList<>();
 
         for (Component component : components) {
@@ -51,4 +53,5 @@ public class ComponentListView extends View {
 
         addSubviews(this.componentFlowPane, cells);
     }
+
 }

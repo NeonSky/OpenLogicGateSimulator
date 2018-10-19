@@ -19,7 +19,7 @@ public class DFlipFlopComponent extends Component {
 
     @ComponentConstructor
     public DFlipFlopComponent() {
-        super("D_FLIP_FLOP", "D Flip Flop", "Stores data D if e is active, otherwise remains.");
+        super("FLIPFLOP_D", "D Flip Flop", "Stores data D if e is active, otherwise remains.");
         this.dataInput = new InputPort();
         this.enableInput = new InputPort();
         tagToInput = Map.ofEntries(

@@ -24,8 +24,8 @@ class ComponentUtilTest {
 
     @Test
     void componentFactoryShouldCreateComponents() {
-        assertTrue(componentFactory("AND_Gate") instanceof AndGateComponent);
-        assertTrue(componentFactory("SIGNAL_Source") instanceof SignalSourceComponent);
+        assertTrue(componentFactory("GATE_And") instanceof AndGateComponent);
+        assertTrue(componentFactory("SOURCE_Signal") instanceof SignalSourceComponent);
     }
 
     @Test

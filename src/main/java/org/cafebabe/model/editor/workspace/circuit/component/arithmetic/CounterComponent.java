@@ -19,7 +19,7 @@ public class CounterComponent extends Component {
 
     @ComponentConstructor
     public CounterComponent() {
-        super("COUNTER_Component", "Counter","Counts in binary from 0 to 15");
+        super("ARITHMETIC_Counter", "Counter","Counts in binary from 0 to 15");
 
         this.clockInput = new InputPort();
         tagToInput = Map.ofEntries(

@@ -17,7 +17,7 @@ public class NandGateComponent extends Component {
 
     @ComponentConstructor
     public NandGateComponent() {
-        super("NAND_Gate", "NAND Gate", "Emits no signal if both inputs are active");
+        super("GATE_Nand", "NAND Gate", "Emits no signal if both inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(

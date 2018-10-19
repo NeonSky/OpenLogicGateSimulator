@@ -16,7 +16,7 @@ public class SegmentDisplayComponent extends Component {
 
     @ComponentConstructor
     public SegmentDisplayComponent() {
-        super("7SEG_Display", "7 Segment Display", "A display with seven segments.");
+        super("FEEDBACK_7SegDisplay", "7 Segment Display", "A display with seven segments.");
         tagToInput = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             addInputAtIndex(i);

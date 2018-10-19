@@ -17,7 +17,7 @@ public class OrGateComponent extends Component {
 
     @ComponentConstructor
     public OrGateComponent() {
-        super("OR_Gate", "OR Gate", "Emits an active signal if either inputs are active");
+        super("GATE_Or", "OR Gate", "Emits an active signal if either inputs are active");
         this.input1 = new InputPort();
         this.input2 = new InputPort();
         tagToInput = Map.ofEntries(

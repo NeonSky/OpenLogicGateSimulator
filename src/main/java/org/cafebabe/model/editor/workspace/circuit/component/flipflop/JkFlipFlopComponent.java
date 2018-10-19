@@ -20,7 +20,7 @@ public class JkFlipFlopComponent extends Component {
 
     @ComponentConstructor
     public JkFlipFlopComponent() {
-        super("JK_FLIP_FLOP","JK Flip Flop", "Like SR but 1, 1 flips");
+        super("FLIPFLOP_JK","JK Flip Flop", "Like SR but 1, 1 flips");
         this.jackInput = new InputPort();
         this.kilbyInput = new InputPort();
         this.clkInput = new InputPort();

@@ -14,7 +14,7 @@ public class DiodeComponent extends Component {
 
     @ComponentConstructor
     public DiodeComponent() {
-        super("DIODE_Component", "Diode", "Is lit up bright yellow on high signal.");
+        super("FEEDBACK_Diode", "Diode", "Is lit up bright yellow on high signal.");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)
@@ -23,6 +23,7 @@ public class DiodeComponent extends Component {
         this.input.onStateChangedEvent().addListener(p -> getOnUpdate().notifyListeners());
     }
 
+    /* Public */
     public boolean isLit() {
         return this.input.isHigh();
     }
