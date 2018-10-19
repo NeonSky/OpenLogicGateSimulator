@@ -50,7 +50,7 @@ public final class SvgUtil {
     public static SvgContent loadComponentSvg(Component component) {
         try {
             return SvgLoaderUtil.load(component.getClass().getResource(
-                    "/gates/" + component.getIdentifier() + ".svg").toURI().toString());
+                    "/components/" + component.getIdentifier() + ".svg").toURI().toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public final class SvgUtil {
     private static File getComponentSvgFile(Component component) {
         try {
             return new File(component.getClass().getResource(
-                    "/gates/" + component.getIdentifier() + ".svg").toURI()
+                    "/components/" + component.getIdentifier() + ".svg").toURI()
             );
         } catch (URISyntaxException e) {
             e.printStackTrace();

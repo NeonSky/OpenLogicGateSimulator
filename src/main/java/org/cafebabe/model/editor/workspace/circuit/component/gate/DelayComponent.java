@@ -27,7 +27,7 @@ public class DelayComponent extends Component implements IDynamicComponent {
 
     @ComponentConstructor
     public DelayComponent() {
-        super("DELAY_Component", "Delay", "Delays the input signal by a second");
+        super("GATE__Delay", "Delay", "Delays the input signal by a second");
         this.onNewDynamicEvent = new Event<>();
         this.input = new InputPort();
         tagToInput = Map.ofEntries(

@@ -20,7 +20,7 @@ public class TFlipFlopComponent extends Component {
 
     @ComponentConstructor
     public TFlipFlopComponent() {
-        super("T_FLIP_FLOP", "T Flip Flop", "Toggle output if T is active on clock");
+        super("FLIPFLOP_T", "T Flip Flop", "Toggle output if T is active on clock");
         this.toggleInput = new InputPort();
         this.clkInput = new InputPort();
         tagToInput = Map.ofEntries(

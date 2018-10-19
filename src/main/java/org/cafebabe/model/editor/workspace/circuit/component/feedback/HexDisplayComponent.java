@@ -20,7 +20,9 @@ public class HexDisplayComponent extends Component {
 
     @ComponentConstructor
     public HexDisplayComponent() {
-        super("HEX_Display", "Hex Display", "Displays a hexadecimal representation of its input.");
+        super("FEEDBACK_7SegHexDisplay",
+                "Hex Display",
+                "Displays a hexadecimal representation of its input.");
         tagToInput = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             addInputAtIndex(i);

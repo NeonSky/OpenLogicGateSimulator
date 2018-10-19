@@ -36,8 +36,8 @@ class JsonStorageTest {
 
     private static final String EMPTY_CIRCUIT = "{\"components\":[],\"connections\":[]}";
     private static final String FILLED_CIRCUIT = "{\"components\":[{\"identifier\":"
-            + "\"NOT_Gate\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
-            + "\"output\":2}},{\"identifier\":\"SIGNAL_Source\",\"position\":[0,0],"
+            + "\"GATE_Not\",\"position\":[0,0],\"input\":{\"input\":1},\"output\":{"
+            + "\"output\":2}},{\"identifier\":\"SOURCE_Signal\",\"position\":[0,0],"
             + "\"input\":{},\"output\":{\"output\":0}}],\"connections\":[{\"outputs\":[0],"
             + "\"inputs\":[1]}]}";
     @BeforeAll
