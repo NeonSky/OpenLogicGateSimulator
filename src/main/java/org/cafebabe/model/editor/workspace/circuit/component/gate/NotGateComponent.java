@@ -16,7 +16,7 @@ public class NotGateComponent extends Component {
 
     @ComponentConstructor
     public NotGateComponent() {
-        super("NOT_Gate", "NOT Gate", "Emits the opposite signal of the input");
+        super("GATE_Not", "NOT Gate", "Emits the opposite signal of the input");
         this.input = new InputPort();
         tagToInput = Map.ofEntries(
                 Map.entry("input", this.input)

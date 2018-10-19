@@ -15,7 +15,7 @@ public class SignalSourceComponent extends Component {
 
     @ComponentConstructor
     public SignalSourceComponent() {
-        super("SIGNAL_Source", "Signal Source", "Emits a high or low signal, can be toggled.");
+        super("SOURCE_Signal", "Signal Source", "Emits a high or low signal, can be toggled.");
 
         this.signalOutput = new OutputPort();
         this.tagToOutput = Map.ofEntries(

@@ -26,7 +26,7 @@ public class ClockComponent extends Component implements IDynamicComponent {
 
     @ComponentConstructor
     public ClockComponent() {
-        super("CLOCK_Source", "Clock", "Switches back and forth between high and low output.");
+        super("SOURCE_Clock", "Clock", "Switches back and forth between high and low output.");
         this.onNewDynamicEvent = new Event<>();
         this.output = new OutputPort();
         tagToOutput = Map.ofEntries(

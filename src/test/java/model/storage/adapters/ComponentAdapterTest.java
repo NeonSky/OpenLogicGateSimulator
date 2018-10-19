@@ -21,10 +21,10 @@ class ComponentAdapterTest {
     private static Gson gson;
 
     private static final String AND_GATE_JSON =
-            "{\"identifier\":\"AND_Gate\",\"position\":[0,0],\"input\":{\"input1\":0,"
+            "{\"identifier\":\"GATE_And\",\"position\":[0,0],\"input\":{\"input1\":0,"
                     + "\"input2\":1},\"output\":{\"output\":2}}";
     private static final String MOVED_AND_GATE_JSON =
-            "{\"identifier\":\"AND_Gate\",\"position\":[10,20],\"input\":{\"input1\":0,"
+            "{\"identifier\":\"GATE_And\",\"position\":[10,20],\"input\":{\"input1\":0,"
                     + "\"input2\":1},\"output\":{\"output\":2}}";
 
     @BeforeAll
@@ -82,7 +82,7 @@ class ComponentAdapterTest {
 
     @Test
     void noDisplayNameShouldThrow() {
-        String noDisplayName = AND_GATE_JSON.replace("AND_Gate", "");
+        String noDisplayName = AND_GATE_JSON.replace("GATE_And", "");
         assertThrows(RuntimeException.class, () -> gson.fromJson(noDisplayName,
                 StorageComponent.class));
     }
