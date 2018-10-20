@@ -10,22 +10,16 @@ import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
  */
 public class WireController extends Controller {
 
-    private final WireView view;
     private final Wire wire;
     private boolean destructionPending;
 
 
     public WireController(WireView view) {
         super(view);
-        this.view = view;
         this.wire = view.getWire();
 
-        this.wire.getOnDestroy().addListener(this::destroy);
-        this.wire.getOnStateChanged().addListener((w) -> this.view.updateVisualState());
-        this.wire.getOnStartPosMoved().addListener(this.view::moveStartPointTo);
-        this.wire.getOnEndPosMoved().addListener(this.view::moveEndPointTo);
-
-        this.view.updateVisualState();
+        view.setPickOnBounds(false);
+        view.getWireLine().setPickOnBounds(false);
     }
 
     /* Public */

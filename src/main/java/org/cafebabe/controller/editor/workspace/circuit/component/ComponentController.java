@@ -7,7 +7,6 @@ import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortCon
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
 import org.cafebabe.model.editor.util.SvgUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
-import org.cafebabe.model.editor.workspace.circuit.component.ComponentData;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.InPortView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.OutPortView;
@@ -31,17 +30,12 @@ public class ComponentController extends Controller {
         setSubviewAttachController(InPortView.class, InPortController.class);
         setSubviewAttachController(OutPortView.class, OutPortController.class);
 
-        this.component.getTrackablePosition().addPositionListener(this.view::updatePosition);
-
-        this.component.getOnUpdate().addListener(this.view::updateVisualState);
         view.setOnMouseClicked(this::callClickedTriggerMethods);
-
         view.setOnDragDetected(event ->
                 view.componentDragDropHandler.onComponentDragDetected(this.view, event)
         );
 
-        ComponentData metadata = SvgUtil.getComponentMetadata(this.component);
-        view.addPortsFromMetadata(metadata, this.component);
+        view.init();
     }
 
     private void callClickedTriggerMethods(MouseEvent mouseEvent) {
