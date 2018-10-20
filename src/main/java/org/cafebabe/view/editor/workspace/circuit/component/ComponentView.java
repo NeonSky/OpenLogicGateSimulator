@@ -62,6 +62,9 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         this.component = component;
         this.componentDragDropHandler = componentDragDropHandler;
 
+        this.component.getTrackablePosition().addPositionListener(this::updatePosition);
+        this.component.getOnUpdate().addListener(this::updateVisualState);
+
         this.svgGroup.getChildren().addAll(this.portViews);
         this.svgGroup.setPickOnBounds(false);
 
@@ -81,30 +84,15 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
 
     /* Public */
     @Override
+    public void init() {
+        ComponentData metadata = SvgUtil.getComponentMetadata(this.component);
+        addPortsFromMetadata(metadata, this.component);
+    }
+
+    @Override
     public void setTransform(Transform transform) {
         this.transform = transform;
         updateTransform();
-    }
-
-    public void addPortsFromMetadata(ComponentData componentMetadata,
-                                     Component component) {
-        componentMetadata.inPortMetadata.forEach(m -> {
-            InPortView view = new InPortView(
-                    (InputPort) component.getPort(m.name),
-                    m.x,
-                    m.y);
-            this.portViews.add(view);
-            addSubview(this.svgGroup, view);
-        });
-
-        componentMetadata.outPortMetadata.forEach(m -> {
-            OutPortView view = new OutPortView(
-                    (OutputPort) component.getPort(m.name),
-                    m.x,
-                    m.y);
-            this.portViews.add(view);
-            addSubview(this.svgGroup, view);
-        });
     }
 
     @Override
@@ -117,12 +105,6 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     public void deselect() {
         setSelected(false);
         updateVisualState();
-    }
-
-    public void updatePosition(Position position) {
-        this.setTranslateX(position.getX());
-        this.setTranslateY(position.getY());
-        this.updateTransform();
     }
 
     public SvgContent getComponentSvg() {
@@ -153,7 +135,6 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     }
 
     /* Private */
-
     private static void setDefaultStyle(Node n) {
         Shape shape = (Shape) n;
         shape.setStrokeLineCap(StrokeLineCap.SQUARE);
@@ -161,7 +142,7 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         shape.setFill(ColorUtil.OFFWHITE);
     }
 
-    public void updateVisualState() {
+    private void updateVisualState() {
         Color newColor = this.isSelected ? ColorUtil.SELECTED : Color.BLACK;
         SvgContent svg = getComponentSvg();
         svg.selectNodesWithClasses("component-body").forEach(
@@ -169,6 +150,12 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
         );
 
         this.onUpdateStyle.notifyListeners();
+    }
+
+    private void updatePosition(Position position) {
+        this.setTranslateX(position.getX());
+        this.setTranslateY(position.getY());
+        this.updateTransform();
     }
 
     private void updateTransform() {
@@ -202,4 +189,26 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
     public Callable<Pair<Object, Class>> cssClassToComponentMethod(String cssClass) {
         return CssToComponentMethodReflector.cssClassToComponentMethod(cssClass, this.component);
     }
+
+    private void addPortsFromMetadata(ComponentData componentMetadata,
+                                      Component component) {
+        componentMetadata.inPortMetadata.forEach(m -> {
+            InPortView view = new InPortView(
+                    (InputPort) component.getPort(m.name),
+                    m.x,
+                    m.y);
+            this.portViews.add(view);
+            addSubview(this.svgGroup, view);
+        });
+
+        componentMetadata.outPortMetadata.forEach(m -> {
+            OutPortView view = new OutPortView(
+                    (OutputPort) component.getPort(m.name),
+                    m.x,
+                    m.y);
+            this.portViews.add(view);
+            addSubview(this.svgGroup, view);
+        });
+    }
+
 }
