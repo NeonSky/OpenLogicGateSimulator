@@ -7,8 +7,6 @@ import javafx.geometry.Bounds;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.model.util.Event;
 import org.cafebabe.view.View;
@@ -16,6 +14,7 @@ import org.cafebabe.view.editor.workspace.circuit.CircuitView;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
 import org.cafebabe.view.util.FxmlUtil;
+import org.cafebabe.view.util.ISelectable;
 
 /**
  * Provides a pannable, zoomable workspace in which a circuit can be constructed.
@@ -44,10 +43,7 @@ public class WorkspaceView extends View {
     /* Public */
     @Override
     public void init() {
-        this.circuitView = new CircuitView(
-                this.workspace.getCircuit(),
-                new ComponentDragDropHandler(this.workspace.getCamera())
-        );
+        this.circuitView = new CircuitView(this.workspace.getCircuit());
         addSubview(this.circuitAnchorPane, this.circuitView);
 
         this.circuitView.getOnComponentAdded().addListener(this.onComponentAdded::notifyListeners);

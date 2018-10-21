@@ -24,9 +24,25 @@ public class CircuitController extends Controller {
         super(view);
         this.view = view;
 
-        setSubviewAttachController(ComponentView.class, ComponentController.class);
         setSubviewAttachController(WireView.class, WireController.class);
+
         setupEventListeners();
+    }
+
+    @SuppressWarnings("checkstyle:linelength")
+    public void setDragDropHandler(ComponentDragDropHandler componentDragDropHandler) {
+        setSubviewAttachController(ComponentView.class, ComponentController.class, (c) -> {
+            ((ComponentController)c).setDragDropHandler(componentDragDropHandler);
+        });
+
+        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_ENTERED, componentDragDropHandler::onComponentPaneDragEnter);
+        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_EXITED, componentDragDropHandler::onComponentPaneDragExit);
+        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_DROPPED, componentDragDropHandler::onComponentPaneDragDropped);
+        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_OVER, componentDragDropHandler::onComponentPaneDragOver);
+
+        componentDragDropHandler.getOnAddComponent().addListener(
+                this.view.getCircuit()::addComponent
+        );
 
         this.view.init();
     }
@@ -34,21 +50,11 @@ public class CircuitController extends Controller {
     /* Private */
     @SuppressWarnings("checkstyle:linelength")
     private void setupEventListeners() {
-        ComponentDragDropHandler componentDragDropHandler = this.view.getComponentDragDropHandler();
-        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_ENTERED, componentDragDropHandler::onComponentPaneDragEnter);
-        FxmlUtil.onInputEventWithMeAsTarget(this.view.getComponentPane(), DragEvent.DRAG_EXITED, componentDragDropHandler::onComponentPaneDragExit);
-        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_DROPPED, componentDragDropHandler::onComponentPaneDragDropped);
-        FxmlUtil.onInputEvent(this.view.getComponentPane(), DragEvent.DRAG_OVER, componentDragDropHandler::onComponentPaneDragOver);
-
         SimulatorToggleButtonView simulatorToggleButton = this.view.getSimulatorToggleButton();
         FxmlUtil.onInputEventWithMeAsTarget(simulatorToggleButton, MouseEvent.MOUSE_CLICKED, (e) -> {
             e.consume();
             this.view.getCircuit().toggleSimulationState();
         });
-
-        this.view.getComponentDragDropHandler().getOnAddComponent().addListener(
-                this.view.getCircuit()::addComponent
-        );
     }
 
 }

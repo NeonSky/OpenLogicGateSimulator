@@ -9,8 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.CircuitController;
+import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
 import org.cafebabe.controller.editor.workspace.circuit.selection.ControllerSelector;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.controller.editor.workspace.circuit.selection.SelectionBox;
 import org.cafebabe.model.editor.workspace.ConnectionManager;
 import org.cafebabe.model.editor.workspace.camera.Camera;
@@ -19,6 +19,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.view.editor.workspace.WorkspaceView;
 import org.cafebabe.view.editor.workspace.circuit.CircuitView;
 import org.cafebabe.view.util.FxmlUtil;
+import org.cafebabe.view.util.ISelectable;
 
 /**
  * Handles user interactions with the workspace view.
@@ -41,7 +42,11 @@ public class WorkspaceController extends Controller {
         super(view);
         this.view = view;
         this.camera = view.getWorkspace().getCamera();
-        setSubviewAttachController(CircuitView.class, CircuitController.class);
+
+        setSubviewAttachController(CircuitView.class, CircuitController.class, (c) -> {
+            ((CircuitController)c).setDragDropHandler(new ComponentDragDropHandler(this.camera));
+        });
+
         view.init();
         setupComponentPaneEvents();
 
