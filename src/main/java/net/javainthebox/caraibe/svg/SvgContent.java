@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 
 /**
+ * OUR GROUP IS NOT RESPONSIBLE FOR THIS FILE, IT IS SIMPLY A DEPENDENCY.
  * SvgContent express SVG content.
  */
 public class SvgContent extends Group {

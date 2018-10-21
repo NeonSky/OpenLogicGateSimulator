@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 
 /**
+ * OUR GROUP IS NOT RESPONSIBLE FOR THIS FILE, IT IS SIMPLY A DEPENDENCY.
  * SvgLoaderUtil is a class for loading SVG file.
  *
  * <p><pre> URL url = ...;
