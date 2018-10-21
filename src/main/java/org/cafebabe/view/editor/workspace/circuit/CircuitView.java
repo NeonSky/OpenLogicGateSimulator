@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
 import lombok.Getter;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.workspace.circuit.Circuit;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
@@ -19,6 +16,7 @@ import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
 import org.cafebabe.view.editor.workspace.circuit.wire.WireView;
 import org.cafebabe.view.util.CanvasGridPane;
 import org.cafebabe.view.util.FxmlUtil;
+import org.cafebabe.view.util.ISelectable;
 
 
 /**
@@ -34,7 +32,6 @@ public class CircuitView extends View {
     @FXML private AnchorPane simulatorControlsPane;
 
     @Getter private final Circuit circuit;
-    @Getter private final ComponentDragDropHandler componentDragDropHandler;
 
     @Getter private final SimulatorToggleButtonView simulatorToggleButton =
             new SimulatorToggleButtonView();
@@ -42,9 +39,8 @@ public class CircuitView extends View {
     private final List<WireView> wireViews = new ArrayList<>();
 
 
-    public CircuitView(Circuit circuit, ComponentDragDropHandler componentDragDropHandler) {
+    public CircuitView(Circuit circuit) {
         this.circuit = circuit;
-        this.componentDragDropHandler = componentDragDropHandler;
 
         FxmlUtil.attachFxml(this, "/view/CircuitView.fxml");
         FxmlUtil.scaleWithAnchorPaneParent(this);
@@ -110,9 +106,7 @@ public class CircuitView extends View {
 
     private void addComponent(Component component) {
 
-        ComponentView componentView = new ComponentView(
-                component,
-                this.componentDragDropHandler);
+        ComponentView componentView = new ComponentView(component);
 
         this.componentViews.add(componentView);
         addSubview(this.componentPane, componentView);

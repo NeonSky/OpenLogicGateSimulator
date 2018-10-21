@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.InPortController;
 import org.cafebabe.controller.editor.workspace.circuit.component.port.OutPortController;
+import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
 import org.cafebabe.model.editor.util.SvgUtil;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
 import org.cafebabe.view.editor.workspace.circuit.component.ComponentView;
@@ -31,13 +32,27 @@ public class ComponentController extends Controller {
         setSubviewAttachController(OutPortView.class, OutPortController.class);
 
         view.setOnMouseClicked(this::callClickedTriggerMethods);
-        view.setOnDragDetected(event ->
-                view.componentDragDropHandler.onComponentDragDetected(this.view, event)
-        );
 
         view.init();
     }
 
+    /* Public */
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (!this.destructionPending) {
+            this.destructionPending = true;
+            this.component.destroy();
+        }
+    }
+
+    public void setDragDropHandler(ComponentDragDropHandler componentDragDropHandler) {
+        this.view.setOnDragDetected(event ->
+                componentDragDropHandler.onComponentDragDetected(this.view, event)
+        );
+    }
+
+    /* Private */
     private void callClickedTriggerMethods(MouseEvent mouseEvent) {
         for (String cssClass : SvgUtil.getSvgClasses((Node) mouseEvent.getTarget())) {
             if (cssClass.startsWith("trigger-")) {
@@ -50,14 +65,4 @@ public class ComponentController extends Controller {
         }
     }
 
-    /* Public */
-    @Override
-    public void destroy() {
-        super.destroy();
-        if (!this.destructionPending) {
-            this.destructionPending = true;
-            this.component.destroy();
-        }
-
-    }
 }
