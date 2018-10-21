@@ -1,4 +1,4 @@
-package org.cafebabe.controller.editor.workspace.circuit.selection;
+package org.cafebabe.view.util;
 
 public interface ISelectable {
     void select();

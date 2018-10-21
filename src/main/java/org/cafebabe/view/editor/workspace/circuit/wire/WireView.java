@@ -9,7 +9,6 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
 import lombok.Getter;
 import lombok.Setter;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.util.IReadOnlyMovable;
 import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
 import org.cafebabe.model.editor.workspace.circuit.component.connection.LogicState;
@@ -17,6 +16,7 @@ import org.cafebabe.model.editor.workspace.circuit.component.connection.Wire;
 import org.cafebabe.model.editor.workspace.circuit.component.position.Position;
 import org.cafebabe.view.View;
 import org.cafebabe.view.util.ColorUtil;
+import org.cafebabe.view.util.ISelectable;
 
 
 /**

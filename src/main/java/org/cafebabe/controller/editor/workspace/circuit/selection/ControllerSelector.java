@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
+import org.cafebabe.view.util.ISelectable;
 
 /**
  * A class for handling the selection of component and wires.

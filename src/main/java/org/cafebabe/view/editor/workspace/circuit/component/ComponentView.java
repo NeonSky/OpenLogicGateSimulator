@@ -17,8 +17,6 @@ import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import net.javainthebox.caraibe.svg.SvgContent;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ComponentDragDropHandler;
-import org.cafebabe.controller.editor.workspace.circuit.selection.ISelectable;
 import org.cafebabe.model.editor.util.SvgUtil;
 import org.cafebabe.model.editor.workspace.camera.IHaveTransform;
 import org.cafebabe.model.editor.workspace.circuit.component.Component;
@@ -33,14 +31,13 @@ import org.cafebabe.view.editor.workspace.circuit.component.port.OutPortView;
 import org.cafebabe.view.editor.workspace.circuit.component.port.PortView;
 import org.cafebabe.view.util.ColorUtil;
 import org.cafebabe.view.util.FxmlUtil;
+import org.cafebabe.view.util.ISelectable;
 
 /**
  * Provides a visual representation of a component with its ports.
  */
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports"})
 public class ComponentView extends View implements IHaveTransform, ISelectable {
-
-    public final ComponentDragDropHandler componentDragDropHandler;
 
     @FXML private Group componentSvgContainer;
     @FXML private Group svgGroup;
@@ -53,14 +50,11 @@ public class ComponentView extends View implements IHaveTransform, ISelectable {
 
     @SuppressFBWarnings(value = "UR_UNINIT_READ",
             justification = "SpotBugs believes @FXML fields are always null")
-    public ComponentView(
-            Component component,
-            ComponentDragDropHandler componentDragDropHandler) {
+    public ComponentView(Component component) {
 
         FxmlUtil.attachFxml(this, "/view/ComponentView.fxml");
 
         this.component = component;
-        this.componentDragDropHandler = componentDragDropHandler;
 
         this.component.getTrackablePosition().addPositionListener(this::updatePosition);
         this.component.getOnUpdate().addListener(this::updateVisualState);
