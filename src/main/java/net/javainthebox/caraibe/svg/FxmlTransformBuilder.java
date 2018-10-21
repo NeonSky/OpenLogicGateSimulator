@@ -8,6 +8,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
 /**
+ * OUR GROUP IS NOT RESPONSIBLE FOR THIS FILE, IT IS SIMPLY A DEPENDENCY.
  * Builds FXML transforms.
  */
 public class FxmlTransformBuilder {

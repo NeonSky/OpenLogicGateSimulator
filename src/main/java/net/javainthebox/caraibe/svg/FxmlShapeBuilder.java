@@ -19,6 +19,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 
 /**
+ * OUR GROUP IS NOT RESPONSIBLE FOR THIS FILE, IT IS SIMPLY A DEPENDENCY.
  * Build FXML shapes.
  */
 public class FxmlShapeBuilder {
