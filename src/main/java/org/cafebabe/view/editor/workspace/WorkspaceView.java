@@ -44,10 +44,10 @@ public class WorkspaceView extends View {
     @Override
     public void init() {
         this.circuitView = new CircuitView(this.workspace.getCircuit());
-        addSubview(this.circuitAnchorPane, this.circuitView);
-
         this.circuitView.getOnComponentAdded().addListener(this.onComponentAdded::notifyListeners);
         this.circuitView.getOnWireAdded().addListener(this.onWireAdded::notifyListeners);
+
+        addSubview(this.circuitAnchorPane, this.circuitView);
     }
 
     public List<ISelectable> getComponentsInBounds(Bounds bounds) {
