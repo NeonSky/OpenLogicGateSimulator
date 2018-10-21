@@ -47,10 +47,8 @@ public class WorkspaceController extends Controller {
             ((CircuitController)c).setDragDropHandler(new ComponentDragDropHandler(this.camera));
         });
 
-        view.init();
-        setupComponentPaneEvents();
-
         ConnectionManager connectionManager = this.view.getWorkspace().getConnectionManager();
+
         this.view.getOnComponentAdded().addListener((c) -> {
             this.camera.addTransform(c);
             c.getComponentSvg().addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
@@ -78,6 +76,9 @@ public class WorkspaceController extends Controller {
                 this.view.highlightOutputPorts();
             }
         });
+
+        view.init();
+        setupComponentPaneEvents();
 
     }
 
