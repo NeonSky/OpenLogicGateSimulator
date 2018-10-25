@@ -83,7 +83,7 @@ public class EditorController extends Controller implements ISceneController {
         menuBarController.getOnQuit().addListener(this::saveAndQuit);
     }
 
-    private void addNewWorkspace() {
+    private synchronized void addNewWorkspace() {
         Workspace workspace = this.view.getEditor().createNewWorkspace();
         addWorkspace(workspace);
     }
