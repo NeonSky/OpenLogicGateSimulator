@@ -1,6 +1,8 @@
 package org.cafebabe.controller.editor;
 
 import com.google.common.base.Strings;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +89,7 @@ public class EditorController extends Controller implements ISceneController {
         });
 
         Platform.runLater(() -> this.view.getScene().getWindow().setOnCloseRequest(event -> {
-            boolean cancelled = this.saveAllWorkspaces();
+            boolean cancelled = !this.saveAllWorkspaces();
             if (cancelled) {
                 event.consume();
             }
@@ -138,13 +140,14 @@ public class EditorController extends Controller implements ISceneController {
     }
 
     private boolean saveAllWorkspaces() {
-        for (WorkspaceView workspaceView : this.view.getWorkspaceViews()) {
+        List<WorkspaceView> workspaceViews = new ArrayList<>(this.view.getWorkspaceViews());
+        for (WorkspaceView workspaceView : workspaceViews) {
             boolean wasCanceled = closeWorkspace(workspaceView);
             if (wasCanceled) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private boolean closeWorkspace(WorkspaceView workspaceView) {
