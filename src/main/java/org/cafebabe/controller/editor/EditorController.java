@@ -1,14 +1,12 @@
 package org.cafebabe.controller.editor;
 
 import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -19,6 +17,7 @@ import org.cafebabe.controller.Controller;
 import org.cafebabe.controller.ISceneController;
 import org.cafebabe.controller.editor.componentlist.ComponentListController;
 import org.cafebabe.controller.editor.workspace.WorkspaceController;
+import org.cafebabe.controller.util.FileDialogueHelper;
 import org.cafebabe.model.editor.Editor;
 import org.cafebabe.model.editor.workspace.Workspace;
 import org.cafebabe.view.editor.EditorView;
@@ -74,11 +73,7 @@ public class EditorController extends Controller implements ISceneController {
 
         menuBarController.getOnSaveCurrentWorkspace().addListener(() -> {
             Workspace workspace = this.view.getCurrentWorkspaceView().getWorkspace();
-            if (Strings.isNullOrEmpty(workspace.getPath())) {
-                menuBarController.saveWorkspaceAs();
-            } else {
-                editor.saveWorkspace(this.view.getCurrentWorkspaceView().getWorkspace());
-            }
+            saveWorkspace(workspace);
         });
 
         menuBarController.getOnSaveCurrentWorkspaceAs().addListener((path) -> {
@@ -108,8 +103,8 @@ public class EditorController extends Controller implements ISceneController {
         Tab newTab = this.view.lastTab();
 
         newTab.setOnCloseRequest(event -> {
-            boolean cancelled = closeWorkspace(newWorkspace);
-            if (cancelled) {
+            boolean wasCancelled = !closeWorkspace(newWorkspace);
+            if (wasCancelled) {
                 event.consume();
             }
         });
@@ -142,7 +137,7 @@ public class EditorController extends Controller implements ISceneController {
     private boolean saveAllWorkspaces() {
         List<WorkspaceView> workspaceViews = new ArrayList<>(this.view.getWorkspaceViews());
         for (WorkspaceView workspaceView : workspaceViews) {
-            boolean wasCanceled = closeWorkspace(workspaceView);
+            boolean wasCanceled = !closeWorkspace(workspaceView);
             if (wasCanceled) {
                 return false;
             }
@@ -150,37 +145,38 @@ public class EditorController extends Controller implements ISceneController {
         return true;
     }
 
+    private void saveWorkspace(Workspace workspace) {
+        Editor editor = this.view.getEditor();
+        if (workspace.isSaved()) {
+            editor.saveWorkspace(workspace);
+        } else {
+            String path = FileDialogueHelper.saveWorkspace(this.view.getScene().getWindow());
+
+            if (!Strings.isNullOrEmpty(path)) {
+                editor.saveWorkspace(workspace, path);
+            }
+        }
+    }
+
     private boolean closeWorkspace(WorkspaceView workspaceView) {
         Workspace workspace = workspaceView.getWorkspace();
 
-        if (!workspace.isEmpty() && !workspace.isSaved()) {
-            Optional<ButtonType> option = showUnsavedChangesAlert();
-            String response = option.get().getText();
+        if (!workspace.isEmpty()) {
+            Optional<ButtonType> option = FileDialogueHelper.showUnsavedChangesAlert();
 
+            String response = option.get().getText();
             switch (response) {
                 case "Save":
-                    this.view.getEditor().saveWorkspace(workspace);
+                    saveWorkspace(workspace);
                     break;
                 case "Cancel":
-                    return true;
+                    return false;
                 default:
             }
         }
 
         removeWorkspace(workspaceView);
-        return false;
-    }
-
-    private Optional<ButtonType> showUnsavedChangesAlert() {
-        ButtonType save = new ButtonType("Save");
-        ButtonType dontSave = new ButtonType("Don't Save");
-        ButtonType cancel = new ButtonType("Cancel");
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "You have unsaved changes, do you want to save them?",
-                save, dontSave, cancel);
-        alert.setResizable(true);
-        return alert.showAndWait();
+        return true;
     }
 
 }

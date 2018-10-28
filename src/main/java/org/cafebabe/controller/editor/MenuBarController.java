@@ -1,18 +1,14 @@
 package org.cafebabe.controller.editor;
 
 import com.google.common.base.Strings;
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import lombok.Getter;
 import org.cafebabe.controller.Controller;
+import org.cafebabe.controller.util.FileDialogueHelper;
 import org.cafebabe.model.util.EmptyEvent;
 import org.cafebabe.model.util.Event;
 import org.cafebabe.view.editor.MenuBarView;
@@ -32,10 +28,6 @@ public class MenuBarController extends Controller {
             new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN);
     private static final KeyCombination OPEN_WORKSPACE_SHORTCUT =
             new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN);
-
-    private final List<FileChooser.ExtensionFilter> extensionFilters = Collections.singletonList(
-            new FileChooser.ExtensionFilter("Circuit files", "*.olgs")
-    );
 
     private final MenuBarView view;
 
@@ -85,33 +77,21 @@ public class MenuBarController extends Controller {
         }
     }
 
+    private void openWorkspace() {
+        String path = FileDialogueHelper.openWorkspace(this.view.getScene().getWindow());
+        if (!Strings.isNullOrEmpty(path)) {
+            this.onLoadWorkspace.notifyListeners(path);
+        }
+    }
+
     private void saveCurrentWorkspace() {
         this.onSaveCurrentWorkspace.notifyListeners();
     }
 
-    public void saveWorkspaceAs() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Circuit File");
-        fileChooser.getExtensionFilters().addAll(this.extensionFilters);
-
-        File file = fileChooser.showSaveDialog(this.view.getScene().getWindow());
-        if (Objects.isNull(file)) {
-            return;
+    private void saveWorkspaceAs() {
+        String path = FileDialogueHelper.saveWorkspace(this.view.getScene().getWindow());
+        if (!Strings.isNullOrEmpty(path)) {
+            this.onSaveCurrentWorkspaceAs.notifyListeners(path);
         }
-        String path = file.getPath();
-        this.onSaveCurrentWorkspaceAs.notifyListeners(path);
-    }
-
-    private void openWorkspace() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Circuit File");
-        fileChooser.getExtensionFilters().addAll(this.extensionFilters);
-        String path = fileChooser.showOpenDialog(this.view.getScene().getWindow()).getPath();
-
-        if (Strings.isNullOrEmpty(path)) {
-            return;
-        }
-
-        this.onLoadWorkspace.notifyListeners(path);
     }
 }
