@@ -60,6 +60,13 @@ public class EditorController extends Controller implements ISceneController {
         SingleSelectionModel<Tab> model = this.view.getTabsPane().getSelectionModel();
         ReadOnlyIntegerProperty selected = model.selectedIndexProperty();
         selected.addListener((observable, oldValue, newValue) -> selectWorkspace(newValue));
+
+        Platform.runLater(() -> this.view.getScene().getWindow().setOnCloseRequest(event -> {
+            boolean cancelled = !this.saveAllWorkspaces();
+            if (cancelled) {
+                event.consume();
+            }
+        }));
     }
 
     private void initMenuBarController(MenuBarController menuBarController) {
@@ -87,13 +94,6 @@ public class EditorController extends Controller implements ISceneController {
             this.saveAllWorkspaces();
             Platform.exit();
         });
-
-        Platform.runLater(() -> this.view.getScene().getWindow().setOnCloseRequest(event -> {
-            boolean cancelled = !this.saveAllWorkspaces();
-            if (cancelled) {
-                event.consume();
-            }
-        }));
     }
 
     private void addNewWorkspace() {
