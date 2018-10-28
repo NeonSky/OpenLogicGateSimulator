@@ -3,6 +3,7 @@ package org.cafebabe.controller.editor;
 import com.google.common.base.Strings;
 import java.util.List;
 import java.util.Optional;
+
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.scene.control.Alert;
@@ -80,7 +81,17 @@ public class EditorController extends Controller implements ISceneController {
             this.addWorkspace(workspace);
         });
 
-        menuBarController.getOnQuit().addListener(this::saveAndQuit);
+        menuBarController.getOnQuit().addListener(() -> {
+            this.saveAllWorkspaces();
+            Platform.exit();
+        });
+
+        Platform.runLater(() -> this.view.getScene().getWindow().setOnCloseRequest(event -> {
+            boolean cancelled = this.saveAllWorkspaces();
+            if (cancelled) {
+                event.consume();
+            }
+        }));
     }
 
     private void addNewWorkspace() {
@@ -94,11 +105,17 @@ public class EditorController extends Controller implements ISceneController {
         WorkspaceView newWorkspace = workspaceViews.get(workspaceViews.size() - 1);
         Tab newTab = this.view.lastTab();
 
-        newTab.setOnCloseRequest(event -> closeWorkspace(newWorkspace));
+        newTab.setOnCloseRequest(event -> {
+            boolean cancelled = closeWorkspace(newWorkspace);
+            if (cancelled) {
+                event.consume();
+            }
+        });
     }
 
     private void removeWorkspace(WorkspaceView workspaceView) {
         boolean wasTabSelected = this.view.getWorkspaceTab(workspaceView).isSelected();
+        int workspacePosition = this.view.getWorkspaceViews().indexOf(workspaceView);
         this.view.removeWorkspace(workspaceView);
 
         if (this.view.getWorkspaceViews().isEmpty()) {
@@ -106,7 +123,7 @@ public class EditorController extends Controller implements ISceneController {
         }
 
         if (wasTabSelected) {
-            selectWorkspace(this.view.getWorkspaceViews().size() - 1);
+            selectWorkspace(workspacePosition);
         }
     }
 
@@ -120,15 +137,14 @@ public class EditorController extends Controller implements ISceneController {
         this.view.showWorkspace(i);
     }
 
-    private void saveAndQuit() {
+    private boolean saveAllWorkspaces() {
         for (WorkspaceView workspaceView : this.view.getWorkspaceViews()) {
-            boolean wasCanceled = !closeWorkspace(workspaceView);
+            boolean wasCanceled = closeWorkspace(workspaceView);
             if (wasCanceled) {
-                return;
+                return true;
             }
         }
-
-        Platform.exit();
+        return false;
     }
 
     private boolean closeWorkspace(WorkspaceView workspaceView) {
@@ -143,9 +159,8 @@ public class EditorController extends Controller implements ISceneController {
                     this.view.getEditor().saveWorkspace(workspace);
                     break;
                 case "Cancel":
-                    return false;
-                default:
                     return true;
+                default:
             }
         }
 
