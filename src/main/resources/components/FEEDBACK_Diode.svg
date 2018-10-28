@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
  <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
-
-    <circle class="visible-unless-isLit" cx="47" cy="25" r="20" fill="#AAA" stroke="black" stroke-width="2"/>
-    <circle class="visible-if-isLit hide-in-preview" cx="47" cy="25" r="20" fill="#FF0" stroke="black" stroke-width="2"/>
+    <circle class="component-body hide-in-preview" cx="47" cy="25" r="20" fill="#FF0" stroke="black" stroke-width="2"/>
+    <circle class="visible-unless-isLit" cx="47" cy="25" r="19" fill="#AAA" stroke="black" stroke-width="0"/>
+    <circle class="visible-if-isLit hide-in-preview" cx="47" cy="25" r="19" fill="#FF0" stroke="black" stroke-width="0"/>
     <ellipse rx="10" ry="5" cx="40" cy="25" fill="#FFFA"/>
     <inport name="input" x="29.5" y="25" />
 </svg>
